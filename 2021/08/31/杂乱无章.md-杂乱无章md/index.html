@@ -1,0 +1,1598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="theme-color" content="#3367D6"/>
+  <link rel="apple-touch-icon" href="/icons-192.png">
+  <link rel="manifest" href="/manifest.json">
+
+  <meta name="generator" content="Hexo 5.4.2">
+
+  
+    <meta name="description" content="觉宇宙之无穷，识盈虚之有数">
+  
+
+  
+
+  
+    <meta name="author" content="pengpeng">
+  
+
+  
+
+  
+
+  <title>杂乱无章.md | 小鹏驿站</title>
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+</head>
+<body>
+  <div class="root-container">
+    <!-- navbar -->
+<nav class="navbar">
+  <div class="navbar-content">
+    <!-- logo -->
+    <div class="navbar-logo">
+      <a href="/">
+        
+          小鹏驿站
+        
+      </a>
+    </div>
+    <!-- links -->
+    <div class="navbar-link">
+      <div class="navbar-btn">
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+      <ul class="navbar-list">
+        
+          <li class="navbar-list-item"><a href="/">主页</a></li>
+        
+          <li class="navbar-list-item"><a href="/categories/%E5%BA%94%E7%94%A8%E5%AE%89%E8%A3%85">应用安装</a></li>
+        
+          <li class="navbar-list-item"><a href="/photography">摄影</a></li>
+        
+          <li class="navbar-list-item"><a href="/match">比赛</a></li>
+        
+          <li class="navbar-list-item"><a href="/links">链接</a></li>
+        
+          <li class="navbar-list-item"><a href="/about">关于</a></li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    
+<!-- header container -->
+<header class="header-container post">
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+    <div class="header-content">
+      <div class="post-image" style="background-image: url(/images/upload/2021/10/1.jpg)"></div>
+      <div class="post-text">
+        <div class="type-wrap">
+          <a class="article-category-link" href="/categories/%E9%97%B2%E8%B0%88/">闲谈</a>
+        </div>
+        <h1 class="title-wrap">杂乱无章.md</h1>
+        <h2 class="title-sub-wrap">
+          <strong>pengpeng</strong>
+          <span>发布于</span>
+          
+  <a href="javascript:;" class="article-date">
+    <time datetime="2021-08-31T08:12:58.388Z" itemprop="datePublished">2021-08-31</time>
+  </a>
+
+        </h2>
+      </div>
+    </div>
+  
+
+  
+  
+
+  </header>
+
+    <!-- 文章 -->
+
+<!-- 文章内容 -->
+
+<div class="body-container">
+  <article class="content-container article-container">
+    <div class="article-content">
+      
+      
+
+      <section class="article-entry">
+        <h2 id="一、在js里面引入js或css"><a href="#一、在js里面引入js或css" class="headerlink" title="一、在js里面引入js或css"></a>一、在js里面引入js或css</h2><pre><code class="javascript">//论坛首页 各模块铁贴数
+var new_element=document.createElement(&quot;script&quot;);
+new_element.setAttribute(&quot;type&quot;,&quot;text/javascript&quot;);
+new_element.setAttribute(&quot;src&quot;,&quot;../prompt/prompt.js&quot;);// 在这里引入了a.js
+document.body.appendChild(new_element);
+function loadStyle(url)&#123;
+    var link = document.createElement(&#39;link&#39;);
+        link.type = &#39;text/css&#39;;
+        link.rel = &#39;stylesheet&#39;;
+        link.href = url;
+        var head = document.getElementsByTagName(&#39;head&#39;)[0];
+        head.appendChild(link);
+    &#125;
+loadStyle(&#39;../prompt/prompt.css&#39;);
+</code></pre>
+<h2 id="二、自定义confirm"><a href="#二、自定义confirm" class="headerlink" title="二、自定义confirm"></a>二、自定义confirm</h2><h3 id="1、javascript部分"><a href="#1、javascript部分" class="headerlink" title="1、javascript部分"></a>1、javascript部分</h3><pre><code class="javascript">function showPop(string,callback)&#123;
+    function set()&#123;
+        let popDom = &#39;&lt;div class=&quot;popUps_mask&quot;&gt;&#39;;
+        popDom += &#39;&lt;div&gt;&#39;;
+        popDom += &#39;&lt;div class=&quot;shutDown&quot;&gt;+&lt;/div&gt;&#39;;
+        popDom += &#39;&lt;div class=&quot;theme&quot;&gt;&#39;+string+&#39;&lt;/div&gt;&#39;;
+        popDom += &#39;&lt;div class=&quot;buttonList&quot;&gt;&lt;button class=&quot;cancel&quot;&gt;取消&lt;/button&gt;&lt;button class=&quot;confirm&quot;&gt;确认&lt;/button&gt;&lt;/div&gt;&#39;;
+        popDom += &#39;&lt;/div&gt;&#39;;
+        popDom += &#39;&lt;/div&gt;&#39;;
+        $(&#39;body&#39;).append(popDom);
+    &#125;
+    set();
+    $(&#39;.shutDown&#39;).click(function()&#123;
+        $(&#39;.popUps_mask&#39;).remove();
+    &#125;);
+    $(&#39;.cancel&#39;).click(function()&#123;
+        $(&#39;.popUps_mask&#39;).remove();
+    &#125;);
+    $(&#39;.confirm&#39;).click(function()&#123;
+        callback&amp;&amp;callback();
+        $(&#39;.popUps_mask&#39;).remove();
+    &#125;)
+&#125;
+</code></pre>
+<h3 id="2、css部分"><a href="#2、css部分" class="headerlink" title="2、css部分"></a>2、css部分</h3><pre><code class="css">.popUps_mask&#123;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1024;
+&#125;
+
+.popUps_mask &gt;div&#123;
+    width: 350px;
+    box-shadow: 0px 0px 7px #8e8787;
+    height: 210px;
+    background: white;
+    margin: 10% auto;
+    position: relative;
+&#125;
+
+.popUps_mask &gt;div .shutDown&#123;
+    font-size: 35px;
+    position: absolute;
+    top: -4px;
+    right: 7px;
+    color: #d6d0d0;
+    transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    -moz-transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+    -o-transform: rotate(45deg);
+    cursor: pointer;
+&#125;    
+
+.popUps_mask &gt;div .theme&#123;
+    text-align: center;
+    font-size: 25px;
+    color: black;
+    padding-top: 60px;
+&#125;    
+
+.popUps_mask &gt;div .buttonList&#123;
+    text-align: center;
+    margin-top: 35px;
+&#125;    
+
+.popUps_mask &gt;div .buttonList .cancel&#123;
+    width: 70px;
+    border: 1px solid #e1e1e1;
+    border-radius: 4px;
+    height: 30px;
+    background: #f8f8f8;
+&#125;
+
+.popUps_mask &gt;div .buttonList .cancel&#123;
+    width: 70px;
+    border: 1px solid #e1e1e1;
+    border-radius: 4px;
+    height: 30px;
+    background: #f8f8f8;
+    margin-right: 5px;
+    cursor: pointer;
+&#125;
+
+.popUps_mask &gt;div .buttonList .confirm&#123;
+    width: 70px;
+    border: 1px solid #277BAD;
+    border-radius: 4px;
+    height: 30px;
+    background: white;
+    color: #277BAD;
+    margin-left: 5px;
+    cursor: pointer;
+&#125;
+</code></pre>
+<h3 id="3、调用方式"><a href="#3、调用方式" class="headerlink" title="3、调用方式"></a>3、调用方式</h3><pre><code class="javascript">showPop(&quot;是否确认删除！&quot;,
+        function()&#123;
+                //doSomething
+        &#125;)
+</code></pre>
+<h2 id="三、常用的js方法"><a href="#三、常用的js方法" class="headerlink" title="三、常用的js方法"></a>三、常用的js方法</h2><pre><code class="javascript">// 日期格式化
+Date.prototype.format = function (fmt) &#123;
+    var o = &#123;
+        &quot;y+&quot;: this.getYear(),
+        &quot;M+&quot;: this.getMonth() + 1, //月份 
+        &quot;d+&quot;: this.getDate(), //日 
+        &quot;h+&quot;: this.getHours(), //小时 
+        &quot;m+&quot;: this.getMinutes(), //分 
+        &quot;s+&quot;: this.getSeconds(), //秒 
+        &quot;q+&quot;: Math.floor((this.getMonth() + 3) / 3), //季度 
+        &quot;S&quot;: this.getMilliseconds() //毫秒 
+    &#125;;
+    if (/(y+)/.test(fmt)) &#123;
+        fmt = fmt.replace(RegExp.$1, (this.getFullYear() + &quot;&quot;).substr(4 - RegExp.$1.length));
+    &#125;
+    for (var k in o)&#123;
+        if (new RegExp(&quot;(&quot; + k + &quot;)&quot;).test(fmt))&#123;
+            fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : ((&quot;00&quot; + o[k]).substr((&quot;&quot; + o[k]).length)));
+        &#125;
+    &#125;
+    return fmt;
+&#125;
+var commonUtils = &#123;
+        sleep:function(numberMillis)&#123;
+             var now = new Date();
+                var exitTime = now.getTime() + numberMillis;
+                while (true) &#123;
+                    now = new Date();
+                    if (now.getTime() &gt; exitTime)
+                        return;
+                &#125;
+        &#125;,
+        round:function(src,pos)&#123;
+            if(typeof src !==&#39;number&#39;)&#123;
+                src = parseFloat(src);
+                if(isNaN(src))&#123;
+                    src = 0;
+                &#125;
+            &#125;
+            if(!pos)&#123;
+                pos = 2;
+            &#125;
+            return (Math.round(src*Math.pow(10, pos))/Math.pow(10, pos)).toFixed(pos);
+        &#125;,
+        
+        booleanValueOf:function(value)&#123;
+            if(value==true || /^true$/ig.test(value))&#123;
+                return true;
+            &#125;else&#123;
+                return false;
+            &#125;
+        &#125;,
+        getLength:function(object) &#123;
+            var count = 0;
+            for(var i in object) count++;
+            return count;
+        &#125;,
+        isObject: function(obj)&#123;
+            return Object.prototype.toString.call(obj) === &quot;[object Object]&quot;;
+        &#125;,
+        isArray: function(obj)&#123;
+            return Object.prototype.toString.call(obj) === &quot;[object Array]&quot;;
+        &#125;,
+        isFunction: function(obj)&#123;
+            return Object.prototype.toString.call(obj) === &quot;[object Function]&quot;;
+        &#125;,
+        isBoolean: function(obj)&#123;
+            return Object.prototype.toString.call(obj) === &quot;[object Boolean]&quot;;
+        &#125;,
+        isNumber: function(obj)&#123;
+            return Object.prototype.toString.call(obj) === &quot;[object Number]&quot;;
+        &#125;,
+        isString: function(obj)&#123;
+            return Object.prototype.toString.call(obj) === &quot;[object String]&quot;;
+        &#125;,
+        isUndefined: function(obj)&#123;
+            return Object.prototype.toString.call(obj) === &quot;[object Undefined]&quot;;
+        &#125;,
+        isEmpty: function(obj)&#123;
+            if(obj == null || obj == &#39;undefined&#39; || obj == undefined || obj.length==0)&#123;
+                return true;
+            &#125;else&#123;
+                return false;
+            &#125;
+            
+        &#125;,
+        //设置百分率
+        setRate: function (data)&#123;
+            data = data +&quot;&quot;;
+            return data.indexOf(&quot;NaN&quot;) != - 1?&quot;0.00&quot;:parseFloat(data).toFixed(2)+&quot;&quot;;
+        &#125;,
+        //去除空格
+        trim: function (str)&#123; 
+            
+          return String(str).replace(/(^\s*)|(\s*$)/g, &quot;&quot;); 
+        &#125;,
+        /**
+         * 计算输入值得最小整数值
+         * @param &#123;Object&#125; val
+         */
+        getYMinVal : function(min,max)&#123;
+            if((min + Math.abs(min)) != 0)&#123;
+                var minS = &quot;&quot;;
+                var minC = min+&quot;&quot;;
+                if(minC.indexOf(&quot;.&quot;) != -1 &amp;&amp; &quot;0&quot; == (minC.substring(0,minC.indexOf(&quot;.&quot;))))&#123;
+                    if(max &lt;3)&#123;
+                        minS =  minC.substring(0,minC.indexOf(&quot;.&quot;)+2);
+                    &#125;else&#123;
+                        minS = &quot;0&quot;;
+                    &#125;
+                &#125;else &#123;
+                	if(minC.indexOf(&quot;.&quot;)!=-1)&#123;
+                		if(max &lt; 5)&#123;
+                			minS = ((minC * 0.98)+&quot;&quot;).substring(0,((minC * 0.98)+&quot;&quot;).indexOf(&quot;.&quot;)+2)
+                		&#125;else if(max &lt; 10)&#123;
+                			minS = ((minC * 0.95)+&quot;&quot;).substring(0,((minC * 0.95)+&quot;&quot;).indexOf(&quot;.&quot;)+2)
+                		&#125;else if(max &lt; 20)&#123;
+                			minS = ((minC * 0.9)+&quot;&quot;).substring(0,((minC * 0.9)+&quot;&quot;).indexOf(&quot;.&quot;)+2)
+                		&#125;else&#123;
+                			minS = minC.substring(0,minC.indexOf(&quot;.&quot;));
+                			if(minS.length == 1)&#123;
+                                if(max &gt; 30)&#123;
+                                    minS = &quot;0&quot;;
+                                &#125;
+                            &#125;else if(minS.length &lt; 3)&#123;
+                                var zeros = &quot;&quot;;
+                                for(var i=0;i&lt;minS.length-1;i++)&#123;
+                                    zeros += &quot;0&quot;;
+                                &#125;
+                                minS = minS.substring(0,1)+zeros;
+                            &#125;else&#123;
+                                var zeros = &quot;&quot;;
+                                for(var i=0;i&lt;minS.length-2;i++)&#123;
+                                    zeros += &quot;0&quot;;
+                                &#125;
+                                minS = minS.substring(0,2)+zeros;
+                            &#125;
+                		&#125;
+                	&#125;else&#123;
+                		minS = minC;
+                		if(minS.length == 1)&#123;
+                            if(max &lt; 30)&#123;
+                                minCS = &quot;0&quot;;
+                            &#125;
+                        &#125;else if(minS.length &lt;= 3)&#123;
+                            var zeros = &quot;&quot;;
+                            for(var i=0;i&lt;minS.length-1;i++)&#123;
+                                zeros += &quot;0&quot;;
+                            &#125;
+                            minS = minS.substring(0,1)+zeros;
+                        &#125;else&#123;
+                            var zeros = &quot;&quot;;
+                            for(var i=0;i&lt;minS.length-2;i++)&#123;
+                                zeros += &quot;0&quot;;
+                            &#125;
+                            minS = minS.substring(0,2)+zeros;
+                        &#125;
+                	&#125;
+                &#125;
+
+                return minS.indexOf(&quot;.&quot;) != -1?parseFloat(minS):parseInt(minS);
+            &#125;
+            
+            if(isNaN(min) || min==0)&#123;
+                return 0;
+            &#125;
+            if(max-min&lt;=5)&#123;
+                return Math.floor(min);
+            &#125;
+            
+            var t_val = Math.abs(min);
+            var temp = 0;
+            
+            if(t_val&lt;100)&#123;
+                temp = Math.floor((min)/5)*5;
+            &#125;else if(t_val&gt;=100 &amp;&amp; t_val&lt;1000)&#123;
+                temp = Math.floor((min)/50)*50;
+            &#125;else if(t_val&gt;=1000 &amp;&amp; t_val&lt;10000)&#123;
+                temp = Math.floor((min)/500)*500;
+            &#125;else if(t_val&gt;=10000 &amp;&amp; t_val&lt;100000)&#123;
+                temp = Math.floor((min)/5000)*5000;
+            &#125;else if(t_val&gt;=100000)&#123;
+                temp = Math.floor((min)/50000)*50000;
+            &#125;
+            if(min&gt;0 &amp;&amp; max&gt;0 &amp;&amp; temp&lt;0)&#123;
+                return 0;
+            &#125;else&#123;
+                return temp;
+            &#125;
+        &#125;,
+        getIndexWithArr: function(_arr,_obj) &#123;
+            var len = _arr.length;
+            for(var i = 0; i &lt; len; i++)
+            &#123;
+                if(_arr[i] == _obj)
+                &#123;
+                    return parseInt(i);
+                &#125;
+            &#125;
+            return -1;
+        &#125;,
+        removeObjWithArr :function (_arr,_obj) &#123;
+            var length = _arr.length;
+            for(var i = 0; i &lt; length; i++)&#123;
+                if(_arr[i] == _obj)&#123;
+                	return _arr.splice(i,1);
+                    if(i == 0)&#123;
+                        _arr.shift(); //删除并返回数组的第一个元素
+                        return;
+                    &#125;else if(i == length-1)&#123;
+                        _arr.pop();  //删除并返回数组的最后一个元素
+                        return;
+                    &#125;else&#123;
+                    	return _arr.splice(i,1); //删除下标为i的元素
+                        
+                    &#125;
+                &#125;
+            &#125;
+        &#125;,
+        /*比较对象*/
+        compare:function(objA, objB) &#123;
+            var flag = true;
+            if(!commonUtils.isObject(objA) || !commonUtils.isObject(objB))&#123;
+            	flag = false; //判断类型是否正确
+            &#125;
+            if(commonUtils.getLength(objA) != commonUtils.getLength(objB))&#123;
+            	flag = false; //判断长度是否一致
+            &#125;
+            for(var key in objA) &#123;
+                if(!flag) //跳出整个循环
+                    break;
+                if(!objB.hasOwnProperty(key)) &#123;
+                    flag = false;
+                    break;
+                &#125;
+                if(!commonUtils.isArray(objA[key])) &#123; //子级不是数组时,比较属性值
+                    if(objB[key] != objA[key]) &#123;
+                        flag = false;
+                        break;
+                    &#125;
+                &#125; else &#123;
+                    if(!commonUtils.isArray(objB[key])) &#123;
+                        flag = false;
+                        break;
+                    &#125;
+                    var oA = objA[key],
+                        oB = objB[key];
+                    if(oA.length != oB.length) &#123;
+                        flag = false;
+                        break;
+                    &#125;
+                    for(var k in oA) &#123;
+                        if(!flag) //这里跳出循环是为了不让递归继续
+                            break;
+                        flag = CompareObj(oA[k], oB[k], flag);
+                    &#125;
+                &#125;
+            &#125;
+            return flag;
+        &#125;
+&#125;
+</code></pre>
+<h2 id="四、java里面一些日期处理方法"><a href="#四、java里面一些日期处理方法" class="headerlink" title="四、java里面一些日期处理方法"></a>四、java里面一些日期处理方法</h2><pre><code class="java">public class DateUtils &#123;
+
+    /**
+     * 
+     * 方法说明：获取当前日期最近的星期五 Author： PengP Create Date： 2018年7月27日 上午10:06:37
+     * 如果是星期五获取上个星期五的数据
+     * @param date
+     *            日期 2018-7-27
+     * @param format
+     *            yyyy-MM-dd
+     * @return
+     * @throws ParseException
+     */
+    public static String getLastForWeekForInit(Date dateParam)&#123;
+        SimpleDateFormat sdfDefault = new SimpleDateFormat(&quot;yyyy-MM-dd&quot;);
+        Date date = null;
+        try &#123;
+            String yzTime = getTimeInterval(dateParam,&quot;yyyy-MM-dd&quot;);// 获取选中日期本周时间区间
+            String array[] = yzTime.split(&quot;,&quot;);
+            String startTime = array[0];// 本周第一天
+            String endTime = array[1]; // 本周最后一天
+            // 格式化日期
+            Date dBegin = sdfDefault.parse(startTime);
+            Date dEnd = sdfDefault.parse(endTime);
+            List&lt;Date&gt; lDate = findDates(dBegin, dEnd);// 获取这周所有date
+            if (lDate.get(4).getTime() &gt; dateParam.getTime() - 24 * 3600 * 1000) &#123;
+                date = new Date(lDate.get(4).getTime() - 7 * 24 * 3600 * 1000);
+            &#125;else&#123;
+                date = lDate.get(4);
+            &#125;
+        &#125; catch (ParseException e) &#123;
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        &#125;
+        return sdfDefault.format(date);
+    &#125;
+    /**
+     * 
+     * 方法说明：获取当前日期最近的星期五
+     * 如果是星期五获取这个星期五的数据
+     * Author： PengP               
+     * Create Date： 2018年8月2日 上午10:46:09
+     * @param dateParam
+     * @return
+     */
+    public static String getLastForWeek(Date dateParam)&#123;
+        SimpleDateFormat sdfDefault = new SimpleDateFormat(&quot;yyyy-MM-dd&quot;);
+        Date date = null;
+        try &#123;
+            String yzTime = getTimeInterval(dateParam,&quot;yyyy-MM-dd&quot;);// 获取选中日期本周时间区间
+            String array[] = yzTime.split(&quot;,&quot;);
+            String startTime = array[0];// 本周第一天
+            String endTime = array[1]; // 本周最后一天
+            // 格式化日期
+            Date dBegin = sdfDefault.parse(startTime);
+            Date dEnd = sdfDefault.parse(endTime);
+            List&lt;Date&gt; lDate = findDates(dBegin, dEnd);// 获取这周所有date
+            if (lDate.get(4).getTime() &gt; dateParam.getTime()) &#123;
+                date = new Date(lDate.get(4).getTime() - 7 * 24 * 3600 * 1000);
+            &#125;else&#123;
+                date = lDate.get(4);
+            &#125;
+        &#125; catch (ParseException e) &#123;
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        &#125;
+        return sdfDefault.format(date);
+    &#125;
+    /**
+     * 
+     * 方法说明：获取当前日期最近的星期五 Author： PengP Create Date： 2018年7月27日 上午10:06:37
+     * 今天星期五就上个星期五
+     * @param date
+     *            日期 2018-7-27
+     * @param format
+     *            yyyy-MM-dd
+     * @return
+     * @throws ParseException
+     */
+    public static String getLastForWeekForInit(String dateStr, String format)&#123;
+        Date date = null;
+        SimpleDateFormat sdf = new SimpleDateFormat(format);
+        try&#123;
+            String yzTime = getTimeInterval(sdf.parse(dateStr),format);// 获取选中日期本周时间区间
+            String array[] = yzTime.split(&quot;,&quot;);
+            String startTime = array[0];// 本周第一天
+            String endTime = array[1]; // 本周最后一天
+            // 格式化日期
+            Date dBegin = sdf.parse(startTime);
+            Date dEnd = sdf.parse(endTime);
+            List&lt;Date&gt; lDate = findDates(dBegin, dEnd);// 获取这周所有date
+            if (lDate.get(4).getTime() &gt; sdf.parse(dateStr).getTime()-24 * 3600 * 1000) &#123;
+                date = new Date(lDate.get(4).getTime() - 7 * 24 * 3600 * 1000);
+            &#125;else&#123;
+                date = lDate.get(4);
+            &#125;
+        &#125; catch (ParseException e) &#123;
+            e.printStackTrace();
+        &#125;
+        return sdf.format(date);
+    &#125;
+    /**
+     * 
+     * 方法说明：获取当前日期最近的星期五 Author： PengP Create Date： 2018年7月27日 上午10:06:37
+     * 今天星期五就星期五
+     * @param date
+     *            日期 2018-7-27
+     * @param format
+     *            yyyy-MM-dd
+     * @return
+     * @throws ParseException
+     */
+    public static String getLastForWeek(String dateStr, String format)&#123;
+        Date date = null;
+        SimpleDateFormat sdf = new SimpleDateFormat(format);
+        try&#123;
+            String yzTime = getTimeInterval(sdf.parse(dateStr),format);// 获取选中日期本周时间区间
+            String array[] = yzTime.split(&quot;,&quot;);
+            String startTime = array[0];// 本周第一天
+            String endTime = array[1]; // 本周最后一天
+            // 格式化日期
+            Date dBegin = sdf.parse(startTime);
+            Date dEnd = sdf.parse(endTime);
+            List&lt;Date&gt; lDate = findDates(dBegin, dEnd);// 获取这周所有date
+            if (lDate.get(4).getTime() &gt; sdf.parse(dateStr).getTime()) &#123;
+                date = new Date(lDate.get(4).getTime() - 7 * 24 * 3600 * 1000);
+            &#125;else&#123;
+                date = lDate.get(4);
+            &#125;
+        &#125; catch (ParseException e) &#123;
+            e.printStackTrace();
+        &#125;
+        return sdf.format(date);
+    &#125;
+    /**
+     * 
+     * 方法说明：根据当前日期获得上个月月份  Author： HaoRanY Create Date： 2018年8月24日
+     * 上午11:11:30
+     * 
+     * @param date
+     * @return
+     */
+     public static String getLastMonthDate(Date dateParam) &#123;
+         SimpleDateFormat sdf = new SimpleDateFormat(&quot;yyyyMM&quot;);
+         Calendar c = Calendar.getInstance();
+         c.setTime(dateParam);
+         c.add(Calendar.MONTH, -1);
+ 
+         return sdf.format(c.getTime());
+     &#125;
+     
+    /**
+     * 方法说明：根据当前日期获得上个月月份 
+     * @author haokaih，2018年8月29日
+     * @param dateParam date参数
+     * @param format 以什么格式返回 如 &quot;yyyy-MM&quot;
+     * @return 根据参数进行转化 如 &quot;2018-08&quot;
+     */
+    public static String getLastMonth(Date dateParam, String format) &#123;
+        SimpleDateFormat sdf = new SimpleDateFormat(format);
+        Calendar c = Calendar.getInstance();
+        c.setTime(dateParam);
+        c.add(Calendar.MONTH, -1);
+        return sdf.format(c.getTime());
+    &#125;
+
+    /**
+     * 
+     * 方法说明：根据当前日期获得所在周的日期区间（周一和周日日期） Author： PengP Create Date： 2018年7月27日
+     * 上午10:20:30
+     * 
+     * @param date
+     * @return
+     */
+    public static String getTimeInterval(Date date,String format) &#123;
+        SimpleDateFormat sdf = new SimpleDateFormat(format);
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        // 判断要计算的日期是否是周日，如果是则减一天计算周六的，否则会出问题，计算到下一周去了
+        int dayWeek = cal.get(Calendar.DAY_OF_WEEK);// 获得当前日期是一个星期的第几天
+        if (1 == dayWeek) &#123;
+            cal.add(Calendar.DAY_OF_MONTH, -1);
+        &#125;
+        // System.out.println(&quot;要计算日期为:&quot; + sdf.format(cal.getTime())); // 输出要计算日期
+        // 设置一个星期的第一天，按中国的习惯一个星期的第一天是星期一
+        cal.setFirstDayOfWeek(Calendar.MONDAY);
+        // 获得当前日期是一个星期的第几天
+        int day = cal.get(Calendar.DAY_OF_WEEK);
+        // 根据日历的规则，给当前日期减去星期几与一个星期第一天的差值
+        cal.add(Calendar.DATE, cal.getFirstDayOfWeek() - day);
+        String imptimeBegin = sdf.format(cal.getTime());
+        // System.out.println(&quot;所在周星期一的日期：&quot; + imptimeBegin);
+        cal.add(Calendar.DATE, 6);
+        String imptimeEnd = sdf.format(cal.getTime());
+        // System.out.println(&quot;所在周星期日的日期：&quot; + imptimeEnd);
+        return imptimeBegin + &quot;,&quot; + imptimeEnd;
+    &#125;
+    public static String getLastForWeekForInit(String dateStr)&#123;
+        return DateUtils.getLastForWeekForInit(dateStr, &quot;yyyy-MM-dd&quot;);
+    &#125;
+    public static String getLastForWeek(String dateStr)&#123;
+        return DateUtils.getLastForWeek(dateStr, &quot;yyyy-MM-dd&quot;);
+    &#125;
+    /**
+     * 
+     * 方法说明：根据当前日期获得上周的日期区间（上周周一和周日日期） Author： PengP Create Date： 2018年7月27日
+     * 上午10:20:13
+     * 
+     * @return
+     */
+    public static String getLastTimeInterval() &#123;
+        SimpleDateFormat sdfDefault = new SimpleDateFormat(&quot;yyyy-MM-dd&quot;);
+        Calendar calendar1 = Calendar.getInstance();
+        Calendar calendar2 = Calendar.getInstance();
+        int dayOfWeek = calendar1.get(Calendar.DAY_OF_WEEK) - 1;
+        int offset1 = 1 - dayOfWeek;
+        int offset2 = 7 - dayOfWeek;
+        calendar1.add(Calendar.DATE, offset1 - 7);
+        calendar2.add(Calendar.DATE, offset2 - 7);
+        // System.out.println(sdf.format(calendar1.getTime()));// last Monday
+        String lastBeginDate = sdfDefault.format(calendar1.getTime());
+        // System.out.println(sdf.format(calendar2.getTime()));// last Sunday
+        String lastEndDate = sdfDefault.format(calendar2.getTime());
+        return lastBeginDate + &quot;,&quot; + lastEndDate;
+    &#125;
+
+    /**
+     * 
+     * 方法说明：获取一周开始到结束的list集合 Author： PengP Create Date： 2018年7月27日 上午10:19:37
+     * 
+     * @param dBegin
+     *            开始日期
+     * @param dEnd
+     *            结束日期
+     * @return
+     */
+    public static List&lt;Date&gt; findDates(Date dBegin, Date dEnd) &#123;
+        List&lt;Date&gt; lDate = new ArrayList&lt;Date&gt;();
+        lDate.add(dBegin);
+        Calendar calBegin = Calendar.getInstance();
+        // 使用给定的 Date 设置此 Calendar 的时间
+        calBegin.setTime(dBegin);
+        Calendar calEnd = Calendar.getInstance();
+        // 使用给定的 Date 设置此 Calendar 的时间
+        calEnd.setTime(dEnd);
+        // 测试此日期是否在指定日期之后
+        while (dEnd.after(calBegin.getTime())) &#123;
+            // 根据日历的规则，为给定的日历字段添加或减去指定的时间量
+            calBegin.add(Calendar.DAY_OF_MONTH, 1);
+            lDate.add(calBegin.getTime());
+        &#125;
+        return lDate;
+    &#125;
+    /**
+     * 
+     * 方法说明：根据格式获取日期字符串
+     * Author： PengP               
+     * Create Date： 2018年7月27日 上午11:34:57
+     * @param Date
+     * @param format
+     * @return
+     */
+    public static String getStrDate(Date date,String format)&#123;
+        return new SimpleDateFormat(format).format(date);
+    &#125;
+    /**
+     * 
+     * 方法说明：根据默认格式获取日期字符串
+     * Author： PengP               
+     * Create Date： 2018年7月27日 上午11:36:48
+     * @param date
+     * @return
+     */
+    public static String getStrDate(Date date)&#123;
+        return getStrDate(date, &quot;yyyy-MM-dd&quot;);
+    &#125;
+
+    /**
+     * 获取指定日期(不包括指定日期)的前指定数量周日期数据
+     * 日期参数和格式参数要一致，返回的格式也是由格式参数决定
+     * @param dateStr 20180727
+     * @param period 指定周期数
+     * @param formatter yyyyMMdd
+     * @return
+     */
+    public static List&lt;String&gt; getDateStrList(String dateStr, int period, String formatter) &#123;
+        List&lt;String&gt; dateStrs = new ArrayList&lt;String&gt;();
+        try &#123;
+            SimpleDateFormat dateFormat = new SimpleDateFormat(formatter);
+            Calendar calendar = Calendar.getInstance();
+            Date date = dateFormat.parse(dateStr);
+            calendar.setTime(date);
+            for (int i = 1; i &lt; period; i++) &#123;
+                calendar.add(Calendar.WEEK_OF_MONTH, -1);
+                dateStrs.add(dateFormat.format(calendar.getTime()));
+            &#125;
+        &#125; catch (ParseException e) &#123;
+            e.printStackTrace();
+        &#125;
+        return dateStrs;
+    &#125;
+    
+    /**
+     * 
+     * 方法说明：获取传入时间的最近十二个月
+     * Author：lve               
+     * Create Date： 2018年8月24日 上午9:06:50
+     * @param time 支持 2018-01的时间字符串格式
+     * @return
+     */
+    public static List&lt;String&gt; getLast12Months(String time)&#123;  
+        //处理月份输入条件
+        if(time.length()==7)&#123;
+            time=time+&quot;-01 00:00:00&quot;;
+        &#125;else if(time.length()==110)&#123;
+            time=time.substring(0,7)+&quot;-01 00:00:00&quot;;
+        &#125;
+        Date date = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat(&quot;yyyy-MM-dd hh:mm:ss&quot;);  
+        try &#123;
+             date= sdf.parse(time);
+        &#125; catch (ParseException e) &#123;
+            return null;
+        &#125; 
+        
+        Calendar cal = Calendar.getInstance();
+        //设置输入条件时间
+        cal.setTime(date);
+        
+        cal.set(Calendar.MONTH, cal.get(Calendar.MONTH)+1); //要先+1,才能把本月的算进去
+        List&lt;String&gt; list = new ArrayList&lt;String&gt;();
+        for(int i=0; i&lt;11; i++)&#123; 
+            cal.set(Calendar.MONTH, cal.get(Calendar.MONTH)-1); //逐次往前推1个月  
+            list.add(cal.get(Calendar.YEAR)+ &quot;&quot; + addZeroForNum(String.valueOf(cal.get(Calendar.MONTH)+1), 2));  
+        &#125;  
+        return list;  
+    &#125;  
+    /**
+     * 
+     * 方法说明：时间格式补0
+     * Author： lve               
+     * Create Date： 2018年8月24日 上午9:08:53
+     * @param str
+     * @param strLength
+     * @return
+     */
+    public static String addZeroForNum(String str, int strLength) &#123;  
+        int strLen = str.length();  
+        if (strLen &lt; strLength) &#123;  
+            while (strLen &lt; strLength) &#123;  
+                StringBuffer sb = new StringBuffer();  
+                sb.append(&quot;0&quot;).append(str);// 左补0    
+                str = sb.toString();  
+                strLen = str.length();  
+            &#125;  
+        &#125;  
+        return str;  
+    &#125;  
+
+    public static void main(String[] args) &#123;
+        System.out.println(getLast12Months(&quot;2018-07&quot;));
+    &#125;
+    
+&#125;
+</code></pre>
+<h2 id="五、oracle-SQL小技巧"><a href="#五、oracle-SQL小技巧" class="headerlink" title="五、oracle SQL小技巧"></a>五、oracle SQL小技巧</h2><h3 id="1、megre-into"><a href="#1、megre-into" class="headerlink" title="1、megre into"></a>1、megre into</h3><pre><code class="sql">MERGE INTO table1 T1
+        USING (SELECT  &#39;&#39; cloumn 
+                 FROM DUAL) T2
+        ON (T1.cloumn      = T2.cloumn)
+        WHEN MATCHED THEN
+          UPDATE
+             SET T1.cloumn1      = T2.cloumn1
+        WHEN NOT MATCHED THEN
+        insert
+          (cloumn1)
+        values
+          (T2.cloumn1)
+</code></pre>
+<h3 id="2、连续前几周连续的周日期数据-2019W14-2019W25"><a href="#2、连续前几周连续的周日期数据-2019W14-2019W25" class="headerlink" title="2、连续前几周连续的周日期数据(2019W14-2019W25)"></a>2、连续前几周连续的周日期数据(2019W14-2019W25)</h3><pre><code class="sql">select to_char(t.statCycle, &#39;yyyyMMdd&#39;) statCycleDay,
+       to_char(t.statCycle, &#39;yyyy&#39;) || &#39;W&#39; || to_char(t.statCycle, &#39;WW&#39;) statCycle
+  from (select Rownum rn,
+               (trunc(to_date(&#39;20190622&#39;, &#39;yyyyMMdd&#39;) + Rownum - 7 * 12,
+                      &#39;dd&#39;)) statCycle
+          from dual
+        connect by rownum &lt;= 7 * 12) t
+ where t.rn / 7 = cast(t.rn / 7 as int)
+ order by t.rn
+</code></pre>
+<h3 id="3、获取前几天的天日期数据"><a href="#3、获取前几天的天日期数据" class="headerlink" title="3、获取前几天的天日期数据"></a>3、获取前几天的天日期数据</h3><pre><code class="sql">select Rownum rn,
+       to_char((trunc(to_date(&#39;20190622&#39;, &#39;yyyyMMdd&#39;) + Rownum - 12, &#39;dd&#39;)),
+               &#39;yyyyMMdd&#39;) statCycle
+  from dual
+connect by rownum &lt;= 12
+</code></pre>
+<h3 id="4、获取前几个月的月日期数据"><a href="#4、获取前几个月的月日期数据" class="headerlink" title="4、获取前几个月的月日期数据"></a>4、获取前几个月的月日期数据</h3><pre><code class="sql">select k.stat_cycle statCycle
+  from (select t.stat_cycle, rownum rn
+          from (select to_char(to_date(&#39;201906&#39;, &#39;yyyyMM&#39;), &#39;yyyy&#39;) - 1 ||
+                       lpad(level, 2, 0) stat_cycle
+                  from dual
+                 start with level = 0
+                connect by level &lt;= 12
+                union all
+                select to_char(to_date(&#39;201906&#39;, &#39;yyyyMM&#39;), &#39;yyyy&#39;) ||
+                       lpad(level, 2, 0) stat_cycle
+                  from dual
+                connect by level &lt;=
+                           to_char(to_date(&#39;201906&#39;, &#39;yyyyMM&#39;), &#39;MM&#39;)) t) k
+ where k.rn &gt; to_char(to_date(&#39;201906&#39;, &#39;yyyyMM&#39;), &#39;MM&#39;)
+</code></pre>
+<h3 id="5、获取最近24小时数据"><a href="#5、获取最近24小时数据" class="headerlink" title="5、获取最近24小时数据"></a>5、获取最近24小时数据</h3><pre><code class="sql">select Rownum, trunc(sysdate, &#39;hh&#39;) + rownum / 24 past24
+  from dual
+connect by rownum &lt;= 24
+</code></pre>
+<h3 id="6、字符串’aaa-bbb-ccc’转表数据’aaa’-’bbb’-’ccc’"><a href="#6、字符串’aaa-bbb-ccc’转表数据’aaa’-’bbb’-’ccc’" class="headerlink" title="6、字符串’aaa,bbb,ccc’转表数据’aaa’,’bbb’,’ccc’"></a>6、字符串’aaa,bbb,ccc’转表数据’aaa’,’bbb’,’ccc’</h3><pre><code class="sql">select regexp_substr(&#39;aaa,bbb,ccc&#39;, &#39;[^,]+&#39;, 1, level)
+  from dual
+connect by level &lt;=
+           length(&#39;aaa,bbb,ccc&#39;) - length(replace(&#39;aaa,bbb,ccc&#39;, &#39;,&#39;)) + 1
+</code></pre>
+<h3 id="7、Oracle中rank-over-dense-rank-row-number-的区别"><a href="#7、Oracle中rank-over-dense-rank-row-number-的区别" class="headerlink" title="7、Oracle中rank() over, dense_rank(), row_number() 的区别"></a>7、Oracle中rank() over, dense_rank(), row_number() 的区别</h3><pre><code class="sql">--1. rank over ()可以实现对学生排名，特点是成绩相同的两名是并列，如下1 2 2 4 5
+select name,
+      course,
+      rank() over(partition by course order by score desc) as rank
+  from student;
+--2. dense_rank()和rank over()很像，但学生成绩并列后并不会空出并列所占的名次，如下1 2 2 3 4
+ 
+select name,
+      course,
+      dense_rank() over(partition by course order by score desc) as rank
+  from student;
+--3. row_number这个函数不需要考虑是否并列，那怕根据条件查询出来的数值相同也会进行连续排名
+select name,
+      course,
+      row_number() over(partition by course order by score desc) as rank
+  from student;
+</code></pre>
+<h3 id="8、group-by-与-partition-by-区别"><a href="#8、group-by-与-partition-by-区别" class="headerlink" title="8、group by 与 partition by 区别"></a>8、group by 与 partition by 区别</h3><pre><code class="markdown">1. partition by用于给结果集进行分区。
+2. partition by和group by有何区别？
+partition by只是将原始数据进行名次排列(记录数不变)
+group by是对原始数据进行聚合统计(记录数可能变少, 每组返回一条)
+3. 使用rank over()的时候，空值是最大的，如果排序字段为null, 可能造成null字段排在最前面，影响排序结果。
+可以这样： rank over(partition by course order by score desc nulls last)
+</code></pre>
+<h3 id="9、DDL"><a href="#9、DDL" class="headerlink" title="9、DDL"></a>9、DDL</h3><pre><code class="sql">--修改字段类型
+ALTER TABLE ADDRESS MODIFY COLUMN CITY CHAR(30);
+--修改字段长度
+ALTER TABLE ADDRESS MODIFY COLUMN CITY VARCHAR(32);
+--新增字段
+ALTER TABLE ADDRESS ADD (CITY VARCHAR2(256));
+-- 给字段添加注释
+COMMENT ON COLUMN ADDRESS.CITY
+  IS &#39;发帖人联系方式&#39;;
+</code></pre>
+<h3 id="10、plsq注册码"><a href="#10、plsq注册码" class="headerlink" title="10、plsq注册码"></a>10、plsq注册码</h3><p>​	Product Code：4t46t6vydkvsxekkvf3fjnpzy5wbuhphqz</p>
+<p>​	serial Number：601769</p>
+<p>​	password：xs374ca</p>
+<h3 id="11、行转列"><a href="#11、行转列" class="headerlink" title="11、行转列"></a>11、行转列</h3><p>​	<em>LISTAGG</em>(BUY,’,’) WITHIN GROUP(ORDERBYBUYDESC)</p>
+<h3 id="12、根据某一个字段排序获取序号"><a href="#12、根据某一个字段排序获取序号" class="headerlink" title="12、根据某一个字段排序获取序号"></a>12、根据某一个字段排序获取序号</h3><p>​	ROW_NUMBER() OVER(PARTITION BY A.org_no ORDER BY a.det_id DESC) rowflag</p>
+<h3 id="13、根据某一个字段获取数量"><a href="#13、根据某一个字段获取数量" class="headerlink" title="13、根据某一个字段获取数量"></a>13、根据某一个字段获取数量</h3><p>​	count(*) over(partition by A.org_no) coutflag</p>
+<h3 id="14、数据库赋权"><a href="#14、数据库赋权" class="headerlink" title="14、数据库赋权"></a>14、数据库赋权</h3><p>Grant select on iima_comm.table to iima_idx</p>
+<h2 id="六、css"><a href="#六、css" class="headerlink" title="六、css"></a>六、css</h2><h3 id="1、google浏览器自动填充颜色"><a href="#1、google浏览器自动填充颜色" class="headerlink" title="1、google浏览器自动填充颜色"></a>1、google浏览器自动填充颜色</h3><pre><code class="css">input:-webkit-autofill &#123;
+    -webkit-box-shadow: 0 0 0px 1000px #fff inset !important;
+    -webkit-text-fill-color: rgba(255,255,255,1)!important;
+
+&#125;
+</code></pre>
+<p>​		<a target="_blank" rel="noopener" href="https://www.cnblogs.com/garfieldzhong/p/4759690.html">input:-webkit-autofill 导致chrome的输入框背景颜色变成黄色</a></p>
+<h3 id="2、滚动条改造"><a href="#2、滚动条改造" class="headerlink" title="2、滚动条改造"></a>2、滚动条改造</h3><pre><code class="css">/*定义滚动条高宽及背景 高宽分别对应横竖滚动条的尺寸*/
+#table tbody::-webkit-scrollbar&#123;
+    width: 16px;
+    height: 16px;
+    background-color: rgba(24, 13, 120, 1);
+&#125;
+/*定义滚动条轨道 内阴影+圆角*/
+#table tbody::-webkit-scrollbar-track&#123;
+    -webkit-box-shadow: inset 0 0 6px #8ab1ff;
+    background-color: rgba(24, 13, 120, 1);
+&#125;
+/*定义滑块 内阴影+圆角*/
+#table tbody::-webkit-scrollbar-thumb&#123;
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px #8ab1ff;
+    background-color: rgba(95, 137, 220, 1);
+&#125;
+</code></pre>
+<h3 id="3、select下拉框改造"><a href="#3、select下拉框改造" class="headerlink" title="3、select下拉框改造"></a>3、select下拉框改造</h3><pre><code class="css">#page select::-ms-expand&#123;display:none;&#125;
+#page select&#123;
+  appearance:none;
+ -moz-appearance:none;
+ -webkit-appearance:none;
+&#125;
+#page select &#123;
+    appearance:none;
+    -moz-appearance:none;
+     -webkit-appearance:none;
+    -webkit-appearance: menulist;
+    box-sizing: border-box;
+    align-items: center;
+    white-space: pre;
+    -webkit-rtl-ordering: logical;
+    color: #8ab1ff;
+    background-color: rgba(255, 255, 255, -0.6);
+    cursor: default;
+    border-width: 1px;
+    border-style: solid;
+    border-color: initial;
+    border-image: initial;
+    border-radius: 3px;
+    height: 22px;
+    width: 60px;
+    font-size: 16px;
+&#125;
+#page option &#123;
+    background-color: rgb(27,17,117);
+&#125;
+</code></pre>
+<h2 id="七、mysql"><a href="#七、mysql" class="headerlink" title="七、mysql"></a>七、mysql</h2><h3 id="1、this-is-incompatible-with-sql-mode-x3D-only-full-group-by"><a href="#1、this-is-incompatible-with-sql-mode-x3D-only-full-group-by" class="headerlink" title="1、this is incompatible with sql_mode&#x3D;only_full_group_by"></a>1、this is incompatible with sql_mode&#x3D;only_full_group_by</h3><pre><code class="sql">--  mysql 7、8问题
+SELECT @@global.sql_mode  
+--结果
+&#39;ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION&#39;
+--修改方式
+SET @@global.sql_mode = &#39;STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION&#39;
+</code></pre>
+<h3 id="2、日期获取"><a href="#2、日期获取" class="headerlink" title="2、日期获取"></a>2、日期获取</h3><pre><code class="sql">SELECT @num:=@num+1 num,DATE_FORMAT(ADDDATE(&#39;2018-06-10&#39;, INTERVAL @num DAY),&#39;%Y-%m-%d&#39;) AS DATE
+FROM pt_code,(SELECT @num:=0) t WHERE ADDDATE(&#39;2018-06-10&#39;, INTERVAL @num DAY) &lt;= DATE_FORMAT(CURDATE(),&#39;%Y-%m-%d&#39;)
+LIMIT 0,30
+</code></pre>
+<h3 id="3、转化成数字排序"><a href="#3、转化成数字排序" class="headerlink" title="3、转化成数字排序"></a>3、转化成数字排序</h3><pre><code class="sql">ORDER BY CAST(DATA1 AS SIGNED)
+</code></pre>
+<h3 id="4、CSV文件导入数据"><a href="#4、CSV文件导入数据" class="headerlink" title="4、CSV文件导入数据"></a>4、CSV文件导入数据</h3><pre><code class="sql">LOAD DATA LOCAL INFILE 
+    &#39;C:\\Users\\Administrator\\Desktop\\AAA.csv&#39;
+    INTO TABLE `blog`.`k_lrp`
+FIELDS ESCAPED BY &#39;\\&#39;  
+TERMINATED BY &#39;,&#39;   
+ENCLOSED BY &#39;&quot;&#39;  
+LINES TERMINATED BY   &#39;\r\n&#39;  
+(`LRP_ID`, `ORG_NO`, `YM`, `X_VALUE`, `DATA_OPER_TIME`, `DATA_OPER_TYPE`,`Y_VAULE`)
+</code></pre>
+<h3 id="5、前2个月"><a href="#5、前2个月" class="headerlink" title="5、前2个月"></a>5、前2个月</h3><pre><code class="mysql">SELECT 
+  DATE_FORMAT(
+    DATE_ADD(
+      STR_TO_DATE(CONCAT(&#39;20201210&#39;, &#39;01&#39;), &#39;%Y%m%d&#39;),
+      INTERVAL (1 - CAST(k.rn AS SIGNED INTEGER)) MONTH
+    ),
+    &#39;%Y%m&#39;
+  ) stat_cycle 
+FROM
+  (SELECT 
+    @rn := @rn + 1 rn 
+  FROM
+    pt_code g,
+    (SELECT 
+      @rn := 0) f 
+  LIMIT 0, 31) k 
+WHERE k.rn &lt;= 12 
+</code></pre>
+<h3 id="6、前30天数据"><a href="#6、前30天数据" class="headerlink" title="6、前30天数据"></a>6、前30天数据</h3><pre><code class="mysql">--不包含当天
+SELECT @num:=@num+1 num,DATE_FORMAT(ADDDATE(&#39;20201210&#39;, INTERVAL -@num DAY),&#39;%Y%m%d&#39;) AS stat_cycle
+FROM pt_code,(SELECT @num:=0) t
+LIMIT 0,30
+--包含当天
+SELECT @num:=@num+1 num,DATE_FORMAT(ADDDATE(&#39;20201210&#39;, INTERVAL 1-@num DAY),&#39;%Y%m%d&#39;) AS stat_cycle
+FROM pt_code,(SELECT @num:=0) t
+LIMIT 0,30
+</code></pre>
+<h2 id="八、nginx"><a href="#八、nginx" class="headerlink" title="八、nginx"></a>八、nginx</h2><h3 id="1、win启动"><a href="#1、win启动" class="headerlink" title="1、win启动"></a>1、win启动</h3><p>cmd进入nginx根目录执行   <code>nginx -t -c conf\nginx.conf</code></p>
+<p>重启：nginx -s reload</p>
+<p>启动：start nginx</p>
+<p>停止：nginx -s stop</p>
+<h3 id="2、简单配置"><a href="#2、简单配置" class="headerlink" title="2、简单配置"></a>2、简单配置</h3><pre><code class="nginx.conf"> server &#123;
+        listen       8088;
+        server_name  172.19.3.229;
+        location /http-bind&#123;
+            #重定向openfire请求
+            proxy_pass http://172.19.3.229:17070/http-bind;
+            proxy_buffering off;
+            proxy_redirect off;
+            proxy_read_timeout 120;
+            proxy_connect_timeout 600;
+        &#125;
+        error_page   500 502 503 504  /50x.html;
+        location = /50x.html &#123;
+            root   html;
+        &#125;
+    &#125;
+</code></pre>
+<h2 id="九、javascript"><a href="#九、javascript" class="headerlink" title="九、javascript"></a>九、javascript</h2><h3 id="1、变化title"><a href="#1、变化title" class="headerlink" title="1、变化title"></a>1、变化title</h3><pre><code class="javascript">document.addEventListener(&#39;visibilitychange&#39;,function()&#123;
+    if(document.visibilityState==&#39;hidden&#39;)&#123;
+        normal_title=document.title;
+        document.title=&#39;来啊.快活啊&#39;;
+    &#125;else&#123;
+        document.title=normal_title;
+    &#125;
+&#125;);
+</code></pre>
+<h3 id="3、js实现模态框拖拽"><a href="#3、js实现模态框拖拽" class="headerlink" title="3、js实现模态框拖拽"></a>3、js实现模态框拖拽</h3><pre><code class="javascript">//拖拽功能(主要是触发三个事件：onmousedown\onmousemove\onmouseup) 
+var drag = document.getElementById(&#39;drag&#39;);
+//点击某物体时，用drag对象即可，move和up是全局区域，也就是整个文档通用，应该使用document对象而不是drag对象(否则，采用drag对象时物体只能往右方或下方移动) 
+drag.onmousedown = function(e) &#123;
+    var e = e || window.event; //兼容ie浏览器 
+    var diffX = e.clientX - drag.offsetLeft; //鼠标点击物体那一刻相对于物体左侧边框的距离=点击时的位置相对于浏览器最左边的距离-物体左边框相对于浏览器最左边的距离 
+    var diffY = e.clientY - drag.offsetTop;
+    /*低版本ie bug:物体被拖出浏览器可是窗口外部时，还会出现滚动条， 
+              解决方法是采用ie浏览器独有的2个方法setCapture()\releaseCapture(),这两个方法， 
+              可以让鼠标滑动到浏览器外部也可以捕获到事件，而我们的bug就是当鼠标移出浏览器的时候， 
+              限制超过的功能就失效了。用这个方法，即可解决这个问题。注：这两个方法用于onmousedown和onmouseup中*/
+    if(typeof drag.setCapture != &#39;undefined&#39;) &#123;
+        drag.setCapture();
+    &#125;
+    document.onmousemove = function(e) &#123;
+        var e = e || window.event; //兼容ie浏览器 
+        var left = e.clientX - diffX;
+        var top = e.clientY - diffY;
+        //控制拖拽物体的范围只能在浏览器视窗内，不允许出现滚动条 
+        if(left &lt; 0) &#123;
+            left = 0;
+        &#125; else if(left &gt; window.innerWidth - drag.offsetWidth) &#123;
+            left = window.innerWidth - drag.offsetWidth;
+        &#125;
+        if(top &lt; 0) &#123;
+            top = 0;
+        &#125; else if(top &gt; window.innerHeight - drag.offsetHeight) &#123;
+            top = window.innerHeight - drag.offsetHeight;
+        &#125;
+        //移动时重新得到物体的距离，解决拖动时出现晃动的现象 
+        drag.style.left = left + &#39;px&#39;;
+        drag.style.top = top + &#39;px&#39;;
+    &#125;;
+    document.onmouseup = function(e) &#123; //当鼠标弹起来的时候不再移动 
+        this.onmousemove = null;
+        this.onmouseup = null; //预防鼠标弹起来后还会循环（即预防鼠标放上去的时候还会移动） 
+        //修复低版本ie bug 
+        if(typeof drag.releaseCapture != &#39;undefined&#39;) &#123;
+            drag.releaseCapture();
+        &#125;
+    &#125;;
+&#125;;
+</code></pre>
+<h3 id="3、字符转义"><a href="#3、字符转义" class="headerlink" title="3、字符转义"></a>3、字符转义</h3><pre><code class="javascript">var HtmlUtil = &#123;
+    /*1.用浏览器内部转换器实现html转码*/
+    htmlEncode:function (html)&#123;
+        //1.首先动态创建一个容器标签元素，如DIV
+        var temp = document.createElement (&quot;div&quot;);
+        //2.然后将要转换的字符串设置为这个元素的innerText(ie支持)或者textContent(火狐，google支持)
+        (temp.textContent != undefined ) ? (temp.textContent = html) : (temp.innerText = html);
+        //3.最后返回这个元素的innerHTML，即得到经过HTML编码转换的字符串了
+        var output = temp.innerHTML;
+        temp = null;
+        return output;
+    &#125;,
+    /*2.用浏览器内部转换器实现html解码*/
+    htmlDecode:function (text)&#123;
+        //1.首先动态创建一个容器标签元素，如DIV
+        var temp = document.createElement(&quot;div&quot;);
+        //2.然后将要转换的字符串设置为这个元素的innerHTML(ie，火狐，google都支持)
+        temp.innerHTML = text;
+        //3.最后返回这个元素的innerText(ie支持)或者textContent(火狐，google支持)，即得到经过HTML解码的字符串了。
+        var output = temp.innerText || temp.textContent;
+        temp = null;
+        return output;
+    &#125;,
+    /*3.用正则表达式实现html转码*/
+    htmlEncodeByRegExp:function (str)&#123;  
+        var s = &quot;&quot;;
+        if(str.length == 0) return &quot;&quot;;
+        s = str.replace(/&amp;/g,&quot;&amp;amp;&quot;);
+        s = s.replace(/&lt;/g,&quot;&amp;lt;&quot;);
+        s = s.replace(/&gt;/g,&quot;&amp;gt;&quot;);
+        s = s.replace(/ /g,&quot;&amp;nbsp;&quot;);
+        s = s.replace(/\&#39;/g,&quot;&amp;#39;&quot;);
+        s = s.replace(/\&quot;/g,&quot;&amp;quot;&quot;);
+        return s;  
+    &#125;,
+    /*4.用正则表达式实现html解码*/
+    htmlDecodeByRegExp:function (str)&#123;  
+        var s = &quot;&quot;;
+        if(str.length == 0) return &quot;&quot;;
+        s = str.replace(/&amp;amp;/g,&quot;&amp;&quot;);
+        s = s.replace(/&amp;lt;/g,&quot;&lt;&quot;);
+        s = s.replace(/&amp;gt;/g,&quot;&gt;&quot;);
+        s = s.replace(/&amp;nbsp;/g,&quot; &quot;);
+        s = s.replace(/&amp;#39;/g,&quot;\&#39;&quot;);
+        s = s.replace(/&amp;quot;/g,&quot;\&quot;&quot;);
+        return s;  
+    &#125;
+&#125;;
+</code></pre>
+<h3 id="4、js关闭页面"><a href="#4、js关闭页面" class="headerlink" title="4、js关闭页面"></a>4、js关闭页面</h3><pre><code class="javascript">function CloseWebPage() &#123;
+    if (navigator.userAgent.indexOf(&quot;MSIE&quot;) &gt; 0) &#123;
+        if (navigator.userAgent.indexOf(&quot;MSIE 6.0&quot;) &gt; 0) &#123;
+            window.opener = null;
+            window.close();
+        &#125; else &#123;
+            window.open(&#39; &#39;, &#39;_top&#39;);
+            window.top.close();
+        &#125;
+    &#125; else if (navigator.userAgent.indexOf(&quot;Firefox&quot;) &gt; 0) &#123;
+        window.opener = null;
+        window.open(&#39; &#39;, &#39;_top&#39;);
+        window.close();
+    &#125; else if (navigator.userAgent.indexOf(&quot;Chrome&quot;) &gt; 0) &#123;
+        window.opener = null;
+        window.open(&#39; &#39;, &#39;_self&#39;);
+        window.close();
+    &#125; else &#123;
+        window.opener = null;
+        window.open(&#39; &#39;, &#39;_self&#39;);
+        window.close();
+    &#125;
+&#125;
+</code></pre>
+<h3 id="5、div滚动播放"><a href="#5、div滚动播放" class="headerlink" title="5、div滚动播放"></a>5、div滚动播放</h3><pre><code class="html">&lt;div class=&quot;scroll-div&quot;&gt;
+    &lt;ul&gt;
+        &lt;li&gt;
+            aaaa
+        &lt;/li&gt;
+        &lt;li&gt;
+            bbb
+        &lt;/li&gt;
+    &lt;/ul&gt;
+&lt;/div&gt;
+</code></pre>
+<pre><code class="javascript">/*滚动js*/
+$(&#39;.scroll-div li:even&#39;).addClass(&#39;lieven&#39;);
+
+$(&quot;div.scroll-div&quot;).myScroll(&#123;
+    speed:13, //数值越大，速度越慢
+    rowHeight:270 //li的高度
+&#125;);
+$.fn.myScroll = function(options)&#123;
+        //默认配置
+        var defaults = &#123;
+            speed:40,  //滚动速度,值越大速度越慢
+            rowHeight:24 //每行的高度
+        &#125;;
+        var opts = $.extend(&#123;&#125;, defaults, options),intId = [];
+        this.each(function(i)&#123;
+            var sh = opts[&quot;rowHeight&quot;];
+            var speed = opts[&quot;speed&quot;];
+            var _this = $(this);
+            intId[i] = setInterval(function()&#123;
+                marquee(_this, sh);
+            &#125;, speed);
+
+            _this.hover(function()&#123;
+                clearInterval(intId[i]);
+            &#125;,function()&#123;
+                intId[i] = setInterval(function()&#123;
+                    marquee(_this, sh);
+                &#125;, speed);
+            &#125;);
+        
+        &#125;);
+        //滚动效果
+        function marquee(obj, step)&#123;
+            obj.find(&quot;ul&quot;).animate(&#123;
+                marginTop: &#39;-=1&#39;
+            &#125;,0,function()&#123;
+                var s = Math.abs(parseInt($(this).css(&quot;margin-top&quot;)));
+                if(s &gt;= step)&#123;
+                    $(this).find(&quot;li&quot;).slice(0, 1).appendTo($(this));
+                    $(this).css(&quot;margin-top&quot;, 0);
+                &#125;
+            &#125;);
+        &#125;
+    &#125;
+&#125;)(jQuery);
+</code></pre>
+<pre><code class="css">.scroll-div&#123;
+    overflow:hidden;
+    font-size:13px; 
+    margin-top: 12px;
+    height: 268px;
+&#125;
+.scroll-div ul,
+.scroll-div ul li&#123;
+    height: 273px;
+    width: 100%;
+&#125;
+</code></pre>
+<h2 id="十、redis"><a href="#十、redis" class="headerlink" title="十、redis"></a>十、redis</h2><h3 id="1、查看连接数"><a href="#1、查看连接数" class="headerlink" title="1、查看连接数"></a>1、查看连接数</h3><p>​	netstat -an|grep 6379|wc -l</p>
+<h2 id="十一、正则表达式"><a href="#十一、正则表达式" class="headerlink" title="十一、正则表达式"></a>十一、正则表达式</h2><h3 id="1、阶段替换"><a href="#1、阶段替换" class="headerlink" title="1、阶段替换"></a>1、阶段替换</h3><pre><code class="java">String sql = &quot;select * from a where a.no = #&#123;no,jdbcType=VARCHAR&#125; and a.name = #&#123;name,jdbcType=VARCHAR&#125;&quot;;
+sql.replaceAll(&quot;\\#\\&#123;.+?\\&#125;&quot;,&quot;?&quot;); 
+//sql = select * from a where a.no = ? and a.name = ? 
+</code></pre>
+<h2 id="十二、cron范例"><a href="#十二、cron范例" class="headerlink" title="十二、cron范例"></a>十二、cron范例</h2><pre><code>每隔5秒执行一次：*/5 * * * * ?
+
+每隔1分钟执行一次：0 */1 * * * ?
+
+每天23点执行一次：0 0 23 * * ?
+
+每天凌晨1点执行一次：0 0 1 * * ?
+
+每月1号凌晨1点执行一次：0 0 1 1 * ?
+
+每月最后一天23点执行一次：0 0 23 L * ?
+
+每周星期天凌晨1点实行一次：0 0 1 ? * L
+
+在26分、29分、33分执行一次：0 26,29,33 * * * ?
+
+每天的0点、13点、18点、21点都执行一次：0 0 0,13,18,21 * * ?
+</code></pre>
+
+      </section>
+
+      <section class="article-footer">
+        
+      </section>
+
+      <section class="article-navs">
+        
+<nav class="card-container card-article-nav">
+  <div class="card-wrap">
+    
+      <div id="article-nav-newer" class="card-item img">
+        <article>
+          
+            <div class="card-cover" style="background-image: url(/images/upload/2021/10/2.jpg)"></div>
+          
+          <a class="card-link article-nav-link" href="/2021/08/31/%E8%8B%A5%E4%BE%9D%E5%AD%A6%E4%B9%A0-%E9%AA%8C%E8%AF%81%E7%A0%81-ruo-yi-xue-xi---yan-zheng-ma/"></a>
+          <strong class="article-nav-caption">Newer</strong>
+          <p class="article-nav-title">
+            
+              若依学习-验证码
+            
+          </p>
+        </article>
+      </div>
+    
+    
+      <div id="article-nav-older" class="card-item">
+        <article>
+          
+          <a class="card-link article-nav-link" href="/2021/08/30/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F.md-%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8Fmd/"></a>
+          <strong class="article-nav-caption">Older</strong>
+          <p class="article-nav-title">
+            
+              设计模式.md
+            
+          </p>
+        </article>
+      </div>
+    
+  </div>
+</nav>
+
+      </section>
+
+      
+
+  
+  
+  <div class="valine-container">
+    <div id="valine_thread" class="valine-thread"></div>
+  </div>
+  
+
+  
+  
+  <div class="disqus-container">
+    <p id="disqus_error" class="disqus-error" style="display: none;">如果你看不到评论，那么就真的看不到评论了 QAQ</p>
+    <div id="disqus_thread" class="disqus-thread"></div>
+  </div>
+  
+
+
+    </div>
+  </article>
+</div>
+
+    <!-- footer container -->
+<footer id="footer" class="footer">
+  <div class="footer-container">
+    
+    <div class="social-icons social-icons-footer">
+      <a href="mailto:thelovelybugfly@foxmail.com" target="_blank" rel="noopener noreferrer">
+  <svg class="icon icon-email" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+    <path d="M490.338462 592.738462c11.815385 11.815385 29.538462 11.815385 41.353846 0l445.046154-413.538462c7.876923-15.753846 5.907692-41.353846-25.6-41.353846l-880.246154 1.969231c-23.630769 0-43.323077 21.661538-25.6 41.353846l445.046154 411.569231zM984.615385 340.676923c0-19.692308-23.630769-31.507692-39.384616-17.723077L596.676923 643.938462c-23.630769 21.661538-53.169231 33.476923-84.676923 33.476923s-61.046154-11.815385-84.676923-31.507693L80.738462 322.953846c-15.753846-13.784615-39.384615-3.938462-39.384616 17.723077C39.384615 334.769231 39.384615 787.692308 39.384615 787.692308c0 43.323077 35.446154 78.769231 78.769231 78.76923h787.692308c43.323077 0 78.769231-35.446154 78.769231-78.76923V340.676923z"></path>
+  </svg>
+</a><a href="https://github.com/HeyBreezeYang" target="_blank" rel="noopener noreferrer">
+  <svg class="icon icon-github" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+    <path d="M64.6 512c0 195.6 125.4 361.9 300.1 422.9 23.5 5.9 19.9-10.8 19.9-22.2v-77.6c-135.8 15.9-141.3-74-150.5-89-18.5-31.5-61.9-39.5-49-54.5 31-15.9 62.5 4 98.9 58 26.4 39.1 77.9 32.5 104.1 26 5.7-23.5 17.9-44.5 34.7-60.9-140.7-25.2-199.4-111.1-199.4-213.3 0-49.5 16.4-95.1 48.4-131.8-20.4-60.6 1.9-112.4 4.9-120.1 58.2-5.2 118.5 41.6 123.3 45.3 33.1-8.9 70.8-13.7 112.9-13.7 42.4 0 80.3 4.9 113.5 13.9 11.3-8.6 67.3-48.8 121.4-43.9 2.9 7.7 24.7 58.3 5.5 118.1 32.5 36.8 49 82.8 49 132.4 0 102.3-59 188.3-200.2 213.2 23.5 23.3 38.1 55.5 38.1 91.1v112.7c0.8 9 0 17.9 15.1 17.9C832.7 877 960.4 709.4 960.4 512.1c0-247.5-200.6-447.9-447.9-447.9C265 64.1 64.6 264.5 64.6 512z"></path>
+  </svg>
+</a><a href="https://www.google.com" target="_blank" rel="noopener noreferrer">
+  <svg class="icon icon-google+" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+    <path d="M933.714286 432.457143H520.8v169.714286h235.885714c-10.171429 54.857143-41.028571 101.257143-87.542857 132.342857-39.314286 26.285714-89.485714 41.828571-148.457143 41.828571-114.171429 0-210.742857-77.142857-245.257143-180.8-8.685714-26.285714-13.714286-54.4-13.714285-83.314286s5.028571-57.028571 13.714285-83.314285c34.628571-103.542857 131.2-180.685714 245.371429-180.685715 64.342857 0 122.057143 22.171429 167.542857 65.6l125.714286-125.828571c-76-70.857143-175.085714-114.285714-293.257143-114.285714-171.314286 0-319.542857 98.285714-391.657143 241.6-29.714286 59.2-46.628571 126.171429-46.628571 197.028571S99.428571 650.057143 129.142857 709.257143C201.257143 852.571429 349.485714 950.857143 520.8 950.857143c118.4 0 217.6-39.314286 290.057143-106.285714 82.857143-76.342857 130.742857-188.8 130.742857-322.4 0-31.085714-2.742857-60.914286-7.885714-89.714286z"></path>
+  </svg>
+</a>
+<a href="https://www.instagram.com/thelovelybugfly" target="_blank" rel="noopener noreferrer">
+  <svg class="icon icon-ins" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+    <path d="M512 0C372.906667 0 355.541333 0.64 300.928 3.072 246.4 5.632 209.28 14.208 176.64 26.88c-33.664 13.056-62.250667 30.592-90.709333 59.050667S39.893333 142.933333 26.88 176.64C14.208 209.28 5.589333 246.4 3.072 300.928 0.512 355.541333 0 372.906667 0 512s0.64 156.458667 3.072 211.072c2.56 54.485333 11.136 91.648 23.808 124.288a251.093333 251.093333 0 0 0 59.050667 90.709333A250.368 250.368 0 0 0 176.64 997.12c32.682667 12.629333 69.802667 21.290667 124.288 23.808C355.541333 1023.488 372.906667 1024 512 1024s156.458667-0.64 211.072-3.072c54.485333-2.56 91.648-11.178667 124.288-23.808a251.648 251.648 0 0 0 90.709333-59.050667 250.026667 250.026667 0 0 0 59.050667-90.709333c12.629333-32.64 21.290667-69.802667 23.808-124.288 2.56-54.613333 3.072-71.978667 3.072-211.072s-0.64-156.458667-3.072-211.072c-2.56-54.485333-11.178667-91.690667-23.808-124.288a251.306667 251.306667 0 0 0-59.050667-90.709333A249.472 249.472 0 0 0 847.36 26.88c-32.64-12.672-69.802667-21.290667-124.288-23.808C668.458667 0.512 651.093333 0 512 0z m0 92.16c136.661333 0 152.96 0.682667 206.933333 3.029333 49.92 2.346667 77.013333 10.624 95.018667 17.706667 23.978667 9.258667 40.96 20.352 58.965333 38.229333 17.877333 17.92 28.970667 34.944 38.229334 58.922667 6.997333 18.005333 15.36 45.098667 17.621333 95.018667 2.432 54.016 2.986667 70.229333 2.986667 206.933333s-0.64 152.96-3.157334 206.933333c-2.602667 49.92-10.922667 77.013333-17.962666 95.018667a162.56 162.56 0 0 1-38.357334 58.965333 159.744 159.744 0 0 1-58.88 38.229334c-17.92 6.997333-45.44 15.36-95.36 17.621333-54.357333 2.432-70.357333 2.986667-207.317333 2.986667-137.002667 0-153.002667-0.64-207.317333-3.157334-49.962667-2.602667-77.482667-10.922667-95.402667-17.962666a158.549333 158.549333 0 0 1-58.837333-38.357334 155.477333 155.477333 0 0 1-38.4-58.88c-7.04-17.92-15.317333-45.44-17.92-95.36-1.92-53.76-2.602667-70.357333-2.602667-206.677333 0-136.362667 0.682667-153.002667 2.602667-207.402667 2.602667-49.92 10.88-77.397333 17.92-95.317333 8.96-24.32 20.437333-40.96 38.4-58.922667 17.877333-17.877333 34.56-29.397333 58.837333-38.314666 17.92-7.082667 44.842667-15.402667 94.762667-17.962667 54.4-1.92 70.4-2.56 207.317333-2.56l1.92 1.28z m0 156.928a262.912 262.912 0 1 0 0 525.824 262.912 262.912 0 1 0 0-525.824zM512 682.666667c-94.293333 0-170.666667-76.373333-170.666667-170.666667s76.373333-170.666667 170.666667-170.666667 170.666667 76.373333 170.666667 170.666667-76.373333 170.666667-170.666667 170.666667z m334.762667-443.946667a61.482667 61.482667 0 0 1-122.88 0 61.44 61.44 0 0 1 122.88 0z"></path>
+  </svg>
+</a>
+<a href="https://twitter.com/thelovelybugfly" target="_blank" rel="noopener noreferrer">
+  <svg class="icon icon-twitter" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+    <path d="M962.285714 233.142857q-38.285714 56-92.571429 95.428571 0.571429 8 0.571429 24 0 74.285714-21.714286 148.285714t-66 142-105.428571 120.285714-147.428571 83.428571-184.571429 31.142857q-154.857143 0-283.428571-82.857143 20 2.285714 44.571429 2.285714 128.571429 0 229.142857-78.857143-60-1.142857-107.428571-36.857143t-65.142857-91.142857q18.857143 2.857143 34.857143 2.857143 24.571429 0 48.571429-6.285714-64-13.142857-106-63.714286t-42-117.428571l0-2.285714q38.857143 21.714286 83.428571 23.428571-37.714286-25.142857-60-65.714286t-22.285714-88q0-50.285714 25.142857-93.142857 69.142857 85.142857 168.285714 136.285714t212.285714 56.857143q-4.571429-21.714286-4.571429-42.285714 0-76.571429 54-130.571429t130.571429-54q80 0 134.857143 58.285714 62.285714-12 117.142857-44.571429-21.142857 65.714286-81.142857 101.714286 53.142857-5.714286 106.285714-28.571429z"></path>
+  </svg>
+</a><a href="https://www.youtube.com" target="_blank" rel="noopener noreferrer">
+  <svg class="icon icon-youtube" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+    <path d="M981.333333 414.293333a362.666667 362.666667 0 0 0-38.826666-176.213333 124.586667 124.586667 0 0 0-73.386667-42.666667A3343.36 3343.36 0 0 0 512 182.186667a3347.2 3347.2 0 0 0-355.84 12.8 122.453333 122.453333 0 0 0-62.293333 31.573333c-38.4 35.413333-42.666667 96-46.933334 147.2a2060.373333 2060.373333 0 0 0 0 276.48 407.466667 407.466667 0 0 0 12.8 85.333333 133.973333 133.973333 0 0 0 30.293334 58.026667 122.026667 122.026667 0 0 0 63.573333 33.28 1927.68 1927.68 0 0 0 277.333333 14.08c149.333333 2.133333 280.32 0 435.2-11.946667a122.88 122.88 0 0 0 65.28-33.28 106.24 106.24 0 0 0 26.026667-42.666666 451.413333 451.413333 0 0 0 22.186667-145.066667c1.706667-23.893333 1.706667-168.106667 1.706666-193.706667zM415.573333 633.6V369.493333l252.586667 132.693334c-70.826667 39.253333-164.266667 83.626667-252.586667 131.413333z"></path>
+  </svg>
+</a>
+<a href="https://weibo.com/6460014012/profile?topnav=1&amp;wvr=6" target="_blank" rel="noopener noreferrer">
+  <svg class="icon icon-weibo" viewBox="0 0 1025 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+    <path d="M385.682429 733.696q11.995429-19.456 6.290286-39.424t-25.746286-28.598857q-19.456-7.972571-41.691429-0.585143t-34.304 26.258286q-12.580571 19.456-7.460571 39.131429t24.576 28.891429 42.569143 1.462857 35.693714-27.136zM439.442429 664.576q4.534857-7.460571 1.974857-15.140571t-10.020571-10.605714q-7.972571-2.852571-16.310857 0.292571t-12.288 10.605714q-9.728 17.700571 7.460571 25.746286 7.972571 2.852571 16.603429-0.292571t12.580571-10.605714zM538.843572 725.723429q-25.746286 58.294857-90.258286 85.723429t-128 6.875429q-61.147429-19.456-84.260571-72.265143t3.730286-107.154286q26.843429-53.174857 86.601143-79.433143t120.32-10.825143q63.414857 16.603429 90.550857 68.315429t1.462857 108.836571zM717.165858 634.294857q-5.12-54.857143-50.834286-97.133714t-119.149714-62.317714-156.891429-11.995429q-127.414857 13.165714-211.163429 80.822857t-75.702857 151.113143q5.12 54.857143 50.834286 97.133714t119.149714 62.317714 156.891429 11.995429q127.414857-13.165714 211.163429-80.822857t75.702857-151.113143zM893.147572 636.562286q0 38.838857-21.138286 79.725714t-62.317714 78.262857-96.256 67.145143-129.170286 47.396571-154.550857 17.700571-157.110857-19.163429-137.435429-53.174857-98.011429-86.308571-37.156571-114.029714q0-65.682286 39.716571-139.995429t112.859429-147.456q96.548571-96.548571 195.145143-134.875429t140.873143 4.022857q37.156571 36.571429 11.410286 119.442286-2.267429 7.972571-0.585143 11.410286t5.705143 4.022857 8.265143-0.292571 7.68-1.974857l3.437714-1.170286q79.433143-33.718857 140.580571-33.718857t87.405714 34.889143q25.746286 35.986286 0 101.741714-1.170286 7.460571-2.56 11.410286t2.56 7.168 6.875429 4.315429 9.728 3.437714q32.548571 10.313143 58.88 26.843429t45.714286 46.592 19.456 66.56zM850.871001 279.990857q23.990857 26.843429 31.158857 62.025143t-3.730286 67.145143q-4.534857 13.165714-16.822857 19.456t-25.453714 2.267429q-13.165714-4.534857-19.456-16.822857t-2.267429-25.453714q11.410286-35.986286-13.677714-63.414857t-61.147429-19.968q-13.677714 2.852571-25.746286-4.534857t-14.262857-21.138286q-2.852571-13.677714 4.534857-25.453714t21.138286-14.555429q34.304-7.460571 68.022857 3.145143t57.709714 37.449143zM954.295001 186.88q49.737143 54.857143 64.292571 127.122286t-7.68 138.020571q-5.12 15.433143-19.456 22.820571t-29.696 2.267429-22.820571-19.456-2.852571-29.696q16.018286-46.884571 5.705143-98.304t-45.714286-90.258286q-35.401143-39.424-84.553143-54.564571t-98.889143-4.827429q-16.018286 3.437714-29.696-5.412571t-17.115429-24.868571 5.412571-29.403429 24.868571-16.822857q70.290286-14.848 139.410286 6.582857t118.857143 76.873143z"></path>
+  </svg>
+</a><a href="https://music.163.com/#/user/home?id=1364962893" target="_blank" rel="noopener noreferrer">
+  <svg class="icon icon-cloudmusic" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+    <path d="M952.17867 503.263237a341.054956 341.054956 0 0 0-56.853199-113.706399 408.604266 408.604266 0 0 0-109.723463-98.352823 304.662484 304.662484 0 0 0-143.257215-42.077792L621.305897 170.238394a40.343287 40.343287 0 0 1 10.792472-36.392472 56.88532 56.88532 0 0 1 36.392472-18.758344 102.785445 102.785445 0 0 1 56.853199 18.758344c6.263488 3.404768 10.792472 9.090088 17.05596 13.073024a57.335006 57.335006 0 0 0 82.999247-70.632873 66.521455 66.521455 0 0 0-22.74128-27.848432 237.691343 237.691343 0 0 0-89.262735-43.202007A170.559598 170.559598 0 0 0 625.288833 6.42409a167.026349 167.026349 0 0 0-60.836135 37.516688 164.328231 164.328231 0 0 0-40.921456 51.713927 156.908407 156.908407 0 0 0-8.54404 113.706399l13.651192 52.870264a284.298118 284.298118 0 0 0-158.064743 109.209535 256.963614 256.963614 0 0 0-43.202007 156.908407 248.419573 248.419573 0 0 0 13.651192 74.487327 205.281807 205.281807 0 0 0 80.718695 104.616312 185.945295 185.945295 0 0 0 136.447679 25.696361 193.879046 193.879046 0 0 0 156.330238-196.705646L708.802008 503.263237c-11.948808-46.060728-24.443664-91.543287-35.814304-137.025847a182.283563 182.283563 0 0 1 47.763112 18.180176 316.611292 316.611292 0 0 1 47.763111 34.690088A239.907654 239.907654 0 0 1 840.752823 529.987453a284.169636 284.169636 0 0 1 0 158.064743 252.241907 252.241907 0 0 1-21.584943 51.167879 308.741782 308.741782 0 0 1-168.279047 144.542033 387.918695 387.918695 0 0 1-130.184191 23.319448 332.607277 332.607277 0 0 1-155.206022-37.516688A367.233124 367.233124 0 0 1 194.87478 672.666499a373.014806 373.014806 0 0 1-20.460727-180.806022A366.173149 366.173149 0 0 1 406.869762 198.536512a57.399247 57.399247 0 0 0 13.073023-100.055207 76.189711 76.189711 0 0 0-63.662735-3.404768A479.815307 479.815307 0 0 0 68.705646 436.163614a488.905395 488.905395 0 0 0 129.027855 450.84266 454.857716 454.857716 0 0 0 248.997741 131.886574 470.885822 470.885822 0 0 0 138.117942 0A454.889837 454.889837 0 0 0 773.042911 952.949561a427.523212 427.523212 0 0 0 170.559598-209.232622 417.276788 417.276788 0 0 0 22.74128-109.209536 378.089837 378.089837 0 0 0-14.165119-131.244166z m-412.747804 118.845671a72.174655 72.174655 0 0 1-56.8532-10.792471 98.352823 98.352823 0 0 1-37.516687-61.382184 170.68808 170.68808 0 0 1 0-65.943287 133.042911 133.042911 0 0 1 33.533751-63.662735 181.35207 181.35207 0 0 1 80.718695-46.606776l39.219072 148.364367a204.189711 204.189711 0 0 1 5.107152 26.146048 79.594479 79.594479 0 0 1-64.208783 73.844918z"></path>
+  </svg>
+</a><a href="https://www.zhihu.com" target="_blank" rel="noopener noreferrer">
+  <svg t="1587373160860" class="icon icon-zhihu" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+    <path d="M544.949 561.422s0-71.387-34.779-75.050c-34.779-3.663-142.775 0-142.775 0v-219.654h161.078s-1.83-73.219-32.949-73.219h-261.755l43.93-117.148s-65.897 3.663-89.692 45.761-98.844 252.604-98.844 252.604 25.627 10.983 67.726-20.134c42.101-31.116 56.743-86.033 56.743-86.033l76.879-3.663 1.83 223.316s-133.621-1.83-161.078 0c-27.457 1.83-42.101 75.050-42.101 75.050h203.182s-18.307 124.47-69.557 214.164c-53.085 89.692-151.929 161.078-151.929 161.078s71.387 29.287 140.947-10.983c69.557-42.101 120.811-223.316 120.811-223.316l162.912 203.182s14.643-97.013-1.83-124.47c-18.307-27.457-113.49-137.283-113.49-137.283l-42.101 36.607 29.287-120.811h177.552zM587.050 188.010l-1.83 660.793h65.897l23.795 82.37 115.321-82.37h162.912v-660.793h-366.091zM879.92 775.584h-76.879l-97.013 75.050-21.965-75.050h-20.134v-512.527h215.991v512.527z"></path>
+  </svg>
+</a>    </div>
+     
+
+    
+      <p id="hitokoto"></p>
+      <script src="https://v1.hitokoto.cn/?c=a&amp;encode=js&select=%23hitokoto" defer></script>
+    
+
+    
+ 
+  <p> Copyright  &copy; 2022 <a href="/" target="_blank">pengpeng</a>  All Rights Reserved</p>
+  </div>
+</footer>
+
+  </div>
+
+  <div class="back-to-top-fixed">
+    <svg class="icon icon-back-to-top" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M725.333333 426.666667c-12.8 0-21.333333-4.266667-29.866667-12.8l-213.333333-213.333333c-17.066667-17.066667-17.066667-42.666667 0-59.733333s42.666667-17.066667 59.733333 0l213.333333 213.333333c17.066667 17.066667 17.066667 42.666667 0 59.733333C746.666667 422.4 738.133333 426.666667 725.333333 426.666667z"></path>
+  <path d="M298.666667 426.666667c-12.8 0-21.333333-4.266667-29.866667-12.8-17.066667-17.066667-17.066667-42.666667 0-59.733333l213.333333-213.333333c17.066667-17.066667 42.666667-17.066667 59.733333 0s17.066667 42.666667 0 59.733333l-213.333333 213.333333C320 422.4 311.466667 426.666667 298.666667 426.666667z"></path>
+  <path d="M512 896c-25.6 0-42.666667-17.066667-42.666667-42.666667L469.333333 170.666667c0-25.6 17.066667-42.666667 42.666667-42.666667s42.666667 17.066667 42.666667 42.666667l0 682.666667C554.666667 878.933333 537.6 896 512 896z"></path>
+</svg> 
+  </div>
+
+  
+  
+
+  <!-- disqus 评论 start -->
+  <script type="text/javascript">
+    /*
+     *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+     *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables
+     */
+    
+    /*
+      var disqus_config = function () {
+        this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+        this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+      };
+    */
+
+    (function() {
+      var d = document, s = d.createElement('script'), c = d.querySelector(".disqus-container");
+      if (!c) return;
+      s.src = 'https://heybreeze.cn.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      s.onerror = () => {
+        let t = document.querySelector("#disqus_error");
+        t.style.display = "block";
+      }
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+  <!-- disqus 评论 end -->
+  
+
+  <!-- aplayer 音频 start -->
+  <link rel="stylesheet" href="https://unpkg.com/aplayer@1.10.1/dist/APlayer.min.css">
+  <script type="text/javascript" src="https://unpkg.com/aplayer@1.10.1/dist/APlayer.min.js"></script>
+  <script type="text/javascript">
+    const aplayer = document.querySelectorAll(".aplayer");
+    aplayer && initaplayer(aplayer);
+    function initaplayer(els) {
+      let elsArr = Array.from(els);
+      elsArr.forEach(el => {
+        new APlayer({
+          container: el,
+          audio: { ...el.dataset },
+          theme: "#b7daff",
+          lrcType: 3,
+          autoplay: false,
+          loop: false,
+          mutex: true,
+        });
+      });
+    }
+  </script>
+  <!-- aplayer 音频 end -->
+  
+
+<!-- dplayer 视频 start -->
+<script type="text/javascript" src="https://unpkg.com/dplayer@1.25.1/dist/DPlayer.min.js"></script>
+<script type="text/javascript">
+  const dplayer = document.querySelectorAll(".dplayer");
+  dplayer && initDPlayer(dplayer);
+  function initDPlayer(els) {
+    let elsArr = Array.from(els);
+    elsArr.forEach(el => {
+      let url = el.dataset.url;
+      let cover = el.dataset.cover;
+      let subtitle = el.dataset.subtitle;
+
+      let options = {
+        container: el,
+        video: { url: url, pic: cover },
+        theme: "#b7daff",
+        autoplay: false,
+        loop: false,
+        mutex: true,
+      }
+
+      if (subtitle) {
+        options.subtitle = {
+          url: el.dataset.subtitle,
+        }
+      }
+      new DPlayer(options);
+    });
+  }
+</script>
+<!-- dplayer 视频 end -->
+
+
+<!-- waterfall 瀑布流 start -->
+
+<script src="/lib/waterfall.min.js"></script>
+
+<script type="text/javascript">
+
+const waterfalls = document.querySelectorAll(".waterfall-container");
+
+if (waterfalls && waterfalls.length > 0) {
+  waterfalls.forEach((waterfall, index) => {
+    let cls = "waterfall-container-" + index;
+    waterfall.classList.add(cls);
+    initWaterfall(cls, waterfall);
+  });
+}
+
+function initWaterfall(selector, el) {
+  const options = {};
+  if (Object.keys(el.dataset).length > 0) {
+    for (let k in el.dataset) {
+      options[k] = el.dataset[k];
+    }
+  }
+  waterfall(`.${selector}`, options);
+}
+</script>
+<!-- waterfall 瀑布流 end -->
+
+
+  <!-- zoom start -->
+  
+<script src="/lib/zoom.min.js"></script>
+
+  <script type="text/javascript">
+    document.querySelector(".article-content") && zoom(".article-content");
+  </script>
+  <!-- zoom end -->
+  
+
+
+
+  
+
+
+  
+
+
+  
+
+
+
+
+<script src="/js/script.js"></script>
+
+  
+  <!-- 尾部用户自定义相关内容 -->
+
+</body>
+</html>

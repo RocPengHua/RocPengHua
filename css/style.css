@@ -4305,12 +4305,12 @@ html.show-mobile-nav .navbar-list {
 }
 @media (max-width: 860px) {
   .navbar-list-item ul {
-    top: -55px;
+    top: -60px;
     right: -100px;
-    height: 125px;
+    height: 135px;
   }
   .navbar-list-item ul li {
-    height: 25px;
+    min-height: 25px;
   }
   .navbar-list-item ul::before {
     content: "";

@@ -53,7 +53,7 @@ function bot_ui_ini() {
                 delay: 600,
                 content: "😘"
             }).then(function () {
-                secondpart()
+                secondpart2()
             })
         },
         end = function () {
@@ -62,10 +62,21 @@ function bot_ui_ini() {
                 content: "![...](https://view.moezx.cc/images/2018/05/06/a1c4cd0452528b572af37952489372b6.md.jpg)"
             })
         },
+        secondpart2 = function () {
+            botui.message.add({
+                delay: 1500,
+                content: "工作5年，一事无成"
+            }).then(function () {
+                botui.message.add({
+                    delay: 1500,
+                    content: "一起学习吧。。。"
+                })
+            })
+        },
         secondpart = function () {
             botui.message.add({
                 delay: 1500,
-                content: "目前就读于上海财经大学"
+                content: "工作5年，一事无成"
             }).then(function () {
                 botui.message.add({
                     delay: 1500,

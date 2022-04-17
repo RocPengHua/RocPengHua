@@ -223,6 +223,7 @@ table {
 }
 img {
   max-width: 100%;
+  display: inline-block;
 }
 a {
   background-color: transparent;

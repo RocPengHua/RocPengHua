@@ -584,5 +584,25 @@ redis-server /etc/redis/redis.conf：这个是关键配置，让redis不是无�
 
   
   <!-- 尾部用户自定义相关内容 -->
+<div id="aplayer"></div>
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script type="text/javascript">
+//https://api.lixingyong.com/api/netease?type=lrc&id=1365393542	
+	$.get("https://api.lixingyong.com/api/netease?type=playlist&id=3778678&r=0.37201068616290645", function(result){
+	    console.log(JSON.parse(result).length)
+	    const ap = new APlayer({
+	    container: document.getElementById('aplayer'),
+	    global:true,
+	    id:'3778678',
+	    server: 'netease',
+	    type: 'paylist',
+	    fixed: true,
+	    preload: 'none',
+	    theme: '#ffa500',
+	    autoplay: false,
+	    audio: JSON.parse(result)
+	  });
+	});
+</script>
 </body>
 </html>

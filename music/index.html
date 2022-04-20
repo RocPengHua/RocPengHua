@@ -222,38 +222,41 @@
   
 </header>
 
-    <!-- 分页(其他自定义页面) -->
-
+    <!-- 标签归档 -->
 <!-- 自定义页面 -->
 
 <div class="body-container">
   <article class="content-container layout-block post-container">
     <div class="article-info">
-      
-      <section class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
+        <!-- 网易云音乐插件 -->
         
-<meting-js
-  server="netease"
-  type="playlist"
-  id="2731690811"
-  mutex="true">
-</meting-js>
+			<!-- require APlayer -->
+			<link rel="stylesheet" href="https://unpkg.com/aplayer@1.10.1/dist/APlayer.min.css">
+  			<script type="text/javascript" src="https://unpkg.com/aplayer@1.10.1/dist/APlayer.min.js"></script>
+			<!-- require MetingJS -->
+			<script src="https://unpkg.com/meting@2.0.1/dist/Meting.min.js"></script>
 
-<meting-js
-  server="netease"
-  type="playlist"
-  id="419239189"
-  mutex="true">
-</meting-js>
+			<meting-js style="margin-top: 1.5rem;width: auto;height: auto"
+			  server="netease"
+			  type="playlist"
+			  id="3155294100"
+			  order= "random"
+			  theme="#ad7a86"
+			  loop="all"
+			  autoplay="false"
+			  storageName="aplayer-setting"
+			  hideLrc= "false"
+			  list-max-height="500px"
+			  >
+			  </meting-js>
+			  <style>
+			      .aplayer{
+			          margin: 1.5rem 0;
+			      }              
+			  </style>
 
-      </section>
-
-      
-      
-
-      
-      
-    </div>
+        
+        </div>
     <div class="widget-info">
       <section class="widget-author widget-item layout-margin content-padding--primary soft-size--large soft-style--box">
   <div class="widget-body">
@@ -400,6 +403,8 @@
     </div>
   </article>
 </div>
+
+<!-- page container -->
 
 
     <!-- footer container -->

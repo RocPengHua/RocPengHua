@@ -4274,6 +4274,7 @@ html.show-mobile-nav .navbar-list {
   font-weight: bolder;
   transition: opacity 0.3s ease;
   color: var(--theme-text-light);
+  white-space: nowrap;
 }
 .navbar-list-item a:hover {
   opacity: 0.7;
@@ -4286,7 +4287,7 @@ html.show-mobile-nav .navbar-list {
   top: 35px;
   right: -17px;
   min-width: 80px;
-  text-align: center;
+  text-align: left;
   z-index: 9999;
   border-radius: 5px;
   box-shadow: 0 1px 40px -8px #000;
@@ -5047,6 +5048,10 @@ html.show-mobile-nav .navbar-list {
 }
 .content-container.post-container .widget-info .widget-toc .widget-body ol > li > a:hover {
   color: var(--theme-text-active);
+}
+.content-container.post-container .widget-info .widget-categorys .widget-body .categorys-list-item {
+  width: 50%;
+  float: left;
 }
 .content-container.post-container .widget-info .widget-categorys .widget-body .categorys-list-item:not(:last-child) {
   margin-bottom: 14px;

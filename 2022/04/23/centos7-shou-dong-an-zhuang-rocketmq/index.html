@@ -329,8 +329,8 @@
       
       
       <section class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
-        <h2 id="下载地址"><a href="#下载地址" class="headerlink" title="下载地址"></a><span name="下载地址">下载地址</span></h2><p><a target="_blank" rel="noopener" href="https://dlcdn.apache.org/rocketmq/4.9.3/rocketmq-all-4.9.3-bin-release.zip">https://dlcdn.apache.org/rocketmq/4.9.3/rocketmq-all-4.9.3-bin-release.zip</a></p>
-<h2 id="环境要求"><a href="#环境要求" class="headerlink" title="环境要求"></a><span name="环境要求">环境要求</span></h2><ul>
+        <h2 id="download"><a href="#download" class="headerlink" title="download"></a>download</h2><p><a target="_blank" rel="noopener" href="https://dlcdn.apache.org/rocketmq/4.9.3/rocketmq-all-4.9.3-bin-release.zip">https://dlcdn.apache.org/rocketmq/4.9.3/rocketmq-all-4.9.3-bin-release.zip</a></p>
+<h2 id="环境要求"><a href="#环境要求" class="headerlink" title="环境要求"></a>环境要求</h2><ul>
 <li><p>linux64位系统</p>
 </li>
 <li><p>jdk1.8(64位)</p>
@@ -338,17 +338,17 @@
 <li><p>源码安装需要maven3.2</p>
 </li>
 </ul>
-<h2 id="安装步骤"><a href="#安装步骤" class="headerlink" title="安装步骤"></a><span name="安装步骤">安装步骤</span></h2><h3 id="解压安装"><a href="#解压安装" class="headerlink" title="解压安装"></a><span name="解压安装">解压安装</span></h3><pre><code class="shell">unzip rocketmq-all-4.9.3-bin-release.zip -d /usr/local/mq
+<h2 id="安装步骤"><a href="#安装步骤" class="headerlink" title="安装步骤"></a>安装步骤</h2><h3 id="解压安装"><a href="#解压安装" class="headerlink" title="解压安装"></a>解压安装</h3><pre><code class="shell">unzip rocketmq-all-4.9.3-bin-release.zip -d /usr/local/mq
 cd /usr/local/mq
 mv rocketmq-all-4.9.3-bin-release rocketmq
 </code></pre>
-<h3 id="创建文件存储文件夹"><a href="#创建文件存储文件夹" class="headerlink" title="创建文件存储文件夹"></a><span name="创建文件存储文件夹">创建文件存储文件夹</span></h3><pre><code class="shell">mkdir /usr/local/mq/rocketmq/logs
+<h3 id="创建文件存储文件夹"><a href="#创建文件存储文件夹" class="headerlink" title="创建文件存储文件夹"></a>创建文件存储文件夹</h3><pre><code class="shell">mkdir /usr/local/mq/rocketmq/logs
 mkdir /usr/local/mq/rocketmq/store
 mkdir /usr/local/mq/rocketmq/store/commitlog
 mkdir /usr/local/mq/rocketmq/store/consumequeue
 mkdir /usr/local/mq/rocketmq/store/index
 </code></pre>
-<h3 id="单机模式配置"><a href="#单机模式配置" class="headerlink" title="单机模式配置"></a><span name="单机模式配置">单机模式配置</span></h3><pre><code class="shell"># 配置properties
+<h3 id="单机模式配置"><a href="#单机模式配置" class="headerlink" title="单机模式配置"></a>单机模式配置</h3><pre><code class="shell"># 配置properties
 cd rocketmq/conf/
 # 2m-2s-async:2主2从异步
 # 2m-2s-sync:2主2从同步
@@ -359,7 +359,7 @@ vim 2m-2s-async/brock.a.properties
 
 <img src="/2022/04/23/centos7-shou-dong-an-zhuang-rocketmq/image-20220423210729592.png" class="" title="image-20220423210729592">
 
-<h3 id="brock-a-properties配置内容"><a href="#brock-a-properties配置内容" class="headerlink" title="brock.a.properties配置内容"></a><span name="brock.a.properties配置内容"><code>brock.a.properties</code>配置内容</span></h3><pre><code class="properties">#所属集群名字
+<h3 id="brock-a-properties配置内容"><a href="#brock-a-properties配置内容" class="headerlink" title="brock.a.properties配置内容"></a><code>brock.a.properties</code>配置内容</h3><pre><code class="properties">#所属集群名字
 brokerClusterName=rocketmq-cluster
 #broker名字，注意此处不同的配置文件填写的不一样
 brokerName=broker-a
@@ -420,12 +420,12 @@ flushDiskType=ASYNC_FLUSH
 #拉消息线程池数量
 #pullMessageThreadPoolNums=128
 </code></pre>
-<h3 id="修改xml的文件路径"><a href="#修改xml的文件路径" class="headerlink" title="修改xml的文件路径"></a><span name="修改xml的文件路径">修改xml的文件路径</span></h3><pre><code class="shell">sed -i &#39;s#&#123;user.home&#125;#/usr/local/mq/rocketmq#g&#39; *.xml
+<h3 id="修改xml的文件路径"><a href="#修改xml的文件路径" class="headerlink" title="修改xml的文件路径"></a>修改xml的文件路径</h3><pre><code class="shell">sed -i &#39;s#&#123;user.home&#125;#/usr/local/mq/rocketmq#g&#39; *.xml
 </code></pre>
 <p>注意：sed -i在这里起批量的作用</p>
 <pre><code class="shell">sed -i &#39;s#原字符#新字符#g&#39; 替换的文件
 </code></pre>
-<h3 id="修改启动脚本配置"><a href="#修改启动脚本配置" class="headerlink" title="修改启动脚本配置"></a><span name="修改启动脚本配置">修改启动脚本配置</span></h3><p><code>/usr/local/mq/rocketmq/bin/runbroker.sh</code></p>
+<h3 id="修改启动脚本配置"><a href="#修改启动脚本配置" class="headerlink" title="修改启动脚本配置"></a>修改启动脚本配置</h3><p><code>/usr/local/mq/rocketmq/bin/runbroker.sh</code></p>
 <pre><code class="shell">#改之前
 JAVA_OPT=&quot;$&#123;JAVA_OPT&#125; -server -Xms8g -Xmx8g&quot;
 #改之后
@@ -437,13 +437,13 @@ JAVA_OPT=&quot;$&#123;JAVA_OPT&#125; -server -Xms4g -Xmx4g -Xmn2g -XX:MetaspaceS
 #改之后
 JAVA_OPT=&quot;$&#123;JAVA_OPT&#125; -server -Xms1g -Xmx1g -Xmn1g -XX:MetaspaceSize=128m -XX:MaxMetaspaceSize=320m&quot;
 </code></pre>
-<h3 id="启动"><a href="#启动" class="headerlink" title="启动"></a><span name="启动">启动</span></h3><pre><code class="shell">cd /usr/local/mq/rocketmq/bin
+<h3 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h3><pre><code class="shell">cd /usr/local/mq/rocketmq/bin
 # 启动server
 sh mqnamersrv &amp;
 #启动brocker 指定文件路径(前面配置的文件)
 sh mqbrocker -c ../conf/2m-2s-async/brock.a.properties
 </code></pre>
-<h2 id="监控程序"><a href="#监控程序" class="headerlink" title="监控程序"></a><span name="监控程序">监控程序</span></h2><h3 id="下载rocketmq-console"><a href="#下载rocketmq-console" class="headerlink" title="下载rocketmq-console"></a><span name="下载rocketmq-console">下载<code>rocketmq-console</code></span></h3><p><a target="_blank" rel="noopener" href="https://github.com/apache/rocketmq-externals">https://github.com/apache/rocketmq-externals</a></p>
+<h2 id="监控程序"><a href="#监控程序" class="headerlink" title="监控程序"></a>监控程序</h2><h3 id="下载rocketmq-console"><a href="#下载rocketmq-console" class="headerlink" title="下载rocketmq-console"></a>下载<code>rocketmq-console</code></h3><p><a target="_blank" rel="noopener" href="https://github.com/apache/rocketmq-externals">https://github.com/apache/rocketmq-externals</a></p>
 <p><code>git clone -b release-rocketmq-console-1.0.0 https://github.com/apache/rocketmq-externals</code></p>
 <p>修改配置文件rocketmq.config.namesrvAddr&#x3D;192.168.101.123:9876</p>
 <p>然后打包启动</p>
@@ -535,7 +535,7 @@ sh mqbrocker -c ../conf/2m-2s-async/brock.a.properties
     <span>TOC</span>
   </div>
   <div class="widget-body">
-    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%8B%E8%BD%BD%E5%9C%B0%E5%9D%80"><span class="toc-number">1.</span> <span class="toc-text">下载地址</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%8E%AF%E5%A2%83%E8%A6%81%E6%B1%82"><span class="toc-number">2.</span> <span class="toc-text">环境要求</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E6%AD%A5%E9%AA%A4"><span class="toc-number">3.</span> <span class="toc-text">安装步骤</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A3%E5%8E%8B%E5%AE%89%E8%A3%85"><span class="toc-number">3.1.</span> <span class="toc-text">解压安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E6%96%87%E4%BB%B6%E5%AD%98%E5%82%A8%E6%96%87%E4%BB%B6%E5%A4%B9"><span class="toc-number">3.2.</span> <span class="toc-text">创建文件存储文件夹</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8D%95%E6%9C%BA%E6%A8%A1%E5%BC%8F%E9%85%8D%E7%BD%AE"><span class="toc-number">3.3.</span> <span class="toc-text">单机模式配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#brock-a-properties%E9%85%8D%E7%BD%AE%E5%86%85%E5%AE%B9"><span class="toc-number">3.4.</span> <span class="toc-text">brock.a.properties配置内容</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9xml%E7%9A%84%E6%96%87%E4%BB%B6%E8%B7%AF%E5%BE%84"><span class="toc-number">3.5.</span> <span class="toc-text">修改xml的文件路径</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9%E5%90%AF%E5%8A%A8%E8%84%9A%E6%9C%AC%E9%85%8D%E7%BD%AE"><span class="toc-number">3.6.</span> <span class="toc-text">修改启动脚本配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%AF%E5%8A%A8"><span class="toc-number">3.7.</span> <span class="toc-text">启动</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%91%E6%8E%A7%E7%A8%8B%E5%BA%8F"><span class="toc-number">4.</span> <span class="toc-text">监控程序</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%8B%E8%BD%BDrocketmq-console"><span class="toc-number">4.1.</span> <span class="toc-text">下载rocketmq-console</span></a></li></ol></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#download"><span class="toc-number">1.</span> <span class="toc-text">download</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%8E%AF%E5%A2%83%E8%A6%81%E6%B1%82"><span class="toc-number">2.</span> <span class="toc-text">环境要求</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E6%AD%A5%E9%AA%A4"><span class="toc-number">3.</span> <span class="toc-text">安装步骤</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A3%E5%8E%8B%E5%AE%89%E8%A3%85"><span class="toc-number">3.1.</span> <span class="toc-text">解压安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E6%96%87%E4%BB%B6%E5%AD%98%E5%82%A8%E6%96%87%E4%BB%B6%E5%A4%B9"><span class="toc-number">3.2.</span> <span class="toc-text">创建文件存储文件夹</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8D%95%E6%9C%BA%E6%A8%A1%E5%BC%8F%E9%85%8D%E7%BD%AE"><span class="toc-number">3.3.</span> <span class="toc-text">单机模式配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#brock-a-properties%E9%85%8D%E7%BD%AE%E5%86%85%E5%AE%B9"><span class="toc-number">3.4.</span> <span class="toc-text">brock.a.properties配置内容</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9xml%E7%9A%84%E6%96%87%E4%BB%B6%E8%B7%AF%E5%BE%84"><span class="toc-number">3.5.</span> <span class="toc-text">修改xml的文件路径</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9%E5%90%AF%E5%8A%A8%E8%84%9A%E6%9C%AC%E9%85%8D%E7%BD%AE"><span class="toc-number">3.6.</span> <span class="toc-text">修改启动脚本配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%AF%E5%8A%A8"><span class="toc-number">3.7.</span> <span class="toc-text">启动</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%91%E6%8E%A7%E7%A8%8B%E5%BA%8F"><span class="toc-number">4.</span> <span class="toc-text">监控程序</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%8B%E8%BD%BDrocketmq-console"><span class="toc-number">4.1.</span> <span class="toc-text">下载rocketmq-console</span></a></li></ol></li></ol>
   </div>
 </section>
 

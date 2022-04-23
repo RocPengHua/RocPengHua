@@ -24,7 +24,7 @@
 
   
 
-  <title>Docker 部署 Halo | 小鹏驿站</title>
+  <title>centos7手动安装rocketmq | 小鹏驿站</title>
 
   
 
@@ -44,7 +44,7 @@
 <!-- header container -->
 <header class="header-container post">
   
-    <div class="post-image" style="background-image: url(/images/upload/2021/10/6.jpg)"></div>
+    <div class="post-image" style="background-image: url(&#39;https://api.lixingyong.com/api/images?postid=d9c4d653&amp;type=url&amp;itype=image&#39;)"></div>
   
   <!-- navbar -->
 <nav class="navbar">
@@ -282,11 +282,11 @@
     <div class="header-content">
       <div class="post-text layout-block">
         <div class="layout-margin">
-          <h1 class="title-wrap" title="觉宇宙之无穷，识盈虚之有数">Docker 部署 Halo</h1>
+          <h1 class="title-wrap" title="觉宇宙之无穷，识盈虚之有数">centos7手动安装rocketmq</h1>
           <h2 class="title-sub-wrap">
             <strong>RocPengHua</strong>
             <span>发布于</span>
-            <time  class="article-date" datetime="2021-10-16T07:17:09.000Z" itemprop="datePublished">2021-10-16</time>
+            <time  class="article-date" datetime="2022-04-23T12:51:24.000Z" itemprop="datePublished">2022-04-23</time>
           </h2>
           <ul class="wrap-list dark">
   
@@ -295,7 +295,7 @@
 </ul>
           <ul class="wrap-list dark">
   
-    <li><a href="/tags/docker/">🏷️ docker</a></li>
+    <li><a href="/tags/rocketmq/">🏷️ rocketmq</a></li>
   
 </ul>
         </div>
@@ -319,35 +319,127 @@
       
       
       <section class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
-        <h4 id="使用-Docker-镜像"><a href="#使用-Docker-镜像" class="headerlink" title="使用 Docker 镜像#"></a>使用 Docker 镜像#</h4><p>Halo 在 Docker Hub 上发布的镜像为 halohub&#x2F;halo</p>
-<h4 id="创建工作目录"><a href="#创建工作目录" class="headerlink" title="创建工作目录"></a>创建工作目录</h4><p><code>mkdir ~/.halo &amp;&amp; cd ~/.halo</code><br>下载示例配置文件到工作目录<br><code>wget https://dl.halo.run/config/application-template.yaml -O ./application.yaml</code><br>编辑配置文件，配置数据库或者端口等，如需配置请参考参考配置<br><code>vim application.yaml</code><br>拉取最新的 Halo 镜像<br><code>docker pull halohub/halo:1.4.12</code><br>INFO<br>查看最新版本镜像：<code>https://hub.docker.com/r/halohub/halo</code> ，我们推荐使用具体版本号的镜像，但也提供了 latest 标签的镜像，它始终是最新的。</p>
-<p>创建容器<br><code>docker run -it -d --name halo -p 8090:8090 -v ~/.halo:/root/.halo --restart=unless-stopped halohub/halo:1.4.12</code></p>
-<pre><code class="-it：">-d： 后台运行容器
---name： 为容器指定一个名称
--p： 端口映射，格式为 主机(宿主)端口:容器端口 ，可在 application.yaml 配置。
--v： 工作目录映射。形式为：-v 宿主机路径:/root/.halo，后者不能修改。
---restart： 建议设置为 unless-stopped，在 Docker 启动的时候自动启动 Halo 容器。
+        <h4 id="下载地址"><a href="#下载地址" class="headerlink" title="下载地址"></a>下载地址</h4><p><a target="_blank" rel="noopener" href="https://dlcdn.apache.org/rocketmq/4.9.3/rocketmq-all-4.9.3-bin-release.zip">https://dlcdn.apache.org/rocketmq/4.9.3/rocketmq-all-4.9.3-bin-release.zip</a></p>
+<h4 id="环境要求"><a href="#环境要求" class="headerlink" title="环境要求"></a>环境要求</h4><ul>
+<li><p>linux64位系统</p>
+</li>
+<li><p>jdk1.8(64位)</p>
+</li>
+<li><p>源码安装需要maven3.2</p>
+</li>
+</ul>
+<h4 id="安装步骤"><a href="#安装步骤" class="headerlink" title="安装步骤"></a>安装步骤</h4><h5 id="解压安装"><a href="#解压安装" class="headerlink" title="解压安装"></a>解压安装</h5><pre><code class="shell">unzip rocketmq-all-4.9.3-bin-release.zip -d /usr/local/mq
+cd /usr/local/mq
+mv rocketmq-all-4.9.3-bin-release rocketmq
 </code></pre>
-<p>打开 <a href="http://ip:端口号">http://ip:端口号</a> 即可看到安装引导界面。<br>TIP<br>如果需要配置域名访问，建议先配置好反向代理以及域名解析再进行初始化。如果通过 <a href="http://ip:端口号">http://ip:端口号</a> 的形式无法访问，请到服务器厂商后台将运行的端口号添加到安全组，如果服务器使用了 Linux 面板，请检查此 Linux 面板是否有还有安全组配置，需要同样将端口号添加到安全组。</p>
-<p>反向代理#<br>你可以在下面的反向代理软件中任选一项，我们假设你已经安装好了其中一项，并对其的基本操作有一定了解。如果你对 Nginx 不熟悉，我们推荐使用 OneinStack 来管理 Nginx。</p>
-<pre><code class="Nginx#">upstream halo &#123;
-  server 127.0.0.1:8090;
-&#125;
-server &#123;
-  listen 80;
-  listen [::]:80;
-  server_name www.yourdomain.com;
-  client_max_body_size 1024m;
-  location / &#123;
-    proxy_pass http://halo;
-    proxy_set_header HOST $host;
-    proxy_set_header X-Forwarded-Proto $scheme;
-    proxy_set_header X-Real-IP $remote_addr;
-    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-  &#125;
-&#125;
+<h5 id="创建文件存储文件夹"><a href="#创建文件存储文件夹" class="headerlink" title="创建文件存储文件夹"></a>创建文件存储文件夹</h5><pre><code class="shell">mkdir /usr/local/mq/rocketmq/logs
+mkdir /usr/local/mq/rocketmq/store
+mkdir /usr/local/mq/rocketmq/store/commitlog
+mkdir /usr/local/mq/rocketmq/store/consumequeue
+mkdir /usr/local/mq/rocketmq/store/index
 </code></pre>
-<p>以上配置都可以在 <a target="_blank" rel="noopener" href="https://github.com/halo-dev/halo-common">https://github.com/halo-dev/halo-common</a> 找到。</p>
+<h5 id="单机模式配置"><a href="#单机模式配置" class="headerlink" title="单机模式配置"></a>单机模式配置</h5><pre><code class="shell"># 配置properties
+cd rocketmq/conf/
+# 2m-2s-async:2主2从异步
+# 2m-2s-sync:2主2从同步
+# 2m-noslaves:2主没有从
+vim 2m-2s-async/brock.a.properties
+</code></pre>
+<img src="/2022/04/23/centos7-shou-dong-an-zhuang-rocketmq/image-20220423210803203.png" class="" title="image-20220423210803203">
+
+<img src="/2022/04/23/centos7-shou-dong-an-zhuang-rocketmq/image-20220423210729592.png" class="" title="image-20220423210729592">
+
+<h5 id="brock-a-properties配置内容"><a href="#brock-a-properties配置内容" class="headerlink" title="brock.a.properties配置内容"></a><code>brock.a.properties</code>配置内容</h5><pre><code class="properties">#所属集群名字
+brokerClusterName=rocketmq-cluster
+#broker名字，注意此处不同的配置文件填写的不一样
+brokerName=broker-a
+#0 表示 Master，&gt;0 表示 Slave
+brokerId=0
+#nameServer地址，分号分割 ---在hosts里面配置rocketmq-nameserver1  /etc/hosts
+namesrvAddr=rocketmq-nameserver1:9876
+#在发送消息时，自动创建服务器不存在的topic，默认创建的队列数
+defaultTopicQueueNums=4
+#是否允许 Broker 自动创建Topic，建议线下开启，线上关闭
+autoCreateTopicEnable=true
+#是否允许 Broker 自动创建订阅组，建议线下开启，线上关闭
+autoCreateSubscriptionGroup=true
+#Broker 对外服务的监听端口
+listenPort=10911
+#删除文件时间点，默认凌晨 4点
+deleteWhen=04
+#文件保留时间，默认 48 小时
+fileReservedTime=120
+#commitLog每个文件的大小默认1G
+mapedFileSizeCommitLog=1073741824
+#ConsumeQueue每个文件默认存30W条，根据业务情况调整
+mapedFileSizeConsumeQueue=300000
+#destroyMapedFileIntervalForcibly=120000
+#redeleteHangedFileInterval=120000
+#检测物理文件磁盘空间
+diskMaxUsedSpaceRatio=88
+#存储路径
+storePathRootDir=/usr/local/mq/rocketmq/store
+#commitLog 存储路径
+storePathCommitLog=/usr/local/mq/rocketmq/store/commitlog
+#消费队列存储路径存储路径
+storePathConsumeQueue=/usr/local/mq/rocketmq/store/comsumequeue
+#消息索引存储路径
+storePathIndex=/usr/local/mq/rocketmq/store/index
+#checkpoint 文件存储路径
+storeCheckpoint=/usr/local/mq/rocketmq/store/checkpoint
+#abort 文件存储路径
+abortFile=/usr/local/mq/rocketmq/store/abort
+#限制的消息大小
+maxMessageSize=65536
+#flushCommitLogLeastPages=4
+#flushConsumeQueueLeastPages=2
+#flushCommitLogThoroughInterval=10000
+#flushConsumeQueueThoroughInterval=60000
+#Broker 的角色
+#- ASYNC_MASTER 异步复制Master
+#- SYNC_MASTER 同步双写Master
+#- SLAVE
+brokerRole=ASYNC_MASTER
+#刷盘方式
+#- ASYNC_FLUSH 异步刷盘
+#- SYNC_FLUSH 同步刷盘
+flushDiskType=ASYNC_FLUSH
+#checkTransactionMessageEnable=false
+#发消息线程池数量
+#sendMessageThreadPoolNums=128
+#拉消息线程池数量
+#pullMessageThreadPoolNums=128
+</code></pre>
+<h5 id="修改xml的文件路径"><a href="#修改xml的文件路径" class="headerlink" title="修改xml的文件路径"></a>修改xml的文件路径</h5><pre><code class="shell">sed -i &#39;s#&#123;user.home&#125;#/usr/local/mq/rocketmq#g&#39; *.xml
+</code></pre>
+<p>注意：sed -i在这里起批量的作用</p>
+<pre><code class="shell">sed -i &#39;s#原字符#新字符#g&#39; 替换的文件
+</code></pre>
+<h5 id="修改启动脚本配置"><a href="#修改启动脚本配置" class="headerlink" title="修改启动脚本配置"></a>修改启动脚本配置</h5><p><code>/usr/local/mq/rocketmq/bin/runbroker.sh</code></p>
+<pre><code class="shell">#改之前
+JAVA_OPT=&quot;$&#123;JAVA_OPT&#125; -server -Xms8g -Xmx8g&quot;
+#改之后
+JAVA_OPT=&quot;$&#123;JAVA_OPT&#125; -server -Xms1g -Xmx1g&quot;
+</code></pre>
+<p><code>/usr/local/mq/rocketmq/bin/runserver.sh</code></p>
+<pre><code class="shell">#改之前
+JAVA_OPT=&quot;$&#123;JAVA_OPT&#125; -server -Xms4g -Xmx4g -Xmn2g -XX:MetaspaceSize=128m -XX:MaxMetaspaceSize=320m&quot;
+#改之后
+JAVA_OPT=&quot;$&#123;JAVA_OPT&#125; -server -Xms1g -Xmx1g -Xmn1g -XX:MetaspaceSize=128m -XX:MaxMetaspaceSize=320m&quot;
+</code></pre>
+<h5 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h5><pre><code class="shell">cd /usr/local/mq/rocketmq/bin
+# 启动server
+sh mqnamersrv &amp;
+#启动brocker 指定文件路径(前面配置的文件)
+sh mqbrocker -c ../conf/2m-2s-async/brock.a.properties
+</code></pre>
+<h4 id="监控程序"><a href="#监控程序" class="headerlink" title="监控程序"></a>监控程序</h4><h5 id="下载rocketmq-console"><a href="#下载rocketmq-console" class="headerlink" title="下载rocketmq-console"></a>下载<code>rocketmq-console</code></h5><p><a target="_blank" rel="noopener" href="https://github.com/apache/rocketmq-externals">https://github.com/apache/rocketmq-externals</a></p>
+<p><code>git clone -b release-rocketmq-console-1.0.0 https://github.com/apache/rocketmq-externals</code></p>
+<p>修改配置文件rocketmq.config.namesrvAddr&#x3D;192.168.101.123:9876</p>
+<p>然后打包启动</p>
+<p>访问<a target="_blank" rel="noopener" href="http://localhost:8080/">http://localhost:8080</a></p>
+<img src="/2022/04/23/centos7-shou-dong-an-zhuang-rocketmq/image-20220423212702216.png" class="" title="image-20220423212702216">
+
 
       </section>
 
@@ -355,32 +447,16 @@ server &#123;
       
         <nav class="article-nav">
           
-            <div class="article-nav-item layout-padding">
-  <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
-    
-      <div class="card-cover" background-image-lazy data-img="/images/upload/2021/10/1.jpg"></div>
-    
-    <div class="card-text">
-      
-        <a href="/2021/10/16/docker-an-zhuang-nacos/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">Docker安装nacos</h2>
-        </a>
-      
-      <div class="card-text--row">Newer</div>
-    </div>
-  </article>
-</div>
-          
           
             <div class="article-nav-item layout-padding">
   <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
     
-      <div class="card-cover" background-image-lazy data-img="/images/upload/2021/10/6.jpg"></div>
+      <div class="card-cover" background-image-lazy data-img="https://api.lixingyong.com/api/images?postid=2bfd35e&type=url&itype=image"></div>
     
     <div class="card-text">
       
-        <a href="/2021/10/16/docker-an-zhuang-mysql8-0/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">Docker安装MySQL8.0</h2>
+        <a href="/2022/04/21/jmeter-qi-dong-bao-cuo/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">jmeter启动报错</h2>
         </a>
       
       <div class="card-text--row">Older</div>

@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-cn">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
   <meta name="theme-color" content="#3367D6"/>
   <link rel="apple-touch-icon" href="/icons-192.png">
   <link rel="manifest" href="/manifest.json">
@@ -216,16 +216,16 @@
                       </li>
                     
                       <li>
-                        <a href="/tags/java/">
+                        <a href="/tags/mongodb/">
                           <i class="fa fa-database" aria-hidden="true"></i>
                           mongodb
                         </a>
                       </li>
                     
                       <li>
-                        <a href="/tags/rabbitmq/">
+                        <a href="/tags/rocketmq/">
                           <i class="fa fa-random" aria-hidden="true"></i>
-                          rabbitmq
+                          rocketmq
                         </a>
                       </li>
                     
@@ -273,7 +273,7 @@
     <div class="header-content">
       <div class="post-text layout-block layout-padding">
         <h1 class="title-wrap" title="觉宇宙之无穷，识盈虚之有数">归档</h1>
-        <h2 class="title-sub-wrap">共有46篇文章</h2>
+        <h2 class="title-sub-wrap">共有47篇文章</h2>
       </div>
     </div>
   
@@ -297,6 +297,35 @@
 <!-- post list container -->
 <div class="body-container">
   <div class="content-container layout-block article-list">
+    
+      <div class="article-item layout-padding">
+        <article class="card-container article-card content-padding--large soft-size--large soft-style--box">
+          
+            <div class="card-cover" background-image-lazy data-img="https://api.lixingyong.com/api/images?postid=d9f8935e&type=url&itype=image"></div>
+          
+          <div class="card-text">
+            
+              <a href="/2022/04/24/zhong-wen-mao-dian-tiao-zhuan-wen-ti-xiu-fu/" itemprop="url">
+                <h2 class="card-text--title">中文锚点跳转问题修复</h2>
+              </a>
+            
+            <div class="card-text--row">
+              <span>发布于</span>
+              <time  class="" datetime="2022-04-24T09:48:11.000Z" itemprop="datePublished">2022-04-24</time>
+            </div>
+            <ul class="wrap-list light">
+  
+    <li><a href="/categories/%E9%97%AE%E9%A2%98/">📒 问题</a></li>
+  
+</ul>
+            <ul class="wrap-list light">
+  
+    <li><a href="/tags/hexo/">🏷️ hexo</a></li>
+  
+</ul>
+          </div>
+        </article>
+      </div>
     
       <div class="article-item layout-padding">
         <article class="card-container article-card content-padding--large soft-size--large soft-style--box">
@@ -553,33 +582,6 @@
         </article>
       </div>
     
-      <div class="article-item layout-padding">
-        <article class="card-container article-card content-padding--large soft-size--large soft-style--box">
-          
-            <div class="card-cover" background-image-lazy data-img="https://api.lixingyong.com/api/images?postid=ce716cf9&type=url&itype=image"></div>
-          
-          <div class="card-text">
-            
-              <a href="/2022/04/17/ce-shi-tu-biao/" itemprop="url">
-                <h2 class="card-text--title">测试图标</h2>
-              </a>
-            
-            <div class="card-text--row">
-              <span>发布于</span>
-              <time  class="" datetime="2022-04-17T09:08:41.000Z" itemprop="datePublished">2022-04-17</time>
-            </div>
-            <ul class="wrap-list light">
-  
-    <li><a href="/categories/%E6%8A%80%E6%9C%AF/">📒 技术</a></li>
-  
-</ul>
-            <ul class="wrap-list light">
-  
-</ul>
-          </div>
-        </article>
-      </div>
-    
   </div>
 </div>
 
@@ -695,7 +697,6 @@
 <script type="text/javascript">
 //https://api.lixingyong.com/api/netease?type=lrc&id=1365393542	
 	$.get("https://api.lixingyong.com/api/netease?type=playlist&id=3778678&r=0.37201068616290645", function(result){
-	    console.log(JSON.parse(result).length)
 	    const ap = new APlayer({
 	    container: document.getElementById('aplayer'),
 	    global:true,

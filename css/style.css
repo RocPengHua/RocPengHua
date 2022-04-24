@@ -1,6 +1,6 @@
 @media screen and (min-width: 768px) {
   :root {
-    --layout-max-width: 1200px;
+    --layout-max-width: 1600px;
     --layout-padding: 20px;
     --content-large-padding: 40px 38px 46px;
     --content-small-padding: 20px 19px 23px;
@@ -5087,8 +5087,8 @@ html.show-mobile-nav .navbar-list {
 }
 @media screen and (min-width: 768px) {
   .content-container.post-container .article-info {
-    flex: 0 1 calc(100% - 360px);
-    min-width: calc(100% - 360px);
+    flex: 0 1 calc(100% - 720px);
+    min-width: calc(100% - 720px);
   }
   .content-container.post-container .widget-info {
     display: flex;

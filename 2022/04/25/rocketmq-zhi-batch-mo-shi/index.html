@@ -358,7 +358,7 @@
     <span>TOC</span>
   </div>
   <div class="widget-body">
-    <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B7%BB%E5%8A%A0%E4%BE%9D%E8%B5%96"><span class="toc-number">1.</span> <span class="toc-text">添加依赖</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8F%90%E4%BE%9B%E8%80%85"><span class="toc-number">2.</span> <span class="toc-text">提供者</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B6%88%E6%81%AF%E6%8B%86%E5%88%86%E5%B7%A5%E5%85%B7%E6%96%B9%E6%B3%95"><span class="toc-number">3.</span> <span class="toc-text">消息拆分工具方法</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B6%88%E8%B4%B9%E8%80%85"><span class="toc-number"></span> <span class="toc-text">消费者</span></a>
+    <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B7%BB%E5%8A%A0%E4%BE%9D%E8%B5%96"><span class="toc-number">1.</span> <span class="toc-text">添加依赖</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8F%90%E4%BE%9B%E8%80%85"><span class="toc-number">2.</span> <span class="toc-text">提供者</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B6%88%E8%B4%B9%E8%80%85"><span class="toc-number">3.</span> <span class="toc-text">消费者</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95"><span class="toc-number">4.</span> <span class="toc-text">测试</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E6%8B%86%E5%88%86%E5%B7%A5%E5%85%B7"><span class="toc-number">5.</span> <span class="toc-text">数据拆分工具</span></a></li></ol>
   </div>
 </section>
 
@@ -376,7 +376,125 @@
     &lt;version&gt;4.9.3&lt;/version&gt;
 &lt;/dependency&gt;
 </code></pre>
-<h4 id="提供者"><a href="#提供者" class="headerlink" title="提供者"></a>提供者</h4><pre><code class="java">package com.pengpeng.rocketmq.web;
+<h4 id="提供者"><a href="#提供者" class="headerlink" title="提供者"></a>提供者</h4><pre><code class="java">package com.pengpeng.rocketmq.producer;
+
+import com.pengpeng.rocketmq.config.JmsConfig;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.rocketmq.client.exception.MQClientException;
+import org.apache.rocketmq.client.producer.DefaultMQProducer;
+import org.springframework.stereotype.Component;
+
+/**
+ * @author 
+ * @date 2021/10/20.
+ */
+@Slf4j
+@Component
+public class Producer &#123;
+    private String producerGroup = &quot;please_rename_unique_group_name&quot;;
+    private DefaultMQProducer producer;
+
+    public Producer()&#123;
+        //示例生产者
+        producer = new DefaultMQProducer(producerGroup);
+        //不开启vip通道 开通口端口会减2
+        producer.setVipChannelEnabled(false);
+        //绑定name server
+        producer.setNamesrvAddr(JmsConfig.NAME_SERVER);
+        start();
+    &#125;
+    /**
+     * 对象在使用之前必须要调用一次，只能初始化一次
+     */
+    public void start()&#123;
+        try &#123;
+            this.producer.start();
+        &#125; catch (MQClientException e) &#123;
+            e.printStackTrace();
+        &#125;
+    &#125;
+
+    public DefaultMQProducer getProducer()&#123;
+        return this.producer;
+    &#125;
+    /**
+     * 一般在应用上下文，使用上下文监听器，进行关闭
+     */
+    public void shutdown()&#123;
+        this.producer.shutdown();
+    &#125;
+&#125;
+</code></pre>
+<h4 id="消费者"><a href="#消费者" class="headerlink" title="消费者"></a>消费者</h4><pre><code class="java">package com.pengpeng.rocketmq.consumer;
+
+import com.pengpeng.rocketmq.config.JmsConfig;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;
+import org.apache.rocketmq.client.consumer.listener.ConsumeConcurrentlyStatus;
+import org.apache.rocketmq.client.consumer.listener.MessageListenerConcurrently;
+import org.apache.rocketmq.client.exception.MQClientException;
+import org.apache.rocketmq.common.consumer.ConsumeFromWhere;
+import org.apache.rocketmq.common.message.Message;
+import org.apache.rocketmq.remoting.common.RemotingHelper;
+import org.springframework.stereotype.Component;
+
+import java.io.UnsupportedEncodingException;
+
+/**
+ * @author 
+ * @date 2021/10/20.
+ */
+@Slf4j
+@Component
+public class BatchConsumer &#123;
+
+    /**
+     * 消费者实体对象
+     */
+    private DefaultMQPushConsumer consumer;
+    /**
+     * 主题名称 主题一般是服务器设置好 而不能在代码里去新建topic（ 如果没有创建好，生产者往该主题发送消息 会报找不到topic错误）
+     */
+    public static final String TOPIC = &quot;TOPIC_BATCH_CONSUMER&quot;;
+    /**
+     * 消费者组
+     */
+    public static final String CONSUMER_GROUP = &quot;batch_group_name&quot;;
+    /**
+     * 通过构造函数 实例化对象
+     */
+    public BatchConsumer() throws MQClientException &#123;
+
+        consumer = new DefaultMQPushConsumer(CONSUMER_GROUP);
+        consumer.setNamesrvAddr(JmsConfig.NAME_SERVER);
+        //消费模式:一个新的订阅组第一次启动从队列的最后位置开始消费 后续再启动接着上次消费的进度开始消费
+        consumer.setConsumeFromWhere(ConsumeFromWhere.CONSUME_FROM_LAST_OFFSET);
+        //订阅主题和 标签（ * 代表所有标签)下信息
+        consumer.subscribe(TOPIC, &quot;*&quot;);
+        // //注册消费的监听 并在此监听中消费信息，并返回消费的状态信息
+        consumer.registerMessageListener((MessageListenerConcurrently) (msgs, context) -&gt; &#123;
+            // msgs中只收集同一个topic，同一个tag，并且key相同的message
+            // 会把不同的消息分别放置到不同的队列中
+            try &#123;
+                for (Message msg : msgs) &#123;
+
+                    //消费者获取消息 这里只输出 不做后面逻辑处理
+                    String body = new String(msg.getBody(), RemotingHelper.DEFAULT_CHARSET);
+                    log.info(&quot;Batch-Consumer-获取消息-主题topic为=&#123;&#125;, 消费消息为=&#123;&#125;&quot;, msg.getTopic(), body);
+                &#125;
+            &#125; catch (UnsupportedEncodingException e) &#123;
+                e.printStackTrace();
+                return ConsumeConcurrentlyStatus.RECONSUME_LATER;
+            &#125;
+            return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
+        &#125;);
+
+        consumer.start();
+        System.out.println(&quot;BatchConsumer消费者 启动成功=======&quot;);
+    &#125;
+&#125;
+</code></pre>
+<h4 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h4><pre><code class="java">package com.pengpeng.rocketmq.web;
 
 import com.pengpeng.rocketmq.consumer.BatchConsumer;
 import com.pengpeng.rocketmq.consumer.Consumer;
@@ -448,7 +566,7 @@ public class BatchController &#123;
     &#125;
 &#125;
 </code></pre>
-<h4 id="消息拆分工具方法"><a href="#消息拆分工具方法" class="headerlink" title="消息拆分工具方法"></a>消息拆分工具方法</h4><pre><code class="java">package com.pengpeng.rocketmq.web;
+<h4 id="数据拆分工具"><a href="#数据拆分工具" class="headerlink" title="数据拆分工具"></a>数据拆分工具</h4><pre><code class="java">package com.pengpeng.rocketmq.web;
 
 import org.apache.rocketmq.common.message.Message;
 
@@ -501,75 +619,6 @@ public class ListSplitter implements Iterator&lt;List&lt;Message&gt;&gt; &#123;
         List&lt;Message&gt; subList = messages.subList(currIndex, nextIndex);
         currIndex = nextIndex;
         return subList;
-    &#125;
-&#125;
-</code></pre>
-<h3 id="消费者"><a href="#消费者" class="headerlink" title="消费者"></a>消费者</h3><pre><code class="java">package com.pengpeng.rocketmq.consumer;
-
-import com.pengpeng.rocketmq.config.JmsConfig;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;
-import org.apache.rocketmq.client.consumer.listener.ConsumeConcurrentlyStatus;
-import org.apache.rocketmq.client.consumer.listener.MessageListenerConcurrently;
-import org.apache.rocketmq.client.exception.MQClientException;
-import org.apache.rocketmq.common.consumer.ConsumeFromWhere;
-import org.apache.rocketmq.common.message.Message;
-import org.apache.rocketmq.remoting.common.RemotingHelper;
-import org.springframework.stereotype.Component;
-
-import java.io.UnsupportedEncodingException;
-
-/**
- * @author 
- * @date 2021/10/20.
- */
-@Slf4j
-@Component
-public class BatchConsumer &#123;
-
-    /**
-     * 消费者实体对象
-     */
-    private DefaultMQPushConsumer consumer;
-    /**
-     * 主题名称 主题一般是服务器设置好 而不能在代码里去新建topic（ 如果没有创建好，生产者往该主题发送消息 会报找不到topic错误）
-     */
-    public static final String TOPIC = &quot;TOPIC_BATCH_CONSUMER&quot;;
-    /**
-     * 消费者组
-     */
-    public static final String CONSUMER_GROUP = &quot;batch_group_name&quot;;
-    /**
-     * 通过构造函数 实例化对象
-     */
-    public BatchConsumer() throws MQClientException &#123;
-
-        consumer = new DefaultMQPushConsumer(CONSUMER_GROUP);
-        consumer.setNamesrvAddr(JmsConfig.NAME_SERVER);
-        //消费模式:一个新的订阅组第一次启动从队列的最后位置开始消费 后续再启动接着上次消费的进度开始消费
-        consumer.setConsumeFromWhere(ConsumeFromWhere.CONSUME_FROM_LAST_OFFSET);
-        //订阅主题和 标签（ * 代表所有标签)下信息
-        consumer.subscribe(TOPIC, &quot;*&quot;);
-        // //注册消费的监听 并在此监听中消费信息，并返回消费的状态信息
-        consumer.registerMessageListener((MessageListenerConcurrently) (msgs, context) -&gt; &#123;
-            // msgs中只收集同一个topic，同一个tag，并且key相同的message
-            // 会把不同的消息分别放置到不同的队列中
-            try &#123;
-                for (Message msg : msgs) &#123;
-
-                    //消费者获取消息 这里只输出 不做后面逻辑处理
-                    String body = new String(msg.getBody(), RemotingHelper.DEFAULT_CHARSET);
-                    log.info(&quot;Batch-Consumer-获取消息-主题topic为=&#123;&#125;, 消费消息为=&#123;&#125;&quot;, msg.getTopic(), body);
-                &#125;
-            &#125; catch (UnsupportedEncodingException e) &#123;
-                e.printStackTrace();
-                return ConsumeConcurrentlyStatus.RECONSUME_LATER;
-            &#125;
-            return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
-        &#125;);
-
-        consumer.start();
-        System.out.println(&quot;BatchConsumer消费者 启动成功=======&quot;);
     &#125;
 &#125;
 </code></pre>

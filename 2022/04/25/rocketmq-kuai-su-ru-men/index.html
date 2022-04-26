@@ -358,7 +358,7 @@
     <span>TOC</span>
   </div>
   <div class="widget-body">
-    <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B7%BB%E5%8A%A0%E4%BE%9D%E8%B5%96"><span class="toc-number">1.</span> <span class="toc-text">添加依赖</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8F%90%E4%BE%9B%E8%80%85"><span class="toc-number">2.</span> <span class="toc-text">提供者</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B6%88%E8%B4%B9%E8%80%85"><span class="toc-number">3.</span> <span class="toc-text">消费者</span></a></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B7%BB%E5%8A%A0%E4%BE%9D%E8%B5%96"><span class="toc-number">1.</span> <span class="toc-text">添加依赖</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8F%90%E4%BE%9B%E8%80%85"><span class="toc-number">2.</span> <span class="toc-text">提供者</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B6%88%E8%B4%B9%E8%80%85"><span class="toc-number">3.</span> <span class="toc-text">消费者</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95"><span class="toc-number">4.</span> <span class="toc-text">测试</span></a></li></ol>
   </div>
 </section>
 
@@ -376,105 +376,52 @@
     &lt;version&gt;4.9.3&lt;/version&gt;
 &lt;/dependency&gt;
 </code></pre>
-<h4 id="提供者"><a href="#提供者" class="headerlink" title="提供者"></a>提供者</h4><pre><code class="java">package com.pengpeng.rocketmq.web;
+<h4 id="提供者"><a href="#提供者" class="headerlink" title="提供者"></a>提供者</h4><pre><code class="java">package com.pengpeng.rocketmq.producer;
 
-import com.pengpeng.rocketmq.consumer.Consumer;
-import com.pengpeng.rocketmq.producer.Producer;
+import com.pengpeng.rocketmq.config.JmsConfig;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.rocketmq.client.producer.SendCallback;
-import org.apache.rocketmq.client.producer.SendResult;
-import org.apache.rocketmq.common.message.Message;
-import org.apache.rocketmq.remoting.common.RemotingHelper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.util.concurrent.CountDownLatch;
+import org.apache.rocketmq.client.exception.MQClientException;
+import org.apache.rocketmq.client.producer.DefaultMQProducer;
+import org.springframework.stereotype.Component;
 
 /**
  * @author 
  * @date 2021/10/20.
  */
 @Slf4j
-@RestController
-@RequestMapping(&quot;/test&quot;)
-public class Controller &#123;
+@Component
+public class Producer &#123;
+    private String producerGroup = &quot;please_rename_unique_group_name&quot;;
+    private DefaultMQProducer producer;
 
-    @Autowired
-    private Producer producer;
-
+    public Producer()&#123;
+        //示例生产者
+        producer = new DefaultMQProducer(producerGroup);
+        //不开启vip通道 开通口端口会减2
+        producer.setVipChannelEnabled(false);
+        //绑定name server
+        producer.setNamesrvAddr(JmsConfig.NAME_SERVER);
+        start();
+    &#125;
     /**
-     * 可靠的同步传输广泛应用于大量场景，如重要通知消息、短信通知、短信营销系统等。
-     * @return
-     * @throws Exception
+     * 对象在使用之前必须要调用一次，只能初始化一次
      */
-    @RequestMapping(&quot;/syncProducer&quot;)
-    public Object syncProducer() throws Exception &#123;
-        //总共发送五次消息
-        for (int i = 0; i &lt; 5; i++) &#123;
-            //创建生产信息
-            Message message = new Message(Consumer.TOPIC, &quot;TagA&quot;, (&quot;Hello RocketMQ:&quot; + i).getBytes(RemotingHelper.DEFAULT_CHARSET));
-            //发送
-            SendResult sendResult = producer.getProducer().send(message);
-            log.info(&quot;输出生产者信息=&#123;&#125;&quot;,sendResult);
+    public void start()&#123;
+        try &#123;
+            this.producer.start();
+        &#125; catch (MQClientException e) &#123;
+            e.printStackTrace();
         &#125;
-        return &quot;成功&quot;;
     &#125;
 
-    /**
-     * 异步传输通常用于响应时间敏感型业务场景。
-     * @return
-     * @throws Exception
-     */
-    @RequestMapping(&quot;/asyncProducer&quot;)
-    public Object callback() throws Exception &#123;
-        //总共发送五次消息
-        int messageCount = 5;
-        final CountDownLatch countDownLatch = new CountDownLatch(messageCount);
-        for (int i = 0;i&lt;messageCount;i++) &#123;
-            try &#123;
-
-                final int index = i;
-                //创建生产信息
-                Message message = new Message(Consumer.TOPIC, &quot;TagA&quot;, &quot;OrderID188&quot;, (&quot;Hello World&quot;).getBytes(RemotingHelper.DEFAULT_CHARSET));
-                //发送
-                producer.getProducer().send(message, new SendCallback() &#123;
-                    @Override
-                    public void onSuccess(SendResult sendResult) &#123;
-                        countDownLatch.countDown();
-                        System.out.printf(&quot;%-10d OK %s %n&quot;, index, sendResult.getMsgId());
-                    &#125;
-
-                    @Override
-                    public void onException(Throwable e) &#123;
-                        countDownLatch.countDown();
-                        System.out.printf(&quot;%-10d Exception %s %n&quot;, index, e);
-                        e.printStackTrace();
-                    &#125;
-                &#125;);
-            &#125; catch (Exception e) &#123;
-                e.printStackTrace();
-            &#125;
-        &#125;
-        return &quot;成功&quot;;
+    public DefaultMQProducer getProducer()&#123;
+        return this.producer;
     &#125;
-
     /**
-     * 单向传输用于需要中等可靠性的情况，例如日志收集。
-     * @return
-     * @throws Exception
+     * 一般在应用上下文，使用上下文监听器，进行关闭
      */
-    @RequestMapping(&quot;/onewayProducer&quot;)
-    public Object onewayProducer() throws Exception &#123;
-        //总共发送五次消息
-        for (int i = 0; i &lt; 5; i++) &#123;
-            //创建生产信息
-            Message message = new Message(Consumer.TOPIC, &quot;TagA&quot;, (&quot;Hello RocketMQ:&quot; + i).getBytes(RemotingHelper.DEFAULT_CHARSET));
-            //发送
-            producer.getProducer().sendOneway(message);
-        &#125;
-        Thread.sleep(5000);
-        return &quot;成功&quot;;
+    public void shutdown()&#123;
+        this.producer.shutdown();
     &#125;
 &#125;
 </code></pre>
@@ -544,6 +491,108 @@ public class Consumer &#123;
 
         consumer.start();
         System.out.println(&quot;Consumer消费者 启动成功=======&quot;);
+    &#125;
+&#125;
+</code></pre>
+<h4 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h4><pre><code class="java">package com.pengpeng.rocketmq.web;
+
+import com.pengpeng.rocketmq.consumer.Consumer;
+import com.pengpeng.rocketmq.producer.Producer;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.rocketmq.client.producer.SendCallback;
+import org.apache.rocketmq.client.producer.SendResult;
+import org.apache.rocketmq.common.message.Message;
+import org.apache.rocketmq.remoting.common.RemotingHelper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.concurrent.CountDownLatch;
+
+/**
+ * @author 
+ * @date 2021/10/20.
+ */
+@Slf4j
+@RestController
+@RequestMapping(&quot;/test&quot;)
+public class Controller &#123;
+
+    @Autowired
+    private Producer producer;
+
+    /**
+     * 可靠的同步传输广泛应用于大量场景，如重要通知消息、短信通知、短信营销系统等。
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(&quot;/syncProducer&quot;)
+    public Object syncProducer() throws Exception &#123;
+        //总共发送五次消息
+        for (int i = 0; i &lt; 20; i++) &#123;
+            //创建生产信息
+            Message message = new Message(Consumer.TOPIC, &quot;TagA&quot;, (&quot;Hello RocketMQ:&quot; + i).getBytes(RemotingHelper.DEFAULT_CHARSET));
+            //发送
+            SendResult sendResult = producer.getProducer().send(message);
+            log.info(&quot;输出生产者信息=&#123;&#125;&quot;,sendResult);
+        &#125;
+        return &quot;成功&quot;;
+    &#125;
+
+    /**
+     * 异步传输通常用于响应时间敏感型业务场景。
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(&quot;/asyncProducer&quot;)
+    public Object callback() throws Exception &#123;
+        //总共发送五次消息
+        int messageCount = 20;
+        final CountDownLatch countDownLatch = new CountDownLatch(messageCount);
+        for (int i = 0;i&lt;messageCount;i++) &#123;
+            try &#123;
+
+                final int index = i;
+                //创建生产信息
+                Message message = new Message(Consumer.TOPIC, &quot;TagA&quot;, &quot;OrderID188&quot;, (&quot;Hello World&quot;).getBytes(RemotingHelper.DEFAULT_CHARSET));
+                //发送
+                producer.getProducer().send(message, new SendCallback() &#123;
+                    @Override
+                    public void onSuccess(SendResult sendResult) &#123;
+                        countDownLatch.countDown();
+                        System.out.printf(&quot;%-10d OK %s %n&quot;, index, sendResult.getMsgId());
+                    &#125;
+
+                    @Override
+                    public void onException(Throwable e) &#123;
+                        countDownLatch.countDown();
+                        System.out.printf(&quot;%-10d Exception %s %n&quot;, index, e);
+                        e.printStackTrace();
+                    &#125;
+                &#125;);
+            &#125; catch (Exception e) &#123;
+                e.printStackTrace();
+            &#125;
+        &#125;
+        return &quot;成功&quot;;
+    &#125;
+
+    /**
+     * 单向传输用于需要中等可靠性的情况，例如日志收集。
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(&quot;/onewayProducer&quot;)
+    public Object onewayProducer() throws Exception &#123;
+        //总共发送五次消息
+        for (int i = 0; i &lt; 20; i++) &#123;
+            //创建生产信息
+            Message message = new Message(Consumer.TOPIC, &quot;TagA&quot;, (&quot;Hello RocketMQ:&quot; + i).getBytes(RemotingHelper.DEFAULT_CHARSET));
+            //发送
+            producer.getProducer().sendOneway(message);
+        &#125;
+        Thread.sleep(5000);
+        return &quot;成功&quot;;
     &#125;
 &#125;
 </code></pre>

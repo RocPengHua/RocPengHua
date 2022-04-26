@@ -24,7 +24,7 @@
 
   
 
-  <title>安全问题整改 | 小鹏驿站</title>
+  <title>centos7安装kafka | 小鹏驿站</title>
 
   
 
@@ -44,7 +44,7 @@
 <!-- header container -->
 <header class="header-container post">
   
-    <div class="post-image" style="background-image: url(/images/upload/2021/10/2.jpg)"></div>
+    <div class="post-image" style="background-image: url(&#39;https://api.lixingyong.com/api/images?postid=1ba822d5&amp;type=url&amp;itype=image&#39;)"></div>
   
   <!-- navbar -->
 <nav class="navbar">
@@ -282,18 +282,20 @@
     <div class="header-content">
       <div class="post-text layout-block">
         <div class="layout-margin">
-          <h1 class="title-wrap" title="觉宇宙之无穷，识盈虚之有数">安全问题整改</h1>
+          <h1 class="title-wrap" title="觉宇宙之无穷，识盈虚之有数">centos7安装kafka</h1>
           <h2 class="title-sub-wrap">
             <strong>RocPengHua</strong>
             <span>发布于</span>
-            <time  class="article-date" datetime="2022-04-07T01:48:20.000Z" itemprop="datePublished">2022-04-07</time>
+            <time  class="article-date" datetime="2022-04-26T14:10:04.000Z" itemprop="datePublished">2022-04-26</time>
           </h2>
           <ul class="wrap-list dark">
   
-    <li><a href="/categories/%E9%97%AE%E9%A2%98/">📒 问题</a></li>
+    <li><a href="/categories/%E8%BD%AF%E4%BB%B6/">📒 软件</a></li>
   
 </ul>
           <ul class="wrap-list dark">
+  
+    <li><a href="/tags/kafka/">🏷️ kafka</a></li>
   
 </ul>
         </div>
@@ -348,6 +350,18 @@
 </section>
     
       
+<section class="widget-toc widget-item layout-margin content-padding--primary soft-size--large soft-style--box">
+  <div class="widget-title">
+    <svg class="icon icon-toc" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M134.50666666 767.46666668H460.8c27.73333333 0 50.24000001 22.50666668 50.24000001 50.23999999v50.13333333c0 27.73333333-22.50666668 50.24000001-50.24000001 50.24000001H134.50666666c-27.73333333 0-50.24000001-22.50666668-50.23999999-50.24000001v-50.13333333c0.10666668-27.73333333 22.50666668-50.24000001 50.24000001-50.24000001zM84.37333332 541.65333333h326.18666669c27.73333333 0 50.24000001 22.39999999 50.23999999 50.13333334v50.24000001c0 27.73333333-22.50666668 50.24000001-50.24000002 50.23999999H84.37333332c-27.73333333 0-50.24000001-22.50666668-50.23999999-50.23999999v-50.24000001c0-27.73333333 22.50666668-50.13333334 50.24000001-50.13333334zM134.50666666 315.83999999H460.8c27.73333333 0 50.24000001 22.50666668 50.24000001 50.24000001v50.24000001c0 27.73333333-22.50666668 50.13333334-50.24000001 50.13333333H134.50666666c-27.73333333 0-50.24000001-22.39999999-50.23999999-50.13333333v-50.24000001c0.10666668-27.84000001 22.50666668-50.24000001 50.24000001-50.23999999zM209.81333332 89.91999999h326.18666671c27.73333333 0 50.24000001 22.39999999 50.23999997 50.13333335v50.23999999c0 27.73333333-22.50666668 50.24000001-50.24000001 50.24000001H209.81333332c-27.73333333 0-50.24000001-22.50666668-50.23999999-50.24000001v-50.24000001c0-27.73333333 22.50666668-50.13333334 50.24000001-50.13333333zM692.05333333 623.36l274.66666669 176.00000002c23.36000001 14.93333333 30.08 45.97333334 15.14666666 69.33333332L954.77333334 910.93333333c-14.93333333 23.25333334-45.97333334 30.08-69.33333335 15.14666667l-274.66666666-176c-23.36000001-14.93333333-30.08-45.97333334-15.14666667-69.33333333l27.09333334-42.24000001c14.93333333-23.36000001 46.08000001-30.08 69.33333333-15.14666666z" fill="currentColor"></path>
+</svg>
+    <span>TOC</span>
+  </div>
+  <div class="widget-body">
+    <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#download"><span class="toc-number">1.</span> <span class="toc-text">download</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%A7%A3%E5%8E%8B"><span class="toc-number">2.</span> <span class="toc-text">解压</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9%E9%85%8D%E7%BD%AE"><span class="toc-number">3.</span> <span class="toc-text">修改配置</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9server-properties"><span class="toc-number">3.1.</span> <span class="toc-text">修改server.properties</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9zookeeper-properties"><span class="toc-number">3.2.</span> <span class="toc-text">修改zookeeper.properties</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%90%AF%E5%8A%A8"><span class="toc-number">4.</span> <span class="toc-text">启动</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%B3%E9%97%AD"><span class="toc-number">5.</span> <span class="toc-text">关闭</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95"><span class="toc-number">6.</span> <span class="toc-text">测试</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%91%BD%E4%BB%A4%E8%AF%B4%E6%98%8E"><span class="toc-number">6.1.</span> <span class="toc-text">命令说明</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E2%80%93create-%E2%80%93topic"><span class="toc-number">6.2.</span> <span class="toc-text">–create –topic</span></a></li></ol></li></ol>
+  </div>
+</section>
+
     </div>
   
     <div class="article-info">
@@ -356,217 +370,52 @@
       
       
       <section id="blog-content" class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
-        <h2 id="1、心脏滴血安全问题"><a href="#1、心脏滴血安全问题" class="headerlink" title="1、心脏滴血安全问题"></a>1、心脏滴血安全问题</h2><p>​	就是把openssl版本换成了1.0.1g，然后重新编译了Nginx</p>
-<h2 id="2、加密会话（SSL-）Cookie-中缺少-Secure"><a href="#2、加密会话（SSL-）Cookie-中缺少-Secure" class="headerlink" title="2、加密会话（SSL ）Cookie  中缺少 Secure"></a>2、加密会话（SSL ）Cookie  中缺少 Secure</h2><p>​	web.xml 配置</p>
-<pre><code class="xml">&lt;session-config&gt;
-    &lt;cookie-config&gt;
-        &lt;secure&gt;true&lt;/secure&gt;
-    &lt;/cookie-config&gt;
-&lt;/session-config&gt;
+        <h4 id="download"><a href="#download" class="headerlink" title="download"></a>download</h4><p><a target="_blank" rel="noopener" href="https://kafka.apache.org/downloads">Apache Kafka</a></p>
+<p><a target="_blank" rel="noopener" href="https://dlcdn.apache.org/kafka/3.1.0/kafka_2.12-3.1.0.tgz"><strong>https://dlcdn.apache.org/kafka/3.1.0/kafka_2.12-3.1.0.tgz</strong></a></p>
+<h4 id="解压"><a href="#解压" class="headerlink" title="解压"></a>解压</h4><pre><code class="shell">tar -zxvf kafka_2.12-3.1.0.tgz -C /opt/module/
 </code></pre>
-<h2 id="3、X-Frame-Options"><a href="#3、X-Frame-Options" class="headerlink" title="3、X-Frame-Options"></a>3、X-Frame-Options</h2><p>​	过滤器xml配置</p>
-<pre><code class="xml">&lt;filter&gt;
-    &lt;filter-name&gt;xFrameOptionFilter&lt;/filter-name&gt;
-    &lt;filter-class&gt;XFrameOptionFilter&lt;/filter-class&gt;
-    &lt;async-supported&gt;true&lt;/async-supported&gt;
-&lt;/filter&gt;
-&lt;filter-mapping&gt;
-    &lt;filter-name&gt;xFrameOptionFilter&lt;/filter-name&gt;
-    &lt;url-pattern&gt;/*&lt;/url-pattern&gt;
-&lt;/filter-mapping&gt;
+<h4 id="修改配置"><a href="#修改配置" class="headerlink" title="修改配置"></a>修改配置</h4><pre><code class="shell">cd /opt/module/kafka/config
+vim server.properties
+vim zookeeper.properties
 </code></pre>
-<p>​	过滤器java</p>
-<pre><code class="java">HttpServletResponse response=(HttpServletResponse) rep;
-    response.addHeader(&quot;x-frame-options&quot;,&quot;SAMEORIGIN&quot;);
-    chain.doFilter(req, response);
+<h5 id="修改server-properties"><a href="#修改server-properties" class="headerlink" title="修改server.properties"></a>修改server.properties</h5><pre><code class="properties">#存储数据文件夹
+log.dirs=/opt/module/kafka/datas
+#如果集群要修改broker.id数字不重复
+#broker.id=0
+#集群后面改成集群配置
+#zookeeper.connect=localhost:2181/kafka
 </code></pre>
-<h2 id="4、存储性xss攻击（前端解决方法）"><a href="#4、存储性xss攻击（前端解决方法）" class="headerlink" title="4、存储性xss攻击（前端解决方法）"></a>4、存储性xss攻击（前端解决方法）</h2><p>​	xss.js路径&lt;C:\Users\Administrator\Desktop\work\xss.js&gt;</p>
-<p>​	引入xss.js    调用filterXSS方法</p>
-<h2 id="5、启用了不安全的HTTP方法（OPTIONS）"><a href="#5、启用了不安全的HTTP方法（OPTIONS）" class="headerlink" title="5、启用了不安全的HTTP方法（OPTIONS）"></a>5、启用了不安全的HTTP方法（OPTIONS）</h2><p>​	 在web.xml添加</p>
-<pre><code class="xml">&lt;security-constraint&gt;
-    &lt;web-resource-collection&gt;
-        &lt;web-resource-name&gt;HttpMethod&lt;/web-resource-name&gt;
-        &lt;description&gt;HttpMethod&lt;/description&gt;
-        &lt;url-pattern&gt;/*&lt;/url-pattern&gt;
-        &lt;http-method&gt;PUT&lt;/http-method&gt;
-        &lt;http-method&gt;DELETE&lt;/http-method&gt;
-        &lt;http-method&gt;HEAD&lt;/http-method&gt; 
-        &lt;http-method&gt;OPTIONS&lt;/http-method&gt;
-        &lt;http-method&gt;TRACE&lt;/http-method&gt;
-        &lt;http-method&gt;PATH&lt;/http-method&gt;
-    &lt;/web-resource-collection&gt;
-    &lt;auth-constraint&gt;&lt;/auth-constraint&gt;
-&lt;/security-constraint&gt;
+<h5 id="修改zookeeper-properties"><a href="#修改zookeeper-properties" class="headerlink" title="修改zookeeper.properties"></a>修改zookeeper.properties</h5><pre><code class="properties">#存储数据文件夹
+dataDir=/opt/module/kafka/zookeeper
 </code></pre>
-<h2 id="6、错误信息泄露中间件版本信息。-web-xml配置错误页面（poseidon）"><a href="#6、错误信息泄露中间件版本信息。-web-xml配置错误页面（poseidon）" class="headerlink" title="6、错误信息泄露中间件版本信息。  web.xml配置错误页面（poseidon）"></a>6、错误信息泄露中间件版本信息。  web.xml配置错误页面（poseidon）</h2><pre><code class="xml">&lt;error-page&gt;  
-&lt;error-code&gt;400&lt;/error-code&gt;  
-&lt;location&gt;/error/error.html&lt;/location&gt;  
-&lt;/error-page&gt; 
+<h4 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h4><pre><code class="shell">cd /opt/module/kafka/bin
+#先启动zookeeper
+./zookeeper-server-start.sh ../config/zookeeper.properties
 </code></pre>
-<h2 id="7、网站存在样例-x2F-说明文件"><a href="#7、网站存在样例-x2F-说明文件" class="headerlink" title="7、网站存在样例&#x2F;说明文件"></a>7、网站存在样例&#x2F;说明文件</h2><p>​	删除wepapps&#x2F;docs</p>
-<h2 id="8、jsp转码安全漏洞"><a href="#8、jsp转码安全漏洞" class="headerlink" title="8、jsp转码安全漏洞"></a>8、jsp转码安全漏洞</h2><p>​	&lt;%&#x3D;ESAPI.encoder().encodeForJavaScript(String.valueOf(request.getParameter(“mapTool”)))%&gt;</p>
-<h2 id="9、Fortify-fix-for-XML-External-Entity-Injection"><a href="#9、Fortify-fix-for-XML-External-Entity-Injection" class="headerlink" title="9、Fortify fix for XML External Entity Injection"></a>9、Fortify fix for XML External Entity Injection</h2><h4 id="1）、TransformerFactory-trfactory-x3D-TransformerFactory-newInstance"><a href="#1）、TransformerFactory-trfactory-x3D-TransformerFactory-newInstance" class="headerlink" title="1）、TransformerFactory trfactory &#x3D; TransformerFactory.newInstance();"></a>1）、TransformerFactory trfactory &#x3D; TransformerFactory.newInstance();</h4><pre><code class="java">//TransformerFactory trfactory = TransformerFactory.newInstance(); 
-//使用以下实现类替换
-TransformerFactoryImpl transformerFactoryImpl = new TransformerFactoryImpl();
-Transformer transformer = transformerFactoryImpl.newTransformer();
+<p>打开新的窗口启动kafka</p>
+<pre><code class="shell">cd /opt/module/kafka/bin
+#先启动zookeeper
+./kafkar-server-start.sh ../config/server.properties
 </code></pre>
-<h4 id="2）、DocumentBuilder-x3D-x3D-gt-parse-is"><a href="#2）、DocumentBuilder-x3D-x3D-gt-parse-is" class="headerlink" title="2）、DocumentBuilder &#x3D;&#x3D;&gt;parse(is);"></a>2）、DocumentBuilder &#x3D;&#x3D;&gt;parse(is);</h4><pre><code class="java">DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-        
-        
-String FEATURE = null;
-try &#123;
-    FEATURE = &quot;http://apache.org/xml/features/disallow-doctype-decl&quot;;
-    dbf.setFeature(FEATURE, true);
-    FEATURE = &quot;http://xml.org/sax/features/external-general-entities&quot;;
-    dbf.setFeature(FEATURE, false);
-    FEATURE = &quot;http://xml.org/sax/features/external-parameter-entities&quot;;
-    dbf.setFeature(FEATURE, false);
-    FEATURE = &quot;http://apache.org/xml/features/nonvalidating/load-external-dtd&quot;;
-    dbf.setFeature(FEATURE, false);
-    dbf.setXIncludeAware(false);
-    dbf.setExpandEntityReferences(false);
-&#125; catch (Exception e) &#123;
-    e.printStackTrace();
-&#125;
-
-
-DocumentBuilder builder = dbf.newDocumentBuilder();
-InputSource is = new InputSource();
-is.setCharacterStream(new StringReader(filterXXE(xml)));
-Document doc = builder.parse(is);
+<h4 id="关闭"><a href="#关闭" class="headerlink" title="关闭"></a>关闭</h4><p>先关闭kafka再关闭zookeeper</p>
+<pre><code class="shell">cd /opt/module/kafka/bin
+./kafkar-server-stop.sh
+./zookeeper-server-stop.sh
 </code></pre>
-<p>参考：<a target="_blank" rel="noopener" href="https://github.com/OWASP/CheatSheetSeries/blob/master/cheatsheets/XML_External_Entity_Prevention_Cheat_Sheet.md">https://github.com/OWASP/CheatSheetSeries/blob/master/cheatsheets/XML_External_Entity_Prevention_Cheat_Sheet.md</a></p>
-<h2 id="10、Random随机数问题"><a href="#10、Random随机数问题" class="headerlink" title="10、Random随机数问题"></a>10、Random随机数问题</h2><pre><code class="java">private SecureRandom random() throws NoSuchAlgorithmException&#123;
-    return SecureRandom.getInstance(&quot;SHA1PRNG&quot;);
-&#125;
-//使用SecureRandom替换Random
+<h4 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h4><h5 id="命令说明"><a href="#命令说明" class="headerlink" title="命令说明"></a>命令说明</h5><pre><code class="tex">--bootstrap-server &lt;String: server toconnect to&gt; 连接的 Kafka Broker 主机名称和端口号。
+--topic &lt;String: topic&gt; 操作的 topic 名称。
+--create 创建主题。
+--delete 删除主题。
+--alter 修改主题。
+--list 查看所有主题。
+--describe 查看主题详细描述。
+--partitions &lt;Integer: # of partitions&gt; 设置分区数。
+--replication-factor&lt;Integer: replication factor&gt; 设置分区副本。
+--config &lt;String: name=value&gt; 更新系统默认的配置。
 </code></pre>
-<h2 id="11、Header-Manipulation"><a href="#11、Header-Manipulation" class="headerlink" title="11、Header Manipulation"></a>11、Header Manipulation</h2><pre><code class="java">//response.addHeader(&quot;Content-Disposition&quot;,&quot;attachment;filename=&quot; + fileOrgnName);
-//将文件名过滤
-public String filterFileName(String filename)&#123;
-    String regex = &quot;[`~!@#$%^&amp;*()\\+\\=\\&#123;&#125;|:\&quot;?&gt;&lt;【】\\/r\\/n]&quot;;
-    Pattern pa = Pattern.compile(regex);
-    Matcher ma = pa.matcher(filename);
-    if(ma.find())&#123;
-        filename = ma.replaceAll(&quot;&quot;);
-    &#125;
-    return filename;
-&#125;
-response.addHeader(&quot;Content-Disposition&quot;,&quot;attachment;filename=&quot; + filterFileName(fileOrgnName));
-</code></pre>
-<h2 id="12、Access-Control-Database"><a href="#12、Access-Control-Database" class="headerlink" title="12、Access Control:Database"></a>12、Access Control:Database</h2><p>单字符串 <code>StringEscapeUtils.escapeSql(）</code>转义<br>对象可以使用JSON转化</p>
-<pre><code class="java">import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-public class JSONUtils &#123;
-    private static final ObjectMapper MAPPER = new ObjectMapper();
-    public static &lt;T&gt; List&lt;T&gt; jsonToList(String jsonText,Class&lt;T&gt; clazz) &#123;
-        try &#123;
-            return MAPPER.readValue(jsonText, new TypeReference&lt;List&lt;T&gt;&gt;() &#123;&#125;);
-        &#125; catch (JsonProcessingException e) &#123;
-            e.printStackTrace();
-        &#125;
-        return new ArrayList&lt;&gt;();
-    &#125;
-    public static &lt;T&gt; String listToJson(List&lt;T&gt; list,Class&lt;T&gt; clazz)&#123;
-        try &#123;
-            return MAPPER.writeValueAsString(list);
-        &#125; catch (JsonProcessingException e) &#123;
-            e.printStackTrace();
-        &#125;
-        return &quot;&quot;;
-    &#125;
-    
-    public static Map jsonToMap(String jsonText)&#123;
-        try &#123;
-            return MAPPER.readValue(jsonText, Map.class);
-        &#125; catch (JsonProcessingException e) &#123;
-            e.printStackTrace();
-        &#125;
-        return new HashMap();
-    &#125;
-    public static Map jsonToMapArr(String jsonText,String key)&#123;
-        try &#123;
-            Map map = MAPPER.readValue(jsonText, Map.class);
-            String[] keys = key.split(&quot;,&quot;);
-            for (String k:keys)&#123;
-                map.put(k,((List&lt;?&gt;)map.get(k)).toArray(new String[((List&lt;?&gt;)map.get(k)).size()]));
-            &#125;
-            return map;
-        &#125; catch (JsonProcessingException e) &#123;
-            e.printStackTrace();
-        &#125;
-        return new HashMap();
-    &#125;
-    
-    public static String mapToJson(Map map)&#123;
-        try &#123;
-            return MAPPER.writeValueAsString(map);
-        &#125; catch (JsonProcessingException e) &#123;
-            e.printStackTrace();
-        &#125;
-        return &quot;&quot;;
-    &#125;
-
-    @SuppressWarnings(&quot;unchecked&quot;)
-    public static &lt;T&gt; T jsonToObject(String jsonText,Class&lt;T&gt; clazz) &#123;
-        try &#123;
-            return MAPPER.readValue(jsonText, clazz);
-        &#125; catch (JsonProcessingException e) &#123;
-            e.printStackTrace();
-        &#125;
-        return null;
-    &#125;
-    public static &lt;T&gt; String ObjectToJson(T t,Class&lt;T&gt; clazz)&#123;
-        try &#123;
-            return MAPPER.writeValueAsString(t);
-        &#125; catch (JsonProcessingException e) &#123;
-            e.printStackTrace();
-        &#125;
-        return &quot;&quot;;
-    &#125;
-    
-    public static Object getMapValueByKey(Map&lt;String,Object&gt; param,String str)&#123;
-        return param.get(str) == null?&quot;&quot;:param.get(str);
-    &#125;
-&#125;
-</code></pre>
-<h2 id="13、Formula-Injection-Input-Validation-and-Representation-Data-Flow"><a href="#13、Formula-Injection-Input-Validation-and-Representation-Data-Flow" class="headerlink" title="13、Formula Injection (Input Validation and Representation, Data Flow)"></a>13、Formula Injection (Input Validation and Representation, Data Flow)</h2><p>导出excel时用bos.write会出现</p>
-<pre><code>is = DataDealUtil.dataToInputStram(tableName, tableUnit, tableData, tableTitle,cellWidth != null?cellWidth:6,cellHeight != null?cellHeight:12);
-            // 璁剧疆response鍙傛暟锛屽彲浠ユ墦寮�涓嬭浇椤甸潰
-            response.reset();
-            response.setContentType(&quot;application/vnd.ms-excel;charset=utf-8&quot;);
-
-            tableName = URLEncoder.encode(tableName, &quot;utf-8&quot;);
-            response.setHeader(&quot;Content-Disposition&quot;,&quot;attachment;filename=&quot; + tableName + &quot;.xls&quot;);
-
-            ServletOutputStream out = response.getOutputStream();
-            bis = new BufferedInputStream(is);
-            bos = new BufferedOutputStream(out);
-
-            byte[] buff = new byte[2048];
-            int bytesRead; // Simple read/write loop.
-
-            while (-1 != (bytesRead = bis.read(buff, 0, buff.length))) &#123;
-                bos.write(buff, 0, bytesRead);
-            &#125;
-</code></pre>
-<p>修改方式：直接使用HSSFWorkbook.write</p>
-<pre><code>workbook = DataDealUtil.dataToInputStram(tableName, tableUnit, tableData, tableTitle,cellWidth != null?cellWidth:6,cellHeight != null?cellHeight:12);
-            // 设置response参数，可以打开下载页面
-            response.reset();
-            response.setContentType(&quot;application/vnd.ms-excel;charset=utf-8&quot;);
-
-            tableName = URLEncoder.encode(tableName, &quot;utf-8&quot;);
-            response.setHeader(&quot;Content-Disposition&quot;,&quot;attachment;filename=&quot; + tableName + &quot;.xls&quot;);
-            output = response.getOutputStream();
-            workbook.write(output);
+<h5 id="–create-–topic"><a href="#–create-–topic" class="headerlink" title="–create –topic"></a>–create –topic</h5><pre><code class="shell">cd /opt/module/kafka/bin
+#集群需要设置分区
+./kafka-topics.sh --create --topic first --bootstrap-server localhost:9092
 </code></pre>
 
       </section>
@@ -575,32 +424,16 @@ public class JSONUtils &#123;
       
         <nav class="article-nav">
           
-            <div class="article-nav-item layout-padding">
-  <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
-    
-      <div class="card-cover" background-image-lazy data-img="/images/upload/2021/10/2.jpg"></div>
-    
-    <div class="card-text">
-      
-        <a href="/2022/04/07/centos-chu-shi-hua-an-zhuang/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">centos初始化安装</h2>
-        </a>
-      
-      <div class="card-text--row">Newer</div>
-    </div>
-  </article>
-</div>
-          
           
             <div class="article-nav-item layout-padding">
   <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
     
-      <div class="card-cover" background-image-lazy data-img="/images/upload/2021/10/1.jpg"></div>
+      <div class="card-cover" background-image-lazy data-img="https://api.lixingyong.com/api/images?postid=9670868b&type=url&itype=image"></div>
     
     <div class="card-text">
       
-        <a href="/2022/04/07/mysql-xiao-ji-qiao/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">mysql小技巧</h2>
+        <a href="/2022/04/25/rocketmq-zhi-shi-wu-mo-shi/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">rocketmq之事务模式</h2>
         </a>
       
       <div class="card-text--row">Older</div>

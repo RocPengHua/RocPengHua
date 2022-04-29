@@ -24,7 +24,7 @@
 
   
 
-  <title>解决mapper.xml不在resources下面无法编译的问题 | 小鹏驿站</title>
+  <title>rabbitmq | 小鹏驿站</title>
 
   
 
@@ -44,7 +44,7 @@
 <!-- header container -->
 <header class="header-container post">
   
-    <div class="post-image" style="background-image: url(/images/upload/2021/10/2.jpg)"></div>
+    <div class="post-image" style="background-image: url(&#39;https://api.lixingyong.com/api/images?postid=e2dfa8ec&amp;type=url&amp;itype=image&#39;)"></div>
   
   <!-- navbar -->
 <nav class="navbar">
@@ -282,18 +282,20 @@
     <div class="header-content">
       <div class="post-text layout-block">
         <div class="layout-margin">
-          <h1 class="title-wrap" title="觉宇宙之无穷，识盈虚之有数">解决mapper.xml不在resources下面无法编译的问题</h1>
+          <h1 class="title-wrap" title="觉宇宙之无穷，识盈虚之有数">rabbitmq</h1>
           <h2 class="title-sub-wrap">
             <strong>RocPengHua</strong>
             <span>发布于</span>
-            <time  class="article-date" datetime="2021-11-11T11:18:11.000Z" itemprop="datePublished">2021-11-11</time>
+            <time  class="article-date" datetime="2022-04-29T13:51:04.000Z" itemprop="datePublished">2022-04-29</time>
           </h2>
           <ul class="wrap-list dark">
   
-    <li><a href="/categories/%E9%97%AE%E9%A2%98/">📒 问题</a></li>
+    <li><a href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/">📒 中间件</a></li>
   
 </ul>
           <ul class="wrap-list dark">
+  
+    <li><a href="/tags/rabbitmq/">🏷️ rabbitmq</a></li>
   
 </ul>
         </div>
@@ -348,6 +350,18 @@
 </section>
     
       
+<section class="widget-toc widget-item layout-margin content-padding--primary soft-size--large soft-style--box">
+  <div class="widget-title">
+    <svg class="icon icon-toc" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M134.50666666 767.46666668H460.8c27.73333333 0 50.24000001 22.50666668 50.24000001 50.23999999v50.13333333c0 27.73333333-22.50666668 50.24000001-50.24000001 50.24000001H134.50666666c-27.73333333 0-50.24000001-22.50666668-50.23999999-50.24000001v-50.13333333c0.10666668-27.73333333 22.50666668-50.24000001 50.24000001-50.24000001zM84.37333332 541.65333333h326.18666669c27.73333333 0 50.24000001 22.39999999 50.23999999 50.13333334v50.24000001c0 27.73333333-22.50666668 50.24000001-50.24000002 50.23999999H84.37333332c-27.73333333 0-50.24000001-22.50666668-50.23999999-50.23999999v-50.24000001c0-27.73333333 22.50666668-50.13333334 50.24000001-50.13333334zM134.50666666 315.83999999H460.8c27.73333333 0 50.24000001 22.50666668 50.24000001 50.24000001v50.24000001c0 27.73333333-22.50666668 50.13333334-50.24000001 50.13333333H134.50666666c-27.73333333 0-50.24000001-22.39999999-50.23999999-50.13333333v-50.24000001c0.10666668-27.84000001 22.50666668-50.24000001 50.24000001-50.23999999zM209.81333332 89.91999999h326.18666671c27.73333333 0 50.24000001 22.39999999 50.23999997 50.13333335v50.23999999c0 27.73333333-22.50666668 50.24000001-50.24000001 50.24000001H209.81333332c-27.73333333 0-50.24000001-22.50666668-50.23999999-50.24000001v-50.24000001c0-27.73333333 22.50666668-50.13333334 50.24000001-50.13333333zM692.05333333 623.36l274.66666669 176.00000002c23.36000001 14.93333333 30.08 45.97333334 15.14666666 69.33333332L954.77333334 910.93333333c-14.93333333 23.25333334-45.97333334 30.08-69.33333335 15.14666667l-274.66666666-176c-23.36000001-14.93333333-30.08-45.97333334-15.14666667-69.33333333l27.09333334-42.24000001c14.93333333-23.36000001 46.08000001-30.08 69.33333333-15.14666666z" fill="currentColor"></path>
+</svg>
+    <span>TOC</span>
+  </div>
+  <div class="widget-body">
+    
+  </div>
+</section>
+
     </div>
   
     <div class="article-info">
@@ -356,26 +370,7 @@
       
       
       <section id="blog-content" class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
-        <p>在pom.xml增加<code>&lt;build&gt;</code>配置</p>
-<pre><code class="xml">&lt;!-- 构建配置 --&gt;
-    &lt;build&gt;
-        &lt;!-- 配置资源目录, 主要解决idea无法将代码中的mapper.xml编译的问题  --&gt;
-        &lt;resources&gt;
-            &lt;resource&gt;
-                &lt;directory&gt;src/main/java&lt;/directory&gt;
-                &lt;includes&gt;
-                    &lt;include&gt;**/*.xml&lt;/include&gt;
-                &lt;/includes&gt;
-            &lt;/resource&gt;
-            &lt;resource&gt;
-                &lt;directory&gt;src/main/resources&lt;/directory&gt;
-                &lt;includes&gt;
-                    &lt;include&gt;**/*.*&lt;/include&gt;
-                &lt;/includes&gt;
-            &lt;/resource&gt;
-        &lt;/resources&gt;
-    &lt;/build&gt;
-</code></pre>
+        <p> <a href="%E5%B0%9A%E7%A1%85%E8%B0%B7_%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6RabbitMQ_%E8%AF%BE%E4%BB%B6.pdf">尚硅谷_消息中间件RabbitMQ_课件.pdf</a> </p>
 
       </section>
 
@@ -383,32 +378,16 @@
       
         <nav class="article-nav">
           
-            <div class="article-nav-item layout-padding">
-  <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
-    
-      <div class="card-cover" background-image-lazy data-img="/images/upload/2021/10/1.jpg"></div>
-    
-    <div class="card-text">
-      
-        <a href="/2021/11/13/fang-huo-qiang-ming-ling/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">防火墙命令</h2>
-        </a>
-      
-      <div class="card-text--row">Newer</div>
-    </div>
-  </article>
-</div>
-          
           
             <div class="article-nav-item layout-padding">
   <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
     
-      <div class="card-cover" background-image-lazy data-img="/images/upload/2021/10/1.jpg"></div>
+      <div class="card-cover" background-image-lazy data-img="https://api.lixingyong.com/api/images?postid=9fd4f56c&type=url&itype=image"></div>
     
     <div class="card-text">
       
-        <a href="/2021/10/30/windows-bian-ji-sheng-cheng-de-shell-jiao-ben-zai-linux-zhi-xing-wen-ti-diao-zheng/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">windows编辑生成的shell脚本在linux执行问题调整</h2>
+        <a href="/2022/04/28/centos7-an-zhuang-rabbitmq/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">centos7安装rabbitmq</h2>
         </a>
       
       <div class="card-text--row">Older</div>

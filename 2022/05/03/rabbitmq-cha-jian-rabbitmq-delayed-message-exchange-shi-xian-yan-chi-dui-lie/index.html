@@ -24,7 +24,7 @@
 
   
 
-  <title>video | 小鹏驿站</title>
+  <title>rabbitmq插件rabbitmq_delayed_message_exchange实现延迟队列 | 小鹏驿站</title>
 
   
 
@@ -42,9 +42,9 @@
   <div class="root-container">
     
 <!-- header container -->
-<header class="header-container">
+<header class="header-container post">
   
-    <div class="post-image" style="background-image: url(https://api.lixingyong.com/api/images?postid=100&amp;type=url&amp;itype=image)"></div>
+    <div class="post-image" style="background-image: url(&#39;https://api.lixingyong.com/api/images?postid=e58b5614&amp;type=url&amp;itype=image&#39;)"></div>
   
   <!-- navbar -->
 <nav class="navbar">
@@ -279,27 +279,42 @@
 
   
   
-
-  
-  
     <div class="header-content">
-      <div class="post-text layout-block layout-padding">
-        <h1 class="title-wrap" title="觉宇宙之无穷，识盈虚之有数">video</h1>
-        
+      <div class="post-text layout-block">
+        <div class="layout-margin">
+          <h1 class="title-wrap" title="觉宇宙之无穷，识盈虚之有数">rabbitmq插件rabbitmq_delayed_message_exchange实现延迟队列</h1>
+          <h2 class="title-sub-wrap">
+            <strong>RocPengHua</strong>
+            <span>发布于</span>
+            <time  class="article-date" datetime="2022-05-03T11:32:32.000Z" itemprop="datePublished">2022-05-03</time>
+          </h2>
+          <ul class="wrap-list dark">
+  
+    <li><a href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/">📒 中间件</a></li>
+  
+</ul>
+          <ul class="wrap-list dark">
+  
+    <li><a href="/tags/rabbitmq/">🏷️ rabbitmq</a></li>
+  
+</ul>
+        </div>
       </div>
     </div>
+  
+
+  
   
   
 </header>
 
-    <!-- 分页(其他自定义页面) -->
+    <!-- 文章 -->
 
-<!-- 自定义页面 -->
-
+<!-- 文章内容 -->
 <div class="body-container">
   <article class="content-container layout-block post-container">
-  	   <div class="widget-info">
-         <section class="widget-author widget-item layout-margin content-padding--primary soft-size--large soft-style--box">
+    <div class="widget-info">
+      <section class="widget-author widget-item layout-margin content-padding--primary soft-size--large soft-style--box">
   <div class="widget-body">
     
       <img src="/images/p.jpg" class="soft-size--round soft-style--box" alt="RocPengHua">
@@ -333,107 +348,231 @@
     </div>
   </div>
 </section>
-      </div>
+    
+      
+<section class="widget-toc widget-item layout-margin content-padding--primary soft-size--large soft-style--box">
+  <div class="widget-title">
+    <svg class="icon icon-toc" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M134.50666666 767.46666668H460.8c27.73333333 0 50.24000001 22.50666668 50.24000001 50.23999999v50.13333333c0 27.73333333-22.50666668 50.24000001-50.24000001 50.24000001H134.50666666c-27.73333333 0-50.24000001-22.50666668-50.23999999-50.24000001v-50.13333333c0.10666668-27.73333333 22.50666668-50.24000001 50.24000001-50.24000001zM84.37333332 541.65333333h326.18666669c27.73333333 0 50.24000001 22.39999999 50.23999999 50.13333334v50.24000001c0 27.73333333-22.50666668 50.24000001-50.24000002 50.23999999H84.37333332c-27.73333333 0-50.24000001-22.50666668-50.23999999-50.23999999v-50.24000001c0-27.73333333 22.50666668-50.13333334 50.24000001-50.13333334zM134.50666666 315.83999999H460.8c27.73333333 0 50.24000001 22.50666668 50.24000001 50.24000001v50.24000001c0 27.73333333-22.50666668 50.13333334-50.24000001 50.13333333H134.50666666c-27.73333333 0-50.24000001-22.39999999-50.23999999-50.13333333v-50.24000001c0.10666668-27.84000001 22.50666668-50.24000001 50.24000001-50.23999999zM209.81333332 89.91999999h326.18666671c27.73333333 0 50.24000001 22.39999999 50.23999997 50.13333335v50.23999999c0 27.73333333-22.50666668 50.24000001-50.24000001 50.24000001H209.81333332c-27.73333333 0-50.24000001-22.50666668-50.23999999-50.24000001v-50.24000001c0-27.73333333 22.50666668-50.13333334 50.24000001-50.13333333zM692.05333333 623.36l274.66666669 176.00000002c23.36000001 14.93333333 30.08 45.97333334 15.14666666 69.33333332L954.77333334 910.93333333c-14.93333333 23.25333334-45.97333334 30.08-69.33333335 15.14666667l-274.66666666-176c-23.36000001-14.93333333-30.08-45.97333334-15.14666667-69.33333333l27.09333334-42.24000001c14.93333333-23.36000001 46.08000001-30.08 69.33333333-15.14666666z" fill="currentColor"></path>
+</svg>
+    <span>TOC</span>
+  </div>
+  <div class="widget-body">
+    <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#download"><span class="toc-number">1.</span> <span class="toc-text">download</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%8F%92%E4%BB%B6%E4%B8%8B%E8%BD%BD"><span class="toc-number">1.1.</span> <span class="toc-text">插件下载</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%8F%92%E4%BB%B6%E5%AE%89%E8%A3%85"><span class="toc-number">1.2.</span> <span class="toc-text">插件安装</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%AA%8C%E8%AF%81%E6%88%90%E5%8A%9F"><span class="toc-number">1.3.</span> <span class="toc-text">验证成功</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BB%B6%E8%BF%9F%E9%98%9F%E5%88%97%E4%BD%BF%E7%94%A8"><span class="toc-number">2.</span> <span class="toc-text">延迟队列使用</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E7%B1%BB"><span class="toc-number">2.1.</span> <span class="toc-text">配置类</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%94%9F%E4%BA%A7%E8%80%85"><span class="toc-number">2.2.</span> <span class="toc-text">生产者</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%B6%88%E8%B4%B9%E8%80%85"><span class="toc-number">2.3.</span> <span class="toc-text">消费者</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%BB%93%E6%9E%9C"><span class="toc-number">2.4.</span> <span class="toc-text">结果</span></a></li></ol></li></ol>
+  </div>
+</section>
+
+    </div>
+  
     <div class="article-info">
       
-      <section class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
-        
-<script>
-  var videos = [
-    {
-      img: 'https://lain.bgm.tv/pic/cover/l/0e/1e/218971_2y351.jpg',
-      title: '朝花夕誓——于离别之朝束起约定之花',
-      status: '已追完',
-      progress: 100,
-      jp: 'さよならの朝に約束の花をかざろう',
-      time: '放送时间: 2018-02-24 SUN.',
-      desc: ' 住在远离尘嚣的土地，一边将每天的事情编织成名为希比欧的布，一边静静生活的伊欧夫人民。在15岁左右外表就停止成长，拥有数百年寿命的他们，被称为“离别的一族”，并被视为活着的传说。没有双亲的伊欧夫少女玛奇亚，过着被伙伴包围的平稳日子，却总感觉“孤身一人”。他们的这种日常，一瞬间就崩溃消失。追求伊欧夫的长寿之血，梅萨蒂军乘坐着名为雷纳特的古代兽发动了进攻。在绝望与混乱之中，伊欧夫的第一美女蕾莉亚被梅萨蒂带走，而玛奇亚暗恋的少年克里姆也失踪了。玛奇亚虽然总算逃脱了，却失去了伙伴和归去之地……。'
-    },
-    {
-      img : 'https://lain.bgm.tv/pic/cover/l/0e/1e/218971_2y351.jpg',
-      title: '朝花夕誓——于离别之朝束起约定之花',
-      status: '已追完',
-      progress: 100,
-      jp: 'さよならの朝に約束の花をかざろう',
-      time: '2018-02-24 SUN.',
-      desc: ' 住在远离尘嚣的土地，一边将每天的事情编织成名为希比欧的布，一边静静生活的伊欧夫人民。在15岁左右外表就停止成长，拥有数百年寿命的他们，被称为“离别的一族”，并被视为活着的传说。没有双亲的伊欧夫少女玛奇亚，过着被伙伴包围的平稳日子，却总感觉“孤身一人”。他们的这种日常，一瞬间就崩溃消失。追求伊欧夫的长寿之血，梅萨蒂军乘坐着名为雷纳特的古代兽发动了进攻。在绝望与混乱之中，伊欧夫的第一美女蕾莉亚被梅萨蒂带走，而玛奇亚暗恋的少年克里姆也失踪了。玛奇亚虽然总算逃脱了，却失去了伙伴和归去之地……。'
-    }
-  ]
-</script>
+      
+      
+      
+      <section id="blog-content" class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
+        <ul>
+<li><p>在使用死信队列实现延迟队列效果时，RabbitMQ 只会检查第一个消息是否过期，如果过期则丢到死信队列， 如果第一个消息的延时时长很长，而第二个消息的延时时长很短，第二个消息并不会优先得到执行</p>
+<img src="/2022/05/03/rabbitmq-cha-jian-rabbitmq-delayed-message-exchange-shi-xian-yan-chi-dui-lie/image-20220503194822388.png" class="" title="image-20220503194822388"></li>
+</ul>
+<h4 id="download"><a href="#download" class="headerlink" title="download"></a>download</h4><h5 id="插件下载"><a href="#插件下载" class="headerlink" title="插件下载"></a>插件下载</h5><ul>
+<li><a target="_blank" rel="noopener" href="https://www.rabbitmq.com/community-plugins.html">https://www.rabbitmq.com/community-plugins.html</a></li>
+</ul>
+ <img src="/2022/05/03/rabbitmq-cha-jian-rabbitmq-delayed-message-exchange-shi-xian-yan-chi-dui-lie/image-20220503193505947.png" class="" title="image-20220503193505947">
 
+<img src="/2022/05/03/rabbitmq-cha-jian-rabbitmq-delayed-message-exchange-shi-xian-yan-chi-dui-lie/image-20220503193710704.png" class="" title="image-20220503193710704">
 
+<h5 id="插件安装"><a href="#插件安装" class="headerlink" title="插件安装"></a>插件安装</h5><pre><code class="shell">#上传插件到 /usr/lib/rabbitmq/lib/rabbitmq_server-3.9.16/plugins
+rabbitmq-plugins enable rabbitmq_delayed_message_exchange
+systemctl restart rabbitmq-server
+</code></pre>
+<h5 id="验证成功"><a href="#验证成功" class="headerlink" title="验证成功"></a>验证成功</h5><p>查看Exchanges的选择类型是否存在<code>x-delayed-message</code></p>
+<img src="/2022/05/03/rabbitmq-cha-jian-rabbitmq-delayed-message-exchange-shi-xian-yan-chi-dui-lie/image-20220503194138103.png" class="" title="image-20220503194138103">
 
-  <style>.should-ellipsis{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width:95%;}.should-ellipsis-full{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width:100%;}.should-ellipsis i{position:absolute;right:24px;}.grey-text{color:#9e9e9e !important}.grey-text.text-darken-4{color:#212121 !important}html{line-height:1.15;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}body{margin:0}img{border-style:none}progress{display:inline-block;vertical-align:baseline}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}html{-webkit-box-sizing:border-box;box-sizing:border-box}*,*:before,*:after{-webkit-box-sizing:inherit;box-sizing:inherit}ul:not(.browser-default){padding-left:0;list-style-type:none}ul:not(.browser-default)>li{list-style-type:none}.card{-webkit-box-shadow:0 2px 2px 0 rgba(0,0,0,0.14),0 3px 1px -2px rgba(0,0,0,0.12),0 1px 5px 0 rgba(0,0,0,0.2);box-shadow:0 2px 2px 0 rgba(0,0,0,0.14),0 3px 1px -2px rgba(0,0,0,0.12),0 1px 5px 0 rgba(0,0,0,0.2)}.hoverable{-webkit-transition:-webkit-box-shadow .25s;transition:-webkit-box-shadow .25s;transition:box-shadow .25s;transition:box-shadow .25s,-webkit-box-shadow .25s}.hoverable:hover{-webkit-box-shadow:0 8px 17px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);box-shadow:0 8px 17px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19)}i{line-height:inherit}i.right{float:right;margin-left:15px}.bangumi .right{float:right !important}.material-icons{text-rendering:optimizeLegibility;-webkit-font-feature-settings:'liga';-moz-font-feature-settings:'liga';font-feature-settings:'liga'}.row{margin-left:auto;margin-right:auto;margin-bottom:20px}.row:after{content:"";display:table;clear:both}.row .col{float:left;-webkit-box-sizing:border-box;box-sizing:border-box;padding:0 .75rem;min-height:1px}.row .col.s12{width:100%;margin-left:auto;left:auto;right:auto}@media only screen and (min-width:601px){.row .col.m6{width:50%;margin-left:auto;left:auto;right:auto}}html{line-height:1.5;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;font-weight:normal;color:rgba(0,0,0,0.87)}@media only screen and (min-width:0){html{font-size:14px}}@media only screen and (min-width:992px){html{font-size:14.5px}}@media only screen and (min-width:1200px){html{font-size:15px}}.card{position:relative;margin:.5rem 0 1rem 0;background-color:#fff;-webkit-transition:-webkit-box-shadow .25s;transition:-webkit-box-shadow .25s;transition:box-shadow .25s;transition:box-shadow .25s,-webkit-box-shadow .25s;border-radius:2px}.card .card-title{font-size:24px;font-weight:300}.card .card-title.activator{cursor:pointer}.card .card-image{position:relative}.card .card-image img{display:block;border-radius:2px 2px 0 0;position:relative;left:0;right:0;top:0;bottom:0;width:100%}.card .card-content{padding:24px;border-radius:0 0 2px 2px}.card .card-content p{margin:0}.card .card-content .card-title{display:block;line-height:32px;margin-bottom:8px}.card .card-content .card-title i{line-height:32px}.card .card-reveal{padding:24px;position:absolute;background-color:#fff;width:100%;overflow-y:auto;left:0;top:100%;height:100%;z-index:3;display:none}.card .card-reveal .card-title{cursor:pointer;display:block}.waves-effect{position:relative;cursor:pointer;display:inline-block;overflow:hidden;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent;vertical-align:middle;z-index:1;-webkit-transition:.3s ease-out;transition:.3s ease-out}.waves-effect img{position:relative;z-index:-1}.waves-block{display:block}::-webkit-input-placeholder{color:#d1d1d1}::-moz-placeholder{color:#d1d1d1}:-ms-input-placeholder{color:#d1d1d1}::-ms-input-placeholder{color:#d1d1d1}[type="radio"]:not(:checked){position:absolute;opacity:0;pointer-events:none}[type="radio"]:not(:checked)+span{position:relative;padding-left:35px;cursor:pointer;display:inline-block;height:25px;line-height:25px;font-size:1rem;-webkit-transition:.28s ease;transition:.28s ease;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}[type="radio"]:not(:checked)+span:before,[type="radio"]:not(:checked)+span:after{border-radius:50%}[type="radio"]:not(:checked)+span:before,[type="radio"]:not(:checked)+span:after{border:2px solid #5a5a5a}[type="radio"]:not(:checked)+span:after{-webkit-transform:scale(0);transform:scale(0)}[type="checkbox"]:not(:checked){position:absolute;opacity:0;pointer-events:none}[type="checkbox"]:not(:checked):disabled+span:not(.lever):before{border:none;background-color:rgba(0,0,0,0.42)}[type="checkbox"].filled-in:not(:checked)+span:not(.lever):before{width:0;height:0;border:3px solid transparent;left:6px;top:10px;-webkit-transform:rotateZ(37deg);transform:rotateZ(37deg);-webkit-transform-origin:100% 100%;transform-origin:100% 100%}[type="checkbox"].filled-in:not(:checked)+span:not(.lever):after{height:20px;width:20px;background-color:transparent;border:2px solid #5a5a5a;top:0px;z-index:0}input[type=checkbox]:not(:disabled) ~ .lever:active:before,input[type=checkbox]:not(:disabled).tabbed:focus ~ .lever::before{-webkit-transform:scale(2.4);transform:scale(2.4);background-color:rgba(0,0,0,0.08)}input[type=range].focused:focus:not(.active)::-webkit-slider-thumb{-webkit-box-shadow:0 0 0 10px rgba(38,166,154,0.26);box-shadow:0 0 0 10px rgba(38,166,154,0.26)}input[type=range].focused:focus:not(.active)::-moz-range-thumb{box-shadow:0 0 0 10px rgba(38,166,154,0.26)}input[type=range].focused:focus:not(.active)::-ms-thumb{box-shadow:0 0 0 10px rgba(38,166,154,0.26)}
-  </style>
-  <header class="page-header"><h1 class="cat-title">番组计划</h1> <span class="cat-des"><p>这里将是永远的回忆</p> </span></header>
-  <div class="bangumi">
-    <div class="row" id="rootRow">
-    </div>
-  </div>
-  <script>
-  window.onload = function(){
-    videos.forEach(function(video, i){
-      $('#rootRow').append(`<div class="col s12 m6" id="bangumi-218971">
-        <div class="card hoverable" style="overflow: visible;">
-          <div class="card-image waves-effect waves-block waves-light">
-            <div class="activator itempic lazyload" style="background-image: url(${video.img});" data-src="${video.img}">
-            </div>
-          </div>
-          <div class="card-content">
-            <div class="card-title should-ellipsis activator grey-text text-darken-4">
-              ${video.title}<i class="fa fa-commenting-o right"></i>
-            </div>
-            <p class="should-ellipsis-full">
-            ${video.jp}</p>
-            <ul class="skill-list">
-              <li class="skill">
-                <div>
-                ${video.status}</div>
-                <progress class="skill-1" max="100" value="${video.progress}">
-                </progress>
-              </li>
-            </ul>
-          </div>
-          <div class="card-reveal" style="display: none; transform: translateY(0%);">
-            <span class="card-title grey-text text-darken-4">
-              ${video.title}<i class="fa fa-close right"></i>
-            </span>
-            <span>
-              ${video.jp}<br>
-            </span>
-            <span>
-              放送时间: ${video.time}<span>
-                <p>${video.desc}</p>
-                <ul class="skill-list">
-                  <li class="skill">
-                    <div>
-                    ${video.status}</div>
-                    <progress class="skill-1" max="100" value="${video.progress}">
-                    </progress>
-                  </li>
-                </ul>
-              </span>
-            </span>
-          </div>
-        </div>
-      </div>`)
-    })
-  }
-  </script>
+<h4 id="延迟队列使用"><a href="#延迟队列使用" class="headerlink" title="延迟队列使用"></a>延迟队列使用</h4><h5 id="配置类"><a href="#配置类" class="headerlink" title="配置类"></a>配置类</h5><pre><code class="java">package com.rocpenghua.rabbitmq.springbootrabbitmq.config;
+
+import org.springframework.amqp.core.*;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+import java.util.HashMap;
+import java.util.Map;
+
+/**
+ * Describe:
+ *
+ * @author RocPengHua
+ * @date 2022/5/3.
+ */
+@Configuration
+public class DelayedQueueConfig &#123;
+    /**
+     * 队列
+     */
+    public static final String DELAYED_QUEUE_NAME = &quot;delayed.queue&quot;;
+    /**
+     * 交换机
+     */
+    public static final String DELAYED_EXCHANGE_NAME = &quot;delayed.exchange&quot;;
+    /**
+     * RoutingKey
+     */
+    public static final String DELAYED_ROUTING_KEY = &quot;delayed.routingkey&quot;;
+
+    /**
+     * 声明自定义交换机（x-delayed-message）
+     */
+    @Bean
+    public CustomExchange delayedExchange() &#123;
+        Map&lt;String,Object&gt; args = new HashMap&lt;&gt;();
+        args.put(&quot;x-delayed-type&quot;,&quot;direct&quot;);
+        /*
+         * 1、交换机名称
+         * 2、交换机类型
+         * 3、是否持久化
+         * 4、是否自动删除
+         */
+        return new CustomExchange(DELAYED_EXCHANGE_NAME, &quot;x-delayed-message&quot;, true, false, args);
+    &#125;
+
+    /**
+     * 队列声明
+     */
+    @Bean
+    public Queue delayedQueue() &#123;
+        return QueueBuilder.durable(DELAYED_QUEUE_NAME).build();
+    &#125;
+
+    /**
+     * 绑定队列和交换机
+     */
+    @Bean
+    public Binding delayedQueueBindingDelayedExchange(@Qualifier(&quot;delayedQueue&quot;) Queue delayedQueue,
+                                                      @Qualifier(&quot;delayedExchange&quot;) CustomExchange delayedExchange)&#123;
+       return BindingBuilder.bind(delayedQueue).to(delayedExchange).with(DELAYED_ROUTING_KEY).noargs();
+    &#125;
+&#125;
+</code></pre>
+<h5 id="生产者"><a href="#生产者" class="headerlink" title="生产者"></a>生产者</h5><pre><code class="java">package com.rocpenghua.rabbitmq.springbootrabbitmq.consumer;
+
+import com.rabbitmq.client.Channel;
+import com.rocpenghua.rabbitmq.springbootrabbitmq.config.DelayedQueueConfig;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.core.Message;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.stereotype.Component;
+
+import java.nio.charset.StandardCharsets;
+import java.util.Date;
+
+/**
+ * Describe:
+ * 消费者 基于插件的延迟消息
+ * @author RocPengHua
+ * @date 2022/5/3.
+ */
+@Component
+@Slf4j
+public class DelayQueueConsumer &#123;
+    //监听消息
+
+    @RabbitListener(queues = DelayedQueueConfig.DELAYED_QUEUE_NAME)
+    public void receiveDelayQueue(Message message, Channel channel) &#123;
+        String msg = new String(message.getBody(), StandardCharsets.UTF_8);
+        log.info(&quot;当前时间：&#123;&#125;，收到延迟队列的消息：&#123;&#125;&quot;, new Date().toString(), msg);
+    &#125;
+&#125;
+</code></pre>
+<h5 id="消费者"><a href="#消费者" class="headerlink" title="消费者"></a>消费者</h5><pre><code class="java">package com.rocpenghua.rabbitmq.springbootrabbitmq.consumer;
+
+import com.rabbitmq.client.Channel;
+import com.rocpenghua.rabbitmq.springbootrabbitmq.config.DelayedQueueConfig;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.core.Message;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.stereotype.Component;
+
+import java.nio.charset.StandardCharsets;
+import java.util.Date;
+
+/**
+ * Describe:
+ * 消费者 基于插件的延迟消息
+ * @author RocPengHua
+ * @date 2022/5/3.
+ */
+@Component
+@Slf4j
+public class DelayQueueConsumer &#123;
+    //监听消息
+
+    @RabbitListener(queues = DelayedQueueConfig.DELAYED_QUEUE_NAME)
+    public void receiveDelayQueue(Message message, Channel channel) &#123;
+        String msg = new String(message.getBody(), StandardCharsets.UTF_8);
+        log.info(&quot;当前时间：&#123;&#125;，收到延迟队列的消息：&#123;&#125;&quot;, new Date().toString(), msg);
+    &#125;
+&#125;
+</code></pre>
+<h5 id="结果"><a href="#结果" class="headerlink" title="结果"></a>结果</h5><img src="/2022/05/03/rabbitmq-cha-jian-rabbitmq-delayed-message-exchange-shi-xian-yan-chi-dui-lie/image-20220503194656205.png" class="" title="image-20220503194656205">
 
       </section>
 
       
       
+        <nav class="article-nav">
+          
+          
+            <div class="article-nav-item layout-padding">
+  <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
+    
+      <div class="card-cover" background-image-lazy data-img="https://api.lixingyong.com/api/images?postid=6f4e2043&type=url&itype=image"></div>
+    
+    <div class="card-text">
+      
+        <a href="/2022/05/02/rabbitmq-xiao-xi-que-ren-mo-shi/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">rabbitmq消息确认模式</h2>
+        </a>
+      
+      <div class="card-text--row">Older</div>
+    </div>
+  </article>
+</div>
+          
+        </nav>
+      
 
-      
-      
+      <section class="page-message-container layout-padding">
+        
 
-      
-      
+
+  
+  
+    <div class="valine-container comments-container content-padding--primary soft-size--large soft-style--box">
+      <div id="valine_thread" class="valine-thread"></div>
+    </div>
+    <script type="text/javascript" src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script type="text/javascript" src='//unpkg.com/valine/dist/Valine.min.js'></script>
+    <script type="text/javascript">
+      new Valine({
+        el: "#valine_thread",
+        appId: "yEts8yIOQopn7imcDAmwhlNi-gzGzoHsz",
+        appKey: "nyOyHJdsDGQh3UI0TdNdLLnN",
+        avatar: "mm",
+        placeholder: "随便说点什么叭～",
+        notify: true,
+        visitor: true,
+        pageSize: 10,
+      });
+    </script>
+  
+
+  
+  
+
+
+      </section>
     </div>
     <div class="widget-info">
-
       
 <section class="widet-notice widget-item layout-margin content-padding--primary soft-size--large soft-style--box">
   <div class="widget-title">
@@ -544,7 +683,17 @@
     </div>
   </article>
 </div>
-
+<script>
+	//解决中文转义无法跳转锚点问题
+	var blog = document.querySelector("#blog-content");
+	var content = blog.innerHTML;
+	var regExp2 = /<h([1-6]) id=\"(\S*?)\">/g;
+	var	data = content.replace(regExp2, function(word,i){
+		var ws = word.split("\"");
+			return ws[0]+"\""+encodeURIComponent(ws[1])+"\""+ws[2];
+		},"g");
+	blog.innerHTML = data;
+</script>
 
     <!-- footer container -->
 <footer id="footer" class="footer">

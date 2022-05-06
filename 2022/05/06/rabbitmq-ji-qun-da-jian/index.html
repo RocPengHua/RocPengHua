@@ -24,7 +24,7 @@
 
   
 
-  <title>rabbitmq交换机topics | 小鹏驿站</title>
+  <title>rabbitmq集群搭建 | 小鹏驿站</title>
 
   
 
@@ -44,7 +44,7 @@
 <!-- header container -->
 <header class="header-container post">
   
-    <div class="post-image" style="background-image: url(&#39;https://api.lixingyong.com/api/images?postid=4557c326&amp;type=url&amp;itype=image&#39;)"></div>
+    <div class="post-image" style="background-image: url(&#39;https://api.lixingyong.com/api/images?postid=4666ba&amp;type=url&amp;itype=image&#39;)"></div>
   
   <!-- navbar -->
 <nav class="navbar">
@@ -282,15 +282,15 @@
     <div class="header-content">
       <div class="post-text layout-block">
         <div class="layout-margin">
-          <h1 class="title-wrap" title="觉宇宙之无穷，识盈虚之有数">rabbitmq交换机topics</h1>
+          <h1 class="title-wrap" title="觉宇宙之无穷，识盈虚之有数">rabbitmq集群搭建</h1>
           <h2 class="title-sub-wrap">
             <strong>RocPengHua</strong>
             <span>发布于</span>
-            <time  class="article-date" datetime="2022-05-02T05:20:19.000Z" itemprop="datePublished">2022-05-02</time>
+            <time  class="article-date" datetime="2022-05-06T12:28:27.000Z" itemprop="datePublished">2022-05-06</time>
           </h2>
           <ul class="wrap-list dark">
   
-    <li><a href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/">📒 中间件</a></li>
+    <li><a href="/categories/%E8%BD%AF%E4%BB%B6/">📒 软件</a></li>
   
 </ul>
           <ul class="wrap-list dark">
@@ -358,7 +358,7 @@
     <span>TOC</span>
   </div>
   <div class="widget-body">
-    <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%BB%E9%A2%98%E6%A8%A1%E5%BC%8F"><span class="toc-number">1.</span> <span class="toc-text">主题模式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E4%BF%A1%E9%81%93"><span class="toc-number">2.</span> <span class="toc-text">创建信道</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%94%9F%E4%BA%A7%E8%80%85"><span class="toc-number">3.</span> <span class="toc-text">生产者</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B6%88%E8%B4%B9%E8%80%851"><span class="toc-number">4.</span> <span class="toc-text">消费者1</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B6%88%E8%B4%B9%E8%80%852"><span class="toc-number">5.</span> <span class="toc-text">消费者2</span></a></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#rabbitmq%E5%AE%89%E8%A3%85"><span class="toc-number">1.</span> <span class="toc-text">rabbitmq安装</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%9B%86%E7%BE%A4%E7%8E%AF%E5%A2%83%E5%87%86%E5%A4%87"><span class="toc-number">2.</span> <span class="toc-text">集群环境准备</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%9B%86%E7%BE%A4%E5%91%BD%E4%BB%A4"><span class="toc-number">3.</span> <span class="toc-text">集群命令</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%90%AF%E5%8A%A8rabbitmq%E6%9C%8D%E5%8A%A1"><span class="toc-number">3.1.</span> <span class="toc-text">启动rabbitmq服务</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E9%9B%86%E7%BE%A4%E7%8A%B6%E6%80%81"><span class="toc-number">3.2.</span> <span class="toc-text">查看集群状态</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%87%8D%E6%96%B0%E5%88%9B%E5%BB%BA%E5%B9%B6%E8%AE%BE%E7%BD%AE%E7%94%A8%E6%88%B7"><span class="toc-number">3.3.</span> <span class="toc-text">重新创建并设置用户</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%A7%A3%E9%99%A4%E9%9B%86%E7%BE%A4%E8%8A%82%E7%82%B9"><span class="toc-number">3.4.</span> <span class="toc-text">解除集群节点</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%9B%86%E7%BE%A4%E6%A8%A1%E5%BC%8F%E4%B8%8B%E9%95%9C%E5%83%8F%E9%98%9F%E5%88%97%E9%85%8D%E7%BD%AE"><span class="toc-number">4.</span> <span class="toc-text">集群模式下镜像队列配置</span></a></li></ol>
   </div>
 </section>
 
@@ -370,177 +370,121 @@
       
       
       <section id="blog-content" class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
-        <h4 id="主题模式"><a href="#主题模式" class="headerlink" title="主题模式"></a>主题模式</h4><ul>
-<li>根据路由键的匹配规则消费信息<ul>
-<li><code>*(星号)</code>可以代替一个单词 <ul>
-<li><code>*.demo.*</code>：匹配中间为<code>demo</code>的3个单词字符串路由键</li>
-<li><code>*.*.demo</code>：匹配以<code>demo</code>结尾的3个单词字符串路由键</li>
+        <h4 id="rabbitmq安装"><a href="#rabbitmq安装" class="headerlink" title="rabbitmq安装"></a>rabbitmq安装</h4><p><a href="https://rocpenghua.gitee.io/2022/04/28/centos7-an-zhuang-rabbitmq/">centos7安装rabbitmq | 小鹏驿站 (gitee.io)</a></p>
+<h4 id="集群环境准备"><a href="#集群环境准备" class="headerlink" title="集群环境准备"></a>集群环境准备</h4><ul>
+<li><p>准备三台虚拟机，修改hostname</p>
+<pre><code class="shell">vim /etc/hostname
+#分别命名node1,node2,node3
+</code></pre>
+<p>修改之后重启虚拟机<code>reboot</code>命令或者直接操作<code>vmware</code></p>
+</li>
+<li><p>修改各节点的hosts,让哥哥节点能互相识别</p>
+<pre><code class="shell">vim /etc/hosts
+</code></pre>
+<p>配置如下：</p>
+<pre><code class="properties">192.168.101.125 node1
+192.168.101.129 node2
+192.168.101.128 node3
+</code></pre>
+</li>
+<li><p>确保各个节点erlang的cokkie一样,将node1中<code>.erlang.cookie</code>拷贝过去</p>
+<pre><code class="shell">scp /var/lib/rabbitmq/.erlang.cookie root@node2:/var/lib/rabbitmq/.erlang.cookie
+scp /var/lib/rabbitmq/.erlang.cookie root@node3:/var/lib/rabbitmq/.erlang.cookie
+</code></pre>
+</li>
+</ul>
+<h4 id="集群命令"><a href="#集群命令" class="headerlink" title="集群命令"></a>集群命令</h4><h5 id="启动rabbitmq服务"><a href="#启动rabbitmq服务" class="headerlink" title="启动rabbitmq服务"></a>启动rabbitmq服务</h5><ul>
+<li><p>node1</p>
+<pre><code class="shell">rabbitmq-server -detached
+#停止（rabbitmqctl stop 会将Erlang 虚拟机关闭，rabbitmqctl stop_app 只关闭 RabbitMQ 服务）
+rabbitmqctl stop_app
+#重置
+rabbitmqctl reset
+#启动
+rabbitmqctl start_app
+</code></pre>
+</li>
+<li><p>node2</p>
+<pre><code class="shell">rabbitmq-server -detached
+#停止（rabbitmqctl stop 会将Erlang 虚拟机关闭，rabbitmqctl stop_app 只关闭 RabbitMQ 服务）
+rabbitmqctl stop_app
+#重置
+rabbitmqctl reset
+#集群方式加入node1
+rabbitmqctl join_cluster rabbit@node1
+#启动
+rabbitmqctl start_app
+</code></pre>
+</li>
+<li><p>node3</p>
+<pre><code class="shell">rabbitmq-server -detached
+#停止（rabbitmqctl stop 会将Erlang 虚拟机关闭，rabbitmqctl stop_app 只关闭 RabbitMQ 服务）
+rabbitmqctl stop_app
+#重置
+rabbitmqctl reset
+#集群方式加入node2,也可以加入node1
+rabbitmqctl join_cluster rabbit@node2
+#启动
+rabbitmqctl start_app
+</code></pre>
+</li>
+</ul>
+<h5 id="查看集群状态"><a href="#查看集群状态" class="headerlink" title="查看集群状态"></a>查看集群状态</h5><pre><code class="shell">rabbitmqctl cluster_status
+</code></pre>
+<img src="/2022/05/06/rabbitmq-ji-qun-da-jian/image-20220506204436347.png" class="" title="image-20220506204436347">
+
+<h5 id="重新创建并设置用户"><a href="#重新创建并设置用户" class="headerlink" title="重新创建并设置用户"></a>重新创建并设置用户</h5><ul>
+<li><p>创建账号</p>
+<pre><code class="shell">rabbitmqctl add_user admin admin
+</code></pre>
+</li>
+<li><p>设置用户超级管理员角色</p>
+<pre><code class="shell">rabbitmqctl set_user_tags admin administrator
+</code></pre>
+</li>
+<li><p>设置用户权限</p>
+<pre><code class="shell">rabbitmqctl set_permissions -p &quot;/&quot; admin &quot;.*&quot; &quot;.*&quot; &quot;.*&quot;
+</code></pre>
+</li>
+</ul>
+<img src="/2022/05/06/rabbitmq-ji-qun-da-jian/image-20220506204513466.png" class="" title="image-20220506204513466">
+
+<h5 id="解除集群节点"><a href="#解除集群节点" class="headerlink" title="解除集群节点"></a>解除集群节点</h5><pre><code class="shell">#在node2 node3 执行
+rabbitmqctl stop_app
+rabbitmqctl reset
+rabbitmqctl start_app
+rabbitmqctl cluster_status
+#node1上面执行
+rabbitmqctl forget_cluster_node rabbit@node2
+</code></pre>
+<h4 id="集群模式下镜像队列配置"><a href="#集群模式下镜像队列配置" class="headerlink" title="集群模式下镜像队列配置"></a>集群模式下镜像队列配置</h4><img src="/2022/05/06/rabbitmq-ji-qun-da-jian/image-20220506210406153.png" class="" title="image-20220506210406153">
+
+<ul>
+<li>Name：策略名称</li>
+<li>Pattern：正则匹配规则</li>
+<li>Apply to：应用于<ul>
+<li><code>Exchanges and queues</code>：交换机和队列</li>
+<li><code>Exchanges</code>：交换机</li>
+<li><code>Queues</code>：队列</li>
 </ul>
 </li>
-<li><code>#(井号)</code>可以替代零个或多个单词<ul>
-<li><code>demo.#</code>：匹配以<code>demo</code>开头的多个单词</li>
+<li>Priority：优先级，默认0</li>
+<li>Definition：自定义配置<ul>
+<li><code>ha-mode</code><ul>
+<li><code>all</code>集群所有节点</li>
+<li><code>exactly</code>集群中部分节点，需要配合<code>ha-params</code>使用</li>
+</ul>
+</li>
+<li><code>ha-params</code>：镜像的节点个数</li>
+<li><code>ha-sync-mode</code><ul>
+<li><code>automatic</code>：自动</li>
+<li><code>manual</code>：手动</li>
 </ul>
 </li>
 </ul>
 </li>
 </ul>
-<h4 id="创建信道"><a href="#创建信道" class="headerlink" title="创建信道"></a>创建信道</h4><pre><code class="java">package com.rocpenghua.rabbitmq.utils;
-
-import com.rabbitmq.client.Channel;
-import com.rabbitmq.client.Connection;
-import com.rabbitmq.client.ConnectionFactory;
-import com.rocpenghua.rabbitmq.config.JmsConfig;
-
-import java.io.IOException;
-import java.util.concurrent.TimeoutException;
-
-/**
- * Describe:
- *
- * @author RocPengHua
- * @date 2022/4/29.
- */
-public class RabbitmqUtils &#123;
-    public static Channel getChannel() throws IOException, TimeoutException &#123;
-        ConnectionFactory factory = new ConnectionFactory();
-        factory.setHost(JmsConfig.HOST);
-        factory.setUsername(JmsConfig.USERNAME);
-        factory.setPassword(JmsConfig.PASSWORD);
-        //创建链接
-        Connection connection = factory.newConnection();
-        //获取信道
-        Channel channel = connection.createChannel();
-        return channel;
-    &#125;
-&#125;
-</code></pre>
-<h4 id="生产者"><a href="#生产者" class="headerlink" title="生产者"></a>生产者</h4><pre><code class="java">package com.rocpenghua.rabbitmq.seven;
-
-import com.rabbitmq.client.Channel;
-import com.rocpenghua.rabbitmq.utils.RabbitmqUtils;
-
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.TimeoutException;
-
-/**
- * Describe:
- *
- * @author RocPengHua
- * @date 2022/5/1.
- */
-public class EmitLogTopic &#123;
-    private static final String EXCHANGE_NAME = &quot;topic_log&quot;;
-    private static final String EXCHANGE_TYPE = &quot;topic&quot;;
-
-    public static void main(String[] args) throws IOException, TimeoutException &#123;
-        Channel channel = RabbitmqUtils.getChannel();
-        channel.exchangeDeclare(EXCHANGE_NAME, EXCHANGE_TYPE);
-        /*
-         * Q1--&gt;绑定的是
-         *  中间带 orange 带 3 个单词的字符串(*.orange.*)
-         * Q2--&gt;绑定的是
-         *  最后一个单词是 rabbit 的 3 个单词(*.*.rabbit)
-         *  第一个单词是 lazy 的多个单词(lazy.#)
-         *
-         */
-        Map&lt;String, String&gt; bindingKeyMap = new HashMap&lt;&gt;();
-        bindingKeyMap.put(&quot;quick.orange.rabbit&quot;, &quot;被队列 Q1Q2 接收到&quot;);
-        bindingKeyMap.put(&quot;lazy.orange.elephant&quot;, &quot;被队列 Q1Q2 接收到&quot;);
-        bindingKeyMap.put(&quot;quick.orange.fox&quot;, &quot;被队列 Q1 接收到&quot;);
-        bindingKeyMap.put(&quot;lazy.brown.fox&quot;, &quot;被队列 Q2 接收到&quot;);
-        bindingKeyMap.put(&quot;lazy.pink.rabbit&quot;, &quot;虽然满足两个绑定但只被队列 Q2 接收一次&quot;);
-        bindingKeyMap.put(&quot;quick.brown.fox&quot;, &quot;不匹配任何绑定不会被任何队列接收到会被丢弃&quot;);
-        bindingKeyMap.put(&quot;quick.orange.male.rabbit&quot;, &quot;是四个单词不匹配任何绑定会被丢弃&quot;);
-        bindingKeyMap.put(&quot;lazy.orange.male.rabbit&quot;, &quot;是四个单词但匹配 Q2&quot;);
-
-        for (Map.Entry&lt;String, String&gt; entry : bindingKeyMap.entrySet()) &#123;
-            String message = entry.getValue();
-            channel.basicPublish(EXCHANGE_NAME, entry.getKey(), null, message.getBytes(StandardCharsets.UTF_8));
-            System.out.println(&quot;生产者发出消息：&quot; + message);
-        &#125;
-    &#125;
-&#125;
-</code></pre>
-<h4 id="消费者1"><a href="#消费者1" class="headerlink" title="消费者1"></a>消费者1</h4><pre><code class="java">package com.rocpenghua.rabbitmq.seven;
-
-import com.rabbitmq.client.Channel;
-import com.rabbitmq.client.DeliverCallback;
-import com.rocpenghua.rabbitmq.utils.RabbitmqUtils;
-
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.util.concurrent.TimeoutException;
-
-/**
- * Describe:
- *
- * @author RocPengHua
- * @date 2022/5/1.
- */
-public class ReceiveLogsTopic01 &#123;
-    private static final String EXCHANGE_NAME = &quot;topic_log&quot;;
-    private static final String EXCHANGE_TYPE = &quot;topic&quot;;
-
-    public static void main(String[] args) throws IOException, TimeoutException &#123;
-        Channel channel = RabbitmqUtils.getChannel();
-        channel.exchangeDeclare(EXCHANGE_NAME, EXCHANGE_TYPE);
-        //声明一个队列
-        String queueName = &quot;Q1&quot;;
-        channel.queueDeclare(queueName, false, false, false, null);
-        channel.queueBind(queueName, EXCHANGE_NAME, &quot;*.orange.*&quot;);
-
-        System.out.println(queueName + &quot;等待消息接收。。。。。。&quot;);
-        DeliverCallback deliverCallback = (consumerTag, delivery) -&gt; &#123;
-            String message = new String(delivery.getBody(), StandardCharsets.UTF_8);
-            System.out.println(&quot;接受队列：&quot; + queueName + &quot;绑定键：&quot; + delivery.getEnvelope().getRoutingKey() + &quot;,消息：&quot; + message);
-        &#125;;
-        channel.basicConsume(queueName, true, deliverCallback, consumerTag -&gt; &#123;
-        &#125;);
-    &#125;
-&#125;
-</code></pre>
-<h4 id="消费者2"><a href="#消费者2" class="headerlink" title="消费者2"></a>消费者2</h4><pre><code class="java">package com.rocpenghua.rabbitmq.seven;
-
-import com.rabbitmq.client.Channel;
-import com.rabbitmq.client.DeliverCallback;
-import com.rocpenghua.rabbitmq.utils.RabbitmqUtils;
-
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.util.concurrent.TimeoutException;
-
-/**
- * Describe:
- *
- * @author RocPengHua
- * @date 2022/5/1.
- */
-public class ReceiveLogsTopic02 &#123;
-    private static final String EXCHANGE_NAME = &quot;topic_log&quot;;
-    private static final String EXCHANGE_TYPE = &quot;topic&quot;;
-
-    public static void main(String[] args) throws IOException, TimeoutException &#123;
-        Channel channel = RabbitmqUtils.getChannel();
-        channel.exchangeDeclare(EXCHANGE_NAME, EXCHANGE_TYPE);
-        //声明一个队列
-        String queueName = &quot;Q2&quot;;
-        channel.queueDeclare(queueName, false, false, false, null);
-        channel.queueBind(queueName, EXCHANGE_NAME, &quot;*.*.rabbit&quot;);
-        channel.queueBind(queueName, EXCHANGE_NAME, &quot;lazy.#&quot;);
-
-        System.out.println(queueName + &quot;等待消息接收。。。。。。&quot;);
-        DeliverCallback deliverCallback = (consumerTag, delivery) -&gt; &#123;
-            String message = new String(delivery.getBody(), StandardCharsets.UTF_8);
-            System.out.println(&quot;接受队列：&quot; + queueName + &quot;绑定键：&quot; + delivery.getEnvelope().getRoutingKey() + &quot;,消息：&quot; + message);
-        &#125;;
-        channel.basicConsume(queueName, true, deliverCallback, consumerTag -&gt; &#123;
-        &#125;);
-    &#125;
-&#125;
-</code></pre>
+<img src="/2022/05/06/rabbitmq-ji-qun-da-jian/image-20220506211201527.png" class="" title="image-20220506211201527">
 
       </section>
 
@@ -548,32 +492,16 @@ public class ReceiveLogsTopic02 &#123;
       
         <nav class="article-nav">
           
-            <div class="article-nav-item layout-padding">
-  <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
-    
-      <div class="card-cover" background-image-lazy data-img="https://api.lixingyong.com/api/images?postid=6f4e2043&type=url&itype=image"></div>
-    
-    <div class="card-text">
-      
-        <a href="/2022/05/02/rabbitmq-xiao-xi-que-ren-mo-shi/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">rabbitmq消息确认模式</h2>
-        </a>
-      
-      <div class="card-text--row">Newer</div>
-    </div>
-  </article>
-</div>
-          
           
             <div class="article-nav-item layout-padding">
   <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
     
-      <div class="card-cover" background-image-lazy data-img="https://api.lixingyong.com/api/images?postid=82cea2bd&type=url&itype=image"></div>
+      <div class="card-cover" background-image-lazy data-img="https://api.lixingyong.com/api/images?postid=e58b5614&type=url&itype=image"></div>
     
     <div class="card-text">
       
-        <a href="/2022/05/02/rabbitmq-jiao-huan-ji-fanout/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">rabbitmq交换机fanout</h2>
+        <a href="/2022/05/03/rabbitmq-cha-jian-rabbitmq-delayed-message-exchange-shi-xian-yan-chi-dui-lie/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">rabbitmq插件rabbitmq_delayed_message_exchange实现延迟队列</h2>
         </a>
       
       <div class="card-text--row">Older</div>

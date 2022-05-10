@@ -24,7 +24,7 @@
 
   
 
-  <title>rocketmq之Batch模式 | 小鹏驿站</title>
+  <title>rocketmq集群搭建 | 小鹏驿站</title>
 
   
 
@@ -44,7 +44,7 @@
 <!-- header container -->
 <header class="header-container post">
   
-    <div class="post-image" style="background-image: url(&#39;https://api.lixingyong.com/api/images?postid=abf5771f&amp;type=url&amp;itype=image&#39;)"></div>
+    <div class="post-image" style="background-image: url(&#39;https://api.lixingyong.com/api/images?postid=bdfd91d8&amp;type=url&amp;itype=image&#39;)"></div>
   
   <!-- navbar -->
 <nav class="navbar">
@@ -282,15 +282,15 @@
     <div class="header-content">
       <div class="post-text layout-block">
         <div class="layout-margin">
-          <h1 class="title-wrap" title="觉宇宙之无穷，识盈虚之有数">rocketmq之Batch模式</h1>
+          <h1 class="title-wrap" title="觉宇宙之无穷，识盈虚之有数">rocketmq集群搭建</h1>
           <h2 class="title-sub-wrap">
             <strong>RocPengHua</strong>
             <span>发布于</span>
-            <time  class="article-date" datetime="2022-04-25T13:03:15.000Z" itemprop="datePublished">2022-04-25</time>
+            <time  class="article-date" datetime="2022-05-10T12:33:29.000Z" itemprop="datePublished">2022-05-10</time>
           </h2>
           <ul class="wrap-list dark">
   
-    <li><a href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/">📒 中间件</a></li>
+    <li><a href="/categories/%E8%BD%AF%E4%BB%B6/">📒 软件</a></li>
   
 </ul>
           <ul class="wrap-list dark">
@@ -358,7 +358,7 @@
     <span>TOC</span>
   </div>
   <div class="widget-body">
-    <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B7%BB%E5%8A%A0%E4%BE%9D%E8%B5%96"><span class="toc-number">1.</span> <span class="toc-text">添加依赖</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8F%90%E4%BE%9B%E8%80%85"><span class="toc-number">2.</span> <span class="toc-text">提供者</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B6%88%E8%B4%B9%E8%80%85"><span class="toc-number">3.</span> <span class="toc-text">消费者</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95"><span class="toc-number">4.</span> <span class="toc-text">测试</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E6%8B%86%E5%88%86%E5%B7%A5%E5%85%B7"><span class="toc-number">5.</span> <span class="toc-text">数据拆分工具</span></a></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#rocketmq%E4%B8%8B%E8%BD%BD%E5%AE%89%E8%A3%85"><span class="toc-number">1.</span> <span class="toc-text">rocketmq下载安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9B%86%E7%BE%A4%E6%A8%A1%E5%BC%8F%E9%85%8D%E7%BD%AE"><span class="toc-number">2.</span> <span class="toc-text">集群模式配置</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%9B%86%E7%BE%A4%E6%90%AD%E5%BB%BA%E4%BB%8B%E7%BB%8D"><span class="toc-number">2.1.</span> <span class="toc-text">集群搭建介绍</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#HOST%E9%85%8D%E7%BD%AE-%E5%9C%A8%E4%B8%A4%E5%8F%B0%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%AD%E4%BF%AE%E6%94%B9"><span class="toc-number">2.2.</span> <span class="toc-text">HOST配置(在两台虚拟机中修改)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E9%85%8D%E7%BD%AE-%E5%9C%A8%E4%B8%A4%E5%8F%B0%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%AD%E4%BF%AE%E6%94%B9"><span class="toc-number">2.3.</span> <span class="toc-text">环境变量配置(在两台虚拟机中修改)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E6%B6%88%E6%81%AF%E5%AD%98%E5%82%A8%E4%BD%8D%E7%BD%AE"><span class="toc-number">2.4.</span> <span class="toc-text">创建消息存储位置</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9broker%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="toc-number">2.5.</span> <span class="toc-text">修改broker配置文件</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#MASTER1-192-168-101-132"><span class="toc-number">2.5.1.</span> <span class="toc-text">MASTER1(192.168.101.132)</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#SLAVE2-192-168-101-132"><span class="toc-number">2.5.2.</span> <span class="toc-text">SLAVE2(192.168.101.132)</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#MASTER2-192-168-101-131"><span class="toc-number">2.5.3.</span> <span class="toc-text">MASTER2(192.168.101.131)</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#SLAVE1-192-168-101-132"><span class="toc-number">2.5.4.</span> <span class="toc-text">SLAVE1(192.168.101.132)</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%AF%E5%8A%A8%E9%9B%86%E7%BE%A4"><span class="toc-number">3.</span> <span class="toc-text">启动集群</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%90%AF%E5%8A%A8NameServer%E9%9B%86%E7%BE%A4"><span class="toc-number">3.1.</span> <span class="toc-text">启动NameServer集群</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%90%AF%E5%8A%A8broker%E9%9B%86%E7%BE%A4"><span class="toc-number">3.2.</span> <span class="toc-text">启动broker集群</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%AA%8C%E8%AF%81%E5%90%AF%E5%8A%A8%E6%88%90%E5%8A%9F"><span class="toc-number">4.</span> <span class="toc-text">验证启动成功</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8jps%E6%9F%A5%E7%9C%8B%E7%8A%B6%E6%80%81"><span class="toc-number">4.1.</span> <span class="toc-text">使用jps查看状态</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E6%97%A5%E5%BF%97"><span class="toc-number">4.2.</span> <span class="toc-text">查看日志</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B3%A8%E6%84%8F"><span class="toc-number">5.</span> <span class="toc-text">注意</span></a></li></ol>
   </div>
 </section>
 
@@ -370,258 +370,341 @@
       
       
       <section id="blog-content" class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
-        <h4 id="添加依赖"><a href="#添加依赖" class="headerlink" title="添加依赖"></a>添加依赖</h4><pre><code class="xml">&lt;dependency&gt;
-    &lt;groupId&gt;org.apache.rocketmq&lt;/groupId&gt;
-    &lt;artifactId&gt;rocketmq-client&lt;/artifactId&gt;
-    &lt;version&gt;4.9.3&lt;/version&gt;
-&lt;/dependency&gt;
+        <h3 id="rocketmq下载安装"><a href="#rocketmq下载安装" class="headerlink" title="rocketmq下载安装"></a>rocketmq下载安装</h3><p><a href="https://rocpenghua.gitee.io/2022/04/23/centos7-shou-dong-an-zhuang-rocketmq/">centos7手动安装rocketmq | 小鹏驿站 (gitee.io)</a></p>
+<h3 id="集群模式配置"><a href="#集群模式配置" class="headerlink" title="集群模式配置"></a>集群模式配置</h3><h4 id="集群搭建介绍"><a href="#集群搭建介绍" class="headerlink" title="集群搭建介绍"></a>集群搭建介绍</h4><ul>
+<li>本次采用两台虚拟机，<code>192.168.101.132:MASTER1/SLAVE2</code>,<code>192.168.101.131:MASTER2/SLAVE1</code></li>
+<li>使用<code>2m-2s-sync</code>配置下的配置文件</li>
+</ul>
+<h4 id="HOST配置-在两台虚拟机中修改"><a href="#HOST配置-在两台虚拟机中修改" class="headerlink" title="HOST配置(在两台虚拟机中修改)"></a>HOST配置(在两台虚拟机中修改)</h4><pre><code class="shell">vim /etc/hosts
 </code></pre>
-<h4 id="提供者"><a href="#提供者" class="headerlink" title="提供者"></a>提供者</h4><pre><code class="java">package com.pengpeng.rocketmq.producer;
-
-import com.pengpeng.rocketmq.config.JmsConfig;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.rocketmq.client.exception.MQClientException;
-import org.apache.rocketmq.client.producer.DefaultMQProducer;
-import org.springframework.stereotype.Component;
-
-/**
- * @author 
- * @date 2021/10/20.
- */
-@Slf4j
-@Component
-public class Producer &#123;
-    private String producerGroup = &quot;please_rename_unique_group_name&quot;;
-    private DefaultMQProducer producer;
-
-    public Producer()&#123;
-        //示例生产者
-        producer = new DefaultMQProducer(producerGroup);
-        //不开启vip通道 开通口端口会减2
-        producer.setVipChannelEnabled(false);
-        //绑定name server
-        producer.setNamesrvAddr(JmsConfig.NAME_SERVER);
-        start();
-    &#125;
-    /**
-     * 对象在使用之前必须要调用一次，只能初始化一次
-     */
-    public void start()&#123;
-        try &#123;
-            this.producer.start();
-        &#125; catch (MQClientException e) &#123;
-            e.printStackTrace();
-        &#125;
-    &#125;
-
-    public DefaultMQProducer getProducer()&#123;
-        return this.producer;
-    &#125;
-    /**
-     * 一般在应用上下文，使用上下文监听器，进行关闭
-     */
-    public void shutdown()&#123;
-        this.producer.shutdown();
-    &#125;
-&#125;
+<ul>
+<li>配置文件如下</li>
+</ul>
+<pre><code class="properties">192.168.101.132 rocketmq-nameserver1
+192.168.101.131 rocketmq-nameserver2
+192.168.101.132 rocketmq-master1
+192.168.101.132 rocketmq-slave2
+192.168.101.131 rocketmq-master2
+192.168.101.131 rocketmq-slave1
 </code></pre>
-<h4 id="消费者"><a href="#消费者" class="headerlink" title="消费者"></a>消费者</h4><pre><code class="java">package com.pengpeng.rocketmq.consumer;
-
-import com.pengpeng.rocketmq.config.JmsConfig;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;
-import org.apache.rocketmq.client.consumer.listener.ConsumeConcurrentlyStatus;
-import org.apache.rocketmq.client.consumer.listener.MessageListenerConcurrently;
-import org.apache.rocketmq.client.exception.MQClientException;
-import org.apache.rocketmq.common.consumer.ConsumeFromWhere;
-import org.apache.rocketmq.common.message.Message;
-import org.apache.rocketmq.remoting.common.RemotingHelper;
-import org.springframework.stereotype.Component;
-
-import java.io.UnsupportedEncodingException;
-
-/**
- * @author 
- * @date 2021/10/20.
- */
-@Slf4j
-@Component
-public class BatchConsumer &#123;
-
-    /**
-     * 消费者实体对象
-     */
-    private DefaultMQPushConsumer consumer;
-    /**
-     * 主题名称 主题一般是服务器设置好 而不能在代码里去新建topic（ 如果没有创建好，生产者往该主题发送消息 会报找不到topic错误）
-     */
-    public static final String TOPIC = &quot;TOPIC_BATCH_CONSUMER&quot;;
-    /**
-     * 消费者组
-     */
-    public static final String CONSUMER_GROUP = &quot;batch_group_name&quot;;
-    /**
-     * 通过构造函数 实例化对象
-     */
-    public BatchConsumer() throws MQClientException &#123;
-
-        consumer = new DefaultMQPushConsumer(CONSUMER_GROUP);
-        consumer.setNamesrvAddr(JmsConfig.NAME_SERVER);
-        //消费模式:一个新的订阅组第一次启动从队列的最后位置开始消费 后续再启动接着上次消费的进度开始消费
-        consumer.setConsumeFromWhere(ConsumeFromWhere.CONSUME_FROM_LAST_OFFSET);
-        //订阅主题和 标签（ * 代表所有标签)下信息
-        consumer.subscribe(TOPIC, &quot;*&quot;);
-        // //注册消费的监听 并在此监听中消费信息，并返回消费的状态信息
-        consumer.registerMessageListener((MessageListenerConcurrently) (msgs, context) -&gt; &#123;
-            // msgs中只收集同一个topic，同一个tag，并且key相同的message
-            // 会把不同的消息分别放置到不同的队列中
-            try &#123;
-                for (Message msg : msgs) &#123;
-
-                    //消费者获取消息 这里只输出 不做后面逻辑处理
-                    String body = new String(msg.getBody(), RemotingHelper.DEFAULT_CHARSET);
-                    log.info(&quot;Batch-Consumer-获取消息-主题topic为=&#123;&#125;, 消费消息为=&#123;&#125;&quot;, msg.getTopic(), body);
-                &#125;
-            &#125; catch (UnsupportedEncodingException e) &#123;
-                e.printStackTrace();
-                return ConsumeConcurrentlyStatus.RECONSUME_LATER;
-            &#125;
-            return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
-        &#125;);
-
-        consumer.start();
-        System.out.println(&quot;BatchConsumer消费者 启动成功=======&quot;);
-    &#125;
-&#125;
+<ul>
+<li>确保两台机器通信（可以关闭防火墙或者开放端口）</li>
+</ul>
+<h4 id="环境变量配置-在两台虚拟机中修改"><a href="#环境变量配置-在两台虚拟机中修改" class="headerlink" title="环境变量配置(在两台虚拟机中修改)"></a>环境变量配置(在两台虚拟机中修改)</h4><pre><code class="shell">vim /etc/profile
 </code></pre>
-<h4 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h4><pre><code class="java">package com.pengpeng.rocketmq.web;
-
-import com.pengpeng.rocketmq.consumer.BatchConsumer;
-import com.pengpeng.rocketmq.consumer.Consumer;
-import com.pengpeng.rocketmq.producer.Producer;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.rocketmq.client.producer.SendResult;
-import org.apache.rocketmq.common.message.Message;
-import org.apache.rocketmq.remoting.common.RemotingHelper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.util.ArrayList;
-import java.util.List;
-
-/**
- * Describe:
- * Created by AlexP on 2022/4/25.
- */
-@Slf4j
-@RestController
-@RequestMapping(&quot;/batch&quot;)
-public class BatchController &#123;
-    @Autowired
-    private Producer producer;
-
-    @RequestMapping(&quot;/batchProducer&quot;)
-    public Object batchProducer() throws Exception &#123;
-        List&lt;Message&gt; messages = new ArrayList&lt;&gt;();
-        //总共发送五次消息
-        for (int i = 0; i &lt; 20; i++) &#123;
-            //创建生产信息
-            Message message = new Message(BatchConsumer.TOPIC, &quot;BatchTagA&quot;, (&quot;Hello RocketMQ:&quot; + i).getBytes(RemotingHelper.DEFAULT_CHARSET));
-            messages.add(message);
-        &#125;
-        //发送
-        SendResult sendResult = producer.getProducer().send(messages);
-        log.info(&quot;输出生产者信息=&#123;&#125;&quot;,sendResult);
-        return &quot;成功&quot;;
-    &#125;
-
-    /**
-     * 仅当您发送大批量时，复杂性才会增加，您可能不确定它是否超过大小限制（1MiB）。此时，您最好拆分列表
-     * @return
-     * @throws Exception
-     */
-    @RequestMapping(&quot;/splitterProducer&quot;)
-    public Object splitterProducer() throws Exception &#123;
-        List&lt;Message&gt; messages = new ArrayList&lt;&gt;();
-        //总共发送五次消息
-        for (int i = 0; i &lt; 20; i++) &#123;
-            //创建生产信息
-            Message message = new Message(BatchConsumer.TOPIC, &quot;BatchTagA&quot;, (&quot;Hello RocketMQ:&quot; + i).getBytes(RemotingHelper.DEFAULT_CHARSET));
-            messages.add(message);
-        &#125;
-        //then you could split the large list into small ones:
-        ListSplitter splitter = new ListSplitter(messages);
-        while (splitter.hasNext()) &#123;
-            try &#123;
-                List&lt;Message&gt;  listItem = splitter.next();
-                SendResult sendResult =producer.getProducer().send(listItem);
-                log.info(&quot;输出生产者信息=&#123;&#125;&quot;,sendResult);
-            &#125; catch (Exception e) &#123;
-                e.printStackTrace();
-                //handle the error
-            &#125;
-        &#125;
-        return &quot;成功&quot;;
-    &#125;
-&#125;
+<ul>
+<li>在最后加入如下配置</li>
+</ul>
+<pre><code class="sh">#ROCKETMQ_HOME
+ROCKETMQ_HOME=/opt/module/rocketmq
+PATH=$PATH:$ROCKETMQ_HOME/bin
+export PATH ROCKETMQ_HOME PATH
 </code></pre>
-<h4 id="数据拆分工具"><a href="#数据拆分工具" class="headerlink" title="数据拆分工具"></a>数据拆分工具</h4><pre><code class="java">package com.pengpeng.rocketmq.web;
-
-import org.apache.rocketmq.common.message.Message;
-
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
-/**
- * Describe:
- * Created by AlexP on 2022/4/25.
- */
-public class ListSplitter implements Iterator&lt;List&lt;Message&gt;&gt; &#123;
-    private static final int SIZE_LIMIT = 1000 * 1000;
-    private final List&lt;Message&gt; messages;
-    private int currIndex;
-    public ListSplitter(List&lt;Message&gt; messages) &#123;
-        this.messages = messages;
-    &#125;
-    @Override public boolean hasNext() &#123;
-        return currIndex &lt; messages.size();
-    &#125;
-    @Override public List&lt;Message&gt; next() &#123;
-        int nextIndex = currIndex;
-        int totalSize = 0;
-        for (; nextIndex &lt; messages.size(); nextIndex++) &#123;
-            Message message = messages.get(nextIndex);
-            int tmpSize = message.getTopic().length() + message.getBody().length;
-            Map&lt;String, String&gt; properties = message.getProperties();
-            for (Map.Entry&lt;String, String&gt; entry : properties.entrySet()) &#123;
-                tmpSize += entry.getKey().length() + entry.getValue().length();
-            &#125;
-            //for log overhead
-            tmpSize = tmpSize + 20;
-            if (tmpSize &gt; SIZE_LIMIT) &#123;
-                //it is unexpected that single message exceeds the SIZE_LIMIT
-                //here just let it go, otherwise it will block the splitting process
-                if (nextIndex - currIndex == 0) &#123;
-                    //if the next sublist has no element, add this one and then break, otherwise just break
-                    nextIndex++;
-                &#125;
-                break;
-            &#125;
-            if (tmpSize + totalSize &gt; SIZE_LIMIT) &#123;
-                break;
-            &#125; else &#123;
-                totalSize += tmpSize;
-            &#125;
-
-        &#125;
-        List&lt;Message&gt; subList = messages.subList(currIndex, nextIndex);
-        currIndex = nextIndex;
-        return subList;
-    &#125;
-&#125;
+<ul>
+<li>使配置生效</li>
+</ul>
+<pre><code class="shell">source /etc/profile
 </code></pre>
+<h4 id="创建消息存储位置"><a href="#创建消息存储位置" class="headerlink" title="创建消息存储位置"></a>创建消息存储位置</h4><pre><code class="shell">#主
+mkdir /opt/module/rocketmq/store
+mkdir /opt/module/rocketmq/store/commitlog
+mkdir /opt/module/rocketmq/store/consumequeue
+mkdir /opt/module/rocketmq/store/index
+#拷贝一份作为从节点的配置
+cp -r /opt/module/rocketmq/store /opt/module/rocketmq/store-slave
+</code></pre>
+<h4 id="修改broker配置文件"><a href="#修改broker配置文件" class="headerlink" title="修改broker配置文件"></a>修改broker配置文件</h4><h5 id="MASTER1-192-168-101-132"><a href="#MASTER1-192-168-101-132" class="headerlink" title="MASTER1(192.168.101.132)"></a>MASTER1(192.168.101.132)</h5><pre><code class="shell">vim /opt/module/rocketmq/conf/2m-2s-sync/broker-a.properties
+</code></pre>
+<p>修改配置如下：</p>
+<pre><code class="properties">#所属集群名字
+brokerClusterName=rocketmq-cluster
+#broker名字，注意此处不同的配置文件填写的不一样
+brokerName=broker-a
+#0 表示 Master，&gt;0 表示 Slave
+brokerId=0
+#nameServer地址，分号分割
+namesrvAddr=rocketmq-nameserver1:9876;rocketmq-nameserver2:9876
+#在发送消息时，自动创建服务器不存在的topic，默认创建的队列数
+defaultTopicQueueNums=4
+#是否允许 Broker 自动创建Topic，建议线下开启，线上关闭
+autoCreateTopicEnable=true
+#是否允许 Broker 自动创建订阅组，建议线下开启，线上关闭
+autoCreateSubscriptionGroup=true
+#Broker 对外服务的监听端口
+listenPort=10911
+#删除文件时间点，默认凌晨 4点
+deleteWhen=04
+#文件保留时间，默认 48 小时
+fileReservedTime=120
+#commitLog每个文件的大小默认1G
+mapedFileSizeCommitLog=1073741824
+#ConsumeQueue每个文件默认存30W条，根据业务情况调整
+mapedFileSizeConsumeQueue=300000
+#destroyMapedFileIntervalForcibly=120000
+#redeleteHangedFileInterval=120000
+#检测物理文件磁盘空间
+diskMaxUsedSpaceRatio=88
+#存储路径
+storePathRootDir=/opt/module/rocketmq/store
+#commitLog 存储路径
+storePathCommitLog=/opt/module/rocketmq/store/commitlog
+#消费队列存储路径存储路径
+storePathConsumeQueue=/opt/module/rocketmq/store/consumequeue
+#消息索引存储路径
+storePathIndex=/opt/module/rocketmq/store/index
+#checkpoint 文件存储路径
+storeCheckpoint=/opt/module/rocketmq/store/checkpoint
+#abort 文件存储路径
+abortFile=/opt/module/rocketmq/store/abort
+#限制的消息大小
+maxMessageSize=65536
+#flushCommitLogLeastPages=4
+#flushConsumeQueueLeastPages=2
+#flushCommitLogThoroughInterval=10000
+#flushConsumeQueueThoroughInterval=60000
+#Broker 的角色
+#- ASYNC_MASTER 异步复制Master
+#- SYNC_MASTER 同步双写Master
+#- SLAVE
+brokerRole=SYNC_MASTER
+#刷盘方式
+#- ASYNC_FLUSH 异步刷盘
+#- SYNC_FLUSH 同步刷盘
+flushDiskType=SYNC_FLUSH
+#checkTransactionMessageEnable=false
+#发消息线程池数量
+#sendMessageThreadPoolNums=128
+#拉消息线程池数量
+#pullMessageThreadPoolNums=128
+</code></pre>
+<h5 id="SLAVE2-192-168-101-132"><a href="#SLAVE2-192-168-101-132" class="headerlink" title="SLAVE2(192.168.101.132)"></a>SLAVE2(192.168.101.132)</h5><pre><code class="shell">vim /opt/module/rocketmq/conf/2m-2s-sync/broker-b-s.properties
+</code></pre>
+<p>修改配置如下：</p>
+<pre><code class="properties">#所属集群名字
+brokerClusterName=rocketmq-cluster
+#broker名字，注意此处不同的配置文件填写的不一样
+brokerName=broker-b
+#0 表示 Master，&gt;0 表示 Slave
+brokerId=1
+#nameServer地址，分号分割
+namesrvAddr=rocketmq-nameserver1:9876;rocketmq-nameserver2:9876
+#在发送消息时，自动创建服务器不存在的topic，默认创建的队列数
+defaultTopicQueueNums=4
+#是否允许 Broker 自动创建Topic，建议线下开启，线上关闭
+autoCreateTopicEnable=true
+#是否允许 Broker 自动创建订阅组，建议线下开启，线上关闭
+autoCreateSubscriptionGroup=true
+#Broker 对外服务的监听端口
+listenPort=11011
+#删除文件时间点，默认凌晨 4点
+deleteWhen=04
+#文件保留时间，默认 48 小时
+fileReservedTime=120
+#commitLog每个文件的大小默认1G
+mapedFileSizeCommitLog=1073741824
+#ConsumeQueue每个文件默认存30W条，根据业务情况调整
+mapedFileSizeConsumeQueue=300000
+#destroyMapedFileIntervalForcibly=120000
+#redeleteHangedFileInterval=120000
+#检测物理文件磁盘空间
+diskMaxUsedSpaceRatio=88
+#存储路径
+storePathRootDir=/opt/module/rocketmq/store-slave
+#commitLog 存储路径
+storePathCommitLog=/opt/module/rocketmq/store-slave/commitlog
+#消费队列存储路径存储路径
+storePathConsumeQueue=/opt/module/rocketmq/store-slave/consumequeue
+#消息索引存储路径
+storePathIndex=/opt/module/rocketmq/store-slave/index
+#checkpoint 文件存储路径
+storeCheckpoint=/opt/module/rocketmq/store-slave/checkpoint
+#abort 文件存储路径
+abortFile=/opt/module/rocketmq/store-slave/abort
+#限制的消息大小
+maxMessageSize=65536
+#flushCommitLogLeastPages=4
+#flushConsumeQueueLeastPages=2
+#flushCommitLogThoroughInterval=10000
+#flushConsumeQueueThoroughInterval=60000
+#Broker 的角色
+#- ASYNC_MASTER 异步复制Master
+#- SYNC_MASTER 同步双写Master
+#- SLAVE
+brokerRole=SLAVE
+#刷盘方式
+#- ASYNC_FLUSH 异步刷盘
+#- SYNC_FLUSH 同步刷盘
+flushDiskType=ASYNC_FLUSH
+#checkTransactionMessageEnable=false
+#发消息线程池数量
+#sendMessageThreadPoolNums=128
+#拉消息线程池数量
+#pullMessageThreadPoolNums=128
+</code></pre>
+<h5 id="MASTER2-192-168-101-131"><a href="#MASTER2-192-168-101-131" class="headerlink" title="MASTER2(192.168.101.131)"></a>MASTER2(192.168.101.131)</h5><pre><code class="shell">vim /opt/module/rocketmq/conf/2m-2s-sync/broker-b.properties
+</code></pre>
+<p>修改配置如下：</p>
+<pre><code class="properties">#所属集群名字
+brokerClusterName=rocketmq-cluster
+#broker名字，注意此处不同的配置文件填写的不一样
+brokerName=broker-b
+#0 表示 Master，&gt;0 表示 Slave
+brokerId=0
+#nameServer地址，分号分割
+namesrvAddr=rocketmq-nameserver1:9876;rocketmq-nameserver2:9876
+#在发送消息时，自动创建服务器不存在的topic，默认创建的队列数
+defaultTopicQueueNums=4
+#是否允许 Broker 自动创建Topic，建议线下开启，线上关闭
+autoCreateTopicEnable=true
+#是否允许 Broker 自动创建订阅组，建议线下开启，线上关闭
+autoCreateSubscriptionGroup=true
+#Broker 对外服务的监听端口
+listenPort=10911
+#删除文件时间点，默认凌晨 4点
+deleteWhen=04
+#文件保留时间，默认 48 小时
+fileReservedTime=120
+#commitLog每个文件的大小默认1G
+mapedFileSizeCommitLog=1073741824
+#ConsumeQueue每个文件默认存30W条，根据业务情况调整
+mapedFileSizeConsumeQueue=300000
+#destroyMapedFileIntervalForcibly=120000
+#redeleteHangedFileInterval=120000
+#检测物理文件磁盘空间
+diskMaxUsedSpaceRatio=88
+#存储路径
+storePathRootDir=/opt/module/rocketmq/store
+#commitLog 存储路径
+storePathCommitLog=/opt/module/rocketmq/store/commitlog
+#消费队列存储路径存储路径
+storePathConsumeQueue=/opt/module/rocketmq/store/consumequeue
+#消息索引存储路径
+storePathIndex=/opt/module/rocketmq/store/index
+#checkpoint 文件存储路径
+storeCheckpoint=/opt/module/rocketmq/store/checkpoint
+#abort 文件存储路径
+abortFile=/opt/module/rocketmq/store/abort
+#限制的消息大小
+maxMessageSize=65536
+#flushCommitLogLeastPages=4
+#flushConsumeQueueLeastPages=2
+#flushCommitLogThoroughInterval=10000
+#flushConsumeQueueThoroughInterval=60000
+#Broker 的角色
+#- ASYNC_MASTER 异步复制Master
+#- SYNC_MASTER 同步双写Master
+#- SLAVE
+brokerRole=SYNC_MASTER
+#刷盘方式
+#- ASYNC_FLUSH 异步刷盘
+#- SYNC_FLUSH 同步刷盘
+flushDiskType=SYNC_FLUSH
+#checkTransactionMessageEnable=false
+#发消息线程池数量
+#sendMessageThreadPoolNums=128
+#拉消息线程池数量
+#pullMessageThreadPoolNums=128
+</code></pre>
+<h5 id="SLAVE1-192-168-101-132"><a href="#SLAVE1-192-168-101-132" class="headerlink" title="SLAVE1(192.168.101.132)"></a>SLAVE1(192.168.101.132)</h5><pre><code class="shell">vim /opt/module/rocketmq/conf/2m-2s-sync/broker-a-s.properties
+</code></pre>
+<p>修改配置如下：</p>
+<pre><code class="properties">#所属集群名字
+brokerClusterName=rocketmq-cluster
+#broker名字，注意此处不同的配置文件填写的不一样
+brokerName=broker-a
+#0 表示 Master，&gt;0 表示 Slave
+brokerId=1
+#nameServer地址，分号分割
+namesrvAddr=rocketmq-nameserver1:9876;rocketmq-nameserver2:9876
+#在发送消息时，自动创建服务器不存在的topic，默认创建的队列数
+defaultTopicQueueNums=4
+#是否允许 Broker 自动创建Topic，建议线下开启，线上关闭
+autoCreateTopicEnable=true
+#是否允许 Broker 自动创建订阅组，建议线下开启，线上关闭
+autoCreateSubscriptionGroup=true
+#Broker 对外服务的监听端口
+listenPort=11011
+#删除文件时间点，默认凌晨 4点
+deleteWhen=04
+#文件保留时间，默认 48 小时
+fileReservedTime=120
+#commitLog每个文件的大小默认1G
+mapedFileSizeCommitLog=1073741824
+#ConsumeQueue每个文件默认存30W条，根据业务情况调整
+mapedFileSizeConsumeQueue=300000
+#destroyMapedFileIntervalForcibly=120000
+#redeleteHangedFileInterval=120000
+#检测物理文件磁盘空间
+diskMaxUsedSpaceRatio=88
+#存储路径
+storePathRootDir=/opt/module/rocketmq/store-slave
+#commitLog 存储路径
+storePathCommitLog=/opt/module/rocketmq/store-slave/commitlog
+#消费队列存储路径存储路径
+storePathConsumeQueue=/opt/module/rocketmq/store-slave/consumequeue
+#消息索引存储路径
+storePathIndex=/opt/module/rocketmq/store-slave/index
+#checkpoint 文件存储路径
+storeCheckpoint=/opt/module/rocketmq/store-slave/checkpoint
+#abort 文件存储路径
+abortFile=/opt/module/rocketmq/store-slave/abort
+#限制的消息大小
+maxMessageSize=65536
+#flushCommitLogLeastPages=4
+#flushConsumeQueueLeastPages=2
+#flushCommitLogThoroughInterval=10000
+#flushConsumeQueueThoroughInterval=60000
+#Broker 的角色
+#- ASYNC_MASTER 异步复制Master
+#- SYNC_MASTER 同步双写Master
+#- SLAVE
+brokerRole=SLAVE
+#刷盘方式
+#- ASYNC_FLUSH 异步刷盘
+#- SYNC_FLUSH 同步刷盘
+flushDiskType=ASYNC_FLUSH
+#checkTransactionMessageEnable=false
+#发消息线程池数量
+#sendMessageThreadPoolNums=128
+#拉消息线程池数量
+#pullMessageThreadPoolNums=128
+</code></pre>
+<h3 id="启动集群"><a href="#启动集群" class="headerlink" title="启动集群"></a>启动集群</h3><h4 id="启动NameServer集群"><a href="#启动NameServer集群" class="headerlink" title="启动NameServer集群"></a>启动NameServer集群</h4><ul>
+<li>分别在<code>192.168.101.132</code>,<code>192.168.101.131</code>执行如下命令</li>
+</ul>
+<pre><code class="shell">cd /opt/module/rocketmq/bin
+sh mqnamesrv &amp;
+</code></pre>
+<h4 id="启动broker集群"><a href="#启动broker集群" class="headerlink" title="启动broker集群"></a>启动broker集群</h4><ul>
+<li>在<code>192.168.101.132</code>启动MASTER1和SLAVE2</li>
+</ul>
+<pre><code class="shell">cd /opt/module/rocketmq/bin
+#启动MASTER1
+sh mqbroker -c ../conf/2m-2s-sync/broker-a.properties &amp;
+#启动SLAVE2
+sh mqbroker -c ../conf/2m-2s-sync/broker-b-s.properties &amp;
+</code></pre>
+<ul>
+<li>在<code>192.168.101.131</code>启动MASTER2和SLAVE1</li>
+</ul>
+<pre><code class="shell">cd /opt/module/rocketmq/bin
+#启动MASTER2
+sh mqbroker -c ../conf/2m-2s-sync/broker-b.properties &amp;
+#启动SLAVE1
+sh mqbroker -c ../conf/2m-2s-sync/broker-a-s.properties &amp;
+</code></pre>
+<h3 id="验证启动成功"><a href="#验证启动成功" class="headerlink" title="验证启动成功"></a>验证启动成功</h3><h4 id="使用jps查看状态"><a href="#使用jps查看状态" class="headerlink" title="使用jps查看状态"></a>使用jps查看状态</h4><pre><code class="shell">jps
+</code></pre>
+<img src="/2022/05/10/rocketmq-ji-qun-da-jian/image-20220510205542048.png" class="" title="image-20220510205542048">
+
+<h4 id="查看日志"><a href="#查看日志" class="headerlink" title="查看日志"></a>查看日志</h4><pre><code class="shell"># 查看nameServer日志
+tail -500f /opt/module/rabbitmq/logs/rocketmqlogs/namesrv.log
+# 查看broker日志
+tail -500f /opt/module/rabbitmq/logs/rocketmqlogs/broker.log
+</code></pre>
+<h3 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h3><ul>
+<li>旧版本主从节点storePath可以在同一个路径下，新版本需要两个不同路径</li>
+</ul>
 
       </section>
 
@@ -629,32 +712,16 @@ public class ListSplitter implements Iterator&lt;List&lt;Message&gt;&gt; &#123;
       
         <nav class="article-nav">
           
-            <div class="article-nav-item layout-padding">
-  <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
-    
-      <div class="card-cover" background-image-lazy data-img="https://api.lixingyong.com/api/images?postid=5c0b4cd6&type=url&itype=image"></div>
-    
-    <div class="card-text">
-      
-        <a href="/2022/04/25/rocketmq-zhi-filter-mo-shi/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">rocketmq之Filter模式</h2>
-        </a>
-      
-      <div class="card-text--row">Newer</div>
-    </div>
-  </article>
-</div>
-          
           
             <div class="article-nav-item layout-padding">
   <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
     
-      <div class="card-cover" background-image-lazy data-img="https://api.lixingyong.com/api/images?postid=d9094cb6&type=url&itype=image"></div>
+      <div class="card-cover" background-image-lazy data-img="https://api.lixingyong.com/api/images?postid=4666ba&type=url&itype=image"></div>
     
     <div class="card-text">
       
-        <a href="/2022/04/25/rocketmq-zhi-schedule-mo-shi/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">rocketmq之Schedule模式</h2>
+        <a href="/2022/05/06/rabbitmq-ji-qun-da-jian/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">rabbitmq集群搭建</h2>
         </a>
       
       <div class="card-text--row">Older</div>

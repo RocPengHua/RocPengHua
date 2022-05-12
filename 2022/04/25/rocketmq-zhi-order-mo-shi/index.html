@@ -546,7 +546,19 @@ public class OrderedController &#123;
             //Create a message instance, specifying topic, tag and message body.
             Message msg = new Message(OrderedConsumer.TOPIC, tags[i % tags.length], &quot;KEY&quot; + i,
                     (&quot;Hello RocketMQ &quot; + i).getBytes(RemotingHelper.DEFAULT_CHARSET));
+            /**
+             * 1、消息对象
+             * 2、消息队列的选择器
+             * 3、选择队列的业务标识（orderId）
+             */
             SendResult sendResult = producer.getProducer().send(msg, new MessageQueueSelector() &#123;
+                /**
+                 *
+                 * @param mqs 队列集合
+                 * @param msg 消息对象
+                 * @param arg 业务标识参数 orderId
+                 * @return
+                 */
                 @Override
                 public MessageQueue select(List&lt;MessageQueue&gt; mqs, Message msg, Object arg) &#123;
                     Integer id = (Integer) arg;

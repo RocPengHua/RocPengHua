@@ -474,6 +474,7 @@ public class BroadcastConsumer &#123;
         consumer.setNamesrvAddr(JmsConfig.NAME_SERVER);
 
         consumer.setConsumeFromWhere(ConsumeFromWhere.CONSUME_FROM_FIRST_OFFSET);
+       //设置消费模式：负载均衡|广播模式(默认负载均衡)
         consumer.setMessageModel(MessageModel.BROADCASTING);
 
         consumer.subscribe(TOPIC, &quot;Broadcast1 || Broadcast3 || Broadcast5&quot;);
@@ -551,6 +552,7 @@ public class BroadcastConsumer2 &#123;
         consumer.setNamesrvAddr(JmsConfig.NAME_SERVER);
 
         consumer.setConsumeFromWhere(ConsumeFromWhere.CONSUME_FROM_FIRST_OFFSET);
+        //设置消费模式：负载均衡|广播模式(默认负载均衡)
         consumer.setMessageModel(MessageModel.BROADCASTING);
 
         consumer.subscribe(TOPIC, &quot;Broadcast1 || Broadcast2 || Broadcast3&quot;);

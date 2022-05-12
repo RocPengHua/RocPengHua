@@ -415,6 +415,7 @@ public class TransactionProducer &#123;
         &#125;);
 
         producer.setExecutorService(executorService);
+        //添加事务监听器
         producer.setTransactionListener(transactionListener);
         start();
     &#125;
@@ -459,6 +460,12 @@ public class TransactionListenerImpl implements TransactionListener &#123;
 
     private ConcurrentHashMap&lt;String, Integer&gt; localTrans = new ConcurrentHashMap&lt;&gt;();
 
+    /**
+    * 在该方法中执行本地事务
+    * @param msg
+    * @param arg
+    * @return
+    */
     @Override
     public LocalTransactionState executeLocalTransaction(Message msg, Object arg) &#123;
         int value = transactionIndex.getAndIncrement();
@@ -466,7 +473,11 @@ public class TransactionListenerImpl implements TransactionListener &#123;
         localTrans.put(msg.getTransactionId(), status);
         return LocalTransactionState.UNKNOW;
     &#125;
-
+    /**
+    * 该方法是MQ进行消息事务状态回查
+    * @param msg
+    * @return
+    */
     @Override
     public LocalTransactionState checkLocalTransaction(MessageExt msg) &#123;
         Integer status = localTrans.get(msg.getTransactionId());

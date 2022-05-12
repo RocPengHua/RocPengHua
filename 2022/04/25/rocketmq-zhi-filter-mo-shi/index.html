@@ -471,7 +471,7 @@ public class FilterConsumer &#123;
         consumer.setNamesrvAddr(JmsConfig.NAME_SERVER);
         //消费模式:一个新的订阅组第一次启动从队列的最后位置开始消费 后续再启动接着上次消费的进度开始消费
         consumer.setConsumeFromWhere(ConsumeFromWhere.CONSUME_FROM_LAST_OFFSET);
-        // only subsribe messages have property a, also a &gt;=0 and a &lt;= 3
+        // only subsribe messages have property a, also a &gt;=0 and a &lt;= 3 sql模式 默认Tag, *表示所有，|| 多个
         consumer.subscribe(TOPIC, MessageSelector.bySql(&quot;a between 0 and 3&quot;));
         // //注册消费的监听 并在此监听中消费信息，并返回消费的状态信息
         consumer.registerMessageListener((MessageListenerConcurrently) (msgs, context) -&gt; &#123;

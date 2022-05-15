@@ -1,0 +1,1073 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="theme-color" content="#3367D6"/>
+  <link rel="apple-touch-icon" href="/icons-192.png">
+  <link rel="manifest" href="/manifest.json">
+  
+  <meta name="generator" content="Hexo 5.4.2">
+
+  
+    <meta name="description" content="觉宇宙之无穷，识盈虚之有数">
+  
+
+  
+
+  
+    <meta name="author" content="RocPengHua">
+  
+
+  
+
+  
+
+  <title>rocketmq源码调试环境搭建 | 小鹏驿站</title>
+
+  
+
+  
+    <link rel="shortcut icon" href="/favicon.ico">
+  
+
+  
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+</head>
+<body>
+  <div class="root-container">
+    
+<!-- header container -->
+<header class="header-container post">
+  
+    <div class="post-image" style="background-image: url(&#39;https://api.lixingyong.com/api/images?postid=7fb5cfd9&amp;type=url&amp;itype=image&#39;)"></div>
+  
+  <!-- navbar -->
+<nav class="navbar">
+  <div class="navbar-content">
+    <!-- logo -->
+    <div class="navbar-logo">
+      <a href="/">
+        
+          小鹏驿站
+        
+      </a>
+    </div>
+    <!-- link -->
+    <div class="navbar-link">
+      <div class="navbar-btn">
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+      <ul class="navbar-list">
+        
+              <li class="navbar-list-item">
+                <a href="/">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-home faa-shake" aria-hidden="true"></i>
+                    首页
+                  </span>
+                </a>
+                
+              </li>
+            
+              <li class="navbar-list-item">
+                <a href="/archives">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-archive faa-shake" aria-hidden="true"></i>
+                    归档
+                  </span>
+                </a>
+                
+              </li>
+            
+              <li class="navbar-list-item">
+                <a href="/categories">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-folder faa-shake" aria-hidden="true"></i>
+                    分类
+                  </span>
+                </a>
+                
+                  <ul class="sub-menu">
+                    
+                      <li>
+                        <a href="/categories/%E5%90%8E%E7%AB%AF/">
+                          <i class="fa fa-etsy" aria-hidden="true"></i>
+                          后端
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/categories/%E5%89%8D%E7%AB%AF/">
+                          <i class="fa fa-grav" aria-hidden="true"></i>
+                          前端
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/categories/%E8%BD%AF%E4%BB%B6/">
+                          <i class="fa fa-key" aria-hidden="true"></i>
+                          软件
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/categories/%E7%AE%97%E6%B3%95/">
+                          <i class="fa fa-glass" aria-hidden="true"></i>
+                          算法
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">
+                          <i class="fa fa-database" aria-hidden="true"></i>
+                          数据库
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/">
+                          <i class="fa fa-arrows-alt" aria-hidden="true"></i>
+                          中间件
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/categories/%E9%97%AE%E9%A2%98/">
+                          <i class="fa fa-telegram" aria-hidden="true"></i>
+                          问题
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/categories/%E9%97%B2%E8%B0%88/">
+                          <i class="fa fa-vcard" aria-hidden="true"></i>
+                          闲谈
+                        </a>
+                      </li>
+                    
+                  </ul>
+                
+              </li>
+            
+              <li class="navbar-list-item">
+                <a href="/tags">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-tags" aria-hidden="true"></i>
+                    标签
+                  </span>
+                </a>
+                
+                  <ul class="sub-menu">
+                    
+                      <li>
+                        <a href="/tags/%E5%8A%A0%E5%AF%86/">
+                          <i class="fa fa-wpexplorer" aria-hidden="true"></i>
+                          加密
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/tags/idea/">
+                          <i class="fa fa-eercast" aria-hidden="true"></i>
+                          idea
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/tags/java/">
+                          <i class="fa fa-coffee" aria-hidden="true"></i>
+                          java
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/tags/mysql/">
+                          <i class="fa fa-database" aria-hidden="true"></i>
+                          mysql
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/tags/oracle/">
+                          <i class="fa fa-database" aria-hidden="true"></i>
+                          oracle
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/tags/spring/">
+                          <i class="fa fa-leaf" aria-hidden="true"></i>
+                          spring
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/tags/redis/">
+                          <i class="fa fa-fire" aria-hidden="true"></i>
+                          redis
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/tags/mongodb/">
+                          <i class="fa fa-database" aria-hidden="true"></i>
+                          mongodb
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/tags/rocketmq/">
+                          <i class="fa fa-random" aria-hidden="true"></i>
+                          rocketmq
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/tags/kafka/">
+                          <i class="fa fa-random" aria-hidden="true"></i>
+                          kafka
+                        </a>
+                      </li>
+                    
+                  </ul>
+                
+              </li>
+            
+              <li class="navbar-list-item">
+                <a href="/links">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-link" aria-hidden="true"></i>
+                    友链
+                  </span>
+                </a>
+                
+              </li>
+            
+              <li class="navbar-list-item">
+                <a href="/about">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-signing" aria-hidden="true"></i>
+                    关于
+                  </span>
+                </a>
+                
+              </li>
+            
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+    <div class="header-content">
+      <div class="post-text layout-block">
+        <div class="layout-margin">
+          <h1 class="title-wrap" title="觉宇宙之无穷，识盈虚之有数">rocketmq源码调试环境搭建</h1>
+          <h2 class="title-sub-wrap">
+            <strong>RocPengHua</strong>
+            <span>发布于</span>
+            <time  class="article-date" datetime="2022-05-15T10:18:03.000Z" itemprop="datePublished">2022-05-15</time>
+          </h2>
+          <ul class="wrap-list dark">
+  
+    <li><a href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/">📒 中间件</a></li>
+  
+</ul>
+          <ul class="wrap-list dark">
+  
+    <li><a href="/tags/rocketmq/">🏷️ rocketmq</a></li>
+  
+</ul>
+        </div>
+      </div>
+    </div>
+  
+
+  
+  
+  
+</header>
+
+    <!-- 文章 -->
+
+<!-- 文章内容 -->
+<div class="body-container">
+  <article class="content-container layout-block post-container">
+    <div class="widget-info">
+      <section class="widget-author widget-item layout-margin content-padding--primary soft-size--large soft-style--box">
+  <div class="widget-body">
+    
+      <img src="/images/p.jpg" class="soft-size--round soft-style--box" alt="RocPengHua">
+    
+    
+      <h2>RocPengHua</h2>
+    
+    
+      <p>天天向上</p>
+    
+
+    <div class="count-box">
+      <div class="count-box--item">
+        <svg class="icon icon-article" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M240.51564747 647.74217627h196.07203239c16.59071043 0 30.16492806-13.57421762 30.16492805-30.16492806V165.10332731c0-33.18142087-30.16492806-60.32985613-60.32985612-60.32985611H245.04038668C225.43318342 104.7734712 210.35071939 119.85593522 210.35071939 139.46313845V617.57724821c0 16.59071043 13.57421762 30.16492806 30.16492808 30.16492806z m663.62841731-452.47392089v482.63884894c0 33.18142087-27.14843525 60.32985613-60.32985612 60.32985613H180.18579134c-33.18142087 0-60.32985613-27.14843525-60.32985612-60.32985613V195.26825538c-49.77213131 0-90.49478418 40.72265287-90.49478417 90.49478417v452.4739209c0 49.77213131 40.72265287 90.49478418 90.49478417 90.49478417h286.56681657c16.59071043 0 30.16492806 13.57421762 30.16492807 30.16492807s13.57421762 30.16492806 30.16492805 30.16492806h90.49478418c16.59071043 0 30.16492806-13.57421762 30.16492805-30.16492806s13.57421762-30.16492806 30.16492807-30.16492807h286.56681657c49.77213131 0 90.49478418-40.72265287 90.49478417-90.49478417V285.76303955c0-49.77213131-40.72265287-90.49478418-90.49478417-90.49478417zM587.41232014 647.74217627h191.54729318c19.60720323 0 34.68966726-15.08246403 34.68966729-34.68966727V134.93839925c0-16.59071043-13.57421762-30.16492806-30.16492808-30.16492805H617.57724821c-30.16492806 0-60.32985613 27.14843525-60.32985612 60.32985611v452.4739209c0 16.59071043 13.57421762 30.16492806 30.16492805 30.16492806z" fill="currentColor"></path>
+</svg>
+        <span>68</span>
+      </div>
+      <div class="count-box--item">
+        <svg class="icon icon-categories" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M900.3614811 257.09082106h-339.81629553l-67.96326003-101.9448889c-19.41807444-29.12711113-48.54518557-43.69066667-82.52681443-43.69066667H123.6385189c-53.39970333 0-97.09036999 43.69066667-97.09037113 97.09036999v582.54222222c0 53.39970333 43.69066667 97.09036999 97.09037113 97.09037002h776.7229622c53.39970333 0 97.09036999-43.69066667 97.09037113-97.09037002V354.18119104c0-53.39970333-43.69066667-97.09036999-97.09037113-97.09036998z m-97.09036999 242.72592554H220.72888889c-24.27259221 0-48.54518557-24.27259221-48.54518556-48.54518556s24.27259221-48.54518557 48.54518556-48.54518444h582.54222222c24.27259221 0 48.54518557 24.27259221 48.54518556 48.54518444s-24.27259221 48.54518557-48.54518556 48.54518556z" fill="currentColor"></path>
+</svg>
+        12
+      </div>
+      <div class="count-box--item">
+        <svg class="icon icon-tags" viewBox="0 0 1098 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M283.42180005 272q0-28.38857157-20.09142843-48.48000001t-48.47999998-20.09142842-48.48000002 20.09142842-20.09142846 48.48000001 20.09142846 48.48 48.48000002 20.09142843 48.47999998-20.09142843 20.09142843-48.48zM855.0332285 580.57142843q0 28.38857157-19.81714313 48.2057147l-263.03999997 263.58857157q-20.9142853 19.81714313-48.75428534 19.81714312-28.38857157 0-48.20571468-19.81714312l-383.04-383.58857157q-20.36571468-19.81714313-34.55999999-54.10285688t-14.19428534-62.6742853l0-222.85714313q0-27.84000002 20.36571469-48.20571469t48.2057147-20.36571466l222.85714313 0q28.38857157 0 62.6742853 14.19428529t54.65142842 34.55999999l383.04000001 382.49142843q19.81714313 20.9142853 19.81714314 48.75428532zM1060.74751475 580.57142843q0 28.38857157-19.81714313 48.2057147l-263.04 263.58857157q-20.9142853 19.81714313-48.75428531 19.81714312-19.26857155 0-31.61142843-7.47428531t-28.38857159-24.13714314l251.79428534-251.7942853q19.81714313-19.81714313 19.81714308-48.20571469 0-27.84000002-19.81714308-48.75428531l-383.04000001-382.49142845q-20.36571468-20.36571468-54.65142842-34.55999999t-62.67428532-14.19428534l120 0q28.38857157 0 62.67428532 14.19428534t54.65142842 34.55999999l383.03999998 382.49142845q19.81714313 20.9142853 19.81714314 48.75428531z" fill="currentColor"></path>
+</svg>
+        14
+      </div>
+    </div>
+  </div>
+</section>
+    
+      
+<section class="widget-toc widget-item layout-margin content-padding--primary soft-size--large soft-style--box">
+  <div class="widget-title">
+    <svg class="icon icon-toc" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M134.50666666 767.46666668H460.8c27.73333333 0 50.24000001 22.50666668 50.24000001 50.23999999v50.13333333c0 27.73333333-22.50666668 50.24000001-50.24000001 50.24000001H134.50666666c-27.73333333 0-50.24000001-22.50666668-50.23999999-50.24000001v-50.13333333c0.10666668-27.73333333 22.50666668-50.24000001 50.24000001-50.24000001zM84.37333332 541.65333333h326.18666669c27.73333333 0 50.24000001 22.39999999 50.23999999 50.13333334v50.24000001c0 27.73333333-22.50666668 50.24000001-50.24000002 50.23999999H84.37333332c-27.73333333 0-50.24000001-22.50666668-50.23999999-50.23999999v-50.24000001c0-27.73333333 22.50666668-50.13333334 50.24000001-50.13333334zM134.50666666 315.83999999H460.8c27.73333333 0 50.24000001 22.50666668 50.24000001 50.24000001v50.24000001c0 27.73333333-22.50666668 50.13333334-50.24000001 50.13333333H134.50666666c-27.73333333 0-50.24000001-22.39999999-50.23999999-50.13333333v-50.24000001c0.10666668-27.84000001 22.50666668-50.24000001 50.24000001-50.23999999zM209.81333332 89.91999999h326.18666671c27.73333333 0 50.24000001 22.39999999 50.23999997 50.13333335v50.23999999c0 27.73333333-22.50666668 50.24000001-50.24000001 50.24000001H209.81333332c-27.73333333 0-50.24000001-22.50666668-50.23999999-50.24000001v-50.24000001c0-27.73333333 22.50666668-50.13333334 50.24000001-50.13333333zM692.05333333 623.36l274.66666669 176.00000002c23.36000001 14.93333333 30.08 45.97333334 15.14666666 69.33333332L954.77333334 910.93333333c-14.93333333 23.25333334-45.97333334 30.08-69.33333335 15.14666667l-274.66666666-176c-23.36000001-14.93333333-30.08-45.97333334-15.14666667-69.33333333l27.09333334-42.24000001c14.93333333-23.36000001 46.08000001-30.08 69.33333333-15.14666666z" fill="currentColor"></path>
+</svg>
+    <span>TOC</span>
+  </div>
+  <div class="widget-body">
+    <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#download"><span class="toc-number">1.</span> <span class="toc-text">download</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84%E8%AF%B4%E6%98%8E"><span class="toc-number">2.</span> <span class="toc-text">目录结构说明</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AF%BC%E5%85%A5ide%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7"><span class="toc-number">3.</span> <span class="toc-text">导入ide开发工具</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%89%A7%E8%A1%8C%E5%AE%89%E8%A3%85%E8%84%9A%E6%9C%AC"><span class="toc-number">3.1.</span> <span class="toc-text">执行安装脚本</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%B0%83%E8%AF%95"><span class="toc-number">4.</span> <span class="toc-text">调试</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE"><span class="toc-number">4.1.</span> <span class="toc-text">配置</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%90%AF%E5%8A%A8"><span class="toc-number">4.2.</span> <span class="toc-text">启动</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95org-apache-rocketmq-example-quickstart"><span class="toc-number">4.3.</span> <span class="toc-text">测试org.apache.rocketmq.example.quickstart</span></a></li></ol></li></ol>
+  </div>
+</section>
+
+    </div>
+  
+    <div class="article-info">
+      
+      
+      
+      
+      <section id="blog-content" class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
+        <h4 id="download"><a href="#download" class="headerlink" title="download"></a>download</h4><p><a target="_blank" rel="noopener" href="https://dlcdn.apache.org/rocketmq/4.9.3/rocketmq-all-4.9.3-source-release.zip">官网源码地址</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/apache/rocketmq">github源码地址</a></p>
+<h4 id="目录结构说明"><a href="#目录结构说明" class="headerlink" title="目录结构说明"></a>目录结构说明</h4><ul>
+<li>broker: broker 模块（broke 启动进程） </li>
+<li>client ：消息客户端，包含消息生产者、消息消费者相关类 </li>
+<li>common ：公共包 </li>
+<li>dev ：开发者信息（非源代码） </li>
+<li>distribution ：部署实例文件夹（非源代码） </li>
+<li>example: RocketMQ 例代码 </li>
+<li>filter ：消息过滤相关基础类</li>
+<li>filtersrv：消息过滤服务器实现相关类（Filter启动进程）</li>
+<li>logappender：日志实现相关类</li>
+<li>namesrv：NameServer实现相关类（NameServer启动进程）</li>
+<li>openmessageing：消息开放标准</li>
+<li>remoting：远程通信模块，给予Netty</li>
+<li>srcutil：服务工具类</li>
+<li>store：消息存储实现相关类</li>
+<li>style：checkstyle相关实现</li>
+<li>test：测试相关类</li>
+<li>tools：工具类，监控命令相关实现类</li>
+</ul>
+<h4 id="导入ide开发工具"><a href="#导入ide开发工具" class="headerlink" title="导入ide开发工具"></a>导入ide开发工具</h4><img src="/2022/05/15/rocketmq-yuan-ma-diao-shi-huan-jing-da-jian/image-20220515182156550.png" class="" title="image-20220515182156550">
+
+<h5 id="执行安装脚本"><a href="#执行安装脚本" class="headerlink" title="执行安装脚本"></a>执行安装脚本</h5><pre><code class="shell">mvn clean install -Dmaven.test.skip=true
+</code></pre>
+<h4 id="调试"><a href="#调试" class="headerlink" title="调试"></a>调试</h4><h5 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h5><ul>
+<li><p>在根目录下创建conf文件夹</p>
+</li>
+<li><p>拷贝<code>distribution</code>目录下<code>broker.conf</code>和<code>logback_broker.xml</code>和<code>logback_namesrv.xml</code></p>
+<ul>
+<li><code>broker.conf</code>配置broker启动配置i文件</li>
+<li><code>logback_broker.xml</code> broker日志配置</li>
+<li><code>logback_namesrv.xml</code> namesrv日志配置</li>
+</ul>
+</li>
+<li><p>修改<code>broker.conf</code>配置</p>
+<pre><code class="properties"># Licensed to the Apache Software Foundation (ASF) under one or more
+# contributor license agreements.  See the NOTICE file distributed with
+# this work for additional information regarding copyright ownership.
+# The ASF licenses this file to You under the Apache License, Version 2.0
+# (the &quot;License&quot;); you may not use this file except in compliance with
+# the License.  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+#  Unless required by applicable law or agreed to in writing, software
+#  distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#  See the License for the specific language governing permissions and
+#  limitations under the License.
+brokerClusterName = DefaultCluster
+brokerName = broker-a
+brokerId = 0
+# namesrvAddr地址
+namesrvAddr=127.0.0.1:9876
+deleteWhen = 04
+fileReservedTime = 48
+brokerRole = ASYNC_MASTER
+flushDiskType = ASYNC_FLUSH
+autoCreateTopicEnable=true
+
+# 存储路径
+storePathRootDir=E:\\code\\rocketmq\\data\\rocketmq\\dataDir
+# commitLog路径
+storePathCommitLog=E:\\code\\rocketmq\\data\\rocketmq\\dataDir\\commitlog
+# 消息队列存储路径
+storePathConsumeQueue=E:\\code\\rocketmq\\data\\rocketmq\\dataDir\\consumequeue
+# 消息索引存储路径
+storePathIndex=E:\\code\\rocketmq\\data\\rocketmq\\dataDir\\index
+# checkpoint文件路径
+storeCheckpoint=E:\\code\\rocketmq\\data\\rocketmq\\dataDir\\checkpoint
+# abort文件存储路径
+abortFile=E:\\code\\rocketmq\\data\\rocketmq\\dataDir\\abort
+</code></pre>
+</li>
+</ul>
+<h5 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h5><ul>
+<li><p><code>namesrv</code>启动</p>
+<ul>
+<li>需要配置ROCKETMQ_HOME环境，<code>ROCKETMQ_HOME=E:\code\rocketmq\rocketmq-all-4.9.3</code></li>
+</ul>
+<img src="/2022/05/15/rocketmq-yuan-ma-diao-shi-huan-jing-da-jian/image-20220515182558374.png" class="" title="image-20220515182558374">
+
+<ul>
+<li>执行<code>namesrv</code>工程下面的<code>org.apache.rocketmq.namesrv.NamesrvStartup#main</code>方法启动</li>
+</ul>
+<img src="/2022/05/15/rocketmq-yuan-ma-diao-shi-huan-jing-da-jian/image-20220515182844276.png" class="" title="image-20220515182844276">
+</li>
+<li><p><code>broker</code>启动配置</p>
+<ul>
+<li><p>需要配置ROCKETMQ_HOME环境，<code>ROCKETMQ_HOME=E:\code\rocketmq\rocketmq-all-4.9.3</code></p>
+</li>
+<li><p>指定conf路径启动 <code>-c E:\code\rocketmq\rocketmq-all-4.9.3\conf\broker.conf</code></p>
+</li>
+</ul>
+<img src="/2022/05/15/rocketmq-yuan-ma-diao-shi-huan-jing-da-jian/image-20220515183024715.png" class="" title="image-20220515183024715">
+
+<ul>
+<li>执行<code>broker</code>工程下面的<code>org.apache.rocketmq.broker.BrokerStartup#main</code>方法</li>
+</ul>
+<img src="/2022/05/15/rocketmq-yuan-ma-diao-shi-huan-jing-da-jian/image-20220515183148021.png" class="" title="image-20220515183148021"></li>
+</ul>
+<h5 id="测试org-apache-rocketmq-example-quickstart"><a href="#测试org-apache-rocketmq-example-quickstart" class="headerlink" title="测试org.apache.rocketmq.example.quickstart"></a>测试<code>org.apache.rocketmq.example.quickstart</code></h5><ul>
+<li><p>生产者</p>
+<pre><code class="java">/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the &quot;License&quot;); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.apache.rocketmq.example.quickstart;
+
+import org.apache.rocketmq.client.exception.MQClientException;
+import org.apache.rocketmq.client.producer.DefaultMQProducer;
+import org.apache.rocketmq.client.producer.SendResult;
+import org.apache.rocketmq.common.message.Message;
+import org.apache.rocketmq.remoting.common.RemotingHelper;
+
+/**
+ * This class demonstrates how to send messages to brokers using provided &#123;@link DefaultMQProducer&#125;.
+ */
+public class Producer &#123;
+    public static void main(String[] args) throws MQClientException, InterruptedException &#123;
+
+        /*
+         * Instantiate with a producer group name.
+         */
+        DefaultMQProducer producer = new DefaultMQProducer(&quot;please_rename_unique_group_name&quot;);
+        producer.setNamesrvAddr(&quot;127.0.0.1:9876&quot;);
+        /*
+         * Specify name server addresses.
+         * &lt;p/&gt;
+         *
+         * Alternatively, you may specify name server addresses via exporting environmental variable: NAMESRV_ADDR
+         * &lt;pre&gt;
+         * &#123;@code
+         * producer.setNamesrvAddr(&quot;name-server1-ip:9876;name-server2-ip:9876&quot;);
+         * &#125;
+         * &lt;/pre&gt;
+         */
+
+        /*
+         * Launch the instance.
+         */
+        producer.start();
+
+        for (int i = 0; i &lt; 10; i++) &#123;
+            try &#123;
+
+                /*
+                 * Create a message instance, specifying topic, tag and message body.
+                 */
+                Message msg = new Message(&quot;TopicTest&quot; /* Topic */,
+                    &quot;TagA&quot; /* Tag */,
+                    (&quot;Hello RocketMQ &quot; + i).getBytes(RemotingHelper.DEFAULT_CHARSET) /* Message body */
+                );
+
+                /*
+                 * Call send message to deliver message to one of brokers.
+                 */
+                SendResult sendResult = producer.send(msg);
+                /*
+                 * There are different ways to send message, if you don&#39;t care about the send result,you can use this way
+                 * &#123;@code
+                 * producer.sendOneway(msg);
+                 * &#125;
+                 */
+
+                /*
+                 * if you want to get the send result in a synchronize way, you can use this send method
+                 * &#123;@code
+                 * SendResult sendResult = producer.send(msg);
+                 * System.out.printf(&quot;%s%n&quot;, sendResult);
+                 * &#125;
+                 */
+
+                /*
+                 * if you want to get the send result in a asynchronize way, you can use this send method
+                 * &#123;@code
+                 *
+                 *  producer.send(msg, new SendCallback() &#123;
+                 *  @Override
+                 *  public void onSuccess(SendResult sendResult) &#123;
+                 *      // do something
+                 *  &#125;
+                 *
+                 *  @Override
+                 *  public void onException(Throwable e) &#123;
+                 *      // do something
+                 *  &#125;
+                 *&#125;);
+                 *
+                 *&#125;
+                 */
+
+                System.out.printf(&quot;%s%n&quot;, sendResult);
+            &#125; catch (Exception e) &#123;
+                e.printStackTrace();
+                Thread.sleep(1000);
+            &#125;
+        &#125;
+
+        /*
+         * Shut down once the producer instance is not longer in use.
+         */
+        producer.shutdown();
+    &#125;
+&#125;
+</code></pre>
+</li>
+</ul>
+<img src="/2022/05/15/rocketmq-yuan-ma-diao-shi-huan-jing-da-jian/image-20220515183358912.png" class="" title="image-20220515183358912">
+
+<ul>
+<li>消费者</li>
+</ul>
+<pre><code class="java">/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the &quot;License&quot;); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.apache.rocketmq.example.quickstart;
+
+import java.util.List;
+import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;
+import org.apache.rocketmq.client.consumer.listener.ConsumeConcurrentlyContext;
+import org.apache.rocketmq.client.consumer.listener.ConsumeConcurrentlyStatus;
+import org.apache.rocketmq.client.consumer.listener.MessageListenerConcurrently;
+import org.apache.rocketmq.client.exception.MQClientException;
+import org.apache.rocketmq.common.consumer.ConsumeFromWhere;
+import org.apache.rocketmq.common.message.MessageExt;
+
+/**
+ * This example shows how to subscribe and consume messages using providing &#123;@link DefaultMQPushConsumer&#125;.
+ */
+public class Consumer &#123;
+
+    public static void main(String[] args) throws InterruptedException, MQClientException &#123;
+
+        /*
+         * Instantiate with specified consumer group name.
+         */
+        DefaultMQPushConsumer consumer = new DefaultMQPushConsumer(&quot;please_rename_unique_group_name_4&quot;);
+        consumer.setNamesrvAddr(&quot;127.0.0.1:9876&quot;);
+        /*
+         * Specify name server addresses.
+         * &lt;p/&gt;
+         *
+         * Alternatively, you may specify name server addresses via exporting environmental variable: NAMESRV_ADDR
+         * &lt;pre&gt;
+         * &#123;@code
+         * consumer.setNamesrvAddr(&quot;name-server1-ip:9876;name-server2-ip:9876&quot;);
+         * &#125;
+         * &lt;/pre&gt;
+         */
+
+        /*
+         * Specify where to start in case the specific consumer group is a brand-new one.
+         */
+        consumer.setConsumeFromWhere(ConsumeFromWhere.CONSUME_FROM_FIRST_OFFSET);
+
+        /*
+         * Subscribe one more topic to consume.
+         */
+        consumer.subscribe(&quot;TopicTest&quot;, &quot;*&quot;);
+
+        /*
+         *  Register callback to execute on arrival of messages fetched from brokers.
+         */
+        consumer.registerMessageListener(new MessageListenerConcurrently() &#123;
+
+            @Override
+            public ConsumeConcurrentlyStatus consumeMessage(List&lt;MessageExt&gt; msgs,
+                ConsumeConcurrentlyContext context) &#123;
+                System.out.printf(&quot;%s Receive New Messages: %s %n&quot;, Thread.currentThread().getName(), msgs);
+                return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
+            &#125;
+        &#125;);
+
+        /*
+         *  Launch the consumer instance.
+         */
+        consumer.start();
+
+        System.out.printf(&quot;Consumer Started.%n&quot;);
+    &#125;
+&#125;
+</code></pre>
+<img src="/2022/05/15/rocketmq-yuan-ma-diao-shi-huan-jing-da-jian/image-20220515183513129.png" class="" title="image-20220515183513129">
+
+
+      </section>
+
+      
+      
+        <nav class="article-nav">
+          
+          
+            <div class="article-nav-item layout-padding">
+  <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
+    
+      <div class="card-cover" background-image-lazy data-img="https://api.lixingyong.com/api/images?postid=6c3d523c&type=url&itype=image"></div>
+    
+    <div class="card-text">
+      
+        <a href="/2022/05/11/maven-xiao-zhi-shi/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">maven小知识</h2>
+        </a>
+      
+      <div class="card-text--row">Older</div>
+    </div>
+  </article>
+</div>
+          
+        </nav>
+      
+
+      <section class="page-message-container layout-padding">
+        
+
+
+  
+  
+    <div class="valine-container comments-container content-padding--primary soft-size--large soft-style--box">
+      <div id="valine_thread" class="valine-thread"></div>
+    </div>
+    <script type="text/javascript" src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script type="text/javascript" src='//unpkg.com/valine/dist/Valine.min.js'></script>
+    <script type="text/javascript">
+      new Valine({
+        el: "#valine_thread",
+        appId: "yEts8yIOQopn7imcDAmwhlNi-gzGzoHsz",
+        appKey: "nyOyHJdsDGQh3UI0TdNdLLnN",
+        avatar: "mm",
+        placeholder: "随便说点什么叭～",
+        notify: true,
+        visitor: true,
+        pageSize: 10,
+      });
+    </script>
+  
+
+  
+  
+
+
+      </section>
+    </div>
+    <div class="widget-info">
+      
+<section class="widet-notice widget-item layout-margin content-padding--primary soft-size--large soft-style--box">
+  <div class="widget-title">
+    <svg class="icon icon-notice" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M512 945.02305225v28.15620663a24.27259221 24.27259221 0 0 1-24.27259221 24.27259335H394.0352a48.54518557 48.54518557 0 0 1-41.74885888-23.78714112l-110.68302222-184.47170332a132.04290333 132.04290333 0 0 1-17.47626667-48.54518557h118.4502511a200.97706667 200.97706667 0 0 1 76.21594113 14.56355556l20.38897777 133.49925888a48.54518557 48.54518557 0 0 0 36.40888888 27.67075555l16.01991111 2.91271112a24.27259221 24.27259221 0 0 1 20.38897778 25.72894889zM997.45185223 463.45481443a194.18074112 194.18074112 0 0 1-38.8361489 116.50844445 24.75804445 24.75804445 0 0 1-36.4088889 0l-34.95253333-34.95253333a24.27259221 24.27259221 0 0 1-2.91271111-30.58346667 97.09036999 97.09036999 0 0 0 0-106.79940665 24.27259221 24.27259221 0 0 1 2.91271111-30.58346666l34.95253333-34.95253334a24.75804445 24.75804445 0 0 1 18.93262223-7.28177777 26.2144 26.2144 0 0 1 17.47626667 9.70903665A194.18074112 194.18074112 0 0 1 997.45185223 463.45481443z m-194.18074112-388.36148111v776.72296335a48.54518557 48.54518557 0 0 1-48.54518556 48.54518443h-28.64165888a48.54518557 48.54518557 0 0 1-33.98163001-14.07810332l-145.63555556-143.20829668A291.27111111 291.27111111 0 0 0 342.57730333 657.63555556H172.18370333a145.63555556 145.63555556 0 0 1-145.63555556-145.63555556v-97.09036999a145.63555556 145.63555556 0 0 1 145.63555556-145.63555556h170.3936a291.27111111 291.27111111 0 0 0 206.31703779-85.43952668l145.63555555-143.20829554a48.54518557 48.54518557 0 0 1 33.98162888-14.07810446H754.72592555a48.54518557 48.54518557 0 0 1 48.54518556 48.54518555z" fill="currentColor"></path>
+</svg>
+    <span>NOTICE</span>
+  </div>
+  <div class="widget-body">
+    <p>flex-block主题部分重构，详情查看https://gitee.com/RocPengHua/hexo-theme-flexblock</p>
+  </div>
+</section>
+
+
+      <section class="widget-categorys widget-item layout-margin content-padding--primary soft-size--large soft-style--box">
+  <div class="widget-title">
+    <svg class="icon icon-categories" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M900.3614811 257.09082106h-339.81629553l-67.96326003-101.9448889c-19.41807444-29.12711113-48.54518557-43.69066667-82.52681443-43.69066667H123.6385189c-53.39970333 0-97.09036999 43.69066667-97.09037113 97.09036999v582.54222222c0 53.39970333 43.69066667 97.09036999 97.09037113 97.09037002h776.7229622c53.39970333 0 97.09036999-43.69066667 97.09037113-97.09037002V354.18119104c0-53.39970333-43.69066667-97.09036999-97.09037113-97.09036998z m-97.09036999 242.72592554H220.72888889c-24.27259221 0-48.54518557-24.27259221-48.54518556-48.54518556s24.27259221-48.54518557 48.54518556-48.54518444h582.54222222c24.27259221 0 48.54518557 24.27259221 48.54518556 48.54518444s-24.27259221 48.54518557-48.54518556 48.54518556z" fill="currentColor"></path>
+</svg>
+    <span>CATEGORYS</span>
+  </div>
+  <div class="widget-body">
+    <ul class="categorys-list">
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E7%AE%97%E6%B3%95/">
+            算法 (5)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E6%8A%80%E6%9C%AF/">
+            技术 (2)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E5%B7%A5%E5%85%B7/">
+            工具 (1)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E9%97%AE%E9%A2%98/">
+            问题 (6)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E8%BD%AF%E4%BB%B6/">
+            软件 (23)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/">
+            中间件 (18)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E5%90%8E%E7%AB%AF/">
+            后端 (1)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E9%97%B2%E8%B0%88/">
+            闲谈 (5)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E6%95%B0%E6%8D%AE/">
+            数据 (2)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E5%89%8D%E7%AB%AF/">
+            前端 (1)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E5%BE%AE%E4%BF%A1/">
+            微信 (1)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E8%8B%A5%E4%BE%9D/">
+            若依 (1)
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+</section>
+
+      <section class="widget-tags widget-item  layout-margin content-padding--primary soft-size--large soft-style--box">
+  <div class="widget-title">
+    <svg class="icon icon-tags" viewBox="0 0 1098 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M283.42180005 272q0-28.38857157-20.09142843-48.48000001t-48.47999998-20.09142842-48.48000002 20.09142842-20.09142846 48.48000001 20.09142846 48.48 48.48000002 20.09142843 48.47999998-20.09142843 20.09142843-48.48zM855.0332285 580.57142843q0 28.38857157-19.81714313 48.2057147l-263.03999997 263.58857157q-20.9142853 19.81714313-48.75428534 19.81714312-28.38857157 0-48.20571468-19.81714312l-383.04-383.58857157q-20.36571468-19.81714313-34.55999999-54.10285688t-14.19428534-62.6742853l0-222.85714313q0-27.84000002 20.36571469-48.20571469t48.2057147-20.36571466l222.85714313 0q28.38857157 0 62.6742853 14.19428529t54.65142842 34.55999999l383.04000001 382.49142843q19.81714313 20.9142853 19.81714314 48.75428532zM1060.74751475 580.57142843q0 28.38857157-19.81714313 48.2057147l-263.04 263.58857157q-20.9142853 19.81714313-48.75428531 19.81714312-19.26857155 0-31.61142843-7.47428531t-28.38857159-24.13714314l251.79428534-251.7942853q19.81714313-19.81714313 19.81714308-48.20571469 0-27.84000002-19.81714308-48.75428531l-383.04000001-382.49142845q-20.36571468-20.36571468-54.65142842-34.55999999t-62.67428532-14.19428534l120 0q28.38857157 0 62.67428532 14.19428534t54.65142842 34.55999999l383.03999998 382.49142845q19.81714313 20.9142853 19.81714314 48.75428531z" fill="currentColor"></path>
+</svg>
+    <span>TAGS</span>
+  </div>
+  <div class="widget-body">
+    <div class="tags-cloud">
+      <a href="/tags/docker/" style="font-size: 20px;" class="tags-cloud-10">docker</a> <a href="/tags/hexo/" style="font-size: 10px;" class="tags-cloud-0">hexo</a> <a href="/tags/idea/" style="font-size: 10px;" class="tags-cloud-0">idea</a> <a href="/tags/kafka/" style="font-size: 10px;" class="tags-cloud-0">kafka</a> <a href="/tags/linux/" style="font-size: 13.33px;" class="tags-cloud-3">linux</a> <a href="/tags/maven/" style="font-size: 10px;" class="tags-cloud-0">maven</a> <a href="/tags/nginx/" style="font-size: 10px;" class="tags-cloud-0">nginx</a> <a href="/tags/node/" style="font-size: 10px;" class="tags-cloud-0">node</a> <a href="/tags/oracle/" style="font-size: 10px;" class="tags-cloud-0">oracle</a> <a href="/tags/rabbitmq/" style="font-size: 16.67px;" class="tags-cloud-7">rabbitmq</a> <a href="/tags/redis/" style="font-size: 10px;" class="tags-cloud-0">redis</a> <a href="/tags/rocketmq/" style="font-size: 16.67px;" class="tags-cloud-7">rocketmq</a> <a href="/tags/spring/" style="font-size: 10px;" class="tags-cloud-0">spring</a> <a href="/tags/%E5%8A%A0%E5%AF%86/" style="font-size: 13.33px;" class="tags-cloud-3">加密</a>
+    </div>
+  </div>
+</section>
+    </div>
+  </article>
+</div>
+<script>
+	//解决中文转义无法跳转锚点问题
+	var blog = document.querySelector("#blog-content");
+	var content = blog.innerHTML;
+	var regExp2 = /<h([1-6]) id=\"(\S*?)\">/g;
+	var	data = content.replace(regExp2, function(word,i){
+		var ws = word.split("\"");
+			return ws[0]+"\""+encodeURIComponent(ws[1])+"\""+ws[2];
+		},"g");
+	blog.innerHTML = data;
+</script>
+
+    <!-- footer container -->
+<footer id="footer" class="footer">
+  <div class="footer-container">
+    
+    <div class="social-icons">
+      
+        
+          <a href="https://music.163.com/#/user/home?id=444731906" class="soft-size--primary soft-style--box" target="_blank" rel="noopener noreferrer">
+            <svg class="icon icon-<%= icon %>" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+    <path d="M952.17867 503.263237a341.054956 341.054956 0 0 0-56.853199-113.706399 408.604266 408.604266 0 0 0-109.723463-98.352823 304.662484 304.662484 0 0 0-143.257215-42.077792L621.305897 170.238394a40.343287 40.343287 0 0 1 10.792472-36.392472 56.88532 56.88532 0 0 1 36.392472-18.758344 102.785445 102.785445 0 0 1 56.853199 18.758344c6.263488 3.404768 10.792472 9.090088 17.05596 13.073024a57.335006 57.335006 0 0 0 82.999247-70.632873 66.521455 66.521455 0 0 0-22.74128-27.848432 237.691343 237.691343 0 0 0-89.262735-43.202007A170.559598 170.559598 0 0 0 625.288833 6.42409a167.026349 167.026349 0 0 0-60.836135 37.516688 164.328231 164.328231 0 0 0-40.921456 51.713927 156.908407 156.908407 0 0 0-8.54404 113.706399l13.651192 52.870264a284.298118 284.298118 0 0 0-158.064743 109.209535 256.963614 256.963614 0 0 0-43.202007 156.908407 248.419573 248.419573 0 0 0 13.651192 74.487327 205.281807 205.281807 0 0 0 80.718695 104.616312 185.945295 185.945295 0 0 0 136.447679 25.696361 193.879046 193.879046 0 0 0 156.330238-196.705646L708.802008 503.263237c-11.948808-46.060728-24.443664-91.543287-35.814304-137.025847a182.283563 182.283563 0 0 1 47.763112 18.180176 316.611292 316.611292 0 0 1 47.763111 34.690088A239.907654 239.907654 0 0 1 840.752823 529.987453a284.169636 284.169636 0 0 1 0 158.064743 252.241907 252.241907 0 0 1-21.584943 51.167879 308.741782 308.741782 0 0 1-168.279047 144.542033 387.918695 387.918695 0 0 1-130.184191 23.319448 332.607277 332.607277 0 0 1-155.206022-37.516688A367.233124 367.233124 0 0 1 194.87478 672.666499a373.014806 373.014806 0 0 1-20.460727-180.806022A366.173149 366.173149 0 0 1 406.869762 198.536512a57.399247 57.399247 0 0 0 13.073023-100.055207 76.189711 76.189711 0 0 0-63.662735-3.404768A479.815307 479.815307 0 0 0 68.705646 436.163614a488.905395 488.905395 0 0 0 129.027855 450.84266 454.857716 454.857716 0 0 0 248.997741 131.886574 470.885822 470.885822 0 0 0 138.117942 0A454.889837 454.889837 0 0 0 773.042911 952.949561a427.523212 427.523212 0 0 0 170.559598-209.232622 417.276788 417.276788 0 0 0 22.74128-109.209536 378.089837 378.089837 0 0 0-14.165119-131.244166z m-412.747804 118.845671a72.174655 72.174655 0 0 1-56.8532-10.792471 98.352823 98.352823 0 0 1-37.516687-61.382184 170.68808 170.68808 0 0 1 0-65.943287 133.042911 133.042911 0 0 1 33.533751-63.662735 181.35207 181.35207 0 0 1 80.718695-46.606776l39.219072 148.364367a204.189711 204.189711 0 0 1 5.107152 26.146048 79.594479 79.594479 0 0 1-64.208783 73.844918z"></path>
+  </svg>
+          </a>
+        
+      
+        
+          <a href="https://www.zhihu.com" class="soft-size--primary soft-style--box" target="_blank" rel="noopener noreferrer">
+            <svg t="1587373160860" class="icon icon-zhihu" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M544.949 561.422s0-71.387-34.779-75.050c-34.779-3.663-142.775 0-142.775 0v-219.654h161.078s-1.83-73.219-32.949-73.219h-261.755l43.93-117.148s-65.897 3.663-89.692 45.761-98.844 252.604-98.844 252.604 25.627 10.983 67.726-20.134c42.101-31.116 56.743-86.033 56.743-86.033l76.879-3.663 1.83 223.316s-133.621-1.83-161.078 0c-27.457 1.83-42.101 75.050-42.101 75.050h203.182s-18.307 124.47-69.557 214.164c-53.085 89.692-151.929 161.078-151.929 161.078s71.387 29.287 140.947-10.983c69.557-42.101 120.811-223.316 120.811-223.316l162.912 203.182s14.643-97.013-1.83-124.47c-18.307-27.457-113.49-137.283-113.49-137.283l-42.101 36.607 29.287-120.811h177.552zM587.050 188.010l-1.83 660.793h65.897l23.795 82.37 115.321-82.37h162.912v-660.793h-366.091zM879.92 775.584h-76.879l-97.013 75.050-21.965-75.050h-20.134v-512.527h215.991v512.527z"></path>
+</svg>
+          </a>
+        
+      
+        
+          <a href="https://gitee.com/RocPengHua" class="soft-size--primary soft-style--box" target="_blank" rel="noopener noreferrer">
+            <svg class="icon icon-<%= icon %>" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+    <path d="M512 1024C229.248 1024 0 794.752 0 512S229.248 0 512 0s512 229.248 512 512-229.248 512-512 512z m259.168-568.896h-290.752a25.28 25.28 0 0 0-25.28 25.28l-0.032 63.232c0 13.952 11.296 25.28 25.28 25.28h177.024a25.28 25.28 0 0 1 25.28 25.28v12.64a75.84 75.84 0 0 1-75.84 75.84h-240.224a25.28 25.28 0 0 1-25.28-25.28v-240.192a75.84 75.84 0 0 1 75.84-75.84h353.92a25.28 25.28 0 0 0 25.28-25.28l0.064-63.2a25.312 25.312 0 0 0-25.28-25.312H417.184a189.632 189.632 0 0 0-189.632 189.6v353.952c0 13.952 11.328 25.28 25.28 25.28h372.928a170.656 170.656 0 0 0 170.656-170.656v-145.376a25.28 25.28 0 0 0-25.28-25.28z" p-id="1954"></path>
+  </svg>
+          </a>
+        
+      
+        
+          <a href="https://github.com/RocPengHua" class="soft-size--primary soft-style--box" target="_blank" rel="noopener noreferrer">
+            <svg class="icon icon-github" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M64.6 512c0 195.6 125.4 361.9 300.1 422.9 23.5 5.9 19.9-10.8 19.9-22.2v-77.6c-135.8 15.9-141.3-74-150.5-89-18.5-31.5-61.9-39.5-49-54.5 31-15.9 62.5 4 98.9 58 26.4 39.1 77.9 32.5 104.1 26 5.7-23.5 17.9-44.5 34.7-60.9-140.7-25.2-199.4-111.1-199.4-213.3 0-49.5 16.4-95.1 48.4-131.8-20.4-60.6 1.9-112.4 4.9-120.1 58.2-5.2 118.5 41.6 123.3 45.3 33.1-8.9 70.8-13.7 112.9-13.7 42.4 0 80.3 4.9 113.5 13.9 11.3-8.6 67.3-48.8 121.4-43.9 2.9 7.7 24.7 58.3 5.5 118.1 32.5 36.8 49 82.8 49 132.4 0 102.3-59 188.3-200.2 213.2 23.5 23.3 38.1 55.5 38.1 91.1v112.7c0.8 9 0 17.9 15.1 17.9C832.7 877 960.4 709.4 960.4 512.1c0-247.5-200.6-447.9-447.9-447.9C265 64.1 64.6 264.5 64.6 512z"></path>
+</svg>
+          </a>
+        
+      
+        
+          <a href="https://twitter.com/guanquanhong" class="soft-size--primary soft-style--box" target="_blank" rel="noopener noreferrer">
+            <svg class="icon icon-twitter" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M962.285714 233.142857q-38.285714 56-92.571429 95.428571 0.571429 8 0.571429 24 0 74.285714-21.714286 148.285714t-66 142-105.428571 120.285714-147.428571 83.428571-184.571429 31.142857q-154.857143 0-283.428571-82.857143 20 2.285714 44.571429 2.285714 128.571429 0 229.142857-78.857143-60-1.142857-107.428571-36.857143t-65.142857-91.142857q18.857143 2.857143 34.857143 2.857143 24.571429 0 48.571429-6.285714-64-13.142857-106-63.714286t-42-117.428571l0-2.285714q38.857143 21.714286 83.428571 23.428571-37.714286-25.142857-60-65.714286t-22.285714-88q0-50.285714 25.142857-93.142857 69.142857 85.142857 168.285714 136.285714t212.285714 56.857143q-4.571429-21.714286-4.571429-42.285714 0-76.571429 54-130.571429t130.571429-54q80 0 134.857143 58.285714 62.285714-12 117.142857-44.571429-21.142857 65.714286-81.142857 101.714286 53.142857-5.714286 106.285714-28.571429z"></path>
+</svg>
+          </a>
+        
+      
+    </div>
+     
+    <p>&copy; 2022 <a href="/" target="_blank">RocPengHua</a></p>
+
+    
+
+    <p>Powered by <a href="https://hexo.io" target="_blank" rel="noopener noreferrer">Hexo</a> Theme - <a href="https://github.com/miiiku/flex-block" target="_blank" rel="noopener noreferrer author">flex-block</a></p>
+
+    <p>
+      <a href="javascript:;" id="theme-light">🌞 浅色</a>
+      <a href="javascript:;" id="theme-dark">🌛 深色</a>
+      <a href="javascript:;" id="theme-auto">🤖️ 自动</a>
+    </p>
+  </div>
+</footer>
+  </div>
+
+  <div class="back-to-top-fixed soft-size--round soft-style--box">
+    <svg class="icon icon-back-to-top" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+      <path d="M725.333333 426.666667c-12.8 0-21.333333-4.266667-29.866667-12.8l-213.333333-213.333333c-17.066667-17.066667-17.066667-42.666667 0-59.733333s42.666667-17.066667 59.733333 0l213.333333 213.333333c17.066667 17.066667 17.066667 42.666667 0 59.733333C746.666667 422.4 738.133333 426.666667 725.333333 426.666667z"></path>
+      <path d="M298.666667 426.666667c-12.8 0-21.333333-4.266667-29.866667-12.8-17.066667-17.066667-17.066667-42.666667 0-59.733333l213.333333-213.333333c17.066667-17.066667 42.666667-17.066667 59.733333 0s17.066667 42.666667 0 59.733333l-213.333333 213.333333C320 422.4 311.466667 426.666667 298.666667 426.666667z"></path>
+      <path d="M512 896c-25.6 0-42.666667-17.066667-42.666667-42.666667L469.333333 170.666667c0-25.6 17.066667-42.666667 42.666667-42.666667s42.666667 17.066667 42.666667 42.666667l0 682.666667C554.666667 878.933333 537.6 896 512 896z"></path>
+    </svg>
+  </div>
+
+  
+  <!-- aplayer -->
+
+
+<!-- dplayer -->
+
+
+
+
+  
+
+
+  
+
+
+  
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+  
+  <!-- 尾部用户自定义相关内容 -->
+<div id="aplayer"></div>
+<link rel="stylesheet" href="/lib/aplayer/APlayer.min.css">
+<script type="text/javascript" src="/lib/aplayer/APlayer.min.js"></script>
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script type="text/javascript">
+
+	/*获取音乐*/
+	$.get("https://api.lixingyong.com/api/netease?type=playlist&id=3778678&r=0.37201068616290645", function(result){
+	    const ap = new APlayer({
+	    container: document.getElementById('aplayer'),
+	    global:true,
+	    id:'3778678',
+	    server: 'netease',
+	    type: 'paylist',
+	    fixed: true,
+	    preload: 'none',
+	    theme: '#ffa500',
+	    autoplay: false,
+	    audio: JSON.parse(result)
+	  });
+	});
+
+
+
+
+
+
+
+
+
+
+	/*图片放大js*/
+	function createImgEventFullScreen() {
+        var imgs = $(".post-container").find("img");
+        console.log(imgs);
+        for (var i = 0; i < imgs.length; i++) {
+            // $(imgs[i]).click(createCover(imgs[i]));
+            imgs[i].onclick = function (e) {
+                var src = e.srcElement.currentSrc;
+                var _this = $(this);
+                console.log(_this);
+                createCover(src,_this);
+            }
+        }
+        function createCover(src,_this) {
+            console.log(_this);
+            console.log(src);
+            var cover = $("<div id='outerDiv'  style='position:fixed;top:0;left:0;background:rgba(0,0,0,0.7);z-index:5;width:100%;height:100%;display:none;'><div id='innerDiv' style='position:absolute;'><img  id='bigImg' style='border:5px solid #fff;' src=''/></div></div>");
+            $("#outerDiv").remove();
+            $("body").append(cover);
+            imgShow("#outerDiv", "#innerDiv", "#bigImg", _this,src);
+
+        }
+    }
+    function imgShow(outerDiv, innerDiv, bigImg, _this,src) {
+        //var src = _this.attr("src"); //获取当前点击的common-img元素中的src属性
+        $(bigImg).attr("src", src); //设置#bigImg元素的src属性
+
+        /*获取当前点击图片的真实大小，并显示弹出层及大图*/
+        $("<img/>").attr("src", src).on('load',function () {
+            var windowW = $(window).width(); //获取当前窗口宽度
+            var windowH = $(window).height(); //获取当前窗口高度
+            var realWidth = this.width; //获取图片真实宽度
+            var realHeight = this.height; //获取图片真实高度
+            var imgWidth, imgHeight;
+            var scale = 0.8; //缩放尺寸，当图片真实宽度和高度大于窗口宽度和高度时进行缩放
+
+            if (realHeight > windowH * scale) { //判断图片高度
+                imgHeight = windowH * scale; //如大于窗口高度，图片高度进行缩放
+                imgWidth = imgHeight / realHeight * realWidth; //等比例缩放宽度
+                if (imgWidth > windowW * scale) { //如宽度仍大于窗口宽度
+                    imgWidth = windowW * scale; //再对宽度进行缩放
+                }
+            } else if (realWidth > windowW * scale) { //如图片高度合适，判断图片宽度
+                imgWidth = windowW * scale; //如大于窗口宽度，图片宽度进行缩放
+                imgHeight = imgWidth / realWidth * realHeight; //等比例缩放高度
+            } else { //如果图片真实高度和宽度都符合要求，高宽不变
+                imgWidth = realWidth;
+                imgHeight = realHeight;
+            }
+            $(bigImg).css("width", imgWidth); //以最终的宽度对图片缩放
+
+            var w = (windowW - imgWidth) / 2; //计算图片与窗口左边距
+            var h = (windowH - imgHeight) / 2; //计算图片与窗口上边距
+            $(innerDiv).css({ "top": h, "left": w }); //设置#innerDiv的top和left属性
+            //console.log('****')
+            $(outerDiv).fadeIn("fast"); //淡入显示#outerDiv
+        });
+
+        $(outerDiv).click(function () { //再次点击淡出消失弹出层
+            $(this).fadeOut("fast");
+        });
+    }
+    setTimeout(function () {
+        createImgEventFullScreen();
+    }, 1000)
+</script>
+<style>
+.aplayer.aplayer-fixed.aplayer-narrow .aplayer-body{
+	width: 0px!important
+}
+.aplayer.aplayer-narrow .aplayer-body, .aplayer.aplayer-narrow .aplayer-pic {
+	width: 0px!important
+}
+</style>
+</body>
+</html>

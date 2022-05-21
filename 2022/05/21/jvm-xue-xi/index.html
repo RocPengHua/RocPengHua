@@ -1,0 +1,1105 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="theme-color" content="#3367D6"/>
+  <link rel="apple-touch-icon" href="/icons-192.png">
+  <link rel="manifest" href="/manifest.json">
+  
+  <meta name="generator" content="Hexo 5.4.2">
+
+  
+    <meta name="description" content="觉宇宙之无穷，识盈虚之有数">
+  
+
+  
+
+  
+    <meta name="author" content="RocPengHua">
+  
+
+  
+
+  
+
+  <title>jvm学习 | 小鹏驿站</title>
+
+  
+
+  
+    <link rel="shortcut icon" href="/favicon.ico">
+  
+
+  
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+</head>
+<body>
+  <div class="root-container">
+    
+<!-- header container -->
+<header class="header-container post">
+  
+    <div class="post-image" style="background-image: url(&#39;https://api.lixingyong.com/api/images?postid=441ef30c&amp;type=url&amp;itype=image&#39;)"></div>
+  
+  <!-- navbar -->
+<nav class="navbar">
+  <div class="navbar-content">
+    <!-- logo -->
+    <div class="navbar-logo">
+      <a href="/">
+        
+          小鹏驿站
+        
+      </a>
+    </div>
+    <!-- link -->
+    <div class="navbar-link">
+      <div class="navbar-btn">
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+      <ul class="navbar-list">
+        
+              <li class="navbar-list-item">
+                <a href="/">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-home faa-shake" aria-hidden="true"></i>
+                    首页
+                  </span>
+                </a>
+                
+              </li>
+            
+              <li class="navbar-list-item">
+                <a href="/archives">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-archive faa-shake" aria-hidden="true"></i>
+                    归档
+                  </span>
+                </a>
+                
+              </li>
+            
+              <li class="navbar-list-item">
+                <a href="/categories">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-folder faa-shake" aria-hidden="true"></i>
+                    分类
+                  </span>
+                </a>
+                
+                  <ul class="sub-menu">
+                    
+                      <li>
+                        <a href="/categories/%E5%90%8E%E7%AB%AF/">
+                          <i class="fa fa-etsy" aria-hidden="true"></i>
+                          后端
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/categories/%E5%89%8D%E7%AB%AF/">
+                          <i class="fa fa-grav" aria-hidden="true"></i>
+                          前端
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/categories/%E8%BD%AF%E4%BB%B6/">
+                          <i class="fa fa-key" aria-hidden="true"></i>
+                          软件
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/categories/%E7%AE%97%E6%B3%95/">
+                          <i class="fa fa-glass" aria-hidden="true"></i>
+                          算法
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">
+                          <i class="fa fa-database" aria-hidden="true"></i>
+                          数据库
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/">
+                          <i class="fa fa-arrows-alt" aria-hidden="true"></i>
+                          中间件
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/categories/%E9%97%AE%E9%A2%98/">
+                          <i class="fa fa-telegram" aria-hidden="true"></i>
+                          问题
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/categories/%E9%97%B2%E8%B0%88/">
+                          <i class="fa fa-vcard" aria-hidden="true"></i>
+                          闲谈
+                        </a>
+                      </li>
+                    
+                  </ul>
+                
+              </li>
+            
+              <li class="navbar-list-item">
+                <a href="/tags">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-tags" aria-hidden="true"></i>
+                    标签
+                  </span>
+                </a>
+                
+                  <ul class="sub-menu">
+                    
+                      <li>
+                        <a href="/tags/%E5%8A%A0%E5%AF%86/">
+                          <i class="fa fa-wpexplorer" aria-hidden="true"></i>
+                          加密
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/tags/idea/">
+                          <i class="fa fa-eercast" aria-hidden="true"></i>
+                          idea
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/tags/java/">
+                          <i class="fa fa-coffee" aria-hidden="true"></i>
+                          java
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/tags/mysql/">
+                          <i class="fa fa-database" aria-hidden="true"></i>
+                          mysql
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/tags/oracle/">
+                          <i class="fa fa-database" aria-hidden="true"></i>
+                          oracle
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/tags/spring/">
+                          <i class="fa fa-leaf" aria-hidden="true"></i>
+                          spring
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/tags/redis/">
+                          <i class="fa fa-fire" aria-hidden="true"></i>
+                          redis
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/tags/mongodb/">
+                          <i class="fa fa-database" aria-hidden="true"></i>
+                          mongodb
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/tags/rocketmq/">
+                          <i class="fa fa-random" aria-hidden="true"></i>
+                          rocketmq
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/tags/kafka/">
+                          <i class="fa fa-random" aria-hidden="true"></i>
+                          kafka
+                        </a>
+                      </li>
+                    
+                  </ul>
+                
+              </li>
+            
+              <li class="navbar-list-item">
+                <a href="/links">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-link" aria-hidden="true"></i>
+                    友链
+                  </span>
+                </a>
+                
+              </li>
+            
+              <li class="navbar-list-item">
+                <a href="/about">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-signing" aria-hidden="true"></i>
+                    关于
+                  </span>
+                </a>
+                
+              </li>
+            
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+    <div class="header-content">
+      <div class="post-text layout-block">
+        <div class="layout-margin">
+          <h1 class="title-wrap" title="觉宇宙之无穷，识盈虚之有数">jvm学习</h1>
+          <h2 class="title-sub-wrap">
+            <strong>RocPengHua</strong>
+            <span>发布于</span>
+            <time  class="article-date" datetime="2022-05-21T13:46:12.000Z" itemprop="datePublished">2022-05-21</time>
+          </h2>
+          <ul class="wrap-list dark">
+  
+    <li><a href="/categories/%E6%8A%80%E6%9C%AF/">📒 技术</a></li>
+  
+</ul>
+          <ul class="wrap-list dark">
+  
+</ul>
+        </div>
+      </div>
+    </div>
+  
+
+  
+  
+  
+</header>
+
+    <!-- 文章 -->
+
+<!-- 文章内容 -->
+<div class="body-container">
+  <article class="content-container layout-block post-container">
+    <div class="widget-info">
+      <section class="widget-author widget-item layout-margin content-padding--primary soft-size--large soft-style--box">
+  <div class="widget-body">
+    
+      <img src="/images/p.jpg" class="soft-size--round soft-style--box" alt="RocPengHua">
+    
+    
+      <h2>RocPengHua</h2>
+    
+    
+      <p>天天向上</p>
+    
+
+    <div class="count-box">
+      <div class="count-box--item">
+        <svg class="icon icon-article" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M240.51564747 647.74217627h196.07203239c16.59071043 0 30.16492806-13.57421762 30.16492805-30.16492806V165.10332731c0-33.18142087-30.16492806-60.32985613-60.32985612-60.32985611H245.04038668C225.43318342 104.7734712 210.35071939 119.85593522 210.35071939 139.46313845V617.57724821c0 16.59071043 13.57421762 30.16492806 30.16492808 30.16492806z m663.62841731-452.47392089v482.63884894c0 33.18142087-27.14843525 60.32985613-60.32985612 60.32985613H180.18579134c-33.18142087 0-60.32985613-27.14843525-60.32985612-60.32985613V195.26825538c-49.77213131 0-90.49478418 40.72265287-90.49478417 90.49478417v452.4739209c0 49.77213131 40.72265287 90.49478418 90.49478417 90.49478417h286.56681657c16.59071043 0 30.16492806 13.57421762 30.16492807 30.16492807s13.57421762 30.16492806 30.16492805 30.16492806h90.49478418c16.59071043 0 30.16492806-13.57421762 30.16492805-30.16492806s13.57421762-30.16492806 30.16492807-30.16492807h286.56681657c49.77213131 0 90.49478418-40.72265287 90.49478417-90.49478417V285.76303955c0-49.77213131-40.72265287-90.49478418-90.49478417-90.49478417zM587.41232014 647.74217627h191.54729318c19.60720323 0 34.68966726-15.08246403 34.68966729-34.68966727V134.93839925c0-16.59071043-13.57421762-30.16492806-30.16492808-30.16492805H617.57724821c-30.16492806 0-60.32985613 27.14843525-60.32985612 60.32985611v452.4739209c0 16.59071043 13.57421762 30.16492806 30.16492805 30.16492806z" fill="currentColor"></path>
+</svg>
+        <span>70</span>
+      </div>
+      <div class="count-box--item">
+        <svg class="icon icon-categories" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M900.3614811 257.09082106h-339.81629553l-67.96326003-101.9448889c-19.41807444-29.12711113-48.54518557-43.69066667-82.52681443-43.69066667H123.6385189c-53.39970333 0-97.09036999 43.69066667-97.09037113 97.09036999v582.54222222c0 53.39970333 43.69066667 97.09036999 97.09037113 97.09037002h776.7229622c53.39970333 0 97.09036999-43.69066667 97.09037113-97.09037002V354.18119104c0-53.39970333-43.69066667-97.09036999-97.09037113-97.09036998z m-97.09036999 242.72592554H220.72888889c-24.27259221 0-48.54518557-24.27259221-48.54518556-48.54518556s24.27259221-48.54518557 48.54518556-48.54518444h582.54222222c24.27259221 0 48.54518557 24.27259221 48.54518556 48.54518444s-24.27259221 48.54518557-48.54518556 48.54518556z" fill="currentColor"></path>
+</svg>
+        13
+      </div>
+      <div class="count-box--item">
+        <svg class="icon icon-tags" viewBox="0 0 1098 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M283.42180005 272q0-28.38857157-20.09142843-48.48000001t-48.47999998-20.09142842-48.48000002 20.09142842-20.09142846 48.48000001 20.09142846 48.48 48.48000002 20.09142843 48.47999998-20.09142843 20.09142843-48.48zM855.0332285 580.57142843q0 28.38857157-19.81714313 48.2057147l-263.03999997 263.58857157q-20.9142853 19.81714313-48.75428534 19.81714312-28.38857157 0-48.20571468-19.81714312l-383.04-383.58857157q-20.36571468-19.81714313-34.55999999-54.10285688t-14.19428534-62.6742853l0-222.85714313q0-27.84000002 20.36571469-48.20571469t48.2057147-20.36571466l222.85714313 0q28.38857157 0 62.6742853 14.19428529t54.65142842 34.55999999l383.04000001 382.49142843q19.81714313 20.9142853 19.81714314 48.75428532zM1060.74751475 580.57142843q0 28.38857157-19.81714313 48.2057147l-263.04 263.58857157q-20.9142853 19.81714313-48.75428531 19.81714312-19.26857155 0-31.61142843-7.47428531t-28.38857159-24.13714314l251.79428534-251.7942853q19.81714313-19.81714313 19.81714308-48.20571469 0-27.84000002-19.81714308-48.75428531l-383.04000001-382.49142845q-20.36571468-20.36571468-54.65142842-34.55999999t-62.67428532-14.19428534l120 0q28.38857157 0 62.67428532 14.19428534t54.65142842 34.55999999l383.03999998 382.49142845q19.81714313 20.9142853 19.81714314 48.75428531z" fill="currentColor"></path>
+</svg>
+        15
+      </div>
+    </div>
+  </div>
+</section>
+    
+      
+<section class="widget-toc widget-item layout-margin content-padding--primary soft-size--large soft-style--box">
+  <div class="widget-title">
+    <svg class="icon icon-toc" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M134.50666666 767.46666668H460.8c27.73333333 0 50.24000001 22.50666668 50.24000001 50.23999999v50.13333333c0 27.73333333-22.50666668 50.24000001-50.24000001 50.24000001H134.50666666c-27.73333333 0-50.24000001-22.50666668-50.23999999-50.24000001v-50.13333333c0.10666668-27.73333333 22.50666668-50.24000001 50.24000001-50.24000001zM84.37333332 541.65333333h326.18666669c27.73333333 0 50.24000001 22.39999999 50.23999999 50.13333334v50.24000001c0 27.73333333-22.50666668 50.24000001-50.24000002 50.23999999H84.37333332c-27.73333333 0-50.24000001-22.50666668-50.23999999-50.23999999v-50.24000001c0-27.73333333 22.50666668-50.13333334 50.24000001-50.13333334zM134.50666666 315.83999999H460.8c27.73333333 0 50.24000001 22.50666668 50.24000001 50.24000001v50.24000001c0 27.73333333-22.50666668 50.13333334-50.24000001 50.13333333H134.50666666c-27.73333333 0-50.24000001-22.39999999-50.23999999-50.13333333v-50.24000001c0.10666668-27.84000001 22.50666668-50.24000001 50.24000001-50.23999999zM209.81333332 89.91999999h326.18666671c27.73333333 0 50.24000001 22.39999999 50.23999997 50.13333335v50.23999999c0 27.73333333-22.50666668 50.24000001-50.24000001 50.24000001H209.81333332c-27.73333333 0-50.24000001-22.50666668-50.23999999-50.24000001v-50.24000001c0-27.73333333 22.50666668-50.13333334 50.24000001-50.13333333zM692.05333333 623.36l274.66666669 176.00000002c23.36000001 14.93333333 30.08 45.97333334 15.14666666 69.33333332L954.77333334 910.93333333c-14.93333333 23.25333334-45.97333334 30.08-69.33333335 15.14666667l-274.66666666-176c-23.36000001-14.93333333-30.08-45.97333334-15.14666667-69.33333333l27.09333334-42.24000001c14.93333333-23.36000001 46.08000001-30.08 69.33333333-15.14666666z" fill="currentColor"></path>
+</svg>
+    <span>TOC</span>
+  </div>
+  <div class="widget-body">
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%91%BD%E4%BB%A4"><span class="toc-number">1.</span> <span class="toc-text">命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%BE%E5%BD%A2%E5%8C%96%E5%B7%A5%E5%85%B7"><span class="toc-number">2.</span> <span class="toc-text">图形化工具</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#GC"><span class="toc-number">3.</span> <span class="toc-text">GC</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#GC%E7%AE%97%E6%B3%95"><span class="toc-number">3.1.</span> <span class="toc-text">GC算法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#GC%E6%94%B6%E9%9B%86%E5%99%A8"><span class="toc-number">3.2.</span> <span class="toc-text">GC收集器</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%B8%B2%E8%A1%8CGC-Serial-GC"><span class="toc-number">3.2.1.</span> <span class="toc-text">串行GC(Serial GC)</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%B9%B6%E8%A1%8CGC-Parallel-GC"><span class="toc-number">3.2.2.</span> <span class="toc-text">并行GC(Parallel GC)</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#CMS-GC"><span class="toc-number">3.2.3.</span> <span class="toc-text">CMS GC</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#G1-GC"><span class="toc-number">3.2.4.</span> <span class="toc-text">G1 GC</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%90%84%E4%B8%AAGC%E5%AF%B9%E6%AF%94%E5%9B%BE"><span class="toc-number">3.2.5.</span> <span class="toc-text">各个GC对比图</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8GC%E7%BB%84%E5%90%88"><span class="toc-number">3.2.6.</span> <span class="toc-text">常用GC组合</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E9%80%89%E6%8B%A9%E6%AD%A3%E7%A1%AEGC"><span class="toc-number">3.2.7.</span> <span class="toc-text">如何选择正确GC</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#ZGC"><span class="toc-number">3.2.8.</span> <span class="toc-text">ZGC</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Shenandoah-GC"><span class="toc-number">3.2.9.</span> <span class="toc-text">Shenandoah GC</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Parallel-GC%E3%80%81CMS-GC%E3%80%81G1-GC"><span class="toc-number">4.</span> <span class="toc-text">Parallel GC、CMS GC、G1 GC</span></a></li></ol>
+  </div>
+</section>
+
+    </div>
+  
+    <div class="article-info">
+      
+      
+      
+      
+      <section id="blog-content" class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
+        <h3 id="命令"><a href="#命令" class="headerlink" title="命令"></a>命令</h3><ul>
+<li><p><code>jps</code>查看java进程</p>
+<img src="/2022/05/21/jvm-xue-xi/image-20220521214845003.png" class="" title="image-20220521214845003">
+</li>
+<li><p><code>jstat</code>查看jvm内部gc相关信息</p>
+<ul>
+<li><p><code>jstat -gc 5048 1000 1000</code></p>
+<ul>
+<li>S0C：0号存活区的当前容量，单位kb</li>
+<li>S1C：1号存活区的当前容量，单位kb</li>
+<li>S0U：0号存活区的使用量，单位kb</li>
+<li>S1U：1号存活区的使用量，单位kb</li>
+<li>EC：Eden区，新生代的当前容量，单位kb</li>
+<li>EU：Eden区，新生代的使用量，单位kb</li>
+<li>OC：Old区，老年代的当前容量，单位kb</li>
+<li>OU：Old区，老年代的使用量，单位kb</li>
+<li>MC：元数据区的当前容量，单位kb</li>
+<li>MU：元数据区的使用量，单位kb</li>
+<li>CCSC：压缩class空间容量，单位kb</li>
+<li>CCSU：压缩class空间使用量，单位kb</li>
+<li>YGC：年轻代FC的次数</li>
+<li>YGCT：年轻代GC消耗的总时间</li>
+<li>FGC：Full GC的次数</li>
+<li>FGCT：Full GC消耗的时间</li>
+<li>GCT：垃圾收集消耗的总时间</li>
+</ul>
+<img src="/2022/05/21/jvm-xue-xi/image-20220521215543036.png" class="" title="image-20220521215543036">
+</li>
+<li><p><code>jstat -gcutil 5048 1000 1000</code></p>
+<ul>
+<li>S0：0号存活区的百分百使用率，0%是因为S0,S1随时有一个是空的</li>
+<li>S1：1号存活区的百分百使用率</li>
+<li>E：Eden区，新生代百分比使用率</li>
+<li>O：Old区，老年代百分比使用率</li>
+<li>M：元数据区百分比使用率</li>
+<li>CCS：压缩class空间（Compressed class space）的百分比使用率</li>
+<li>YGC：年轻代FC的次数</li>
+<li>YGCT：年轻代GC消耗的总时间</li>
+<li>FGC：Full GC的次数</li>
+<li>FGCT：Full GC消耗的时间</li>
+<li>GCT：垃圾收集消耗的总时间</li>
+</ul>
+<img src="/2022/05/21/jvm-xue-xi/image-20220521215214755.png" class="" title="image-20220521215214755"></li>
+</ul>
+</li>
+<li><p><code>jmap</code>查看heap或类占用空间统计</p>
+<ul>
+<li><p><code>jmap -heap 5048</code></p>
+<ul>
+<li>JDK8默认使用<code>Parallel GC</code>线程数为物理机cpu处理器个数（8）</li>
+<li>默认最大堆内存<code>MaxHeapSize</code>为物理机的1&#x2F;4</li>
+<li>默认堆内存为物理机的1&#x2F;64</li>
+<li>最大年轻代<code>MaxNewSize</code>为堆内存的1&#x2F;3</li>
+<li>年轻代老年代比例为2</li>
+<li>E区和S区比例为8</li>
+<li>压缩class空间<code>CompressedClassSpaceSize</code>堆1&#x2F;4</li>
+<li>最大元数据空间<code>MaxMetaspaceSize</code>,jdk8之后使用的时物理内存</li>
+<li><code>G1HeapRegionSize</code> G1 GC是存在</li>
+</ul>
+<img src="/2022/05/21/jvm-xue-xi/image-20220521220545424.png" class="" title="image-20220521220545424">
+</li>
+<li><p><code>jmap -histo 5048</code>查看那些类占用的空间最多</p>
+<img src="/2022/05/21/jvm-xue-xi/image-20220521221754253.png" class="" title="image-20220521221754253">
+</li>
+<li><p><code>jmap -dump:format=b,file=5048.hprof</code>Dump堆内存</p>
+</li>
+</ul>
+</li>
+<li><p><code>jstack</code>查看线程信息</p>
+<ul>
+<li><p><code>jstack -l 5048</code>长列表模式. 将线程相关的 locks 信息一起输出， 比如持有的锁，等待的锁。</p>
+<img src="/2022/05/21/jvm-xue-xi/image-20220521221935294.png" class="" title="image-20220521221935294"></li>
+</ul>
+</li>
+<li><p><code>jcmd</code>执行jvm相关分析命令</p>
+<ul>
+<li><p><code>jcmd 5048 help</code>查看当前进程有哪些命令</p>
+<img src="/2022/05/21/jvm-xue-xi/image-20220521222209216.png" class="" title="image-20220521222209216">
+</li>
+<li><p><code>jcmd 5048 VM.version </code>jvm版本信息</p>
+<img src="/2022/05/21/jvm-xue-xi/image-20220521222239451.png" class="" title="image-20220521222239451">
+</li>
+<li><p><code>jcmd 5048 VM.flags </code>java进程参数</p>
+<img src="/2022/05/21/jvm-xue-xi/image-20220521222327043.png" class="" title="image-20220521222327043">
+</li>
+<li><p><code>jcmd 5048 VM.command_line </code> 命令行</p>
+<img src="/2022/05/21/jvm-xue-xi/image-20220521222352234.png" class="" title="image-20220521222352234">
+</li>
+<li><p><code>jcmd 5048 VM.system_properties </code>系统参数</p>
+<img src="/2022/05/21/jvm-xue-xi/image-20220521222450042.png" class="" title="image-20220521222450042">
+</li>
+<li><p><code>jcmd 5048 Thread.print </code>运行线程类似&#96;jstack -l 5048</p>
+</li>
+<li><p><code>jcmd 5048 GC.class_histogram </code>类似<code>jmap -histo 5048</code></p>
+</li>
+<li><p><code>jcmd 5048 GC.heap_info</code></p>
+<img src="/2022/05/21/jvm-xue-xi/image-20220521222624101.png" class="" title="image-20220521222624101"></li>
+</ul>
+</li>
+</ul>
+<h3 id="图形化工具"><a href="#图形化工具" class="headerlink" title="图形化工具"></a>图形化工具</h3><ul>
+<li><code>jconsole</code></li>
+<li><code>jvisualvm</code></li>
+<li><code>jmc</code></li>
+<li><code>VisualGC</code>：idea插件</li>
+</ul>
+<h3 id="GC"><a href="#GC" class="headerlink" title="GC"></a>GC</h3><h4 id="GC算法"><a href="#GC算法" class="headerlink" title="GC算法"></a>GC算法</h4><ul>
+<li><p>标记清除算法（Mark and Sweep）Parallel GC和CMSGC的基本原理</p>
+<ul>
+<li><p>Marking（标记）: 遍历所有的可达对象，并在 本地内存(native)中分门别类记下</p>
+</li>
+<li><p>Sweeping（清除）: 这一步保证了，不可达对象 所占用的内存，在之后进行内存分配时可以重用</p>
+</li>
+</ul>
+</li>
+<li><p>标记-复制算法(Mark-Copy)</p>
+</li>
+<li><p>标记-清除-整理算法(Mark-Sweep-Compact)</p>
+</li>
+</ul>
+<h4 id="GC收集器"><a href="#GC收集器" class="headerlink" title="GC收集器"></a>GC收集器</h4><h5 id="串行GC-Serial-GC"><a href="#串行GC-Serial-GC" class="headerlink" title="串行GC(Serial GC)"></a>串行GC(Serial GC)</h5><ul>
+<li><code>-XX:+UseSerialGC</code>：配置使用串行化GC</li>
+<li>串行 GC 对年轻代使用 mark-copy（标记-复制） 算法，对老年代使用 mark-sweep-compact （标记-清除-整理）算法</li>
+<li>两者都是单线程的垃圾收集器，不能进行并行处理，所以都会触发全线暂停（STW），停止所有的应用线程</li>
+<li>因此这种GC算法不能充分利用多核 CPU。不管有多少CPU 内核，JVM 在垃圾收集时都只能使用单个核心</li>
+<li>CPU 利用率高，暂停时间长。简单粗暴，就像老式的电脑，动不动就卡死</li>
+<li>只适合几百 MB 堆内存的 JVM，而且是单核 CPU 时比较有用</li>
+<li><code>-XX:+UseParNewGC</code>改进版本的Serial GC,配置CMS使用</li>
+</ul>
+<h5 id="并行GC-Parallel-GC"><a href="#并行GC-Parallel-GC" class="headerlink" title="并行GC(Parallel GC)"></a>并行GC(Parallel GC)</h5><ul>
+<li>使用命令<ul>
+<li>-XX:+UseParallelGC</li>
+<li>-XX:+UseParallelOldGC</li>
+<li>-XX:+UseParallelGC -XX:+UseParallelOldGC</li>
+</ul>
+</li>
+<li>年轻代和老年代的垃圾回收都会触发 STW 事件</li>
+<li>在年轻代使用 标记-复制（mark-copy）算法，在老年代使用 标记-清除-整理（mark-sweepcompact）算法</li>
+<li><code>-XX:ParallelGCThreads=N</code>来指定GC线程数，默认CPU核心数</li>
+<li>并行垃圾收集器适用于多核服务器，主要目标是<code>增加吞吐量</code>。因为对系统资源的有效使用，能达到 更高的吞吐量<ul>
+<li>在 GC 期间，所有 CPU 内核都在并行清理垃圾，所以总暂停时间更短</li>
+<li>在两次 GC 周期的间隔期，没有 GC 线程在运行，不会消耗任何系统资源</li>
+</ul>
+</li>
+</ul>
+<h5 id="CMS-GC"><a href="#CMS-GC" class="headerlink" title="CMS GC"></a>CMS GC</h5><ul>
+<li><code>-XX:+UseConcMarkSweepGC</code></li>
+<li>其对年轻代采用并行 STW 方式的 mark-copy (标记-复制)算法，对老年代主要使用并发 marksweep (标记-清除)算法</li>
+<li>CMS GC 的设计目标是避免在老年代垃圾收集时出现长时间的卡顿<ul>
+<li>不对老年代进行整理，而是使用空闲列表（free-lists）来管理内存空间的回收</li>
+<li>在 mark-and-sweep （标记-清除） 阶段的大部分工作和应用线程一起并发执行</li>
+</ul>
+</li>
+<li>如果服务器是多核 CPU，并且主要调优目标是<code>降低 GC 停顿导致的系统延迟</code>，那么使用 CMS 是 个很明智的选择。进行老年代的并发回收时，可能会伴随着多次年轻代的 minor GC</li>
+<li>CMS GC六个阶段<ul>
+<li>Initial Mark（初始标记）<ul>
+<li>这个阶段伴随着 STW 暂停。初始标记的目标是标记所有的根对象，包括根对象直接引用的对象，以及被年轻代中 所有存活对象所引用的对象（老年代单独回收）。</li>
+</ul>
+</li>
+<li>Concurrent Mark（并发标记）<ul>
+<li>在此阶段，CMS GC 遍历老年代，标记所有的存活对象， 从前一阶段 “Initial Mark” 找到的根对象开始算起。 “并 发标记”阶段，就是与应用程序同时运行，不用暂停的阶段</li>
+</ul>
+</li>
+<li>Concurrent Preclean（并发预清理）<ul>
+<li>此阶段同样是与应用线程并发执行的，不需要停止应用线 程。 因为前一阶段【并发标记】与程序并发运行，可能 有一些引用关系已经发生了改变。如果在并发标记过程中 引用关系发生了变化，JVM 会通过“Card（卡片）”的方 式将发生了改变的区域标记为“脏”区，这就是所谓的 卡片 标记（Card Marking）</li>
+</ul>
+</li>
+<li>Final Remark（最终标记）<ul>
+<li>最终标记阶段是此次 GC 事件中的第二次（也是最后一 次）STW 停顿。本阶段的目标是完成老年代中所有存活 对象的标记. 因为之前的预清理阶段是并发执行的，有可 能 GC 线程跟不上应用程序的修改速度。所以需要一次 STW 暂停来处理各种复杂的情况。 通常 CMS 会尝试在年轻代尽可能空的情况下执行 Final  Remark 阶段，以免连续触发多次 STW 事件</li>
+</ul>
+</li>
+<li>Concurrent Sweep（并发清除）<ul>
+<li>此阶段与应用程序并发执行，不需要 STW 停顿。JVM 在此 阶段删除不再使用的对象，并回收他们占用的内存空间</li>
+</ul>
+</li>
+<li>Concurrent Reset（并发重置）<ul>
+<li>此阶段与应用程序并发执行，重置 CMS 算法相关的内部 数据，为下一次 GC 循环做准备</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>CMS 垃圾收集器在减少停顿时间上做了很多复杂而有用的工作，用于垃圾回收的并发线程执 行的同时，并不需要暂停应用线程。 当然， CMS 也有一些缺点，其中最大的问题就是老年代内存碎片问题（因为不压缩），在某些情况 下 GC 会造成不可预测的暂停时间，特别是堆 内存较大的情况下</li>
+</ul>
+<h5 id="G1-GC"><a href="#G1-GC" class="headerlink" title="G1 GC"></a>G1 GC</h5><ul>
+<li><p><code>-XX:+UseG1GC</code></p>
+</li>
+<li><p>G1 的全称是 Garbage -First，意为垃圾优先，哪 一块的垃圾最多就优先清理它</p>
+</li>
+<li><p>G1 GC 最主要的设计目标是：将 STW 停顿的时间 和分布，变成可预期且可配置的</p>
+</li>
+<li><p>G1 GC 是一款软实时垃圾收集器，可以为 其设置某项特定的性能指标。为了达成可预期停顿 时间的指标，G1 GC 有一些独特的实现</p>
+<ul>
+<li>堆不再分成年轻代和老年代，而是划分为多 个（通常是 2048 个）可以存放对象的 小块堆区域 (smaller heap regions)</li>
+<li>每个小块，可能一会被 定义成 Eden 区，一会被指定为 Survivor区或者 Old 区</li>
+<li>所有的 Eden 区和 Survivor 区合起来就是年轻代，所有的 Old 区拼在一起那 就是老年代</li>
+<li>这样划分之后，使得 G1 不必每次都去收集整 个堆空间，而是以增量的方式来进行处理:  每 次只处理一部分内存块，称为此次 GC 的回收 集(collection set)。每次 GC 暂停都会收集所 有年轻代的内存块，但一般只包含部分老年代 的内存块</li>
+</ul>
+</li>
+<li><p>G1 的另一项创新是，在并发阶段估算每个小 堆块存活对象的总数。构建回收集的原则是： 垃圾最多的小块会被优先收集。这也是 G1  名 称的由来</p>
+</li>
+<li><p>G1 GC –配置参数</p>
+<ul>
+<li><code>-XX:+UseG1GC</code>：启用 G1 GC； </li>
+<li><code>-XX:G1NewSizePercent</code>：初始年轻代占整个 Java Heap 的大小，默认值为 5%； </li>
+<li><code>-XX:G1MaxNewSizePercent</code>：最大年轻代占整个 Java Heap 的大小，默认值为 60%； </li>
+<li><code>-XX:G1HeapRegionSize</code>：设置每个 Region 的大小，单位 MB，需要为 1，2，4，8，16，32 中的某个值，默 认是堆内存的 1&#x2F;2000。如果这个值设置比较大，那么大对象就可以进入 Region 了。 </li>
+<li><code>-XX:ConcGCThreads</code>：与 Java 应用一起执行的 GC 线程数量，默认是 Java 线程的 1&#x2F;4，减少这个参数的数值可 能会提升并行回收的效率，提高系统内部吞吐量。如果这个数值过低，参与回收垃圾的线程不足，也会导致并行回 收机制耗时加长。 </li>
+<li><code>-XX:+InitiatingHeapOccupancyPercent</code>（简称 IHOP）：G1 内部并行回收循环启动的阈值，默认为 Java Heap 的 45%。这个可以理解为老年代使用大于等于 45% 的时候，JVM 会启动垃圾回收。这个值非常重要，它决定了在 什么时间启动老年代的并行回收。 </li>
+<li><code>-XX:G1HeapWastePercent</code>：G1停止回收的最小内存大小，默认是堆大小的 5%。GC 会收集所有的 Region 中 的对象，但是如果下降到了 5%，就会停下来不再收集了。就是说，不必每次回收就把所有的垃圾都处理完，可以 遗留少量的下次处理，这样也降低了单次消耗的时间。 </li>
+<li><code>-XX:G1MixedGCCountTarget</code>：设置并行循环之后需要有多少个混合 GC 启动，默认值是 8 个。老年代 Region的回收时间通常比年轻代的收集时间要长一些，所以如果混合收集器比较多，可以允许G1延长老年代的收集时间</li>
+<li><code>-XX:+G1PrintRegionLivenessInfo</code>：这个参数需要和 <code>-XX:+UnlockDiagnosticVMOptions</code> 配合启动，打印 JVM 的调试信 息，每个 Region 里的对象存活信息。 </li>
+<li><code>-XX:G1ReservePercent</code>：G1 为了保留一些空间用于年代之间的提升，默认值是堆空间的 10%。因为大量执行回收的地方在 年轻代（存活时间较短），所以如果你的应用里面有比较大的堆内存空间、比较多的大对象存活，这里需要保留一些内存。</li>
+<li><code>-XX:+G1SummarizeRSetStats</code>：这也是一个 VM 的调试信息。如果启用，会在 VM 退出的时候打印出 Rsets 的详细总结信 息。如果启用 </li>
+<li><code>-XX:G1SummaryRSetStatsPeriod</code>： 参数，就会阶段性地打印 Rsets 信息。 </li>
+<li><code>-XX:+G1TraceConcRefinement</code>：这个也是一个 VM 的调试信息，如果启用，并行回收阶段的日志就会被详细打印出来。 </li>
+<li><code>-XX:+GCTimeRatio</code>：这个参数就是计算花在 Java 应用线程上和花在 GC 线程上的时间比率，默认是 9，跟新生代内存的分 配比例一致。这个参数主要的目的是让用户可以控制花在应用上的时间，G1 的计算公式是 100&#x2F;（1+GCTimeRatio）。这样 如果参数设置为 9，则最多 10% 的时间会花在 GC 工作上面。Parallel GC 的默认值是 99，表示 1% 的时间被用在 GC 上面， 这是因为 Parallel GC 贯穿整个 GC，而 G1 则根据 Region 来进行划分，不需要全局性扫描整个内存堆。 </li>
+<li><code>-XX:+UseStringDeduplication</code>：手动开启 Java String 对象的去重工作，这个是 JDK8u20 版本之后新增的参数，主要用于 相同 String 避免重复申请内存，节约 Region 的使用。 -XX：MaxGCPauseMills：预期 G1 每次执行 GC 操作的暂停时间，单位是毫秒，默认值是 200 毫秒，G1 会尽量保证控制在 这个范围内</li>
+</ul>
+</li>
+<li><p>G1 GC的处理步骤</p>
+<ul>
+<li><p>年轻代模式转移暂停（Evacuation Pause）</p>
+<ul>
+<li>G1 GC 会通过前面一段时间的运行情况来不断的调整自己的回收策略和行为，以此来比较稳定地控制 暂停时间。在应用程序刚启动时，G1 还没有采集到什么足够的信息，这时候就处于初始的 fullyyoung 模式。当年轻代空间用满后，应用线程会被暂停，年轻代内存块中的存活对象被拷贝到存活 区。如果还没有存活区，则任意选择一部分空闲的内存块作为存活区</li>
+</ul>
+</li>
+<li><p>并发标记（Concurrent Marking）</p>
+<ul>
+<li><p>G1 并发标记的过程与 CMS 基本上是一样的。G1 的并发标记通过 Snapshot-At-The-Beginning（起始 快照）的方式，在标记阶段开始时记下所有的存活对象。即使在标记的同时又有一些变成了垃圾。通过 对象的存活信息，可以构建出每个小堆块的存活状态，以便回收集能高效地进行选择，这些信息在接下来的阶段会用来执行老年代区域的垃圾收集</p>
+</li>
+<li><p>有两种情况时可以并发执行</p>
+<ul>
+<li>如果在标记阶段确定某个小堆块中没有存活对象，只包含垃圾</li>
+<li>在 STW 转移暂停期间，同时包含垃圾和存活对象的老年代小堆块</li>
+</ul>
+</li>
+<li><p>处理</p>
+<ul>
+<li>Initial Mark（初始标记）<ul>
+<li>此阶段标记所有从 GC 根对象直接可达的对象</li>
+</ul>
+</li>
+<li>Root Region Scan（Root区扫描）<ul>
+<li>此阶段标记所有从 “根区域” 可达的存活对象。根区域包括：非空的区域，以及在标记过程中不得不收集的区域</li>
+</ul>
+</li>
+<li>Concurrent Mark（并发标记）<ul>
+<li>此阶段和 CMS 的并发标记阶段非常类似：只遍历对象图，并在一个特殊的位图中标记能访问到的对象</li>
+</ul>
+</li>
+<li>Remark（再次标记）<ul>
+<li>这是一次 STW 停顿(因为不是并发的阶段)，以完成标记过程。 G1 收集器会短暂地停止应用线程， 停止并发更新信息的写入，处理其中的少量信息，并标记所有在并发标记开始时未被标记的存活对象</li>
+</ul>
+</li>
+<li>Cleanup（清理）<ul>
+<li>清理阶段为即将到来的转移阶段做准备，统计小堆块中所有存活的对象，并将小堆块进行排序，以提升 GC 的效率，维护并发标记的内部状态。 所有不包含存活对象的小堆块在此阶段都被回收了。有一部分任务是并发 的：例如空堆区的回收，还有大部分的存活率计算。此阶段也需要一个短暂的 STW 暂停</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>转移暂停: 混合模式（Evacuation Pause (mixed)）</p>
+<ul>
+<li><p>并发标记完成之后，G1将执行一次混合收集（mixed collection），就是不只清理年轻代，还将一部 分老年代区域也加入到 回收集 中。混合模式的转移暂停不一定紧跟并发标记阶段。有很多规则和历 史数据会影响混合模式的启动时机。比如，假若在老年代中可以并发地腾出很多的小堆块，就没有必 要启动混合模式</p>
+<p>因此，在并发标记与混合转移暂停之间，很可能会存在多次 young 模式的转移暂停</p>
+<p>具体添加到回收集的老年代小堆块的大小及顺序，也是基于许多规则来判定的。其中包括指定的软实 时性能指标，存活性，以及在并发标记期间收集的 GC 效率等数据，外加一些可配置的 JVM 选项。混 合收集的过程，很大程度上和前面的 fully-young gc 是一样的</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>G1 GC 注意事项</p>
+<ul>
+<li><p>某些情况下 G1 触发了 Full GC，这时 G1 会退化使用 Serial 收集器来完成垃圾的清理工作， 它仅仅使用单线程来完成 GC 工作，GC 暂停时间将达到秒级别的</p>
+<ul>
+<li><p>并发模式失败</p>
+<p>G1 启动标记周期，但在 Mix GC 之前，老年代就被填满，这时候 G1 会放弃标记周期。解决办法：增加堆大小，或者调整周期（例如增加线程数<code>-XX:ConcGCThreads</code>）</p>
+</li>
+<li><p>晋升失败</p>
+<p>没有足够的内存供存活对象或晋升对象使用，由此触发了 Full GC(to-space exhausted&#x2F;to-space overflow）</p>
+<ul>
+<li>解决方法<ol>
+<li>增加 <code>–XX:G1ReservePercent</code> 选项的值（并相应增加总的堆大小）增加预留内存量</li>
+<li>通过减少 <code>–XX:InitiatingHeapOccupancyPercent</code> 提前启动标记周期</li>
+<li>也可以通过增加 <code>–XX:ConcGCThreads</code> 选项的值来增加并行标记线程的数目</li>
+</ol>
+</li>
+</ul>
+</li>
+<li><p>巨型对象分配失败</p>
+<p>当巨型对象找不到合适的空间进行分配时，就会启动 Full GC，来释放空间</p>
+<ul>
+<li>解决方法：增加内存或者增大 <code>-XX:G1HeapRegionSize</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h5 id="各个GC对比图"><a href="#各个GC对比图" class="headerlink" title="各个GC对比图"></a>各个GC对比图</h5><p>​	<img src="/2022/05/21/jvm-xue-xi/image-20220521230335965.png" class="" title="image-20220521230335965"></p>
+<h5 id="常用GC组合"><a href="#常用GC组合" class="headerlink" title="常用GC组合"></a>常用GC组合</h5><ul>
+<li>Serial+Serial Old 实现单线程的低延迟 垃圾回收机制</li>
+<li>ParNew+CMS，实现多线程的低延迟垃 圾回收机制</li>
+<li>Parallel Scavenge和Parallel  Scavenge Old，实现多线程的高吞吐量垃圾 回收机制</li>
+</ul>
+<h5 id="如何选择正确GC"><a href="#如何选择正确GC" class="headerlink" title="如何选择正确GC"></a>如何选择正确GC</h5><ul>
+<li>如果系统考虑吞吐优先，CPU 资源都用来最大程度处理业务，用 Parallel GC</li>
+<li>如果系统考虑低延迟有限，每次 GC 时间尽量短，用 CMS GC</li>
+<li>如果系统内存堆较大，同时希望整体来看平均 GC 时间可控，使用 G1 GC<ul>
+<li>一般 4G 以上，算是比较大，用 G1 的性价比较高</li>
+<li>一般超过 8G，比如 16G-64G 内存，非常推荐使用 G1 GC</li>
+</ul>
+</li>
+</ul>
+<h5 id="ZGC"><a href="#ZGC" class="headerlink" title="ZGC"></a>ZGC</h5><ul>
+<li>JDK11之后支持</li>
+<li><code>-XX:+UnlockExperimentalVMOptions -XX:+UseZGC -Xmx16g</code></li>
+<li>ZGC主要特点<ul>
+<li>GC 最大停顿时间不超过 10ms</li>
+<li>堆内存支持范围广，小至几百 MB 的堆空间，大至 4TB 的超大堆 内存（JDK13 升至 16TB）</li>
+<li>与 G1 相比，应用吞吐量下降不超过 15%</li>
+<li>通过着色指针和读屏障，实现几乎全部的并发执行，几毫 秒级别的延迟，线性可扩展</li>
+</ul>
+</li>
+</ul>
+<h5 id="Shenandoah-GC"><a href="#Shenandoah-GC" class="headerlink" title="Shenandoah GC"></a>Shenandoah GC</h5><ul>
+<li><code>-XX:+UnlockExperimentalVMOptions - XX:+UseShenandoahGC -Xmx16g</code></li>
+</ul>
+<p>可以看出 GC 算法和实现的演进路线</p>
+<ol>
+<li>串行 -&gt; 并行: 重复利用多核 CPU 的优势，大幅降低 GC 暂停时间，提升吞吐量</li>
+<li>并行 -&gt; 并发： 不只开多个 GC 线程并行回收，还将GC操作拆分为多个步骤，让很多繁重的任务和应用线程一起并 发执行，减少了单次 GC 暂停持续的时间，这能有效降低业务系统的延迟</li>
+<li>CMS -&gt; G1： G1 可以说是在 CMS 基础上进行迭代和优化开发出来的，划分为多个小堆块进行增量回收，这样就更 进一步地降低了单次 GC 暂停的时间</li>
+<li>G1 -&gt; ZGC:：ZGC 号称无停顿垃圾收集器，这又是一次极大的改进。ZGC 和 G1 有一些相似的地方，但是底层的算法 和思想又有了全新的突破</li>
+</ol>
+<h3 id="Parallel-GC、CMS-GC、G1-GC"><a href="#Parallel-GC、CMS-GC、G1-GC" class="headerlink" title="Parallel GC、CMS GC、G1 GC"></a>Parallel GC、CMS GC、G1 GC</h3><img src="/2022/05/21/jvm-xue-xi/image-20220521231711959.png" class="" title="image-20220521231711959">
+
+
+      </section>
+
+      
+      
+        <nav class="article-nav">
+          
+          
+            <div class="article-nav-item layout-padding">
+  <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
+    
+      <div class="card-cover" background-image-lazy data-img="https://api.lixingyong.com/api/images?postid=1558df1e&type=url&itype=image"></div>
+    
+    <div class="card-text">
+      
+        <a href="/2022/05/19/javac-bian-yi-zhao-bu-dao-tong-bao-xia-mian-de-lei/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">javac编译找不到同包下面的类</h2>
+        </a>
+      
+      <div class="card-text--row">Older</div>
+    </div>
+  </article>
+</div>
+          
+        </nav>
+      
+
+      <section class="page-message-container layout-padding">
+        
+
+
+  
+  
+    <div class="valine-container comments-container content-padding--primary soft-size--large soft-style--box">
+      <div id="valine_thread" class="valine-thread"></div>
+    </div>
+    <script type="text/javascript" src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script type="text/javascript" src='//unpkg.com/valine/dist/Valine.min.js'></script>
+    <script type="text/javascript">
+      new Valine({
+        el: "#valine_thread",
+        appId: "yEts8yIOQopn7imcDAmwhlNi-gzGzoHsz",
+        appKey: "nyOyHJdsDGQh3UI0TdNdLLnN",
+        avatar: "mm",
+        placeholder: "随便说点什么叭～",
+        notify: true,
+        visitor: true,
+        pageSize: 10,
+      });
+    </script>
+  
+
+  
+  
+
+
+      </section>
+    </div>
+    <div class="widget-info">
+      
+<section class="widet-notice widget-item layout-margin content-padding--primary soft-size--large soft-style--box">
+  <div class="widget-title">
+    <svg class="icon icon-notice" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M512 945.02305225v28.15620663a24.27259221 24.27259221 0 0 1-24.27259221 24.27259335H394.0352a48.54518557 48.54518557 0 0 1-41.74885888-23.78714112l-110.68302222-184.47170332a132.04290333 132.04290333 0 0 1-17.47626667-48.54518557h118.4502511a200.97706667 200.97706667 0 0 1 76.21594113 14.56355556l20.38897777 133.49925888a48.54518557 48.54518557 0 0 0 36.40888888 27.67075555l16.01991111 2.91271112a24.27259221 24.27259221 0 0 1 20.38897778 25.72894889zM997.45185223 463.45481443a194.18074112 194.18074112 0 0 1-38.8361489 116.50844445 24.75804445 24.75804445 0 0 1-36.4088889 0l-34.95253333-34.95253333a24.27259221 24.27259221 0 0 1-2.91271111-30.58346667 97.09036999 97.09036999 0 0 0 0-106.79940665 24.27259221 24.27259221 0 0 1 2.91271111-30.58346666l34.95253333-34.95253334a24.75804445 24.75804445 0 0 1 18.93262223-7.28177777 26.2144 26.2144 0 0 1 17.47626667 9.70903665A194.18074112 194.18074112 0 0 1 997.45185223 463.45481443z m-194.18074112-388.36148111v776.72296335a48.54518557 48.54518557 0 0 1-48.54518556 48.54518443h-28.64165888a48.54518557 48.54518557 0 0 1-33.98163001-14.07810332l-145.63555556-143.20829668A291.27111111 291.27111111 0 0 0 342.57730333 657.63555556H172.18370333a145.63555556 145.63555556 0 0 1-145.63555556-145.63555556v-97.09036999a145.63555556 145.63555556 0 0 1 145.63555556-145.63555556h170.3936a291.27111111 291.27111111 0 0 0 206.31703779-85.43952668l145.63555555-143.20829554a48.54518557 48.54518557 0 0 1 33.98162888-14.07810446H754.72592555a48.54518557 48.54518557 0 0 1 48.54518556 48.54518555z" fill="currentColor"></path>
+</svg>
+    <span>NOTICE</span>
+  </div>
+  <div class="widget-body">
+    <p>flex-block主题部分重构，详情查看https://gitee.com/RocPengHua/hexo-theme-flexblock</p>
+  </div>
+</section>
+
+
+      <section class="widget-categorys widget-item layout-margin content-padding--primary soft-size--large soft-style--box">
+  <div class="widget-title">
+    <svg class="icon icon-categories" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M900.3614811 257.09082106h-339.81629553l-67.96326003-101.9448889c-19.41807444-29.12711113-48.54518557-43.69066667-82.52681443-43.69066667H123.6385189c-53.39970333 0-97.09036999 43.69066667-97.09037113 97.09036999v582.54222222c0 53.39970333 43.69066667 97.09036999 97.09037113 97.09037002h776.7229622c53.39970333 0 97.09036999-43.69066667 97.09037113-97.09037002V354.18119104c0-53.39970333-43.69066667-97.09036999-97.09037113-97.09036998z m-97.09036999 242.72592554H220.72888889c-24.27259221 0-48.54518557-24.27259221-48.54518556-48.54518556s24.27259221-48.54518557 48.54518556-48.54518444h582.54222222c24.27259221 0 48.54518557 24.27259221 48.54518556 48.54518444s-24.27259221 48.54518557-48.54518556 48.54518556z" fill="currentColor"></path>
+</svg>
+    <span>CATEGORYS</span>
+  </div>
+  <div class="widget-body">
+    <ul class="categorys-list">
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E7%AE%97%E6%B3%95/">
+            算法 (5)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E6%8A%80%E6%9C%AF/">
+            技术 (3)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E5%B7%A5%E5%85%B7/">
+            工具 (1)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E9%97%AE%E9%A2%98/">
+            问题 (6)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E8%BD%AF%E4%BB%B6/">
+            软件 (23)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/">
+            中间件 (18)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E5%90%8E%E7%AB%AF/">
+            后端 (1)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/java/">
+            java (1)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E9%97%B2%E8%B0%88/">
+            闲谈 (5)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E6%95%B0%E6%8D%AE/">
+            数据 (2)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E5%89%8D%E7%AB%AF/">
+            前端 (1)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E5%BE%AE%E4%BF%A1/">
+            微信 (1)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E8%8B%A5%E4%BE%9D/">
+            若依 (1)
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+</section>
+
+      <section class="widget-tags widget-item  layout-margin content-padding--primary soft-size--large soft-style--box">
+  <div class="widget-title">
+    <svg class="icon icon-tags" viewBox="0 0 1098 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M283.42180005 272q0-28.38857157-20.09142843-48.48000001t-48.47999998-20.09142842-48.48000002 20.09142842-20.09142846 48.48000001 20.09142846 48.48 48.48000002 20.09142843 48.47999998-20.09142843 20.09142843-48.48zM855.0332285 580.57142843q0 28.38857157-19.81714313 48.2057147l-263.03999997 263.58857157q-20.9142853 19.81714313-48.75428534 19.81714312-28.38857157 0-48.20571468-19.81714312l-383.04-383.58857157q-20.36571468-19.81714313-34.55999999-54.10285688t-14.19428534-62.6742853l0-222.85714313q0-27.84000002 20.36571469-48.20571469t48.2057147-20.36571466l222.85714313 0q28.38857157 0 62.6742853 14.19428529t54.65142842 34.55999999l383.04000001 382.49142843q19.81714313 20.9142853 19.81714314 48.75428532zM1060.74751475 580.57142843q0 28.38857157-19.81714313 48.2057147l-263.04 263.58857157q-20.9142853 19.81714313-48.75428531 19.81714312-19.26857155 0-31.61142843-7.47428531t-28.38857159-24.13714314l251.79428534-251.7942853q19.81714313-19.81714313 19.81714308-48.20571469 0-27.84000002-19.81714308-48.75428531l-383.04000001-382.49142845q-20.36571468-20.36571468-54.65142842-34.55999999t-62.67428532-14.19428534l120 0q28.38857157 0 62.67428532 14.19428534t54.65142842 34.55999999l383.03999998 382.49142845q19.81714313 20.9142853 19.81714314 48.75428531z" fill="currentColor"></path>
+</svg>
+    <span>TAGS</span>
+  </div>
+  <div class="widget-body">
+    <div class="tags-cloud">
+      <a href="/tags/docker/" style="font-size: 20px;" class="tags-cloud-10">docker</a> <a href="/tags/hexo/" style="font-size: 10px;" class="tags-cloud-0">hexo</a> <a href="/tags/idea/" style="font-size: 10px;" class="tags-cloud-0">idea</a> <a href="/tags/kafka/" style="font-size: 10px;" class="tags-cloud-0">kafka</a> <a href="/tags/linux/" style="font-size: 13.33px;" class="tags-cloud-3">linux</a> <a href="/tags/maven/" style="font-size: 10px;" class="tags-cloud-0">maven</a> <a href="/tags/nginx/" style="font-size: 10px;" class="tags-cloud-0">nginx</a> <a href="/tags/node/" style="font-size: 10px;" class="tags-cloud-0">node</a> <a href="/tags/oracle/" style="font-size: 10px;" class="tags-cloud-0">oracle</a> <a href="/tags/rabbitmq/" style="font-size: 16.67px;" class="tags-cloud-7">rabbitmq</a> <a href="/tags/redis/" style="font-size: 10px;" class="tags-cloud-0">redis</a> <a href="/tags/rocketmq/" style="font-size: 16.67px;" class="tags-cloud-7">rocketmq</a> <a href="/tags/spring/" style="font-size: 10px;" class="tags-cloud-0">spring</a> <a href="/tags/%E5%8A%A0%E5%AF%86/" style="font-size: 13.33px;" class="tags-cloud-3">加密</a> <a href="/tags/%E9%97%AE%E9%A2%98/" style="font-size: 10px;" class="tags-cloud-0">问题</a>
+    </div>
+  </div>
+</section>
+    </div>
+  </article>
+</div>
+<script>
+	//解决中文转义无法跳转锚点问题
+	var blog = document.querySelector("#blog-content");
+	var content = blog.innerHTML;
+	var regExp2 = /<h([1-6]) id=\"(\S*?)\">/g;
+	var	data = content.replace(regExp2, function(word,i){
+		var ws = word.split("\"");
+			return ws[0]+"\""+encodeURIComponent(ws[1])+"\""+ws[2];
+		},"g");
+	blog.innerHTML = data;
+</script>
+
+    <!-- footer container -->
+<footer id="footer" class="footer">
+  <div class="footer-container">
+    
+    <div class="social-icons">
+      
+        
+          <a href="https://music.163.com/#/user/home?id=444731906" class="soft-size--primary soft-style--box" target="_blank" rel="noopener noreferrer">
+            <svg class="icon icon-<%= icon %>" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+    <path d="M952.17867 503.263237a341.054956 341.054956 0 0 0-56.853199-113.706399 408.604266 408.604266 0 0 0-109.723463-98.352823 304.662484 304.662484 0 0 0-143.257215-42.077792L621.305897 170.238394a40.343287 40.343287 0 0 1 10.792472-36.392472 56.88532 56.88532 0 0 1 36.392472-18.758344 102.785445 102.785445 0 0 1 56.853199 18.758344c6.263488 3.404768 10.792472 9.090088 17.05596 13.073024a57.335006 57.335006 0 0 0 82.999247-70.632873 66.521455 66.521455 0 0 0-22.74128-27.848432 237.691343 237.691343 0 0 0-89.262735-43.202007A170.559598 170.559598 0 0 0 625.288833 6.42409a167.026349 167.026349 0 0 0-60.836135 37.516688 164.328231 164.328231 0 0 0-40.921456 51.713927 156.908407 156.908407 0 0 0-8.54404 113.706399l13.651192 52.870264a284.298118 284.298118 0 0 0-158.064743 109.209535 256.963614 256.963614 0 0 0-43.202007 156.908407 248.419573 248.419573 0 0 0 13.651192 74.487327 205.281807 205.281807 0 0 0 80.718695 104.616312 185.945295 185.945295 0 0 0 136.447679 25.696361 193.879046 193.879046 0 0 0 156.330238-196.705646L708.802008 503.263237c-11.948808-46.060728-24.443664-91.543287-35.814304-137.025847a182.283563 182.283563 0 0 1 47.763112 18.180176 316.611292 316.611292 0 0 1 47.763111 34.690088A239.907654 239.907654 0 0 1 840.752823 529.987453a284.169636 284.169636 0 0 1 0 158.064743 252.241907 252.241907 0 0 1-21.584943 51.167879 308.741782 308.741782 0 0 1-168.279047 144.542033 387.918695 387.918695 0 0 1-130.184191 23.319448 332.607277 332.607277 0 0 1-155.206022-37.516688A367.233124 367.233124 0 0 1 194.87478 672.666499a373.014806 373.014806 0 0 1-20.460727-180.806022A366.173149 366.173149 0 0 1 406.869762 198.536512a57.399247 57.399247 0 0 0 13.073023-100.055207 76.189711 76.189711 0 0 0-63.662735-3.404768A479.815307 479.815307 0 0 0 68.705646 436.163614a488.905395 488.905395 0 0 0 129.027855 450.84266 454.857716 454.857716 0 0 0 248.997741 131.886574 470.885822 470.885822 0 0 0 138.117942 0A454.889837 454.889837 0 0 0 773.042911 952.949561a427.523212 427.523212 0 0 0 170.559598-209.232622 417.276788 417.276788 0 0 0 22.74128-109.209536 378.089837 378.089837 0 0 0-14.165119-131.244166z m-412.747804 118.845671a72.174655 72.174655 0 0 1-56.8532-10.792471 98.352823 98.352823 0 0 1-37.516687-61.382184 170.68808 170.68808 0 0 1 0-65.943287 133.042911 133.042911 0 0 1 33.533751-63.662735 181.35207 181.35207 0 0 1 80.718695-46.606776l39.219072 148.364367a204.189711 204.189711 0 0 1 5.107152 26.146048 79.594479 79.594479 0 0 1-64.208783 73.844918z"></path>
+  </svg>
+          </a>
+        
+      
+        
+          <a href="https://www.zhihu.com" class="soft-size--primary soft-style--box" target="_blank" rel="noopener noreferrer">
+            <svg t="1587373160860" class="icon icon-zhihu" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M544.949 561.422s0-71.387-34.779-75.050c-34.779-3.663-142.775 0-142.775 0v-219.654h161.078s-1.83-73.219-32.949-73.219h-261.755l43.93-117.148s-65.897 3.663-89.692 45.761-98.844 252.604-98.844 252.604 25.627 10.983 67.726-20.134c42.101-31.116 56.743-86.033 56.743-86.033l76.879-3.663 1.83 223.316s-133.621-1.83-161.078 0c-27.457 1.83-42.101 75.050-42.101 75.050h203.182s-18.307 124.47-69.557 214.164c-53.085 89.692-151.929 161.078-151.929 161.078s71.387 29.287 140.947-10.983c69.557-42.101 120.811-223.316 120.811-223.316l162.912 203.182s14.643-97.013-1.83-124.47c-18.307-27.457-113.49-137.283-113.49-137.283l-42.101 36.607 29.287-120.811h177.552zM587.050 188.010l-1.83 660.793h65.897l23.795 82.37 115.321-82.37h162.912v-660.793h-366.091zM879.92 775.584h-76.879l-97.013 75.050-21.965-75.050h-20.134v-512.527h215.991v512.527z"></path>
+</svg>
+          </a>
+        
+      
+        
+          <a href="https://gitee.com/RocPengHua" class="soft-size--primary soft-style--box" target="_blank" rel="noopener noreferrer">
+            <svg class="icon icon-<%= icon %>" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+    <path d="M512 1024C229.248 1024 0 794.752 0 512S229.248 0 512 0s512 229.248 512 512-229.248 512-512 512z m259.168-568.896h-290.752a25.28 25.28 0 0 0-25.28 25.28l-0.032 63.232c0 13.952 11.296 25.28 25.28 25.28h177.024a25.28 25.28 0 0 1 25.28 25.28v12.64a75.84 75.84 0 0 1-75.84 75.84h-240.224a25.28 25.28 0 0 1-25.28-25.28v-240.192a75.84 75.84 0 0 1 75.84-75.84h353.92a25.28 25.28 0 0 0 25.28-25.28l0.064-63.2a25.312 25.312 0 0 0-25.28-25.312H417.184a189.632 189.632 0 0 0-189.632 189.6v353.952c0 13.952 11.328 25.28 25.28 25.28h372.928a170.656 170.656 0 0 0 170.656-170.656v-145.376a25.28 25.28 0 0 0-25.28-25.28z" p-id="1954"></path>
+  </svg>
+          </a>
+        
+      
+        
+          <a href="https://github.com/RocPengHua" class="soft-size--primary soft-style--box" target="_blank" rel="noopener noreferrer">
+            <svg class="icon icon-github" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M64.6 512c0 195.6 125.4 361.9 300.1 422.9 23.5 5.9 19.9-10.8 19.9-22.2v-77.6c-135.8 15.9-141.3-74-150.5-89-18.5-31.5-61.9-39.5-49-54.5 31-15.9 62.5 4 98.9 58 26.4 39.1 77.9 32.5 104.1 26 5.7-23.5 17.9-44.5 34.7-60.9-140.7-25.2-199.4-111.1-199.4-213.3 0-49.5 16.4-95.1 48.4-131.8-20.4-60.6 1.9-112.4 4.9-120.1 58.2-5.2 118.5 41.6 123.3 45.3 33.1-8.9 70.8-13.7 112.9-13.7 42.4 0 80.3 4.9 113.5 13.9 11.3-8.6 67.3-48.8 121.4-43.9 2.9 7.7 24.7 58.3 5.5 118.1 32.5 36.8 49 82.8 49 132.4 0 102.3-59 188.3-200.2 213.2 23.5 23.3 38.1 55.5 38.1 91.1v112.7c0.8 9 0 17.9 15.1 17.9C832.7 877 960.4 709.4 960.4 512.1c0-247.5-200.6-447.9-447.9-447.9C265 64.1 64.6 264.5 64.6 512z"></path>
+</svg>
+          </a>
+        
+      
+        
+          <a href="https://twitter.com/guanquanhong" class="soft-size--primary soft-style--box" target="_blank" rel="noopener noreferrer">
+            <svg class="icon icon-twitter" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M962.285714 233.142857q-38.285714 56-92.571429 95.428571 0.571429 8 0.571429 24 0 74.285714-21.714286 148.285714t-66 142-105.428571 120.285714-147.428571 83.428571-184.571429 31.142857q-154.857143 0-283.428571-82.857143 20 2.285714 44.571429 2.285714 128.571429 0 229.142857-78.857143-60-1.142857-107.428571-36.857143t-65.142857-91.142857q18.857143 2.857143 34.857143 2.857143 24.571429 0 48.571429-6.285714-64-13.142857-106-63.714286t-42-117.428571l0-2.285714q38.857143 21.714286 83.428571 23.428571-37.714286-25.142857-60-65.714286t-22.285714-88q0-50.285714 25.142857-93.142857 69.142857 85.142857 168.285714 136.285714t212.285714 56.857143q-4.571429-21.714286-4.571429-42.285714 0-76.571429 54-130.571429t130.571429-54q80 0 134.857143 58.285714 62.285714-12 117.142857-44.571429-21.142857 65.714286-81.142857 101.714286 53.142857-5.714286 106.285714-28.571429z"></path>
+</svg>
+          </a>
+        
+      
+    </div>
+     
+    <p>&copy; 2022 <a href="/" target="_blank">RocPengHua</a></p>
+
+    
+
+    <p>Powered by <a href="https://hexo.io" target="_blank" rel="noopener noreferrer">Hexo</a> Theme - <a href="https://github.com/miiiku/flex-block" target="_blank" rel="noopener noreferrer author">flex-block</a></p>
+
+    <p>
+      <a href="javascript:;" id="theme-light">🌞 浅色</a>
+      <a href="javascript:;" id="theme-dark">🌛 深色</a>
+      <a href="javascript:;" id="theme-auto">🤖️ 自动</a>
+    </p>
+  </div>
+</footer>
+  </div>
+
+  <div class="back-to-top-fixed soft-size--round soft-style--box">
+    <svg class="icon icon-back-to-top" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+      <path d="M725.333333 426.666667c-12.8 0-21.333333-4.266667-29.866667-12.8l-213.333333-213.333333c-17.066667-17.066667-17.066667-42.666667 0-59.733333s42.666667-17.066667 59.733333 0l213.333333 213.333333c17.066667 17.066667 17.066667 42.666667 0 59.733333C746.666667 422.4 738.133333 426.666667 725.333333 426.666667z"></path>
+      <path d="M298.666667 426.666667c-12.8 0-21.333333-4.266667-29.866667-12.8-17.066667-17.066667-17.066667-42.666667 0-59.733333l213.333333-213.333333c17.066667-17.066667 42.666667-17.066667 59.733333 0s17.066667 42.666667 0 59.733333l-213.333333 213.333333C320 422.4 311.466667 426.666667 298.666667 426.666667z"></path>
+      <path d="M512 896c-25.6 0-42.666667-17.066667-42.666667-42.666667L469.333333 170.666667c0-25.6 17.066667-42.666667 42.666667-42.666667s42.666667 17.066667 42.666667 42.666667l0 682.666667C554.666667 878.933333 537.6 896 512 896z"></path>
+    </svg>
+  </div>
+
+  
+  <!-- aplayer -->
+
+
+<!-- dplayer -->
+
+
+
+
+  
+
+
+  
+
+
+  
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+  
+  <!-- 尾部用户自定义相关内容 -->
+<div id="aplayer"></div>
+<link rel="stylesheet" href="/lib/aplayer/APlayer.min.css">
+<script type="text/javascript" src="/lib/aplayer/APlayer.min.js"></script>
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script type="text/javascript">
+
+	/*获取音乐*/
+	$.get("https://api.lixingyong.com/api/netease?type=playlist&id=3778678&r=0.37201068616290645", function(result){
+	    const ap = new APlayer({
+	    container: document.getElementById('aplayer'),
+	    global:true,
+	    id:'3778678',
+	    server: 'netease',
+	    type: 'paylist',
+	    fixed: true,
+	    preload: 'none',
+	    theme: '#ffa500',
+	    autoplay: false,
+	    audio: JSON.parse(result)
+	  });
+	});
+
+
+
+
+
+
+
+
+
+
+	/*图片放大js*/
+	function createImgEventFullScreen() {
+        var imgs = $(".post-container").find("img");
+        console.log(imgs);
+        for (var i = 0; i < imgs.length; i++) {
+            // $(imgs[i]).click(createCover(imgs[i]));
+            imgs[i].onclick = function (e) {
+                var src = e.srcElement.currentSrc;
+                var _this = $(this);
+                console.log(_this);
+                createCover(src,_this);
+            }
+        }
+        function createCover(src,_this) {
+            console.log(_this);
+            console.log(src);
+            var cover = $("<div id='outerDiv'  style='position:fixed;top:0;left:0;background:rgba(0,0,0,0.7);z-index:5;width:100%;height:100%;display:none;'><div id='innerDiv' style='position:absolute;'><img  id='bigImg' style='border:5px solid #fff;' src=''/></div></div>");
+            $("#outerDiv").remove();
+            $("body").append(cover);
+            imgShow("#outerDiv", "#innerDiv", "#bigImg", _this,src);
+
+        }
+    }
+    function imgShow(outerDiv, innerDiv, bigImg, _this,src) {
+        //var src = _this.attr("src"); //获取当前点击的common-img元素中的src属性
+        $(bigImg).attr("src", src); //设置#bigImg元素的src属性
+
+        /*获取当前点击图片的真实大小，并显示弹出层及大图*/
+        $("<img/>").attr("src", src).on('load',function () {
+            var windowW = $(window).width(); //获取当前窗口宽度
+            var windowH = $(window).height(); //获取当前窗口高度
+            var realWidth = this.width; //获取图片真实宽度
+            var realHeight = this.height; //获取图片真实高度
+            var imgWidth, imgHeight;
+            var scale = 0.8; //缩放尺寸，当图片真实宽度和高度大于窗口宽度和高度时进行缩放
+
+            if (realHeight > windowH * scale) { //判断图片高度
+                imgHeight = windowH * scale; //如大于窗口高度，图片高度进行缩放
+                imgWidth = imgHeight / realHeight * realWidth; //等比例缩放宽度
+                if (imgWidth > windowW * scale) { //如宽度仍大于窗口宽度
+                    imgWidth = windowW * scale; //再对宽度进行缩放
+                }
+            } else if (realWidth > windowW * scale) { //如图片高度合适，判断图片宽度
+                imgWidth = windowW * scale; //如大于窗口宽度，图片宽度进行缩放
+                imgHeight = imgWidth / realWidth * realHeight; //等比例缩放高度
+            } else { //如果图片真实高度和宽度都符合要求，高宽不变
+                imgWidth = realWidth;
+                imgHeight = realHeight;
+            }
+            $(bigImg).css("width", imgWidth); //以最终的宽度对图片缩放
+
+            var w = (windowW - imgWidth) / 2; //计算图片与窗口左边距
+            var h = (windowH - imgHeight) / 2; //计算图片与窗口上边距
+            $(innerDiv).css({ "top": h, "left": w }); //设置#innerDiv的top和left属性
+            //console.log('****')
+            $(outerDiv).fadeIn("fast"); //淡入显示#outerDiv
+        });
+
+        $(outerDiv).click(function () { //再次点击淡出消失弹出层
+            $(this).fadeOut("fast");
+        });
+    }
+    setTimeout(function () {
+        createImgEventFullScreen();
+    }, 1000)
+</script>
+<style>
+.aplayer.aplayer-fixed.aplayer-narrow .aplayer-body{
+	width: 0px!important
+}
+.aplayer.aplayer-narrow .aplayer-body, .aplayer.aplayer-narrow .aplayer-pic {
+	width: 0px!important
+}
+</style>
+</body>
+</html>

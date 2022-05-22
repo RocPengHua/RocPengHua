@@ -820,7 +820,68 @@ public class GCLogAnalysis &#123;
 </li>
 </ul>
 <p>2.<img src="/2022/05/21/jvm-xue-xi/image-20220522110949162.png" class="" title="image-20220522110949162"></p>
-<h3 id="GC配置参数"><a href="#GC配置参数" class="headerlink" title="GC配置参数"></a>GC配置参数</h3><h3 id="压测工具sb"><a href="#压测工具sb" class="headerlink" title="压测工具sb"></a>压测工具<code>sb</code></h3><h4 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h4><ul>
+<h3 id="GC配置参数"><a href="#GC配置参数" class="headerlink" title="GC配置参数"></a>GC配置参数</h3><ul>
+<li><p>日志相关</p>
+<ul>
+<li><p><code>-XX:+PrintGC</code>：打印GC信息</p>
+</li>
+<li><p><code>-verbose:gc</code>：打印GC信息</p>
+</li>
+<li><p><code>-XX:+PrintGCDetails</code>：打印GC详细信息</p>
+</li>
+<li><p><code>-XX:+PrintGCDateStamps</code>：添加时间戳</p>
+</li>
+<li><p><code>-Xloggc:gc.UseSerialGC.log</code>：将GC记录日志文件</p>
+</li>
+<li><p><code>-XX:+TranceClassLoading</code>：监控类的加载情况</p>
+</li>
+</ul>
+</li>
+<li><p>堆参数分配</p>
+<ul>
+<li><code>-Xmx</code>：最大堆<code>-XX:MaxHeapSize</code></li>
+<li><code>-Xms</code>：初始堆<code>-XX:InitialHeapSize</code></li>
+<li><code>-Xmn</code>：新生代内存</li>
+<li><code>-XX:NewRatio</code>：新生代和老年代的比值（默认1:2）2</li>
+<li><code>-XX:SurvivorRatio</code>：年轻代和永久代（S0&#x2F;S1）的比值（默认8:1）8</li>
+<li><code>-XX:NewSize</code>：年轻代的大小</li>
+<li><code>-XX:MaxNewSize</code>：年轻代最大大小</li>
+<li><code>-XX:OldSize</code>：老年代大小</li>
+<li><code>-XX:MetaspaceSize</code>：方法区大小</li>
+<li><code>-XX:MaxMetaspaceSize</code>：方法区最大大小</li>
+</ul>
+</li>
+<li><p>GC</p>
+<ul>
+<li><code>-XX:+UseSerialGC</code>：串行GC</li>
+<li><code>-XX:+UseParallelGC</code>：并行GC（新生代，吞吐量优先）</li>
+<li><code>-XX:+UseParallelOldGC</code>：并行GC（老年代，吞吐量优先）</li>
+<li><code>-XX:+UseConcMarkSweepGC</code>：CMS GC（老年代，延迟时间优先）<ul>
+<li><code>-XX:ConcGCThreads</code>：CMS并非垃圾收集器使用的线程数量</li>
+</ul>
+</li>
+<li><code>-XX:+UseG1GC</code>：G1 GC（新生代，老年代，延迟时间优先）<ul>
+<li><code>-XX:G1HeapRegionSize</code>：设置每个region大小</li>
+<li><code>-XX:G1HeapWastePercent</code>：允许的浪费堆空间的占比，默认10%</li>
+<li><code>-XX:MaxGCPauseMillis</code>：G1最大停顿时间，默认200ms</li>
+<li><code>XX:G1MixedGCLiveThresholdPercent</code>：混合垃圾回收周期中要包括的旧区域设置占用率阈值，默认65%</li>
+<li><code>-XX:G1MixedGCCountTarget</code>：设置标记周期完成后，对存活数据上限为G1MixedGCLIveThresholdPercent 的旧区域执行混合垃圾回收的目标次数，默认8次</li>
+<li><code>-XX:G1OldCSetRegionThresholdPercent=1</code>：描述Mixed GC时，Old Region被加入到CSet中，默认情况下，G1只把10%的Old Region加入到CSet中</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>其他</p>
+<ul>
+<li><code>-XX:+HeapDumpOnOutOfMemoryError</code>：启动堆内存溢出打印，OOM自动生成dump文件</li>
+<li><code>-XX:HeapDumpPath=heap.hprof</code>：指定堆内存溢出打印目录</li>
+<li><code>-Xss</code>：设置线程的堆栈大小</li>
+<li><code>-XX:MaxTenuringThreshold</code>：提升老年代的最大临界值，默认15</li>
+<li><code>-XX:InitiatingHeapOccupancyPercent</code>：启动并发GC周期时堆内存使用占比，默认45%</li>
+</ul>
+</li>
+</ul>
+<h3 id="压测工具sb"><a href="#压测工具sb" class="headerlink" title="压测工具sb"></a>压测工具<code>sb</code></h3><h4 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h4><ul>
 <li>管理员打开powershell</li>
 <li>执行命令</li>
 </ul>

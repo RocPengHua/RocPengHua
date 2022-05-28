@@ -221,10 +221,6 @@ table {
   border-spacing: 0;
   border-collapse: collapse;
 }
-img {
-  max-width: 100%;
-  display: inline-block;
-}
 a {
   background-color: transparent;
   text-decoration: none;
@@ -4757,6 +4753,9 @@ html.show-mobile-nav .navbar-list {
   border-radius: var(--soft-small-radius);
   background-color: var(--theme-bg-primary);
   box-shadow: var(--soft-shadow) var(--soft-shadow) calc(var(--soft-shadow) * 2) var(--theme-bg-shadow), calc(-1 * var(--soft-shadow)) calc(-1 * var(--soft-shadow)) calc(var(--soft-shadow) * 2) var(--theme-bg-high);
+}
+.markdown-body center img {
+  display: inline-block;
 }
 .markdown-body iframe {
   border: none;

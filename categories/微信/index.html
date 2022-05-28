@@ -7,6 +7,8 @@
   <meta name="theme-color" content="#3367D6"/>
   <link rel="apple-touch-icon" href="/icons-192.png">
   <link rel="manifest" href="/manifest.json">
+  <link rel="stylesheet" href="/lib/google-code-prettify/themes/tomorrow-night.css">
+  <script type="text/javascript" src="/lib/google-code-prettify/src/prettify.js"></script>
   
   <meta name="generator" content="Hexo 5.4.2">
 
@@ -38,7 +40,7 @@
 <link rel="stylesheet" href="/css/style.css">
 
 </head>
-<body>
+<body onload="PR.prettyPrint()">
   <div class="root-container">
     
 <!-- header container -->
@@ -437,6 +439,10 @@
 
 	/*获取音乐*/
 	$.get("https://api.lixingyong.com/api/netease?type=playlist&id=3778678&r=0.37201068616290645", function(result){
+		if(result && result.code  == 50000){
+			console.log(result.msg);
+			return;
+		}
 	    const ap = new APlayer({
 	    container: document.getElementById('aplayer'),
 	    global:true,

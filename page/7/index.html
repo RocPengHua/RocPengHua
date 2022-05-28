@@ -7,6 +7,8 @@
   <meta name="theme-color" content="#3367D6"/>
   <link rel="apple-touch-icon" href="/icons-192.png">
   <link rel="manifest" href="/manifest.json">
+  <link rel="stylesheet" href="/lib/google-code-prettify/themes/tomorrow-night.css">
+  <script type="text/javascript" src="/lib/google-code-prettify/src/prettify.js"></script>
   
   <meta name="generator" content="Hexo 5.4.2">
 
@@ -38,7 +40,7 @@
 <link rel="stylesheet" href="/css/style.css">
 
 </head>
-<body>
+<body onload="PR.prettyPrint()">
   <div class="root-container">
     
 <!-- header container -->
@@ -303,6 +305,35 @@
       <div class="article-item layout-padding">
         <article class="card-container article-card content-padding--large soft-size--large soft-style--box">
           
+            <div class="card-cover" background-image-lazy data-img="/images/upload/2021/10/1.jpg"></div>
+          
+          <div class="card-text">
+            
+              <a href="/2021/10/16/docker-an-zhuang-nacos/" itemprop="url">
+                <h2 class="card-text--title">Docker安装nacos</h2>
+              </a>
+            
+            <div class="card-text--row">
+              <span>发布于</span>
+              <time  class="" datetime="2021-10-16T07:26:58.000Z" itemprop="datePublished">2021-10-16</time>
+            </div>
+            <ul class="wrap-list dark">
+  
+    <li><a href="/categories/%E8%BD%AF%E4%BB%B6/">📒 软件</a></li>
+  
+</ul>
+            <ul class="wrap-list dark">
+  
+    <li><a href="/tags/docker/">🏷️ docker</a></li>
+  
+</ul>
+          </div>
+        </article>
+      </div>
+    
+      <div class="article-item layout-padding">
+        <article class="card-container article-card content-padding--large soft-size--large soft-style--box">
+          
             <div class="card-cover" background-image-lazy data-img="/images/upload/2021/10/6.jpg"></div>
           
           <div class="card-text">
@@ -549,31 +580,6 @@
         </article>
       </div>
     
-      <div class="article-item layout-padding">
-        <article class="card-container article-card content-padding--large soft-size--large soft-style--box">
-          
-            <div class="card-cover" background-image-lazy data-img="https://api.lixingyong.com/api/images?postid=38113737&type=url&itype=image"></div>
-          
-          <div class="card-text">
-            
-              <a href="/2021/08/30/she-ji-mo-shi/" itemprop="url">
-                <h2 class="card-text--title">设计模式.md</h2>
-              </a>
-            
-            <div class="card-text--row">
-              <span>发布于</span>
-              <time  class="" datetime="2021-08-30T11:28:06.000Z" itemprop="datePublished">2021-08-30</time>
-            </div>
-            <ul class="wrap-list light">
-  
-</ul>
-            <ul class="wrap-list light">
-  
-</ul>
-          </div>
-        </article>
-      </div>
-    
   </div>
 </div>
 
@@ -581,7 +587,7 @@
 
   <nav class="page-container">
     
-    <a class="extend prev" rel="prev" href="/page/6/">ʚ</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span>
+    <a class="extend prev" rel="prev" href="/page/6/">ʚ</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/8/">ɞ</a>
   </nav>
 
 
@@ -690,6 +696,10 @@
 
 	/*获取音乐*/
 	$.get("https://api.lixingyong.com/api/netease?type=playlist&id=3778678&r=0.37201068616290645", function(result){
+		if(result && result.code  == 50000){
+			console.log(result.msg);
+			return;
+		}
 	    const ap = new APlayer({
 	    container: document.getElementById('aplayer'),
 	    global:true,

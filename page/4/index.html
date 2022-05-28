@@ -7,6 +7,8 @@
   <meta name="theme-color" content="#3367D6"/>
   <link rel="apple-touch-icon" href="/icons-192.png">
   <link rel="manifest" href="/manifest.json">
+  <link rel="stylesheet" href="/lib/google-code-prettify/themes/tomorrow-night.css">
+  <script type="text/javascript" src="/lib/google-code-prettify/src/prettify.js"></script>
   
   <meta name="generator" content="Hexo 5.4.2">
 
@@ -38,7 +40,7 @@
 <link rel="stylesheet" href="/css/style.css">
 
 </head>
-<body>
+<body onload="PR.prettyPrint()">
   <div class="root-container">
     
 <!-- header container -->
@@ -303,6 +305,35 @@
       <div class="article-item layout-padding">
         <article class="card-container article-card content-padding--large soft-size--large soft-style--box">
           
+            <div class="card-cover" background-image-lazy data-img="https://api.lixingyong.com/api/images?postid=26236ac1&type=url&itype=image"></div>
+          
+          <div class="card-text">
+            
+              <a href="/2022/04/18/jia-mi-suan-fa-zhi-java-shi-xian-sm4/" itemprop="url">
+                <h2 class="card-text--title">加密算法之java实现SM4</h2>
+              </a>
+            
+            <div class="card-text--row">
+              <span>发布于</span>
+              <time  class="" datetime="2022-04-18T14:24:23.000Z" itemprop="datePublished">2022-04-18</time>
+            </div>
+            <ul class="wrap-list light">
+  
+    <li><a href="/categories/%E7%AE%97%E6%B3%95/">📒 算法</a></li>
+  
+</ul>
+            <ul class="wrap-list light">
+  
+    <li><a href="/tags/%E5%8A%A0%E5%AF%86/">🏷️ 加密</a></li>
+  
+</ul>
+          </div>
+        </article>
+      </div>
+    
+      <div class="article-item layout-padding">
+        <article class="card-container article-card content-padding--large soft-size--large soft-style--box">
+          
             <div class="card-cover" background-image-lazy data-img="https://api.lixingyong.com/api/images?postid=6e568823&type=url&itype=image"></div>
           
           <div class="card-text">
@@ -555,35 +586,6 @@
         </article>
       </div>
     
-      <div class="article-item layout-padding">
-        <article class="card-container article-card content-padding--large soft-size--large soft-style--box">
-          
-            <div class="card-cover" background-image-lazy data-img="https://api.lixingyong.com/api/images?postid=69c9f669&type=url&itype=image"></div>
-          
-          <div class="card-text">
-            
-              <a href="/2022/04/07/oracle-xiao-ji-qiao/" itemprop="url">
-                <h2 class="card-text--title">oracle小技巧</h2>
-              </a>
-            
-            <div class="card-text--row">
-              <span>发布于</span>
-              <time  class="" datetime="2022-04-07T01:42:28.000Z" itemprop="datePublished">2022-04-07</time>
-            </div>
-            <ul class="wrap-list light">
-  
-    <li><a href="/categories/%E6%95%B0%E6%8D%AE/">📒 数据</a></li>
-  
-</ul>
-            <ul class="wrap-list light">
-  
-    <li><a href="/tags/oracle/">🏷️ oracle</a></li>
-  
-</ul>
-          </div>
-        </article>
-      </div>
-    
   </div>
 </div>
 
@@ -591,7 +593,7 @@
 
   <nav class="page-container">
     
-    <a class="extend prev" rel="prev" href="/page/3/">ʚ</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/5/">ɞ</a>
+    <a class="extend prev" rel="prev" href="/page/3/">ʚ</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/5/">ɞ</a>
   </nav>
 
 
@@ -700,6 +702,10 @@
 
 	/*获取音乐*/
 	$.get("https://api.lixingyong.com/api/netease?type=playlist&id=3778678&r=0.37201068616290645", function(result){
+		if(result && result.code  == 50000){
+			console.log(result.msg);
+			return;
+		}
 	    const ap = new APlayer({
 	    container: document.getElementById('aplayer'),
 	    global:true,

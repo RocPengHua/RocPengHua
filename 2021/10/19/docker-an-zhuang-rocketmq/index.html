@@ -372,7 +372,7 @@
       
       
       <section id="blog-content" class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
-        <h4 id="拉取镜像"><a href="#拉取镜像" class="headerlink" title="拉取镜像"></a>拉取镜像</h4><pre><code class="shell"># 查询镜像
+        <h4 id="拉取镜像"><a href="#拉取镜像" class="headerlink" title="拉取镜像"></a>拉取镜像</h4><pre><code class="prettyprint"># 查询镜像
 docker search rocketmq
 # 查询镜像版本
 curl https://registry.hub.docker.com/v1/repositories/foxiswho/rocketmq/tags \
@@ -383,7 +383,7 @@ curl https://registry.hub.docker.com/v1/repositories/foxiswho/rocketmq/tags \
 docker pull foxiswho/rocketmq:server-4.7.0
 docker pull foxiswho/rocketmq:broker-4.7.0
 </code></pre>
-<h4 id="创建数据挂载目录-x2F-文件"><a href="#创建数据挂载目录-x2F-文件" class="headerlink" title="创建数据挂载目录&#x2F;文件"></a>创建数据挂载目录&#x2F;文件</h4><pre><code class="shell">mkdir -p /usr/local/rocketmq/rmqserver01/logs
+<h4 id="创建数据挂载目录-x2F-文件"><a href="#创建数据挂载目录-x2F-文件" class="headerlink" title="创建数据挂载目录&#x2F;文件"></a>创建数据挂载目录&#x2F;文件</h4><pre><code class="prettyprint">mkdir -p /usr/local/rocketmq/rmqserver01/logs
 mkdir -p /usr/local/rocketmq/rmqserver01/store
 mkdir -p /usr/local/rocketmq/rmqbroker01/logs
 mkdir -p /usr/local/rocketmq/rmqbroker01/store
@@ -392,11 +392,11 @@ mkdir -p /usr/local/rocketmq/rmqbroker01/conf
 
 vim /usr/local/rocketmq/rmqbroker01/conf/broker.conf
 </code></pre>
-<h4 id="配置broker-conf"><a href="#配置broker-conf" class="headerlink" title="配置broker.conf"></a>配置broker.conf</h4><pre><code class="shell">brokerIP1=47.105.140.253
+<h4 id="配置broker-conf"><a href="#配置broker-conf" class="headerlink" title="配置broker.conf"></a>配置broker.conf</h4><pre><code class="prettyprint">brokerIP1=47.105.140.253
 # 支持过滤
 enablePropertyFilter=true
 </code></pre>
-<h4 id="启动容器"><a href="#启动容器" class="headerlink" title="启动容器"></a>启动容器</h4><pre><code class="shell"># 运行server
+<h4 id="启动容器"><a href="#启动容器" class="headerlink" title="启动容器"></a>启动容器</h4><pre><code class="prettyprint"># 运行server
 docker run -d -p 9876:9876 --name rmqserver  \
  -v /usr/local/rocketmq/rmqserver01/logs:/opt/logs \
  -v /usr/local/rocketmq/rmqserver01/store:/opt/store \
@@ -411,7 +411,7 @@ docker run -d -p 10911:10911 -p 10909:10909 \
  -v /usr/local/rocketmq/rmqbroker01/store:/opt/store \
  foxiswho/rocketmq:broker-4.7.0
 </code></pre>
-<h4 id="部署Rocketmq管理UI工具"><a href="#部署Rocketmq管理UI工具" class="headerlink" title="部署Rocketmq管理UI工具"></a>部署Rocketmq管理UI工具</h4><pre><code class="shell"># 查询镜像
+<h4 id="部署Rocketmq管理UI工具"><a href="#部署Rocketmq管理UI工具" class="headerlink" title="部署Rocketmq管理UI工具"></a>部署Rocketmq管理UI工具</h4><pre><code class="prettyprint"># 查询镜像
 docker search rocketmq-console-ng
 
 # 查询镜像版本

@@ -376,7 +376,7 @@
 <li><p>过期时间</p>
 <ul>
 <li><p>队列声明扩展参数设置过期时间</p>
-<pre><code class="java">Map&lt;String, Object&gt; arguments = new HashMap&lt;&gt;();
+<pre><code class="prettyprint">Map&lt;String, Object&gt; arguments = new HashMap&lt;&gt;();
 arguments.put(&quot;x-message-ttl&quot;,10000);
 //正常队列设置死信交换机
 arguments.put(&quot;x-dead-letter-exchange&quot;, DEAD_EXCHANGE);
@@ -386,7 +386,7 @@ channel.queueDeclare(NORMAL_QUEUE, false, false, false, arguments);
 </code></pre>
 </li>
 <li><p>发送消息设置过期时间</p>
-<pre><code class="java">AMQP.BasicProperties properties = new AMQP.BasicProperties().builder().expiration(&quot;10000&quot;).build();
+<pre><code class="prettyprint">AMQP.BasicProperties properties = new AMQP.BasicProperties().builder().expiration(&quot;10000&quot;).build();
 channel.basicPublish(NORMAL_EXCHANGE,NORMAL_ROUTING_KEY,properties,message.getBytes(StandardCharsets.UTF_8));
 </code></pre>
 </li>
@@ -395,7 +395,7 @@ channel.basicPublish(NORMAL_EXCHANGE,NORMAL_ROUTING_KEY,properties,message.getBy
 <li><p>队列长度</p>
 <ul>
 <li><p>队列声明扩展参数设置队列最大长度</p>
-<pre><code class="java">Map&lt;String, Object&gt; arguments = new HashMap&lt;&gt;();
+<pre><code class="prettyprint">Map&lt;String, Object&gt; arguments = new HashMap&lt;&gt;();
 arguments.put(&quot;x-max-length&quot;,6);
 //正常队列设置死信交换机
 arguments.put(&quot;x-dead-letter-exchange&quot;, DEAD_EXCHANGE);
@@ -409,7 +409,7 @@ channel.queueDeclare(NORMAL_QUEUE, false, false, false, arguments);
 <li><p>消费拒绝</p>
 <ul>
 <li><p>消息接收时拒绝策略</p>
-<pre><code class="java">DeliverCallback deliverCallback = (consumerTag, message) -&gt; &#123;
+<pre><code class="prettyprint">DeliverCallback deliverCallback = (consumerTag, message) -&gt; &#123;
     String msg = new String(message.getBody(), StandardCharsets.UTF_8);
     if(&quot;info5&quot;.equals(msg))&#123;
         System.out.println(&quot;Consumer01 接收的消息是:&quot; + msg+&quot;---此消息时被C1拒绝的&quot;);
@@ -433,7 +433,7 @@ channel.basicConsume(NORMAL_QUEUE, false, deliverCallback, consumerTag -&gt; &#1
 </ul>
 </li>
 </ul>
-<h4 id="代码演示"><a href="#代码演示" class="headerlink" title="代码演示"></a>代码演示</h4><h5 id="创建信道"><a href="#创建信道" class="headerlink" title="创建信道"></a>创建信道</h5><pre><code class="java">package com.rocpenghua.rabbitmq.utils;
+<h4 id="代码演示"><a href="#代码演示" class="headerlink" title="代码演示"></a>代码演示</h4><h5 id="创建信道"><a href="#创建信道" class="headerlink" title="创建信道"></a>创建信道</h5><pre><code class="prettyprint">package com.rocpenghua.rabbitmq.utils;
 
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
@@ -463,7 +463,7 @@ public class RabbitmqUtils &#123;
     &#125;
 &#125;
 </code></pre>
-<h5 id="消费者1（声明交换机和队列绑定）"><a href="#消费者1（声明交换机和队列绑定）" class="headerlink" title="消费者1（声明交换机和队列绑定）"></a>消费者1（声明交换机和队列绑定）</h5><pre><code class="java">package com.rocpenghua.rabbitmq.eight;
+<h5 id="消费者1（声明交换机和队列绑定）"><a href="#消费者1（声明交换机和队列绑定）" class="headerlink" title="消费者1（声明交换机和队列绑定）"></a>消费者1（声明交换机和队列绑定）</h5><pre><code class="prettyprint">package com.rocpenghua.rabbitmq.eight;
 
 import com.rabbitmq.client.BuiltinExchangeType;
 import com.rabbitmq.client.Channel;
@@ -563,7 +563,7 @@ public class Consumer01 &#123;
     &#125;
 &#125;
 </code></pre>
-<h5 id="生产者"><a href="#生产者" class="headerlink" title="生产者"></a>生产者</h5><pre><code class="java">package com.rocpenghua.rabbitmq.eight;
+<h5 id="生产者"><a href="#生产者" class="headerlink" title="生产者"></a>生产者</h5><pre><code class="prettyprint">package com.rocpenghua.rabbitmq.eight;
 
 import com.rabbitmq.client.AMQP;
 import com.rabbitmq.client.Channel;
@@ -602,7 +602,7 @@ public class Producer &#123;
     &#125;
 &#125;
 </code></pre>
-<h5 id="消费者2（消费死信队列）"><a href="#消费者2（消费死信队列）" class="headerlink" title="消费者2（消费死信队列）"></a>消费者2（消费死信队列）</h5><pre><code class="java">package com.rocpenghua.rabbitmq.eight;
+<h5 id="消费者2（消费死信队列）"><a href="#消费者2（消费死信队列）" class="headerlink" title="消费者2（消费死信队列）"></a>消费者2（消费死信队列）</h5><pre><code class="prettyprint">package com.rocpenghua.rabbitmq.eight;
 
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.DeliverCallback;

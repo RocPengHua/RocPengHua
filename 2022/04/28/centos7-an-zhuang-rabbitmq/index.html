@@ -378,32 +378,32 @@
 </ul>
 <p><a target="_blank" rel="noopener" href="https://www.rabbitmq.com/download.html">Downloading and Installing RabbitMQ — RabbitMQ</a></p>
 <p>选择你的系统对应的安装（我的是centos7）</p>
-<img src="/2022/04/28/centos7-an-zhuang-rabbitmq/image-20220428215438858.png" class="" title="image-20220428215438858">
+<img src="/2022/04/28/centos7-an-zhuang-rabbitmq/image-20220428215438858.png" class="asset-class" title="image-20220428215438858">
 
-<img src="/2022/04/28/centos7-an-zhuang-rabbitmq/image-20220428215547092.png" class="" title="image-20220428215547092">
+<img src="/2022/04/28/centos7-an-zhuang-rabbitmq/image-20220428215547092.png" class="asset-class" title="image-20220428215547092">
 
-<img src="/2022/04/28/centos7-an-zhuang-rabbitmq/image-20220428215617098.png" class="" title="image-20220428215617098">
+<img src="/2022/04/28/centos7-an-zhuang-rabbitmq/image-20220428215617098.png" class="asset-class" title="image-20220428215617098">
 
 <ul>
 <li><p>erlang包</p>
 <p>先找到适应版本</p>
-<img src="/2022/04/28/centos7-an-zhuang-rabbitmq/image-20220428215802459.png" class="" title="image-20220428215802459"></li>
+<img src="/2022/04/28/centos7-an-zhuang-rabbitmq/image-20220428215802459.png" class="asset-class" title="image-20220428215802459"></li>
 </ul>
 <p>再到下载rabbitmq页面找到依赖</p>
-<img src="/2022/04/28/centos7-an-zhuang-rabbitmq/image-20220428220212284.png" class="" title="image-20220428220212284">
+<img src="/2022/04/28/centos7-an-zhuang-rabbitmq/image-20220428220212284.png" class="asset-class" title="image-20220428220212284">
 
 <p>选择去仓库下载 支持的erlang</p>
-<img src="/2022/04/28/centos7-an-zhuang-rabbitmq/image-20220428220427026.png" class="" title="image-20220428220427026">
+<img src="/2022/04/28/centos7-an-zhuang-rabbitmq/image-20220428220427026.png" class="asset-class" title="image-20220428220427026">
 
 <p>去github下载</p>
-<img src="/2022/04/28/centos7-an-zhuang-rabbitmq/image-20220428220536750.png" class="" title="image-20220428220536750">
+<img src="/2022/04/28/centos7-an-zhuang-rabbitmq/image-20220428220536750.png" class="asset-class" title="image-20220428220536750">
 
 <p>选择自己需要的</p>
-<img src="/2022/04/28/centos7-an-zhuang-rabbitmq/image-20220428220619925.png" class="" title="image-20220428220619925">
+<img src="/2022/04/28/centos7-an-zhuang-rabbitmq/image-20220428220619925.png" class="asset-class" title="image-20220428220619925">
 
 <h4 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h4><p>将<a target="_blank" rel="noopener" href="https://github.com/rabbitmq/erlang-rpm/releases/download/v23.3.4.11/erlang-23.3.4.11-1.el7.x86_64.rpm">erlang-23.3.4.11-1.el7.x86_64.rpm</a>上传到服务器</p>
 <p>将<a target="_blank" rel="noopener" href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.9.16/rabbitmq-server-3.9.16-1.el8.noarch.rpm">rabbitmq-server-3.9.16-1.el8.noarch.rpm</a>上传到服务器</p>
-<pre><code class="shell">rpm -ivh erlang-23.3.4.11-1.el7.x86_64.rpm
+<pre><code class="prettyprint">rpm -ivh erlang-23.3.4.11-1.el7.x86_64.rpm
 yum install socat -y
 rpm -ivh rabbitmq-server-3.9.16-1.el8.noarch.rpm
 
@@ -422,10 +422,10 @@ rabbitmq-plugin enable rabbitmq_management
 #关闭web管理插件
 rabbitmq-plugin disable rabbitmq_management
 </code></pre>
-<h4 id="访问"><a href="#访问" class="headerlink" title="访问"></a>访问</h4><img src="/2022/04/28/centos7-an-zhuang-rabbitmq/image-20220428221219387.png" class="" title="image-20220428221219387">
+<h4 id="访问"><a href="#访问" class="headerlink" title="访问"></a>访问</h4><img src="/2022/04/28/centos7-an-zhuang-rabbitmq/image-20220428221219387.png" class="asset-class" title="image-20220428221219387">
 
 <p>默认账号密码guest无法登录</p>
-<h5 id="新建账号"><a href="#新建账号" class="headerlink" title="新建账号"></a>新建账号</h5><pre><code class="shell"># 设置用户
+<h5 id="新建账号"><a href="#新建账号" class="headerlink" title="新建账号"></a>新建账号</h5><pre><code class="prettyprint"># 设置用户
 rabbitmqctl add_user admin admin
 # 设置用户角色
 rabbitmqctl set_user_tags admin administrator
@@ -441,7 +441,7 @@ rabbitmqctl reset
 # 重新启动命令为
 rabbitmqctl start_app
 </code></pre>
-<img src="/2022/04/28/centos7-an-zhuang-rabbitmq/image-20220428221729109.png" class="" title="image-20220428221729109">
+<img src="/2022/04/28/centos7-an-zhuang-rabbitmq/image-20220428221729109.png" class="asset-class" title="image-20220428221729109">
 
 <h4 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h4><ul>
 <li>开启防火墙或者开放端口</li>

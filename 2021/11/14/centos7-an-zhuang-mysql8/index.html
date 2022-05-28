@@ -369,7 +369,7 @@
 <li><code>rpm -qa | grep mariadb</code> 命令再次查看 mariadb 的安装包</li>
 </ol>
 <p>7.<code>tar -xvf mysql-8.0.11-1.el7.x86_64.rpm-bundle.tar</code>  命令解压 tar 包<br>8. <code>yum localinstall *.rpm</code> 安装所有rpm包<br>9. <code>rpm -qa | grep mysql</code> 命令查看 mysql 的安装包<br>10. 通过以下命令，完成对 mysql 数据库的初始化和相关配置</p>
-<pre><code class="shell">mysqld --initialize;
+<pre><code class="prettyprint">mysqld --initialize;
 chown mysql:mysql /var/lib/mysql -R;
 systemctl start mysqld.service;
 systemctl  enable mysqld;
@@ -380,7 +380,7 @@ systemctl  enable mysqld;
 <li>输入刚刚查到的密码，进行数据库的登陆，复制粘贴就行，MySQL 的登陆密码也是不显示的</li>
 <li>通过 <code>ALTER USER &#39;root&#39;@&#39;localhost&#39; IDENTIFIED WITH mysql_native_password BY &#39;root&#39;;</code> 命令来修改密码（复杂点）</li>
 <li>通过 exit; 命令退出 MySQL，然后通过新密码再次登陆</li>
-<li>通过以下命令，进行远程访问的授权<pre><code class="sql">create user &#39;root&#39;@&#39;%&#39; identified with mysql_native_password by &#39;root&#39;;
+<li>通过以下命令，进行远程访问的授权<pre><code class="prettyprint">create user &#39;root&#39;@&#39;%&#39; identified with mysql_native_password by &#39;root&#39;;
 grant all privileges on *.* to &#39;root&#39;@&#39;%&#39; with grant option;
 flush privileges;
 </code></pre>
@@ -388,7 +388,7 @@ flush privileges;
 <li>通过 <code>ALTER USER &#39;root&#39;@&#39;localhost&#39; IDENTIFIED BY &#39;root&#39; PASSWORD EXPIRE NEVER;</code> 命令修改加密规则，MySql8.0 版本 和 5.0 的加密规则不一样，而现在的可视化工具只支持旧的加密方式。</li>
 <li>通过 <code>flush privileges;</code> 命令刷新修该后的权限</li>
 <li>通过 exit; 命令退出 MySQL</li>
-<li>通过以下命令，关闭 firewall<pre><code class="shell">systemctl stop firewalld.service;
+<li>通过以下命令，关闭 firewall<pre><code class="prettyprint">systemctl stop firewalld.service;
 systemctl disable firewalld.service;
 systemctl mask firewalld.service;
 </code></pre>

@@ -375,7 +375,7 @@
         <ul>
 <li>在content.ejs下增加脚本，将h标签的id调用<code>encodeURIComponent</code>使得和toc生成的锚点对应</li>
 </ul>
-<pre><code class="js">&lt;script&gt;
+<pre><code class="prettyprint">&lt;script&gt;
     //解决中文转义无法跳转锚点问题
     var blog = document.querySelector(&quot;#blog-content&quot;);
     var content = blog.innerHTML;
@@ -386,6 +386,9 @@
         &#125;,&quot;g&quot;);
     blog.innerHTML = data;
 &lt;/script&gt;
+</code></pre>
+<p>hexo无法在powershell使用</p>
+<pre><code class="prettyprint">Set-ExecutionPolicy -ExecutionPolicy UNRESTRICTED
 </code></pre>
 <h3 id="这是标题一"><a href="#这是标题一" class="headerlink" title="这是标题一"></a>这是标题一</h3><h4 id="这是标题一一"><a href="#这是标题一一" class="headerlink" title="这是标题一一"></a>这是标题一一</h4><pre><code>#
 #

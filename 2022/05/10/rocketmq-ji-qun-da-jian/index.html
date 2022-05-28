@@ -377,12 +377,12 @@
 <li>本次采用两台虚拟机，<code>192.168.101.132:MASTER1/SLAVE2</code>,<code>192.168.101.131:MASTER2/SLAVE1</code></li>
 <li>使用<code>2m-2s-sync</code>配置下的配置文件</li>
 </ul>
-<h4 id="HOST配置-在两台虚拟机中修改"><a href="#HOST配置-在两台虚拟机中修改" class="headerlink" title="HOST配置(在两台虚拟机中修改)"></a>HOST配置(在两台虚拟机中修改)</h4><pre><code class="shell">vim /etc/hosts
+<h4 id="HOST配置-在两台虚拟机中修改"><a href="#HOST配置-在两台虚拟机中修改" class="headerlink" title="HOST配置(在两台虚拟机中修改)"></a>HOST配置(在两台虚拟机中修改)</h4><pre><code class="prettyprint">vim /etc/hosts
 </code></pre>
 <ul>
 <li>配置文件如下</li>
 </ul>
-<pre><code class="properties">192.168.101.132 rocketmq-nameserver1
+<pre><code class="prettyprint">192.168.101.132 rocketmq-nameserver1
 192.168.101.131 rocketmq-nameserver2
 192.168.101.132 rocketmq-master1
 192.168.101.132 rocketmq-slave2
@@ -392,12 +392,12 @@
 <ul>
 <li>确保两台机器通信（可以关闭防火墙或者开放端口）</li>
 </ul>
-<h4 id="环境变量配置-在两台虚拟机中修改"><a href="#环境变量配置-在两台虚拟机中修改" class="headerlink" title="环境变量配置(在两台虚拟机中修改)"></a>环境变量配置(在两台虚拟机中修改)</h4><pre><code class="shell">vim /etc/profile
+<h4 id="环境变量配置-在两台虚拟机中修改"><a href="#环境变量配置-在两台虚拟机中修改" class="headerlink" title="环境变量配置(在两台虚拟机中修改)"></a>环境变量配置(在两台虚拟机中修改)</h4><pre><code class="prettyprint">vim /etc/profile
 </code></pre>
 <ul>
 <li>在最后加入如下配置</li>
 </ul>
-<pre><code class="sh">#ROCKETMQ_HOME
+<pre><code class="prettyprint">#ROCKETMQ_HOME
 ROCKETMQ_HOME=/opt/module/rocketmq
 PATH=$PATH:$ROCKETMQ_HOME/bin
 export PATH ROCKETMQ_HOME PATH
@@ -405,9 +405,9 @@ export PATH ROCKETMQ_HOME PATH
 <ul>
 <li>使配置生效</li>
 </ul>
-<pre><code class="shell">source /etc/profile
+<pre><code class="prettyprint">source /etc/profile
 </code></pre>
-<h4 id="创建消息存储位置"><a href="#创建消息存储位置" class="headerlink" title="创建消息存储位置"></a>创建消息存储位置</h4><pre><code class="shell">#主
+<h4 id="创建消息存储位置"><a href="#创建消息存储位置" class="headerlink" title="创建消息存储位置"></a>创建消息存储位置</h4><pre><code class="prettyprint">#主
 mkdir /opt/module/rocketmq/store
 mkdir /opt/module/rocketmq/store/commitlog
 mkdir /opt/module/rocketmq/store/consumequeue
@@ -415,10 +415,10 @@ mkdir /opt/module/rocketmq/store/index
 #拷贝一份作为从节点的配置
 cp -r /opt/module/rocketmq/store /opt/module/rocketmq/store-slave
 </code></pre>
-<h4 id="修改broker配置文件"><a href="#修改broker配置文件" class="headerlink" title="修改broker配置文件"></a>修改broker配置文件</h4><h5 id="MASTER1-192-168-101-132"><a href="#MASTER1-192-168-101-132" class="headerlink" title="MASTER1(192.168.101.132)"></a>MASTER1(192.168.101.132)</h5><pre><code class="shell">vim /opt/module/rocketmq/conf/2m-2s-sync/broker-a.properties
+<h4 id="修改broker配置文件"><a href="#修改broker配置文件" class="headerlink" title="修改broker配置文件"></a>修改broker配置文件</h4><h5 id="MASTER1-192-168-101-132"><a href="#MASTER1-192-168-101-132" class="headerlink" title="MASTER1(192.168.101.132)"></a>MASTER1(192.168.101.132)</h5><pre><code class="prettyprint">vim /opt/module/rocketmq/conf/2m-2s-sync/broker-a.properties
 </code></pre>
 <p>修改配置如下：</p>
-<pre><code class="properties">#所属集群名字
+<pre><code class="prettyprint">#所属集群名字
 brokerClusterName=rocketmq-cluster
 #broker名字，注意此处不同的配置文件填写的不一样
 brokerName=broker-a
@@ -479,10 +479,10 @@ flushDiskType=SYNC_FLUSH
 #拉消息线程池数量
 #pullMessageThreadPoolNums=128
 </code></pre>
-<h5 id="SLAVE2-192-168-101-132"><a href="#SLAVE2-192-168-101-132" class="headerlink" title="SLAVE2(192.168.101.132)"></a>SLAVE2(192.168.101.132)</h5><pre><code class="shell">vim /opt/module/rocketmq/conf/2m-2s-sync/broker-b-s.properties
+<h5 id="SLAVE2-192-168-101-132"><a href="#SLAVE2-192-168-101-132" class="headerlink" title="SLAVE2(192.168.101.132)"></a>SLAVE2(192.168.101.132)</h5><pre><code class="prettyprint">vim /opt/module/rocketmq/conf/2m-2s-sync/broker-b-s.properties
 </code></pre>
 <p>修改配置如下：</p>
-<pre><code class="properties">#所属集群名字
+<pre><code class="prettyprint">#所属集群名字
 brokerClusterName=rocketmq-cluster
 #broker名字，注意此处不同的配置文件填写的不一样
 brokerName=broker-b
@@ -543,10 +543,10 @@ flushDiskType=ASYNC_FLUSH
 #拉消息线程池数量
 #pullMessageThreadPoolNums=128
 </code></pre>
-<h5 id="MASTER2-192-168-101-131"><a href="#MASTER2-192-168-101-131" class="headerlink" title="MASTER2(192.168.101.131)"></a>MASTER2(192.168.101.131)</h5><pre><code class="shell">vim /opt/module/rocketmq/conf/2m-2s-sync/broker-b.properties
+<h5 id="MASTER2-192-168-101-131"><a href="#MASTER2-192-168-101-131" class="headerlink" title="MASTER2(192.168.101.131)"></a>MASTER2(192.168.101.131)</h5><pre><code class="prettyprint">vim /opt/module/rocketmq/conf/2m-2s-sync/broker-b.properties
 </code></pre>
 <p>修改配置如下：</p>
-<pre><code class="properties">#所属集群名字
+<pre><code class="prettyprint">#所属集群名字
 brokerClusterName=rocketmq-cluster
 #broker名字，注意此处不同的配置文件填写的不一样
 brokerName=broker-b
@@ -607,10 +607,10 @@ flushDiskType=SYNC_FLUSH
 #拉消息线程池数量
 #pullMessageThreadPoolNums=128
 </code></pre>
-<h5 id="SLAVE1-192-168-101-131"><a href="#SLAVE1-192-168-101-131" class="headerlink" title="SLAVE1(192.168.101.131)"></a>SLAVE1(192.168.101.131)</h5><pre><code class="shell">vim /opt/module/rocketmq/conf/2m-2s-sync/broker-a-s.properties
+<h5 id="SLAVE1-192-168-101-131"><a href="#SLAVE1-192-168-101-131" class="headerlink" title="SLAVE1(192.168.101.131)"></a>SLAVE1(192.168.101.131)</h5><pre><code class="prettyprint">vim /opt/module/rocketmq/conf/2m-2s-sync/broker-a-s.properties
 </code></pre>
 <p>修改配置如下：</p>
-<pre><code class="properties">#所属集群名字
+<pre><code class="prettyprint">#所属集群名字
 brokerClusterName=rocketmq-cluster
 #broker名字，注意此处不同的配置文件填写的不一样
 brokerName=broker-a
@@ -674,13 +674,13 @@ flushDiskType=ASYNC_FLUSH
 <h3 id="启动集群"><a href="#启动集群" class="headerlink" title="启动集群"></a>启动集群</h3><h4 id="启动NameServer集群"><a href="#启动NameServer集群" class="headerlink" title="启动NameServer集群"></a>启动NameServer集群</h4><ul>
 <li>分别在<code>192.168.101.132</code>,<code>192.168.101.131</code>执行如下命令</li>
 </ul>
-<pre><code class="shell">cd /opt/module/rocketmq/bin
+<pre><code class="prettyprint">cd /opt/module/rocketmq/bin
 sh mqnamesrv &amp;
 </code></pre>
 <h4 id="启动broker集群"><a href="#启动broker集群" class="headerlink" title="启动broker集群"></a>启动broker集群</h4><ul>
 <li>在<code>192.168.101.132</code>启动MASTER1和SLAVE2</li>
 </ul>
-<pre><code class="shell">cd /opt/module/rocketmq/bin
+<pre><code class="prettyprint">cd /opt/module/rocketmq/bin
 #启动MASTER1
 sh mqbroker -c ../conf/2m-2s-sync/broker-a.properties &amp;
 #启动SLAVE2
@@ -689,17 +689,17 @@ sh mqbroker -c ../conf/2m-2s-sync/broker-b-s.properties &amp;
 <ul>
 <li>在<code>192.168.101.131</code>启动MASTER2和SLAVE1</li>
 </ul>
-<pre><code class="shell">cd /opt/module/rocketmq/bin
+<pre><code class="prettyprint">cd /opt/module/rocketmq/bin
 #启动MASTER2
 sh mqbroker -c ../conf/2m-2s-sync/broker-b.properties &amp;
 #启动SLAVE1
 sh mqbroker -c ../conf/2m-2s-sync/broker-a-s.properties &amp;
 </code></pre>
-<h3 id="验证启动成功"><a href="#验证启动成功" class="headerlink" title="验证启动成功"></a>验证启动成功</h3><h4 id="使用jps查看状态"><a href="#使用jps查看状态" class="headerlink" title="使用jps查看状态"></a>使用jps查看状态</h4><pre><code class="shell">jps
+<h3 id="验证启动成功"><a href="#验证启动成功" class="headerlink" title="验证启动成功"></a>验证启动成功</h3><h4 id="使用jps查看状态"><a href="#使用jps查看状态" class="headerlink" title="使用jps查看状态"></a>使用jps查看状态</h4><pre><code class="prettyprint">jps
 </code></pre>
-<img src="/2022/05/10/rocketmq-ji-qun-da-jian/image-20220510205542048.png" class="" title="image-20220510205542048">
+<img src="/2022/05/10/rocketmq-ji-qun-da-jian/image-20220510205542048.png" class="asset-class" title="image-20220510205542048">
 
-<h4 id="查看日志"><a href="#查看日志" class="headerlink" title="查看日志"></a>查看日志</h4><pre><code class="shell"># 查看nameServer日志
+<h4 id="查看日志"><a href="#查看日志" class="headerlink" title="查看日志"></a>查看日志</h4><pre><code class="prettyprint"># 查看nameServer日志
 tail -500f /opt/module/rabbitmq/logs/rocketmqlogs/namesrv.log
 # 查看broker日志
 tail -500f /opt/module/rabbitmq/logs/rocketmqlogs/broker.log

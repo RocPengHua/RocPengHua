@@ -375,29 +375,29 @@
         <h4 id="rabbitmq安装"><a href="#rabbitmq安装" class="headerlink" title="rabbitmq安装"></a>rabbitmq安装</h4><p><a href="https://rocpenghua.gitee.io/2022/04/28/centos7-an-zhuang-rabbitmq/">centos7安装rabbitmq | 小鹏驿站 (gitee.io)</a></p>
 <h4 id="集群环境准备"><a href="#集群环境准备" class="headerlink" title="集群环境准备"></a>集群环境准备</h4><ul>
 <li><p>准备三台虚拟机，修改hostname</p>
-<pre><code class="shell">vim /etc/hostname
+<pre><code class="prettyprint">vim /etc/hostname
 #分别命名node1,node2,node3
 </code></pre>
 <p>修改之后重启虚拟机<code>reboot</code>命令或者直接操作<code>vmware</code></p>
 </li>
 <li><p>修改各节点的hosts,让哥哥节点能互相识别</p>
-<pre><code class="shell">vim /etc/hosts
+<pre><code class="prettyprint">vim /etc/hosts
 </code></pre>
 <p>配置如下：</p>
-<pre><code class="properties">192.168.101.125 node1
+<pre><code class="prettyprint">192.168.101.125 node1
 192.168.101.129 node2
 192.168.101.128 node3
 </code></pre>
 </li>
 <li><p>确保各个节点erlang的cokkie一样,将node1中<code>.erlang.cookie</code>拷贝过去</p>
-<pre><code class="shell">scp /var/lib/rabbitmq/.erlang.cookie root@node2:/var/lib/rabbitmq/.erlang.cookie
+<pre><code class="prettyprint">scp /var/lib/rabbitmq/.erlang.cookie root@node2:/var/lib/rabbitmq/.erlang.cookie
 scp /var/lib/rabbitmq/.erlang.cookie root@node3:/var/lib/rabbitmq/.erlang.cookie
 </code></pre>
 </li>
 </ul>
 <h4 id="集群命令"><a href="#集群命令" class="headerlink" title="集群命令"></a>集群命令</h4><h5 id="启动rabbitmq服务"><a href="#启动rabbitmq服务" class="headerlink" title="启动rabbitmq服务"></a>启动rabbitmq服务</h5><ul>
 <li><p>node1</p>
-<pre><code class="shell">rabbitmq-server -detached
+<pre><code class="prettyprint">rabbitmq-server -detached
 #停止（rabbitmqctl stop 会将Erlang 虚拟机关闭，rabbitmqctl stop_app 只关闭 RabbitMQ 服务）
 rabbitmqctl stop_app
 #重置
@@ -407,7 +407,7 @@ rabbitmqctl start_app
 </code></pre>
 </li>
 <li><p>node2</p>
-<pre><code class="shell">rabbitmq-server -detached
+<pre><code class="prettyprint">rabbitmq-server -detached
 #停止（rabbitmqctl stop 会将Erlang 虚拟机关闭，rabbitmqctl stop_app 只关闭 RabbitMQ 服务）
 rabbitmqctl stop_app
 #重置
@@ -419,7 +419,7 @@ rabbitmqctl start_app
 </code></pre>
 </li>
 <li><p>node3</p>
-<pre><code class="shell">rabbitmq-server -detached
+<pre><code class="prettyprint">rabbitmq-server -detached
 #停止（rabbitmqctl stop 会将Erlang 虚拟机关闭，rabbitmqctl stop_app 只关闭 RabbitMQ 服务）
 rabbitmqctl stop_app
 #重置
@@ -431,27 +431,27 @@ rabbitmqctl start_app
 </code></pre>
 </li>
 </ul>
-<h5 id="查看集群状态"><a href="#查看集群状态" class="headerlink" title="查看集群状态"></a>查看集群状态</h5><pre><code class="shell">rabbitmqctl cluster_status
+<h5 id="查看集群状态"><a href="#查看集群状态" class="headerlink" title="查看集群状态"></a>查看集群状态</h5><pre><code class="prettyprint">rabbitmqctl cluster_status
 </code></pre>
-<img src="/2022/05/06/rabbitmq-ji-qun-da-jian/image-20220506204436347.png" class="" title="image-20220506204436347">
+<img src="/2022/05/06/rabbitmq-ji-qun-da-jian/image-20220506204436347.png" class="asset-class" title="image-20220506204436347">
 
 <h5 id="重新创建并设置用户"><a href="#重新创建并设置用户" class="headerlink" title="重新创建并设置用户"></a>重新创建并设置用户</h5><ul>
 <li><p>创建账号</p>
-<pre><code class="shell">rabbitmqctl add_user admin admin
+<pre><code class="prettyprint">rabbitmqctl add_user admin admin
 </code></pre>
 </li>
 <li><p>设置用户超级管理员角色</p>
-<pre><code class="shell">rabbitmqctl set_user_tags admin administrator
+<pre><code class="prettyprint">rabbitmqctl set_user_tags admin administrator
 </code></pre>
 </li>
 <li><p>设置用户权限</p>
-<pre><code class="shell">rabbitmqctl set_permissions -p &quot;/&quot; admin &quot;.*&quot; &quot;.*&quot; &quot;.*&quot;
+<pre><code class="prettyprint">rabbitmqctl set_permissions -p &quot;/&quot; admin &quot;.*&quot; &quot;.*&quot; &quot;.*&quot;
 </code></pre>
 </li>
 </ul>
-<img src="/2022/05/06/rabbitmq-ji-qun-da-jian/image-20220506204513466.png" class="" title="image-20220506204513466">
+<img src="/2022/05/06/rabbitmq-ji-qun-da-jian/image-20220506204513466.png" class="asset-class" title="image-20220506204513466">
 
-<h5 id="解除集群节点"><a href="#解除集群节点" class="headerlink" title="解除集群节点"></a>解除集群节点</h5><pre><code class="shell">#在node2 node3 执行
+<h5 id="解除集群节点"><a href="#解除集群节点" class="headerlink" title="解除集群节点"></a>解除集群节点</h5><pre><code class="prettyprint">#在node2 node3 执行
 rabbitmqctl stop_app
 rabbitmqctl reset
 rabbitmqctl start_app
@@ -459,7 +459,7 @@ rabbitmqctl cluster_status
 #node1上面执行
 rabbitmqctl forget_cluster_node rabbit@node2
 </code></pre>
-<h4 id="集群模式下镜像队列配置"><a href="#集群模式下镜像队列配置" class="headerlink" title="集群模式下镜像队列配置"></a>集群模式下镜像队列配置</h4><img src="/2022/05/06/rabbitmq-ji-qun-da-jian/image-20220506210406153.png" class="" title="image-20220506210406153">
+<h4 id="集群模式下镜像队列配置"><a href="#集群模式下镜像队列配置" class="headerlink" title="集群模式下镜像队列配置"></a>集群模式下镜像队列配置</h4><img src="/2022/05/06/rabbitmq-ji-qun-da-jian/image-20220506210406153.png" class="asset-class" title="image-20220506210406153">
 
 <ul>
 <li>Name：策略名称</li>
@@ -486,7 +486,7 @@ rabbitmqctl forget_cluster_node rabbit@node2
 </ul>
 </li>
 </ul>
-<img src="/2022/05/06/rabbitmq-ji-qun-da-jian/image-20220506211201527.png" class="" title="image-20220506211201527">
+<img src="/2022/05/06/rabbitmq-ji-qun-da-jian/image-20220506211201527.png" class="asset-class" title="image-20220506211201527">
 
       </section>
 

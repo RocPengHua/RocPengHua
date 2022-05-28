@@ -372,7 +372,7 @@
       
       
       <section id="blog-content" class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
-        <h3 id="1、megre-into"><a href="#1、megre-into" class="headerlink" title="1、megre into"></a>1、megre into</h3><pre><code class="sql">MERGE INTO table1 T1
+        <h3 id="1、megre-into"><a href="#1、megre-into" class="headerlink" title="1、megre into"></a>1、megre into</h3><pre><code class="prettyprint">MERGE INTO table1 T1
         USING (SELECT  &#39;&#39; cloumn 
                  FROM DUAL) T2
         ON (T1.cloumn      = T2.cloumn)
@@ -385,7 +385,7 @@
         values
           (T2.cloumn1)
 </code></pre>
-<h3 id="2、连续前几周连续的周日期数据-2019W14-2019W25"><a href="#2、连续前几周连续的周日期数据-2019W14-2019W25" class="headerlink" title="2、连续前几周连续的周日期数据(2019W14-2019W25)"></a>2、连续前几周连续的周日期数据(2019W14-2019W25)</h3><pre><code class="sql">select to_char(t.statCycle, &#39;yyyyMMdd&#39;) statCycleDay,
+<h3 id="2、连续前几周连续的周日期数据-2019W14-2019W25"><a href="#2、连续前几周连续的周日期数据-2019W14-2019W25" class="headerlink" title="2、连续前几周连续的周日期数据(2019W14-2019W25)"></a>2、连续前几周连续的周日期数据(2019W14-2019W25)</h3><pre><code class="prettyprint">select to_char(t.statCycle, &#39;yyyyMMdd&#39;) statCycleDay,
        to_char(t.statCycle, &#39;yyyy&#39;) || &#39;W&#39; || to_char(t.statCycle, &#39;WW&#39;) statCycle
   from (select Rownum rn,
                (trunc(to_date(&#39;20190622&#39;, &#39;yyyyMMdd&#39;) + Rownum - 7 * 12,
@@ -395,13 +395,13 @@
  where t.rn / 7 = cast(t.rn / 7 as int)
  order by t.rn
 </code></pre>
-<h3 id="3、获取前几天的天日期数据"><a href="#3、获取前几天的天日期数据" class="headerlink" title="3、获取前几天的天日期数据"></a>3、获取前几天的天日期数据</h3><pre><code class="sql">select Rownum rn,
+<h3 id="3、获取前几天的天日期数据"><a href="#3、获取前几天的天日期数据" class="headerlink" title="3、获取前几天的天日期数据"></a>3、获取前几天的天日期数据</h3><pre><code class="prettyprint">select Rownum rn,
        to_char((trunc(to_date(&#39;20190622&#39;, &#39;yyyyMMdd&#39;) + Rownum - 12, &#39;dd&#39;)),
                &#39;yyyyMMdd&#39;) statCycle
   from dual
 connect by rownum &lt;= 12
 </code></pre>
-<h3 id="4、获取前几个月的月日期数据"><a href="#4、获取前几个月的月日期数据" class="headerlink" title="4、获取前几个月的月日期数据"></a>4、获取前几个月的月日期数据</h3><pre><code class="sql">select k.stat_cycle statCycle
+<h3 id="4、获取前几个月的月日期数据"><a href="#4、获取前几个月的月日期数据" class="headerlink" title="4、获取前几个月的月日期数据"></a>4、获取前几个月的月日期数据</h3><pre><code class="prettyprint">select k.stat_cycle statCycle
   from (select t.stat_cycle, rownum rn
           from (select to_char(to_date(&#39;201906&#39;, &#39;yyyyMM&#39;), &#39;yyyy&#39;) - 1 ||
                        lpad(level, 2, 0) stat_cycle
@@ -416,16 +416,16 @@ connect by rownum &lt;= 12
                            to_char(to_date(&#39;201906&#39;, &#39;yyyyMM&#39;), &#39;MM&#39;)) t) k
  where k.rn &gt; to_char(to_date(&#39;201906&#39;, &#39;yyyyMM&#39;), &#39;MM&#39;)
 </code></pre>
-<h3 id="5、获取最近24小时数据"><a href="#5、获取最近24小时数据" class="headerlink" title="5、获取最近24小时数据"></a>5、获取最近24小时数据</h3><pre><code class="sql">select Rownum, trunc(sysdate, &#39;hh&#39;) + rownum / 24 past24
+<h3 id="5、获取最近24小时数据"><a href="#5、获取最近24小时数据" class="headerlink" title="5、获取最近24小时数据"></a>5、获取最近24小时数据</h3><pre><code class="prettyprint">select Rownum, trunc(sysdate, &#39;hh&#39;) + rownum / 24 past24
   from dual
 connect by rownum &lt;= 24
 </code></pre>
-<h3 id="6、字符串’aaa-bbb-ccc’转表数据’aaa’-’bbb’-’ccc’"><a href="#6、字符串’aaa-bbb-ccc’转表数据’aaa’-’bbb’-’ccc’" class="headerlink" title="6、字符串’aaa,bbb,ccc’转表数据’aaa’,’bbb’,’ccc’"></a>6、字符串’aaa,bbb,ccc’转表数据’aaa’,’bbb’,’ccc’</h3><pre><code class="sql">select regexp_substr(&#39;aaa,bbb,ccc&#39;, &#39;[^,]+&#39;, 1, level)
+<h3 id="6、字符串’aaa-bbb-ccc’转表数据’aaa’-’bbb’-’ccc’"><a href="#6、字符串’aaa-bbb-ccc’转表数据’aaa’-’bbb’-’ccc’" class="headerlink" title="6、字符串’aaa,bbb,ccc’转表数据’aaa’,’bbb’,’ccc’"></a>6、字符串’aaa,bbb,ccc’转表数据’aaa’,’bbb’,’ccc’</h3><pre><code class="prettyprint">select regexp_substr(&#39;aaa,bbb,ccc&#39;, &#39;[^,]+&#39;, 1, level)
   from dual
 connect by level &lt;=
            length(&#39;aaa,bbb,ccc&#39;) - length(replace(&#39;aaa,bbb,ccc&#39;, &#39;,&#39;)) + 1
 </code></pre>
-<h3 id="7、Oracle中rank-over-dense-rank-row-number-的区别"><a href="#7、Oracle中rank-over-dense-rank-row-number-的区别" class="headerlink" title="7、Oracle中rank() over, dense_rank(), row_number() 的区别"></a>7、Oracle中rank() over, dense_rank(), row_number() 的区别</h3><pre><code class="sql">--1. rank over ()可以实现对学生排名，特点是成绩相同的两名是并列，如下1 2 2 4 5
+<h3 id="7、Oracle中rank-over-dense-rank-row-number-的区别"><a href="#7、Oracle中rank-over-dense-rank-row-number-的区别" class="headerlink" title="7、Oracle中rank() over, dense_rank(), row_number() 的区别"></a>7、Oracle中rank() over, dense_rank(), row_number() 的区别</h3><pre><code class="prettyprint">--1. rank over ()可以实现对学生排名，特点是成绩相同的两名是并列，如下1 2 2 4 5
 select name,
       course,
       rank() over(partition by course order by score desc) as rank
@@ -442,14 +442,14 @@ select name,
       row_number() over(partition by course order by score desc) as rank
   from student;
 </code></pre>
-<h3 id="8、group-by-与-partition-by-区别"><a href="#8、group-by-与-partition-by-区别" class="headerlink" title="8、group by 与 partition by 区别"></a>8、group by 与 partition by 区别</h3><pre><code class="markdown">1. partition by用于给结果集进行分区。
+<h3 id="8、group-by-与-partition-by-区别"><a href="#8、group-by-与-partition-by-区别" class="headerlink" title="8、group by 与 partition by 区别"></a>8、group by 与 partition by 区别</h3><pre><code class="prettyprint">1. partition by用于给结果集进行分区。
 2. partition by和group by有何区别？
 partition by只是将原始数据进行名次排列(记录数不变)
 group by是对原始数据进行聚合统计(记录数可能变少, 每组返回一条)
 3. 使用rank over()的时候，空值是最大的，如果排序字段为null, 可能造成null字段排在最前面，影响排序结果。
 可以这样： rank over(partition by course order by score desc nulls last)
 </code></pre>
-<h3 id="9、DDL"><a href="#9、DDL" class="headerlink" title="9、DDL"></a>9、DDL</h3><pre><code class="sql">--修改字段类型
+<h3 id="9、DDL"><a href="#9、DDL" class="headerlink" title="9、DDL"></a>9、DDL</h3><pre><code class="prettyprint">--修改字段类型
 ALTER TABLE ADDRESS MODIFY COLUMN CITY CHAR(30);
 --修改字段长度
 ALTER TABLE ADDRESS MODIFY COLUMN CITY VARCHAR(32);

@@ -393,7 +393,7 @@
 <li><p><code>x-message-ttl</code>消息过期时间设置</p>
 <p>标识队列中的所有消息的过期时间</p>
 <p>可以再消息发送时指定消息过期时间</p>
-<pre><code class="java">//10s过期时间
+<pre><code class="prettyprint">//10s过期时间
 AMQP.BasicProperties properties = new AMQP.BasicProperties().builder().expiration(&quot;10000&quot;).build();
 channel.basicPublish(NORMAL_EXCHANGE,NORMAL_ROUTING_KEY,properties,message.getBytes(StandardCharsets.UTF_8));
 </code></pre>
@@ -437,7 +437,7 @@ channel.basicPublish(NORMAL_EXCHANGE,NORMAL_ROUTING_KEY,properties,message.getBy
 </ul>
 </li>
 </ul>
-<pre><code class="java">Map&lt;String, Object&gt; args = new HashMap&lt;&gt;();
+<pre><code class="prettyprint">Map&lt;String, Object&gt; args = new HashMap&lt;&gt;();
 args.put(&quot;x-message-ttl&quot;,10000);
 args.put(&quot;x-expires&quot;,10000);
 args.put(&quot;x-dead-letter-exchange&quot;, DEAD_EXCHANGE);

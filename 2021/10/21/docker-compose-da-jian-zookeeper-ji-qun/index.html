@@ -373,7 +373,7 @@
       
       <section id="blog-content" class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
         <h4 id="安装docker-compose"><a href="#安装docker-compose" class="headerlink" title="安装docker-compose"></a>安装docker-compose</h4><p><a target="_blank" rel="noopener" href="https://github.com/docker/compose/releases%E4%B8%8B%E8%BD%BD">https://github.com/docker/compose/releases下载</a><br><code>docker-compose-linux-x86_64</code></p>
-<pre><code class="shell"># 拷贝文件
+<pre><code class="prettyprint"># 拷贝文件
 cp docker-compose-linux-x86_64 /usr/local/bin/docker-compose
 # 授权
 chmod +x /usr/local/bin/docker-compose
@@ -391,7 +391,7 @@ mkdir -p /usr/local/zookeeper/zk3/datalog
 </code></pre>
 <p>在对应的data文件夹下创建myid文件 文件内容分别是1,2,3</p>
 <p>在<code>/usr/local/zookeeper</code>文件夹下创建<code>docker-compose.yml</code>文件[zookeeper版本3.7.0]</p>
-<pre><code class="yml">version: &#39;3.7&#39;
+<pre><code class="prettyprint">version: &#39;3.7&#39;
 
 # 给zk集群配置一个网络，网络名为zk-net
 networks:

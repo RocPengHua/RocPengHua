@@ -372,7 +372,7 @@
       <section id="blog-content" class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
         <h3 id="命令"><a href="#命令" class="headerlink" title="命令"></a>命令</h3><ul>
 <li><p><code>jps</code>查看java进程</p>
-<img src="/2022/05/21/jvm-xue-xi/image-20220521214845003.png" class="" title="image-20220521214845003">
+<img src="/2022/05/21/jvm-xue-xi/image-20220521214845003.png" class="asset-class" title="image-20220521214845003">
 </li>
 <li><p><code>jstat</code>查看jvm内部gc相关信息</p>
 <ul>
@@ -396,7 +396,7 @@
 <li>FGCT：Full GC消耗的时间</li>
 <li>GCT：垃圾收集消耗的总时间</li>
 </ul>
-<img src="/2022/05/21/jvm-xue-xi/image-20220521215543036.png" class="" title="image-20220521215543036">
+<img src="/2022/05/21/jvm-xue-xi/image-20220521215543036.png" class="asset-class" title="image-20220521215543036">
 </li>
 <li><p><code>jstat -gcutil 5048 1000 1000</code></p>
 <ul>
@@ -412,7 +412,7 @@
 <li>FGCT：Full GC消耗的时间</li>
 <li>GCT：垃圾收集消耗的总时间</li>
 </ul>
-<img src="/2022/05/21/jvm-xue-xi/image-20220521215214755.png" class="" title="image-20220521215214755"></li>
+<img src="/2022/05/21/jvm-xue-xi/image-20220521215214755.png" class="asset-class" title="image-20220521215214755"></li>
 </ul>
 </li>
 <li><p><code>jmap</code>查看heap或类占用空间统计</p>
@@ -429,10 +429,10 @@
 <li>最大元数据空间<code>MaxMetaspaceSize</code>,jdk8之后使用的时物理内存</li>
 <li><code>G1HeapRegionSize</code> G1 GC是存在</li>
 </ul>
-<img src="/2022/05/21/jvm-xue-xi/image-20220521220545424.png" class="" title="image-20220521220545424">
+<img src="/2022/05/21/jvm-xue-xi/image-20220521220545424.png" class="asset-class" title="image-20220521220545424">
 </li>
 <li><p><code>jmap -histo 5048</code>查看那些类占用的空间最多</p>
-<img src="/2022/05/21/jvm-xue-xi/image-20220521221754253.png" class="" title="image-20220521221754253">
+<img src="/2022/05/21/jvm-xue-xi/image-20220521221754253.png" class="asset-class" title="image-20220521221754253">
 </li>
 <li><p><code>jmap -dump:format=b,file=5048.hprof</code>Dump堆内存</p>
 </li>
@@ -441,32 +441,32 @@
 <li><p><code>jstack</code>查看线程信息</p>
 <ul>
 <li><p><code>jstack -l 5048</code>长列表模式. 将线程相关的 locks 信息一起输出， 比如持有的锁，等待的锁。</p>
-<img src="/2022/05/21/jvm-xue-xi/image-20220521221935294.png" class="" title="image-20220521221935294"></li>
+<img src="/2022/05/21/jvm-xue-xi/image-20220521221935294.png" class="asset-class" title="image-20220521221935294"></li>
 </ul>
 </li>
 <li><p><code>jcmd</code>执行jvm相关分析命令</p>
 <ul>
 <li><p><code>jcmd 5048 help</code>查看当前进程有哪些命令</p>
-<img src="/2022/05/21/jvm-xue-xi/image-20220521222209216.png" class="" title="image-20220521222209216">
+<img src="/2022/05/21/jvm-xue-xi/image-20220521222209216.png" class="asset-class" title="image-20220521222209216">
 </li>
 <li><p><code>jcmd 5048 VM.version </code>jvm版本信息</p>
-<img src="/2022/05/21/jvm-xue-xi/image-20220521222239451.png" class="" title="image-20220521222239451">
+<img src="/2022/05/21/jvm-xue-xi/image-20220521222239451.png" class="asset-class" title="image-20220521222239451">
 </li>
 <li><p><code>jcmd 5048 VM.flags </code>java进程参数</p>
-<img src="/2022/05/21/jvm-xue-xi/image-20220521222327043.png" class="" title="image-20220521222327043">
+<img src="/2022/05/21/jvm-xue-xi/image-20220521222327043.png" class="asset-class" title="image-20220521222327043">
 </li>
 <li><p><code>jcmd 5048 VM.command_line </code> 命令行</p>
-<img src="/2022/05/21/jvm-xue-xi/image-20220521222352234.png" class="" title="image-20220521222352234">
+<img src="/2022/05/21/jvm-xue-xi/image-20220521222352234.png" class="asset-class" title="image-20220521222352234">
 </li>
 <li><p><code>jcmd 5048 VM.system_properties </code>系统参数</p>
-<img src="/2022/05/21/jvm-xue-xi/image-20220521222450042.png" class="" title="image-20220521222450042">
+<img src="/2022/05/21/jvm-xue-xi/image-20220521222450042.png" class="asset-class" title="image-20220521222450042">
 </li>
 <li><p><code>jcmd 5048 Thread.print </code>运行线程类似&#96;jstack -l 5048</p>
 </li>
 <li><p><code>jcmd 5048 GC.class_histogram </code>类似<code>jmap -histo 5048</code></p>
 </li>
 <li><p><code>jcmd 5048 GC.heap_info</code></p>
-<img src="/2022/05/21/jvm-xue-xi/image-20220521222624101.png" class="" title="image-20220521222624101"></li>
+<img src="/2022/05/21/jvm-xue-xi/image-20220521222624101.png" class="asset-class" title="image-20220521222624101"></li>
 </ul>
 </li>
 </ul>
@@ -671,7 +671,7 @@
 </ul>
 </li>
 </ul>
-<h5 id="各个GC对比图"><a href="#各个GC对比图" class="headerlink" title="各个GC对比图"></a>各个GC对比图</h5><p>​	<img src="/2022/05/21/jvm-xue-xi/image-20220521230335965.png" class="" title="image-20220521230335965"></p>
+<h5 id="各个GC对比图"><a href="#各个GC对比图" class="headerlink" title="各个GC对比图"></a>各个GC对比图</h5><p>​	<img src="/2022/05/21/jvm-xue-xi/image-20220521230335965.png" class="asset-class" title="image-20220521230335965"></p>
 <h5 id="常用GC组合"><a href="#常用GC组合" class="headerlink" title="常用GC组合"></a>常用GC组合</h5><ul>
 <li>Serial+Serial Old 实现单线程的低延迟 垃圾回收机制</li>
 <li>ParNew+CMS，实现多线程的低延迟垃 圾回收机制</li>
@@ -707,9 +707,9 @@
 <li>CMS -&gt; G1： G1 可以说是在 CMS 基础上进行迭代和优化开发出来的，划分为多个小堆块进行增量回收，这样就更 进一步地降低了单次 GC 暂停的时间</li>
 <li>G1 -&gt; ZGC:：ZGC 号称无停顿垃圾收集器，这又是一次极大的改进。ZGC 和 G1 有一些相似的地方，但是底层的算法 和思想又有了全新的突破</li>
 </ol>
-<h3 id="Parallel-GC、CMS-GC、G1-GC"><a href="#Parallel-GC、CMS-GC、G1-GC" class="headerlink" title="Parallel GC、CMS GC、G1 GC"></a>Parallel GC、CMS GC、G1 GC</h3><img src="/2022/05/21/jvm-xue-xi/image-20220521231711959.png" class="" title="image-20220521231711959">
+<h3 id="Parallel-GC、CMS-GC、G1-GC"><a href="#Parallel-GC、CMS-GC、G1-GC" class="headerlink" title="Parallel GC、CMS GC、G1 GC"></a>Parallel GC、CMS GC、G1 GC</h3><img src="/2022/05/21/jvm-xue-xi/image-20220521231711959.png" class="asset-class" title="image-20220521231711959">
 
-<h3 id="GC日志查看命令"><a href="#GC日志查看命令" class="headerlink" title="GC日志查看命令"></a>GC日志查看命令</h3><h4 id="测试类"><a href="#测试类" class="headerlink" title="测试类"></a>测试类</h4><pre><code class="java">package com.rocpenghua.gc;
+<h3 id="GC日志查看命令"><a href="#GC日志查看命令" class="headerlink" title="GC日志查看命令"></a>GC日志查看命令</h3><h4 id="测试类"><a href="#测试类" class="headerlink" title="测试类"></a>测试类</h4><pre><code class="prettyprint">package com.rocpenghua.gc;
 
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
@@ -782,46 +782,46 @@ public class GCLogAnalysis &#123;
 </code></pre>
 <ul>
 <li><p><code>java -XX:+PrintGCDetails com.rocpenghua.gc.GCLogAnalysis</code>：打印GC详细信息</p>
-<img src="/2022/05/21/jvm-xue-xi/image-20220522105901086.png" class="" title="image-20220522105901086">
+<img src="/2022/05/21/jvm-xue-xi/image-20220522105901086.png" class="asset-class" title="image-20220522105901086">
 </li>
 <li><p><code>java -XX:+PrintGC com.rocpenghua.gc.GCLogAnalysis</code>：打印GC信息</p>
-<img src="/2022/05/21/jvm-xue-xi/image-20220522110044459.png" class="" title="image-20220522110044459">
+<img src="/2022/05/21/jvm-xue-xi/image-20220522110044459.png" class="asset-class" title="image-20220522110044459">
 </li>
 <li><p><code>java -Xloggc:com.rocpenghua.gc.log -XX:+PrintGCDetails -XX:+PrintGCDateStamps com.rocpenghua.gc.GCLogAnalysis</code>：GC信息保存到日志</p>
 </li>
 <li><p><code>java -Xmx128m -XX:+PrintGCDetails com.rocpenghua.gc.GCLogAnalysis</code>：指定最大堆</p>
 <ul>
 <li><p>堆内存太小GC次数变多</p>
-<p>​	1.<img src="/2022/05/21/jvm-xue-xi/image-20220522110158184.png" class="" title="image-20220522110158184"></p>
-<p>​	2.<img src="/2022/05/21/jvm-xue-xi/image-20220522110213797.png" class="" title="image-20220522110213797"></p>
-<p>​	3.<img src="/2022/05/21/jvm-xue-xi/image-20220522110228153.png" class="" title="image-20220522110228153"></p>
+<p>​	1.<img src="/2022/05/21/jvm-xue-xi/image-20220522110158184.png" class="asset-class" title="image-20220522110158184"></p>
+<p>​	2.<img src="/2022/05/21/jvm-xue-xi/image-20220522110213797.png" class="asset-class" title="image-20220522110213797"></p>
+<p>​	3.<img src="/2022/05/21/jvm-xue-xi/image-20220522110228153.png" class="asset-class" title="image-20220522110228153"></p>
 </li>
 </ul>
 </li>
 <li><p><code>java -XX:+UseSerialGC -Xms512m -Xmx512m -Xloggc:gc.UseSerialGC.log -XX:+PrintGCDetails -XX:+PrintGCDateStamps com.rocpenghua.gc.GCLogAnalysis</code>：使用串行GC记录日志</p>
-<img src="/2022/05/21/jvm-xue-xi/image-20220522110317985.png" class="" title="image-20220522110317985">
+<img src="/2022/05/21/jvm-xue-xi/image-20220522110317985.png" class="asset-class" title="image-20220522110317985">
 </li>
 <li><p><code>java -XX:+UseParallelGC -Xms512m -Xmx512m -XX:+PrintGCDetails -XX:+PrintGCDateStamps com.rocpenghua.gc.GCLogAnalysis</code>：使用并行GC</p>
-<img src="/2022/05/21/jvm-xue-xi/image-20220522110340790.png" class="" title="image-20220522110340790">
+<img src="/2022/05/21/jvm-xue-xi/image-20220522110340790.png" class="asset-class" title="image-20220522110340790">
 </li>
 <li><p><code>java -XX:+UseConcMarkSweepGC -Xms512m -Xmx512m -XX:+PrintGCDetails -XX:+PrintGCDateStamps com.rocpenghua.gc.GCLogAnalysis</code>：使用CMS GC</p>
-<p>1.<img src="/2022/05/21/jvm-xue-xi/image-20220522110411696.png" class="" title="image-20220522110411696"></p>
-<p>​	2.<img src="/2022/05/21/jvm-xue-xi/image-20220522110436211.png" class="" title="image-20220522110436211"></p>
+<p>1.<img src="/2022/05/21/jvm-xue-xi/image-20220522110411696.png" class="asset-class" title="image-20220522110411696"></p>
+<p>​	2.<img src="/2022/05/21/jvm-xue-xi/image-20220522110436211.png" class="asset-class" title="image-20220522110436211"></p>
 <p>​	3.CMS GC 六个阶段</p>
-<img src="/2022/05/21/jvm-xue-xi/image-20220522110533123.png" class="" title="image-20220522110533123">
+<img src="/2022/05/21/jvm-xue-xi/image-20220522110533123.png" class="asset-class" title="image-20220522110533123">
 </li>
 <li><p><code>java -XX:+UseG1GC -Xms512m -Xmx512m -XX:+PrintGCDetails -XX:+PrintGCDateStamps com.rocpenghua.gc.GCLogAnalysis</code>：使用G1 GC</p>
-<p>​	1.<img src="/2022/05/21/jvm-xue-xi/image-20220522110617225.png" class="" title="image-20220522110617225"></p>
-<p>​	2.<img src="/2022/05/21/jvm-xue-xi/image-20220522110632399.png" class="" title="image-20220522110632399"></p>
-<p>​	3.<img src="/2022/05/21/jvm-xue-xi/image-20220522110827654.png" class="" title="image-20220522110827654"></p>
-<p>​	4.<img src="/2022/05/21/jvm-xue-xi/image-20220522110844810.png" class="" title="image-20220522110844810"></p>
-<p>​	5.<img src="/2022/05/21/jvm-xue-xi/image-20220522110901768.png" class="" title="image-20220522110901768"></p>
+<p>​	1.<img src="/2022/05/21/jvm-xue-xi/image-20220522110617225.png" class="asset-class" title="image-20220522110617225"></p>
+<p>​	2.<img src="/2022/05/21/jvm-xue-xi/image-20220522110632399.png" class="asset-class" title="image-20220522110632399"></p>
+<p>​	3.<img src="/2022/05/21/jvm-xue-xi/image-20220522110827654.png" class="asset-class" title="image-20220522110827654"></p>
+<p>​	4.<img src="/2022/05/21/jvm-xue-xi/image-20220522110844810.png" class="asset-class" title="image-20220522110844810"></p>
+<p>​	5.<img src="/2022/05/21/jvm-xue-xi/image-20220522110901768.png" class="asset-class" title="image-20220522110901768"></p>
 </li>
 <li><p><code>java -XX:+UseG1GC -Xms512m -Xmx512m -XX:+PrintGC -XX:+PrintGCDateStamps com.rocpenghua.gc.GCLogAnalysis</code>：使用G1 GC</p>
-<p>​	1.<img src="/2022/05/21/jvm-xue-xi/image-20220522110926764.png" class="" title="image-20220522110926764"></p>
+<p>​	1.<img src="/2022/05/21/jvm-xue-xi/image-20220522110926764.png" class="asset-class" title="image-20220522110926764"></p>
 </li>
 </ul>
-<p>2.<img src="/2022/05/21/jvm-xue-xi/image-20220522110949162.png" class="" title="image-20220522110949162"></p>
+<p>2.<img src="/2022/05/21/jvm-xue-xi/image-20220522110949162.png" class="asset-class" title="image-20220522110949162"></p>
 <h3 id="GC配置参数"><a href="#GC配置参数" class="headerlink" title="GC配置参数"></a>GC配置参数</h3><ul>
 <li><p>日志相关</p>
 <ul>
@@ -887,22 +887,22 @@ public class GCLogAnalysis &#123;
 <li>管理员打开powershell</li>
 <li>执行命令</li>
 </ul>
-<pre><code class="shell">Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString(&#39;https://chocolatey.org/install.ps1&#39;))
+<pre><code class="prettyprint">Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString(&#39;https://chocolatey.org/install.ps1&#39;))
 </code></pre>
 <ul>
 <li>执行</li>
 </ul>
-<pre><code class="shell">choco install superbenchmarker
+<pre><code class="prettyprint">choco install superbenchmarker
 </code></pre>
 <ul>
 <li>输入<code>sb</code>查看帮助文档</li>
 </ul>
-<pre><code class="shell">sb
+<pre><code class="prettyprint">sb
 </code></pre>
 <ul>
 <li>测试</li>
 </ul>
-<pre><code class="shell">#20并发60秒
+<pre><code class="prettyprint">#20并发60秒
 sb -u &#39;http://localhost:8080/api/hello&#39; -c 20 -N 60
 </code></pre>
 

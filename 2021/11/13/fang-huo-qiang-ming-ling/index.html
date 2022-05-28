@@ -360,7 +360,7 @@
       <section id="blog-content" class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
         <p>查看防火墙状态：firewall-cmd –state<br>查看防火墙：firewall-cmd –list-all<br>更新防火墙：firewall-cmd  –reload<br>临时增加 (reload之后消失)：不需要reload<br>firewall-cmd –add-port&#x3D;999&#x2F;tcp<br>永久增加 ：reload后生效<br>firewall-cmd  –permanent –add-port&#x3D;999&#x2F;tcp<br>firewall-cmd  –reload<br>移除端口<br>firewall-cmd –remove-port&#x3D;999&#x2F;tcp</p>
 <p>firewall-cmd  –permanent –remove-port&#x3D;999&#x2F;tcp<br>firewall-cmd  –reload<br>查询端口<br>firewall-cmd –query-port&#x3D;999&#x2F;tcp<br>查看所有放行端口<br>firewall-cmd –list-ports<br>防火墙服务的状态：<br>systemctl status firewalld.service<br>systemctl start firewalld.service<br>systemctl stop firewalld.service<br>所有支持的服务<br>firewall-cmd –get-services<br>临时增加服务<br>firewall-cmd –add-service&#x3D;http<br>删除服务： (临时删除)<br>firewall-cmd –remove-service&#x3D;http<br>查询服务：<br>firewall-cmd –query-service&#x3D;http</p>
-<pre><code class="shell">Usage: firewall-cmd [OPTIONS...]
+<pre><code class="prettyprint">Usage: firewall-cmd [OPTIONS...]
 
 General Options
   -h, --help           Prints a short help text and exists

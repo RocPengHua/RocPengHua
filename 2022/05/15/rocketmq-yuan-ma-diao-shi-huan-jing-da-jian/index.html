@@ -393,9 +393,9 @@
 <li>test：测试相关类</li>
 <li>tools：工具类，监控命令相关实现类</li>
 </ul>
-<h4 id="导入ide开发工具"><a href="#导入ide开发工具" class="headerlink" title="导入ide开发工具"></a>导入ide开发工具</h4><img src="/2022/05/15/rocketmq-yuan-ma-diao-shi-huan-jing-da-jian/image-20220515182156550.png" class="" title="image-20220515182156550">
+<h4 id="导入ide开发工具"><a href="#导入ide开发工具" class="headerlink" title="导入ide开发工具"></a>导入ide开发工具</h4><img src="/2022/05/15/rocketmq-yuan-ma-diao-shi-huan-jing-da-jian/image-20220515182156550.png" class="asset-class" title="image-20220515182156550">
 
-<h5 id="执行安装脚本"><a href="#执行安装脚本" class="headerlink" title="执行安装脚本"></a>执行安装脚本</h5><pre><code class="shell">mvn clean install -Dmaven.test.skip=true
+<h5 id="执行安装脚本"><a href="#执行安装脚本" class="headerlink" title="执行安装脚本"></a>执行安装脚本</h5><pre><code class="prettyprint">mvn clean install -Dmaven.test.skip=true
 </code></pre>
 <h4 id="调试"><a href="#调试" class="headerlink" title="调试"></a>调试</h4><h5 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h5><ul>
 <li><p>在根目录下创建conf文件夹</p>
@@ -408,7 +408,7 @@
 </ul>
 </li>
 <li><p>修改<code>broker.conf</code>配置</p>
-<pre><code class="properties"># Licensed to the Apache Software Foundation (ASF) under one or more
+<pre><code class="prettyprint"># Licensed to the Apache Software Foundation (ASF) under one or more
 # contributor license agreements.  See the NOTICE file distributed with
 # this work for additional information regarding copyright ownership.
 # The ASF licenses this file to You under the Apache License, Version 2.0
@@ -453,12 +453,12 @@ abortFile=E:\\code\\rocketmq\\data\\rocketmq\\dataDir\\abort
 <ul>
 <li>需要配置ROCKETMQ_HOME环境，<code>ROCKETMQ_HOME=E:\code\rocketmq\rocketmq-all-4.9.3</code></li>
 </ul>
-<img src="/2022/05/15/rocketmq-yuan-ma-diao-shi-huan-jing-da-jian/image-20220515182558374.png" class="" title="image-20220515182558374">
+<img src="/2022/05/15/rocketmq-yuan-ma-diao-shi-huan-jing-da-jian/image-20220515182558374.png" class="asset-class" title="image-20220515182558374">
 
 <ul>
 <li>执行<code>namesrv</code>工程下面的<code>org.apache.rocketmq.namesrv.NamesrvStartup#main</code>方法启动</li>
 </ul>
-<img src="/2022/05/15/rocketmq-yuan-ma-diao-shi-huan-jing-da-jian/image-20220515182844276.png" class="" title="image-20220515182844276">
+<img src="/2022/05/15/rocketmq-yuan-ma-diao-shi-huan-jing-da-jian/image-20220515182844276.png" class="asset-class" title="image-20220515182844276">
 </li>
 <li><p><code>broker</code>启动配置</p>
 <ul>
@@ -467,16 +467,16 @@ abortFile=E:\\code\\rocketmq\\data\\rocketmq\\dataDir\\abort
 <li><p>指定conf路径启动 <code>-c E:\code\rocketmq\rocketmq-all-4.9.3\conf\broker.conf</code></p>
 </li>
 </ul>
-<img src="/2022/05/15/rocketmq-yuan-ma-diao-shi-huan-jing-da-jian/image-20220515183024715.png" class="" title="image-20220515183024715">
+<img src="/2022/05/15/rocketmq-yuan-ma-diao-shi-huan-jing-da-jian/image-20220515183024715.png" class="asset-class" title="image-20220515183024715">
 
 <ul>
 <li>执行<code>broker</code>工程下面的<code>org.apache.rocketmq.broker.BrokerStartup#main</code>方法</li>
 </ul>
-<img src="/2022/05/15/rocketmq-yuan-ma-diao-shi-huan-jing-da-jian/image-20220515183148021.png" class="" title="image-20220515183148021"></li>
+<img src="/2022/05/15/rocketmq-yuan-ma-diao-shi-huan-jing-da-jian/image-20220515183148021.png" class="asset-class" title="image-20220515183148021"></li>
 </ul>
 <h5 id="测试org-apache-rocketmq-example-quickstart"><a href="#测试org-apache-rocketmq-example-quickstart" class="headerlink" title="测试org.apache.rocketmq.example.quickstart"></a>测试<code>org.apache.rocketmq.example.quickstart</code></h5><ul>
 <li><p>生产者</p>
-<pre><code class="java">/*
+<pre><code class="prettyprint">/*
  * Licensed to the Apache Software Foundation (ASF) under one or more
  * contributor license agreements.  See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
@@ -593,12 +593,12 @@ public class Producer &#123;
 </code></pre>
 </li>
 </ul>
-<img src="/2022/05/15/rocketmq-yuan-ma-diao-shi-huan-jing-da-jian/image-20220515183358912.png" class="" title="image-20220515183358912">
+<img src="/2022/05/15/rocketmq-yuan-ma-diao-shi-huan-jing-da-jian/image-20220515183358912.png" class="asset-class" title="image-20220515183358912">
 
 <ul>
 <li>消费者</li>
 </ul>
-<pre><code class="java">/*
+<pre><code class="prettyprint">/*
  * Licensed to the Apache Software Foundation (ASF) under one or more
  * contributor license agreements.  See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
@@ -681,7 +681,7 @@ public class Consumer &#123;
     &#125;
 &#125;
 </code></pre>
-<img src="/2022/05/15/rocketmq-yuan-ma-diao-shi-huan-jing-da-jian/image-20220515183513129.png" class="" title="image-20220515183513129">
+<img src="/2022/05/15/rocketmq-yuan-ma-diao-shi-huan-jing-da-jian/image-20220515183513129.png" class="asset-class" title="image-20220515183513129">
 
 
       </section>

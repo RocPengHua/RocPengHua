@@ -375,32 +375,32 @@
         <h4 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h4><ul>
 <li>目录结构</li>
 </ul>
-<img src="/2022/05/19/javac-bian-yi-zhao-bu-dao-tong-bao-xia-mian-de-lei/image-20220519221633534.png" class="" title="image-20220519221633534">
+<img src="/2022/05/19/javac-bian-yi-zhao-bu-dao-tong-bao-xia-mian-de-lei/image-20220519221633534.png" class="asset-class" title="image-20220519221633534">
 
 <ul>
 <li><p><code>MovingAverageTest</code>类中有依赖<code>MovingAverage</code>这时如果在jvm目录下执行命令</p>
-<pre><code class="shell">javac MovingAverageTest.java
+<pre><code class="prettyprint">javac MovingAverageTest.java
 </code></pre>
 <p>会出现找不到类的错误</p>
 </li>
 </ul>
-<p>​		<img src="/2022/05/19/javac-bian-yi-zhao-bu-dao-tong-bao-xia-mian-de-lei/image-20220519221958178.png" class="" title="image-20220519221958178"></p>
+<p>​		<img src="/2022/05/19/javac-bian-yi-zhao-bu-dao-tong-bao-xia-mian-de-lei/image-20220519221958178.png" class="asset-class" title="image-20220519221958178"></p>
 <ul>
 <li><p>这时需要在包根目录<code>E:\code\java\jike\src\main\java\</code>下执行</p>
-<pre><code class="shell">javac com/rocpenghua/jvm/MovingAverageTest.java
+<pre><code class="prettyprint">javac com/rocpenghua/jvm/MovingAverageTest.java
 </code></pre>
-<img src="/2022/05/19/javac-bian-yi-zhao-bu-dao-tong-bao-xia-mian-de-lei/image-20220519222203897.png" class="" title="image-20220519222203897">
+<img src="/2022/05/19/javac-bian-yi-zhao-bu-dao-tong-bao-xia-mian-de-lei/image-20220519222203897.png" class="asset-class" title="image-20220519222203897">
 </li>
 <li><p><code>javap</code>可以查看字节码</p>
-<pre><code class="shell">javap -c com.rocpenghua.jvm/MovingAverageTest
+<pre><code class="prettyprint">javap -c com.rocpenghua.jvm/MovingAverageTest
 #详细信息
 javap -c -verbose com.rocpenghua.jvm/MovingAverageTest
 </code></pre>
 </li>
 </ul>
-<img src="/2022/05/19/javac-bian-yi-zhao-bu-dao-tong-bao-xia-mian-de-lei/image-20220519222345324.png" class="" title="image-20220519222345324">
+<img src="/2022/05/19/javac-bian-yi-zhao-bu-dao-tong-bao-xia-mian-de-lei/image-20220519222345324.png" class="asset-class" title="image-20220519222345324">
 
-<img src="/2022/05/19/javac-bian-yi-zhao-bu-dao-tong-bao-xia-mian-de-lei/image-20220519222431144.png" class="" title="image-20220519222431144">
+<img src="/2022/05/19/javac-bian-yi-zhao-bu-dao-tong-bao-xia-mian-de-lei/image-20220519222431144.png" class="asset-class" title="image-20220519222431144">
 
       </section>
 

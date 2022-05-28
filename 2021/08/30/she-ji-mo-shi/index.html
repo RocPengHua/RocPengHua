@@ -384,7 +384,7 @@
 <h4 id="3-Java怎么实现单例模式？"><a href="#3-Java怎么实现单例模式？" class="headerlink" title="3.Java怎么实现单例模式？"></a>3.Java怎么实现单例模式？</h4><ul>
 <li>懒汉式：懒加载，线程不安全</li>
 </ul>
-<pre><code class="java">public class Singleton
+<pre><code class="prettyprint">public class Singleton
 &#123;
     private static Singleton singleton;
 
@@ -403,7 +403,7 @@
 <ul>
 <li>懒汉式线程安全版：同步效率低</li>
 </ul>
-<pre><code class="java">public class Singleton
+<pre><code class="prettyprint">public class Singleton
 &#123;
     private static Singleton singleton;
 
@@ -422,7 +422,7 @@
 <ul>
 <li>饿汉式：</li>
 </ul>
-<pre><code class="java">public class Singleton
+<pre><code class="prettyprint">public class Singleton
 &#123;
     private static Singleton singleton = new Singleton();
 
@@ -439,7 +439,7 @@
 <ul>
 <li>饿汉式变种：</li>
 </ul>
-<pre><code class="java">public class Singleton
+<pre><code class="prettyprint">public class Singleton
 &#123;
     private static Singleton singleton;
     static
@@ -460,7 +460,7 @@
 <ul>
 <li>静态内部类方式:利用 JVM 的加载机制，当使用到 SingletonHolder 才会进行初始化。</li>
 </ul>
-<pre><code class="java">public class Singleton
+<pre><code class="prettyprint">public class Singleton
 &#123;
     private Singleton()
     &#123;
@@ -480,7 +480,7 @@
 <ul>
 <li>枚举：</li>
 </ul>
-<pre><code class="java">public enum Singletons
+<pre><code class="prettyprint">public enum Singletons
 &#123;
     INSTANCE;
     // 此处表示单例对象里面的各种方法
@@ -492,7 +492,7 @@
 <ul>
 <li>双重校验锁:</li>
 </ul>
-<pre><code class="java">public class Singleton
+<pre><code class="prettyprint">public class Singleton
 &#123;
     private volatile static Singleton singleton;
 
@@ -585,7 +585,7 @@
 <p>适配器模式：将一个类的接口，转换成客户期望的另一个接口。适配器让原本接口不兼容的类可以合作无间。<br>适配器模式有三种：类的适配器模式、对象的适配器模式、接口的适配器模式。<br>通俗的说法：适配器模式将某个类的接口转换成客户端期望的另一个接口表示，目的是消除由于接口不匹配所造成的类的兼容性问题。</p>
 <p>举例如下：</p>
 <p>1、适配器模式 </p>
-<pre><code class="java">//file 为已定义好的文件流 
+<pre><code class="prettyprint">//file 为已定义好的文件流 
 FileInputStream fileInput = new FileInputStream(file); 
 InputStreamReader inputStreamReader = new InputStreamReader(fileInput);
 </code></pre>

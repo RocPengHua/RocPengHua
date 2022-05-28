@@ -383,7 +383,7 @@
 </code></pre>
 <p>打开 <a href="http://ip:端口号">http://ip:端口号</a> 即可看到安装引导界面。<br>TIP<br>如果需要配置域名访问，建议先配置好反向代理以及域名解析再进行初始化。如果通过 <a href="http://ip:端口号">http://ip:端口号</a> 的形式无法访问，请到服务器厂商后台将运行的端口号添加到安全组，如果服务器使用了 Linux 面板，请检查此 Linux 面板是否有还有安全组配置，需要同样将端口号添加到安全组。</p>
 <p>反向代理#<br>你可以在下面的反向代理软件中任选一项，我们假设你已经安装好了其中一项，并对其的基本操作有一定了解。如果你对 Nginx 不熟悉，我们推荐使用 OneinStack 来管理 Nginx。</p>
-<pre><code class="Nginx#">upstream halo &#123;
+<pre><code class="prettyprint#">upstream halo &#123;
   server 127.0.0.1:8090;
 &#125;
 server &#123;

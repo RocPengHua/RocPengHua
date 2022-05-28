@@ -372,7 +372,7 @@
       
       
       <section id="blog-content" class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
-        <h4 id="第一种情况（注入没有使用注解-Autowired-Resource）"><a href="#第一种情况（注入没有使用注解-Autowired-Resource）" class="headerlink" title="第一种情况（注入没有使用注解@Autowired,@Resource）"></a>第一种情况（注入没有使用注解<code>@Autowired</code>,<code>@Resource</code>）</h4><pre><code class="java">public class TestController &#123;
+        <h4 id="第一种情况（注入没有使用注解-Autowired-Resource）"><a href="#第一种情况（注入没有使用注解-Autowired-Resource）" class="headerlink" title="第一种情况（注入没有使用注解@Autowired,@Resource）"></a>第一种情况（注入没有使用注解<code>@Autowired</code>,<code>@Resource</code>）</h4><pre><code class="prettyprint">public class TestController &#123;
     private ITestService testService
 &#125;
 </code></pre>
@@ -380,7 +380,7 @@
 <ol>
 <li>增加注入注解</li>
 </ol>
-<pre><code class="java">public class TestController &#123;
+<pre><code class="prettyprint">public class TestController &#123;
     @Autowired
     private ITestService testService
 &#125;
@@ -388,27 +388,27 @@
 <ol>
 <li>使用构造方法注入(或者set方法注入)</li>
 </ol>
-<pre><code class="java">public class TestController &#123;
+<pre><code class="prettyprint">public class TestController &#123;
     private final ITestService testService;
     public TestController(ITestService testService)&#123;
          this.testService = testService;
     &#125;
 &#125;
 </code></pre>
-<h4 id="第二种情况（service实现类没有-Service注解）加上注解就行"><a href="#第二种情况（service实现类没有-Service注解）加上注解就行" class="headerlink" title="第二种情况（service实现类没有@Service注解）加上注解就行"></a>第二种情况（service实现类没有@Service注解）加上注解就行</h4><h4 id="第三种情况（包扫描没有扫描到），配置扫描路径"><a href="#第三种情况（包扫描没有扫描到），配置扫描路径" class="headerlink" title="第三种情况（包扫描没有扫描到），配置扫描路径"></a>第三种情况（包扫描没有扫描到），配置扫描路径</h4><h4 id="第四种情况（最难发现的问题，在controller类中使用-Value从配置文件中获取数据，而配置文件却没有配置）"><a href="#第四种情况（最难发现的问题，在controller类中使用-Value从配置文件中获取数据，而配置文件却没有配置）" class="headerlink" title="第四种情况（最难发现的问题，在controller类中使用@Value从配置文件中获取数据，而配置文件却没有配置）"></a>第四种情况（最难发现的问题，在controller类中使用@Value从配置文件中获取数据，而配置文件却没有配置）</h4><pre><code class="java">public class TestController &#123;
+<h4 id="第二种情况（service实现类没有-Service注解）加上注解就行"><a href="#第二种情况（service实现类没有-Service注解）加上注解就行" class="headerlink" title="第二种情况（service实现类没有@Service注解）加上注解就行"></a>第二种情况（service实现类没有@Service注解）加上注解就行</h4><h4 id="第三种情况（包扫描没有扫描到），配置扫描路径"><a href="#第三种情况（包扫描没有扫描到），配置扫描路径" class="headerlink" title="第三种情况（包扫描没有扫描到），配置扫描路径"></a>第三种情况（包扫描没有扫描到），配置扫描路径</h4><h4 id="第四种情况（最难发现的问题，在controller类中使用-Value从配置文件中获取数据，而配置文件却没有配置）"><a href="#第四种情况（最难发现的问题，在controller类中使用-Value从配置文件中获取数据，而配置文件却没有配置）" class="headerlink" title="第四种情况（最难发现的问题，在controller类中使用@Value从配置文件中获取数据，而配置文件却没有配置）"></a>第四种情况（最难发现的问题，在controller类中使用@Value从配置文件中获取数据，而配置文件却没有配置）</h4><pre><code class="prettyprint">public class TestController &#123;
     @Value(&quot;$&#123;prop.test&#125;&quot;)
     @Autowired
     private ITestService testService
 &#125;
 </code></pre>
 <p>解决方法：<br>1、在配置文件中加上配置<br>2、给与默认值</p>
-<pre><code class="java">public class TestController &#123;
+<pre><code class="prettyprint">public class TestController &#123;
     @Value(&quot;$&#123;prop.test:&#125;&quot;)
     @Autowired
     private ITestService testService
 &#125;
 </code></pre>
-<img src="/2022/04/15/controller-zhu-ru-service-chu-xian-kong-zhi-zhen-qing-kuang/4.jpg" class="" title="(6).jpg">
+<img src="/2022/04/15/controller-zhu-ru-service-chu-xian-kong-zhi-zhen-qing-kuang/4.jpg" class="asset-class" title="(6).jpg">
 
       </section>
 

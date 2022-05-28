@@ -370,20 +370,20 @@
       
       
       <section id="blog-content" class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
-        <h3 id="1、this-is-incompatible-with-sql-mode-x3D-only-full-group-by"><a href="#1、this-is-incompatible-with-sql-mode-x3D-only-full-group-by" class="headerlink" title="1、this is incompatible with sql_mode&#x3D;only_full_group_by"></a>1、this is incompatible with sql_mode&#x3D;only_full_group_by</h3><pre><code class="sql">--  mysql 7、8问题
+        <h3 id="1、this-is-incompatible-with-sql-mode-x3D-only-full-group-by"><a href="#1、this-is-incompatible-with-sql-mode-x3D-only-full-group-by" class="headerlink" title="1、this is incompatible with sql_mode&#x3D;only_full_group_by"></a>1、this is incompatible with sql_mode&#x3D;only_full_group_by</h3><pre><code class="prettyprint">--  mysql 7、8问题
 SELECT @@global.sql_mode  
 --结果
 &#39;ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION&#39;
 --修改方式
 SET @@global.sql_mode = &#39;STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION&#39;
 </code></pre>
-<h3 id="2、日期获取"><a href="#2、日期获取" class="headerlink" title="2、日期获取"></a>2、日期获取</h3><pre><code class="sql">SELECT @num:=@num+1 num,DATE_FORMAT(ADDDATE(&#39;2018-06-10&#39;, INTERVAL @num DAY),&#39;%Y-%m-%d&#39;) AS DATE
+<h3 id="2、日期获取"><a href="#2、日期获取" class="headerlink" title="2、日期获取"></a>2、日期获取</h3><pre><code class="prettyprint">SELECT @num:=@num+1 num,DATE_FORMAT(ADDDATE(&#39;2018-06-10&#39;, INTERVAL @num DAY),&#39;%Y-%m-%d&#39;) AS DATE
 FROM pt_code,(SELECT @num:=0) t WHERE ADDDATE(&#39;2018-06-10&#39;, INTERVAL @num DAY) &lt;= DATE_FORMAT(CURDATE(),&#39;%Y-%m-%d&#39;)
 LIMIT 0,30
 </code></pre>
-<h3 id="3、转化成数字排序"><a href="#3、转化成数字排序" class="headerlink" title="3、转化成数字排序"></a>3、转化成数字排序</h3><pre><code class="sql">ORDER BY CAST(DATA1 AS SIGNED)
+<h3 id="3、转化成数字排序"><a href="#3、转化成数字排序" class="headerlink" title="3、转化成数字排序"></a>3、转化成数字排序</h3><pre><code class="prettyprint">ORDER BY CAST(DATA1 AS SIGNED)
 </code></pre>
-<h3 id="4、CSV文件导入数据"><a href="#4、CSV文件导入数据" class="headerlink" title="4、CSV文件导入数据"></a>4、CSV文件导入数据</h3><pre><code class="sql">LOAD DATA LOCAL INFILE 
+<h3 id="4、CSV文件导入数据"><a href="#4、CSV文件导入数据" class="headerlink" title="4、CSV文件导入数据"></a>4、CSV文件导入数据</h3><pre><code class="prettyprint">LOAD DATA LOCAL INFILE 
     &#39;C:\\Users\\Administrator\\Desktop\\AAA.csv&#39;
     INTO TABLE `blog`.`k_lrp`
 FIELDS ESCAPED BY &#39;\\&#39;  
@@ -392,7 +392,7 @@ ENCLOSED BY &#39;&quot;&#39;
 LINES TERMINATED BY   &#39;\r\n&#39;  
 (`LRP_ID`, `ORG_NO`, `YM`, `X_VALUE`, `DATA_OPER_TIME`, `DATA_OPER_TYPE`,`Y_VAULE`)
 </code></pre>
-<h3 id="5、前2个月"><a href="#5、前2个月" class="headerlink" title="5、前2个月"></a>5、前2个月</h3><pre><code class="mysql">SELECT 
+<h3 id="5、前2个月"><a href="#5、前2个月" class="headerlink" title="5、前2个月"></a>5、前2个月</h3><pre><code class="prettyprint">SELECT 
   DATE_FORMAT(
     DATE_ADD(
       STR_TO_DATE(CONCAT(&#39;20201210&#39;, &#39;01&#39;), &#39;%Y%m%d&#39;),
@@ -410,7 +410,7 @@ FROM
   LIMIT 0, 31) k 
 WHERE k.rn &lt;= 12 
 </code></pre>
-<h3 id="6、前30天数据"><a href="#6、前30天数据" class="headerlink" title="6、前30天数据"></a>6、前30天数据</h3><pre><code class="mysql">--不包含当天
+<h3 id="6、前30天数据"><a href="#6、前30天数据" class="headerlink" title="6、前30天数据"></a>6、前30天数据</h3><pre><code class="prettyprint">--不包含当天
 SELECT @num:=@num+1 num,DATE_FORMAT(ADDDATE(&#39;20201210&#39;, INTERVAL -@num DAY),&#39;%Y%m%d&#39;) AS stat_cycle
 FROM pt_code,(SELECT @num:=0) t
 LIMIT 0,30

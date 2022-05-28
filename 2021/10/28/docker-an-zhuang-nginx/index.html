@@ -372,7 +372,7 @@
       
       
       <section id="blog-content" class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
-        <h5 id="拉取镜像"><a href="#拉取镜像" class="headerlink" title="拉取镜像"></a>拉取镜像</h5><pre><code class="shell"># 查询镜像
+        <h5 id="拉取镜像"><a href="#拉取镜像" class="headerlink" title="拉取镜像"></a>拉取镜像</h5><pre><code class="prettyprint"># 查询镜像
 docker search nginx
 # 查询镜像版本
 curl https://registry.hub.docker.com/v1/repositories/nginx/tags \
@@ -381,11 +381,11 @@ curl https://registry.hub.docker.com/v1/repositories/nginx/tags \
 # 拉取镜像
 docker pull nginx
 </code></pre>
-<h5 id="创建挂载目录"><a href="#创建挂载目录" class="headerlink" title="创建挂载目录"></a>创建挂载目录</h5><pre><code class="shell">mkdir -p /usr/local/nginx/conf
+<h5 id="创建挂载目录"><a href="#创建挂载目录" class="headerlink" title="创建挂载目录"></a>创建挂载目录</h5><pre><code class="prettyprint">mkdir -p /usr/local/nginx/conf
 mkdir -p /usr/local/nginx/html
 mkdir -p /usr/local/nginx/logs
 </code></pre>
-<h5 id="进入conf-新建nginx-conf"><a href="#进入conf-新建nginx-conf" class="headerlink" title="进入conf,新建nginx.conf"></a>进入conf,新建nginx.conf</h5><pre><code class="conf">
+<h5 id="进入conf-新建nginx-conf"><a href="#进入conf-新建nginx-conf" class="headerlink" title="进入conf,新建nginx.conf"></a>进入conf,新建nginx.conf</h5><pre><code class="prettyprint">
 #user  nobody;
 worker_processes  1;
 
@@ -508,7 +508,7 @@ http &#123;
 
 &#125;
 </code></pre>
-<h5 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h5><pre><code class="shell">docker run --name nginx -d -p 80:80 -v /usr/local/nginx/conf/nginx.conf:/etc/nginx/nginx.conf -v /usr/local/nginx/html:/etc/nginx/html -v /usr/local/nginx/logs:/var/log/nginx nginx
+<h5 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h5><pre><code class="prettyprint">docker run --name nginx -d -p 80:80 -v /usr/local/nginx/conf/nginx.conf:/etc/nginx/nginx.conf -v /usr/local/nginx/html:/etc/nginx/html -v /usr/local/nginx/logs:/var/log/nginx nginx
 </code></pre>
 
       </section>

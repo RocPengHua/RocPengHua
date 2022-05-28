@@ -373,7 +373,7 @@
       
       <section id="blog-content" class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
         <p> 1、引入依赖</p>
-<pre><code class="xml">&lt;dependency&gt;
+<pre><code class="prettyprint">&lt;dependency&gt;
     &lt;groupId&gt;commons-codec&lt;/groupId&gt;
     &lt;artifactId&gt;commons-codec&lt;/artifactId&gt;
     &lt;version&gt;1.15&lt;/version&gt;
@@ -385,7 +385,7 @@
 &lt;/dependency&gt;
 </code></pre>
 <p>2、构造工具类</p>
-<pre><code class="java">public class SM4Util &#123;
+<pre><code class="prettyprint">public class SM4Util &#123;
     static &#123;
         Security.addProvider(new BouncyCastleProvider());
     &#125;
@@ -548,7 +548,7 @@
 
 &#125;
 </code></pre>
-<pre><code class="java">@Test
+<pre><code class="prettyprint">@Test
 public void encodeAndDecode()&#123;
     try &#123;
         String json = &quot;BF7B6BD7C1204BC4F3C87D235692DE9DBF7B6BD7C1204BC4F3C87D235692DE9DBF7B6BD7C1204BC4F3C87D235692DE9D&quot;;

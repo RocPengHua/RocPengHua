@@ -372,13 +372,13 @@
       
       
       <section id="blog-content" class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
-        <h4 id="添加依赖"><a href="#添加依赖" class="headerlink" title="添加依赖"></a>添加依赖</h4><pre><code class="xml">&lt;dependency&gt;
+        <h4 id="添加依赖"><a href="#添加依赖" class="headerlink" title="添加依赖"></a>添加依赖</h4><pre><code class="prettyprint">&lt;dependency&gt;
     &lt;groupId&gt;org.apache.rocketmq&lt;/groupId&gt;
     &lt;artifactId&gt;rocketmq-client&lt;/artifactId&gt;
     &lt;version&gt;4.9.3&lt;/version&gt;
 &lt;/dependency&gt;
 </code></pre>
-<h4 id="提供者"><a href="#提供者" class="headerlink" title="提供者"></a>提供者</h4><pre><code class="java">package com.pengpeng.rocketmq.producer;
+<h4 id="提供者"><a href="#提供者" class="headerlink" title="提供者"></a>提供者</h4><pre><code class="prettyprint">package com.pengpeng.rocketmq.producer;
 
 import com.pengpeng.rocketmq.config.JmsConfig;
 import lombok.extern.slf4j.Slf4j;
@@ -427,7 +427,7 @@ public class Producer &#123;
     &#125;
 &#125;
 </code></pre>
-<h4 id="消费者"><a href="#消费者" class="headerlink" title="消费者"></a>消费者</h4><pre><code class="java">package com.pengpeng.rocketmq.consumer;
+<h4 id="消费者"><a href="#消费者" class="headerlink" title="消费者"></a>消费者</h4><pre><code class="prettyprint">package com.pengpeng.rocketmq.consumer;
 
 import com.pengpeng.rocketmq.config.JmsConfig;
 import lombok.extern.slf4j.Slf4j;
@@ -496,7 +496,7 @@ public class Consumer &#123;
     &#125;
 &#125;
 </code></pre>
-<h4 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h4><pre><code class="java">package com.pengpeng.rocketmq.web;
+<h4 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h4><pre><code class="prettyprint">package com.pengpeng.rocketmq.web;
 
 import com.pengpeng.rocketmq.consumer.Consumer;
 import com.pengpeng.rocketmq.producer.Producer;

@@ -371,17 +371,17 @@
       
       <section id="blog-content" class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
         <p>oracle:</p>
-<pre><code class="plsql">select utl_raw.cast_to_varchar2(utl_encode.base64_encode(utl_raw.cast_to_raw(&#39;qwertyqwerty&#39;))) from dual;
+<pre><code class="prettyprint">select utl_raw.cast_to_varchar2(utl_encode.base64_encode(utl_raw.cast_to_raw(&#39;qwertyqwerty&#39;))) from dual;
 select utl_raw.cast_to_varchar2(utl_encode.base64_decode(utl_raw.cast_to_raw(&#39;cXdlcnR5cXdlcnR5&#39;))) from dual;
 
 //hex
 select rawtohex(utl_raw.cast_to_varchar2(utl_encode.base64_encode(utl_raw.cast_to_raw(&#39;130000000.56&#39;)))) from dual;
 select utl_raw.cast_to_varchar2(utl_encode.base64_decode(utl_raw.cast_to_raw(UTL_RAW.CAST_TO_varchar2(&#39;4D544D774D4441774D4441774C6A5532&#39;)))) from dual;
 </code></pre>
-<img src="/2022/04/19/oracle-zhi-base64/1650362471008.png" class="" width="1650362471008">
+<img src="/2022/04/19/oracle-zhi-base64/1650362471008.png" class="asset-class" width="1650362471008">
 
 <p>java:</p>
-<pre><code class="java">public class Base64Util &#123;
+<pre><code class="prettyprint">public class Base64Util &#123;
     public static String encode(String source) &#123;
         return Base64.encodeBase64String(StringUtils.getBytesUtf8(source));
     &#125;

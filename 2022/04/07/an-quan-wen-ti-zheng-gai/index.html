@@ -372,14 +372,14 @@
       <section id="blog-content" class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
         <h2 id="1、心脏滴血安全问题"><a href="#1、心脏滴血安全问题" class="headerlink" title="1、心脏滴血安全问题"></a>1、心脏滴血安全问题</h2><p>​	就是把openssl版本换成了1.0.1g，然后重新编译了Nginx</p>
 <h2 id="2、加密会话（SSL-）Cookie-中缺少-Secure"><a href="#2、加密会话（SSL-）Cookie-中缺少-Secure" class="headerlink" title="2、加密会话（SSL ）Cookie  中缺少 Secure"></a>2、加密会话（SSL ）Cookie  中缺少 Secure</h2><p>​	web.xml 配置</p>
-<pre><code class="xml">&lt;session-config&gt;
+<pre><code class="prettyprint">&lt;session-config&gt;
     &lt;cookie-config&gt;
         &lt;secure&gt;true&lt;/secure&gt;
     &lt;/cookie-config&gt;
 &lt;/session-config&gt;
 </code></pre>
 <h2 id="3、X-Frame-Options"><a href="#3、X-Frame-Options" class="headerlink" title="3、X-Frame-Options"></a>3、X-Frame-Options</h2><p>​	过滤器xml配置</p>
-<pre><code class="xml">&lt;filter&gt;
+<pre><code class="prettyprint">&lt;filter&gt;
     &lt;filter-name&gt;xFrameOptionFilter&lt;/filter-name&gt;
     &lt;filter-class&gt;XFrameOptionFilter&lt;/filter-class&gt;
     &lt;async-supported&gt;true&lt;/async-supported&gt;
@@ -390,14 +390,14 @@
 &lt;/filter-mapping&gt;
 </code></pre>
 <p>​	过滤器java</p>
-<pre><code class="java">HttpServletResponse response=(HttpServletResponse) rep;
+<pre><code class="prettyprint">HttpServletResponse response=(HttpServletResponse) rep;
     response.addHeader(&quot;x-frame-options&quot;,&quot;SAMEORIGIN&quot;);
     chain.doFilter(req, response);
 </code></pre>
 <h2 id="4、存储性xss攻击（前端解决方法）"><a href="#4、存储性xss攻击（前端解决方法）" class="headerlink" title="4、存储性xss攻击（前端解决方法）"></a>4、存储性xss攻击（前端解决方法）</h2><p>​	xss.js路径&lt;C:\Users\Administrator\Desktop\work\xss.js&gt;</p>
 <p>​	引入xss.js    调用filterXSS方法</p>
 <h2 id="5、启用了不安全的HTTP方法（OPTIONS）"><a href="#5、启用了不安全的HTTP方法（OPTIONS）" class="headerlink" title="5、启用了不安全的HTTP方法（OPTIONS）"></a>5、启用了不安全的HTTP方法（OPTIONS）</h2><p>​	 在web.xml添加</p>
-<pre><code class="xml">&lt;security-constraint&gt;
+<pre><code class="prettyprint">&lt;security-constraint&gt;
     &lt;web-resource-collection&gt;
         &lt;web-resource-name&gt;HttpMethod&lt;/web-resource-name&gt;
         &lt;description&gt;HttpMethod&lt;/description&gt;
@@ -412,19 +412,19 @@
     &lt;auth-constraint&gt;&lt;/auth-constraint&gt;
 &lt;/security-constraint&gt;
 </code></pre>
-<h2 id="6、错误信息泄露中间件版本信息。-web-xml配置错误页面（poseidon）"><a href="#6、错误信息泄露中间件版本信息。-web-xml配置错误页面（poseidon）" class="headerlink" title="6、错误信息泄露中间件版本信息。  web.xml配置错误页面（poseidon）"></a>6、错误信息泄露中间件版本信息。  web.xml配置错误页面（poseidon）</h2><pre><code class="xml">&lt;error-page&gt;  
+<h2 id="6、错误信息泄露中间件版本信息。-web-xml配置错误页面（poseidon）"><a href="#6、错误信息泄露中间件版本信息。-web-xml配置错误页面（poseidon）" class="headerlink" title="6、错误信息泄露中间件版本信息。  web.xml配置错误页面（poseidon）"></a>6、错误信息泄露中间件版本信息。  web.xml配置错误页面（poseidon）</h2><pre><code class="prettyprint">&lt;error-page&gt;  
 &lt;error-code&gt;400&lt;/error-code&gt;  
 &lt;location&gt;/error/error.html&lt;/location&gt;  
 &lt;/error-page&gt; 
 </code></pre>
 <h2 id="7、网站存在样例-x2F-说明文件"><a href="#7、网站存在样例-x2F-说明文件" class="headerlink" title="7、网站存在样例&#x2F;说明文件"></a>7、网站存在样例&#x2F;说明文件</h2><p>​	删除wepapps&#x2F;docs</p>
 <h2 id="8、jsp转码安全漏洞"><a href="#8、jsp转码安全漏洞" class="headerlink" title="8、jsp转码安全漏洞"></a>8、jsp转码安全漏洞</h2><p>​	&lt;%&#x3D;ESAPI.encoder().encodeForJavaScript(String.valueOf(request.getParameter(“mapTool”)))%&gt;</p>
-<h2 id="9、Fortify-fix-for-XML-External-Entity-Injection"><a href="#9、Fortify-fix-for-XML-External-Entity-Injection" class="headerlink" title="9、Fortify fix for XML External Entity Injection"></a>9、Fortify fix for XML External Entity Injection</h2><h4 id="1）、TransformerFactory-trfactory-x3D-TransformerFactory-newInstance"><a href="#1）、TransformerFactory-trfactory-x3D-TransformerFactory-newInstance" class="headerlink" title="1）、TransformerFactory trfactory &#x3D; TransformerFactory.newInstance();"></a>1）、TransformerFactory trfactory &#x3D; TransformerFactory.newInstance();</h4><pre><code class="java">//TransformerFactory trfactory = TransformerFactory.newInstance(); 
+<h2 id="9、Fortify-fix-for-XML-External-Entity-Injection"><a href="#9、Fortify-fix-for-XML-External-Entity-Injection" class="headerlink" title="9、Fortify fix for XML External Entity Injection"></a>9、Fortify fix for XML External Entity Injection</h2><h4 id="1）、TransformerFactory-trfactory-x3D-TransformerFactory-newInstance"><a href="#1）、TransformerFactory-trfactory-x3D-TransformerFactory-newInstance" class="headerlink" title="1）、TransformerFactory trfactory &#x3D; TransformerFactory.newInstance();"></a>1）、TransformerFactory trfactory &#x3D; TransformerFactory.newInstance();</h4><pre><code class="prettyprint">//TransformerFactory trfactory = TransformerFactory.newInstance(); 
 //使用以下实现类替换
 TransformerFactoryImpl transformerFactoryImpl = new TransformerFactoryImpl();
 Transformer transformer = transformerFactoryImpl.newTransformer();
 </code></pre>
-<h4 id="2）、DocumentBuilder-x3D-x3D-gt-parse-is"><a href="#2）、DocumentBuilder-x3D-x3D-gt-parse-is" class="headerlink" title="2）、DocumentBuilder &#x3D;&#x3D;&gt;parse(is);"></a>2）、DocumentBuilder &#x3D;&#x3D;&gt;parse(is);</h4><pre><code class="java">DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+<h4 id="2）、DocumentBuilder-x3D-x3D-gt-parse-is"><a href="#2）、DocumentBuilder-x3D-x3D-gt-parse-is" class="headerlink" title="2）、DocumentBuilder &#x3D;&#x3D;&gt;parse(is);"></a>2）、DocumentBuilder &#x3D;&#x3D;&gt;parse(is);</h4><pre><code class="prettyprint">DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         
         
 String FEATURE = null;
@@ -450,12 +450,12 @@ is.setCharacterStream(new StringReader(filterXXE(xml)));
 Document doc = builder.parse(is);
 </code></pre>
 <p>参考：<a target="_blank" rel="noopener" href="https://github.com/OWASP/CheatSheetSeries/blob/master/cheatsheets/XML_External_Entity_Prevention_Cheat_Sheet.md">https://github.com/OWASP/CheatSheetSeries/blob/master/cheatsheets/XML_External_Entity_Prevention_Cheat_Sheet.md</a></p>
-<h2 id="10、Random随机数问题"><a href="#10、Random随机数问题" class="headerlink" title="10、Random随机数问题"></a>10、Random随机数问题</h2><pre><code class="java">private SecureRandom random() throws NoSuchAlgorithmException&#123;
+<h2 id="10、Random随机数问题"><a href="#10、Random随机数问题" class="headerlink" title="10、Random随机数问题"></a>10、Random随机数问题</h2><pre><code class="prettyprint">private SecureRandom random() throws NoSuchAlgorithmException&#123;
     return SecureRandom.getInstance(&quot;SHA1PRNG&quot;);
 &#125;
 //使用SecureRandom替换Random
 </code></pre>
-<h2 id="11、Header-Manipulation"><a href="#11、Header-Manipulation" class="headerlink" title="11、Header Manipulation"></a>11、Header Manipulation</h2><pre><code class="java">//response.addHeader(&quot;Content-Disposition&quot;,&quot;attachment;filename=&quot; + fileOrgnName);
+<h2 id="11、Header-Manipulation"><a href="#11、Header-Manipulation" class="headerlink" title="11、Header Manipulation"></a>11、Header Manipulation</h2><pre><code class="prettyprint">//response.addHeader(&quot;Content-Disposition&quot;,&quot;attachment;filename=&quot; + fileOrgnName);
 //将文件名过滤
 public String filterFileName(String filename)&#123;
     String regex = &quot;[`~!@#$%^&amp;*()\\+\\=\\&#123;&#125;|:\&quot;?&gt;&lt;【】\\/r\\/n]&quot;;
@@ -469,7 +469,7 @@ public String filterFileName(String filename)&#123;
 response.addHeader(&quot;Content-Disposition&quot;,&quot;attachment;filename=&quot; + filterFileName(fileOrgnName));
 </code></pre>
 <h2 id="12、Access-Control-Database"><a href="#12、Access-Control-Database" class="headerlink" title="12、Access Control:Database"></a>12、Access Control:Database</h2><p>单字符串 <code>StringEscapeUtils.escapeSql(）</code>转义<br>对象可以使用JSON转化</p>
-<pre><code class="java">import com.fasterxml.jackson.core.JsonProcessingException;
+<pre><code class="prettyprint">import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 

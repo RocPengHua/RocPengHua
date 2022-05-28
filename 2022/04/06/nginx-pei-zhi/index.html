@@ -372,14 +372,14 @@
       
       
       <section id="blog-content" class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
-        <h4 id="linux先安装nginx"><a href="#linux先安装nginx" class="headerlink" title="linux先安装nginx"></a>linux先安装nginx</h4><h5 id="安装gcc-c-编译器"><a href="#安装gcc-c-编译器" class="headerlink" title="安装gcc-c++编译器"></a>安装gcc-c++编译器</h5><pre><code class="shell">yum install gcc-c++
+        <h4 id="linux先安装nginx"><a href="#linux先安装nginx" class="headerlink" title="linux先安装nginx"></a>linux先安装nginx</h4><h5 id="安装gcc-c-编译器"><a href="#安装gcc-c-编译器" class="headerlink" title="安装gcc-c++编译器"></a>安装gcc-c++编译器</h5><pre><code class="prettyprint">yum install gcc-c++
 yum install -y openssl openssl-devel
 </code></pre>
-<h5 id="再安装pcre包"><a href="#再安装pcre包" class="headerlink" title="再安装pcre包"></a>再安装pcre包</h5><pre><code class="shell">yum install -y pcre pcre-devel
+<h5 id="再安装pcre包"><a href="#再安装pcre包" class="headerlink" title="再安装pcre包"></a>再安装pcre包</h5><pre><code class="prettyprint">yum install -y pcre pcre-devel
 </code></pre>
-<h5 id="安装zlib包"><a href="#安装zlib包" class="headerlink" title="安装zlib包"></a>安装zlib包</h5><pre><code class="shell">yum install -y zlib zlib-devel
+<h5 id="安装zlib包"><a href="#安装zlib包" class="headerlink" title="安装zlib包"></a>安装zlib包</h5><pre><code class="prettyprint">yum install -y zlib zlib-devel
 </code></pre>
-<h5 id="安装nginx"><a href="#安装nginx" class="headerlink" title="安装nginx"></a>安装nginx</h5><pre><code class="shell"># 创建文件夹
+<h5 id="安装nginx"><a href="#安装nginx" class="headerlink" title="安装nginx"></a>安装nginx</h5><pre><code class="prettyprint"># 创建文件夹
 mkdir /usr/local/nginx
 # 下载
 wget https://nginx.org/download/nginx-1.19.9.tar.gz
@@ -403,7 +403,7 @@ ps -ef | grep nginx
 <li><p>选择免费版（注意需要有自己的域名）</p>
 </li>
 <li><p>下载nginx版<br><img src="/images/upload/2022/04/image-67be79a34bd74f4f864fd13a15df385c.png" alt="image.png"><br><img src="/images/upload/2022/04/image-4ca21e25058a4549953467875478d351.png" alt="image.png"></p>
-<h4 id="nginx的ssl模块安装"><a href="#nginx的ssl模块安装" class="headerlink" title="nginx的ssl模块安装"></a>nginx的ssl模块安装</h4><pre><code class="shell"># 确认是否安装ssl模块,进入sbin目录
+<h4 id="nginx的ssl模块安装"><a href="#nginx的ssl模块安装" class="headerlink" title="nginx的ssl模块安装"></a>nginx的ssl模块安装</h4><pre><code class="prettyprint"># 确认是否安装ssl模块,进入sbin目录
 ./nginx -V
 # 查看是否存在 --with-http_ssl_module， 如果存在可以跳过此步骤，如若不存在进入/usr/local/nginx/nginx-1.19.9 目录执行以下命令
 ./configure --prefix=/usr/local/nginx --with-http_stub_status_module --with-http_ssl_module
@@ -415,7 +415,7 @@ cp /usr/local/nginx/nginx-1.19.9/objs/nginx /usr/local/nginx/sbin/nginx
 ./nginx -V
 </code></pre>
 <p><img src="/images/upload/2022/04/image-d70d33f8323a4e71b5eed842b8d06c2f.png" alt="image.png"></p>
-<h4 id="配置ssl"><a href="#配置ssl" class="headerlink" title="配置ssl"></a>配置<code>ssl</code></h4><pre><code class="conf">server &#123;
+<h4 id="配置ssl"><a href="#配置ssl" class="headerlink" title="配置ssl"></a>配置<code>ssl</code></h4><pre><code class="prettyprint">server &#123;
 #监听443端口
  listen 443;
  #你的域名
@@ -437,7 +437,7 @@ server &#123;
 &#125;
 </code></pre>
 <p><img src="/images/upload/2022/04/image-61e99890b55a4b9c95e2f7804aa9e5f1.png" alt="image.png"></p>
-<h4 id="nginx配置systemctl服务"><a href="#nginx配置systemctl服务" class="headerlink" title="nginx配置systemctl服务"></a>nginx配置systemctl服务</h4><pre><code class="shell">vim /usr/lib/systemd/system/nginx.service
+<h4 id="nginx配置systemctl服务"><a href="#nginx配置systemctl服务" class="headerlink" title="nginx配置systemctl服务"></a>nginx配置systemctl服务</h4><pre><code class="prettyprint">vim /usr/lib/systemd/system/nginx.service
 </code></pre>
 </li>
 </ol>

@@ -372,7 +372,7 @@
       
       
       <section id="blog-content" class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
-        <h4 id="docker-compose-yml"><a href="#docker-compose-yml" class="headerlink" title="docker-compose.yml"></a>docker-compose.yml</h4><pre><code class="yml">version: &#39;3&#39;
+        <h4 id="docker-compose-yml"><a href="#docker-compose-yml" class="headerlink" title="docker-compose.yml"></a>docker-compose.yml</h4><pre><code class="prettyprint">version: &#39;3&#39;
 services:
   zookeeper:
     image: wurstmeister/zookeeper
@@ -393,10 +393,10 @@ services:
     volumes:
       - ./docker.sock:/var/run/docker.sock
 </code></pre>
-<h4 id="运行kafka镜像"><a href="#运行kafka镜像" class="headerlink" title="运行kafka镜像"></a>运行kafka镜像</h4><pre><code class="shell">docker-compose up
+<h4 id="运行kafka镜像"><a href="#运行kafka镜像" class="headerlink" title="运行kafka镜像"></a>运行kafka镜像</h4><pre><code class="prettyprint">docker-compose up
 docker-compose up -d
 </code></pre>
-<h4 id="验证kafka"><a href="#验证kafka" class="headerlink" title="验证kafka"></a>验证kafka</h4><pre><code class="shell">docker exec -it kafka /bin/bash
+<h4 id="验证kafka"><a href="#验证kafka" class="headerlink" title="验证kafka"></a>验证kafka</h4><pre><code class="prettyprint">docker exec -it kafka /bin/bash
 </code></pre>
 
       </section>

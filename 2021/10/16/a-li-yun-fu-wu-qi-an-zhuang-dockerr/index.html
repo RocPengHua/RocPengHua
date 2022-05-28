@@ -363,7 +363,7 @@
         <p>在阿里云服务器上安装Docker，服务器的系统是CentOS 7.6，</p>
 <p>所以可以看官方Docker安装文档：<a target="_blank" rel="noopener" href="https://docs.docker.com/install/linux/docker-ce/centos/">https://docs.docker.com/install/linux/docker-ce/centos/</a></p>
 <p>从阅读官网来看，首先若是没有较旧的Docker版本只需3步就可以完成Dockers的安装；但是有旧版本的话，需要先卸载旧版本</p>
-<pre><code class="shell">yum remove docker \
+<pre><code class="prettyprint">yum remove docker \
               docker-client \
               docker-client-latest \
               docker-common \
@@ -374,21 +374,21 @@
 </code></pre>
 <p>无旧版本时(3步)</p>
 <p>1.安装所需的软件包</p>
-<pre><code class="shell">yum install -y yum-utils \
+<pre><code class="prettyprint">yum install -y yum-utils \
   device-mapper-persistent-data \
   lvm2
 </code></pre>
 <p>2.配置阿里云Docker Yum源(个人觉的好)</p>
-<pre><code class="shell">yum-config-manager --add-repo http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
+<pre><code class="prettyprint">yum-config-manager --add-repo http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
 </code></pre>
 <p>3.安装最新版本的Docker</p>
-<pre><code class="shell">yum install docker-ce docker-ce-cli containerd.io
+<pre><code class="prettyprint">yum install docker-ce docker-ce-cli containerd.io
 </code></pre>
 <p>这样之后就OK了，执行启动Docker的命令：systemctl start docker，然后走一波，完美！！</p>
 <p>注，重要的事情说三遍。大多数人的执行完第二步后，会出现以下错误 <code>Loaded plugins: fastestmirror</code><br>解决方法如下：<br>1、</p>
-<pre><code class="shell">vi  /etc/yum/pluginconf.d/fastestmirror.conf
+<pre><code class="prettyprint">vi  /etc/yum/pluginconf.d/fastestmirror.conf
 </code></pre>
-<pre><code class="conf">enabled=0    //由 1 改成0 ，禁用该插件
+<pre><code class="prettyprint">enabled=0    //由 1 改成0 ，禁用该插件
 verbose=0
 always_print_best_host = true
 socket_timeout=3
@@ -401,9 +401,9 @@ maxthreads=15
 #include_only=.nl,.de,.uk,.ie
 </code></pre>
 <p>2、</p>
-<pre><code class="shell">vi /etc/yum.conf
+<pre><code class="prettyprint">vi /etc/yum.conf
 </code></pre>
-<pre><code class="conf">[main]
+<pre><code class="prettyprint">[main]
 cachedir=/var/cache/yum/$basearch/$releasever
 keepcache=0
 debuglevel=2
@@ -415,7 +415,7 @@ plugins=1 #将plugins的值修改为0
 installonly_limit=5
 </code></pre>
 <p>3、</p>
-<pre><code class="shell">yum clean dbcache
+<pre><code class="prettyprint">yum clean dbcache
 </code></pre>
 <p>之后重新执行配置源和安装命令即可。</p>
 

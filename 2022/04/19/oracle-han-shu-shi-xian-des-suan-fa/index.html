@@ -374,7 +374,7 @@
       <section id="blog-content" class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
         <p>oracle函数实现des算法（CBC模式:hex&#x2F;base64）</p>
 <p>加密<code>encrypt_des</code></p>
-<pre><code class="plsql">create or replace function encrypt_des(p_text varchar2,p_key varchar2) return varchar2 is
+<pre><code class="prettyprint">create or replace function encrypt_des(p_text varchar2,p_key varchar2) return varchar2 is
   v_text        varchar2(4000);
     v_enc         varchar2(4000);
     raw_input     RAW(128);
@@ -396,7 +396,7 @@
 end encrypt_des;
 </code></pre>
 <p>解密<code>decrypt_des</code></p>
-<pre><code class="plsql">create or replace function decrypt_des(p_text varchar2, p_key varchar2) return varchar2 is
+<pre><code class="prettyprint">create or replace function decrypt_des(p_text varchar2, p_key varchar2) return varchar2 is
   v_text varchar2(2000);
   begin
     /*hex转字符输出
@@ -415,21 +415,21 @@ end encrypt_des;
 end decrypt_des;
 </code></pre>
 <p>hex:</p>
-<img src="/2022/04/19/oracle-han-shu-shi-xian-des-suan-fa/1650360630842.png" class="" width="1650360630842">
+<img src="/2022/04/19/oracle-han-shu-shi-xian-des-suan-fa/1650360630842.png" class="asset-class" width="1650360630842">
 
 
 
 
 
-<img src="/2022/04/19/oracle-han-shu-shi-xian-des-suan-fa/1650360647718.png" class="" width="1650360647718">
+<img src="/2022/04/19/oracle-han-shu-shi-xian-des-suan-fa/1650360647718.png" class="asset-class" width="1650360647718">
 
 <p>base64:</p>
-<img src="/2022/04/19/oracle-han-shu-shi-xian-des-suan-fa/1650361954868.png" class="" width="1650361954868">
+<img src="/2022/04/19/oracle-han-shu-shi-xian-des-suan-fa/1650361954868.png" class="asset-class" width="1650361954868">
 
-<img src="/2022/04/19/oracle-han-shu-shi-xian-des-suan-fa/1650361965256.png" class="" width="1650361965256">
+<img src="/2022/04/19/oracle-han-shu-shi-xian-des-suan-fa/1650361965256.png" class="asset-class" width="1650361965256">
 
 <p>java版本</p>
-<pre><code class="java">public class OracleDesUtil &#123;
+<pre><code class="prettyprint">public class OracleDesUtil &#123;
     private OracleDesUtil() &#123;
     &#125;
     public static String DES_KEY_VALUE = &quot;QAZXSW!@#123654*&quot;;
@@ -489,9 +489,9 @@ end decrypt_des;
 
 &#125;
 </code></pre>
-<img src="/2022/04/19/oracle-han-shu-shi-xian-des-suan-fa/1650360699530.png" class="" width="1650360699530">
+<img src="/2022/04/19/oracle-han-shu-shi-xian-des-suan-fa/1650360699530.png" class="asset-class" width="1650360699530">
 
-<img src="/2022/04/19/oracle-han-shu-shi-xian-des-suan-fa/1650362060815.png" class="" width="1650362060815">
+<img src="/2022/04/19/oracle-han-shu-shi-xian-des-suan-fa/1650362060815.png" class="asset-class" width="1650362060815">
 
 <p>转载:<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/332e13a49b6b">Oracle DES加密、Java 解密</a></p>
 

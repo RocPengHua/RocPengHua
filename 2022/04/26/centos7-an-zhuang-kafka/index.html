@@ -374,37 +374,37 @@
       <section id="blog-content" class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
         <h4 id="download"><a href="#download" class="headerlink" title="download"></a>download</h4><p><a target="_blank" rel="noopener" href="https://kafka.apache.org/downloads">Apache Kafka</a></p>
 <p><a target="_blank" rel="noopener" href="https://dlcdn.apache.org/kafka/3.1.0/kafka_2.12-3.1.0.tgz"><strong>https://dlcdn.apache.org/kafka/3.1.0/kafka_2.12-3.1.0.tgz</strong></a></p>
-<h4 id="解压"><a href="#解压" class="headerlink" title="解压"></a>解压</h4><pre><code class="shell">tar -zxvf kafka_2.12-3.1.0.tgz -C /opt/module/
+<h4 id="解压"><a href="#解压" class="headerlink" title="解压"></a>解压</h4><pre><code class="prettyprint">tar -zxvf kafka_2.12-3.1.0.tgz -C /opt/module/
 </code></pre>
-<h4 id="修改配置"><a href="#修改配置" class="headerlink" title="修改配置"></a>修改配置</h4><pre><code class="shell">cd /opt/module/kafka/config
+<h4 id="修改配置"><a href="#修改配置" class="headerlink" title="修改配置"></a>修改配置</h4><pre><code class="prettyprint">cd /opt/module/kafka/config
 vim server.properties
 vim zookeeper.properties
 </code></pre>
-<h5 id="修改server-properties"><a href="#修改server-properties" class="headerlink" title="修改server.properties"></a>修改server.properties</h5><pre><code class="properties">#存储数据文件夹
+<h5 id="修改server-properties"><a href="#修改server-properties" class="headerlink" title="修改server.properties"></a>修改server.properties</h5><pre><code class="prettyprint">#存储数据文件夹
 log.dirs=/opt/module/kafka/datas
 #如果集群要修改broker.id数字不重复
 #broker.id=0
 #集群后面改成集群配置
 #zookeeper.connect=localhost:2181/kafka
 </code></pre>
-<h5 id="修改zookeeper-properties"><a href="#修改zookeeper-properties" class="headerlink" title="修改zookeeper.properties"></a>修改zookeeper.properties</h5><pre><code class="properties">#存储数据文件夹
+<h5 id="修改zookeeper-properties"><a href="#修改zookeeper-properties" class="headerlink" title="修改zookeeper.properties"></a>修改zookeeper.properties</h5><pre><code class="prettyprint">#存储数据文件夹
 dataDir=/opt/module/kafka/zookeeper
 </code></pre>
-<h4 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h4><pre><code class="shell">cd /opt/module/kafka/bin
+<h4 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h4><pre><code class="prettyprint">cd /opt/module/kafka/bin
 #先启动zookeeper
 ./zookeeper-server-start.sh ../config/zookeeper.properties
 </code></pre>
 <p>打开新的窗口启动kafka</p>
-<pre><code class="shell">cd /opt/module/kafka/bin
+<pre><code class="prettyprint">cd /opt/module/kafka/bin
 #先启动zookeeper
 ./kafkar-server-start.sh ../config/server.properties
 </code></pre>
 <h4 id="关闭"><a href="#关闭" class="headerlink" title="关闭"></a>关闭</h4><p>先关闭kafka再关闭zookeeper</p>
-<pre><code class="shell">cd /opt/module/kafka/bin
+<pre><code class="prettyprint">cd /opt/module/kafka/bin
 ./kafkar-server-stop.sh
 ./zookeeper-server-stop.sh
 </code></pre>
-<h4 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h4><h5 id="命令说明"><a href="#命令说明" class="headerlink" title="命令说明"></a>命令说明</h5><pre><code class="tex">--bootstrap-server &lt;String: server toconnect to&gt; 连接的 Kafka Broker 主机名称和端口号。
+<h4 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h4><h5 id="命令说明"><a href="#命令说明" class="headerlink" title="命令说明"></a>命令说明</h5><pre><code class="prettyprint">--bootstrap-server &lt;String: server toconnect to&gt; 连接的 Kafka Broker 主机名称和端口号。
 --topic &lt;String: topic&gt; 操作的 topic 名称。
 --create 创建主题。
 --delete 删除主题。
@@ -415,7 +415,7 @@ dataDir=/opt/module/kafka/zookeeper
 --replication-factor&lt;Integer: replication factor&gt; 设置分区副本。
 --config &lt;String: name=value&gt; 更新系统默认的配置。
 </code></pre>
-<h5 id="–create-–topic"><a href="#–create-–topic" class="headerlink" title="–create –topic"></a>–create –topic</h5><pre><code class="shell">cd /opt/module/kafka/bin
+<h5 id="–create-–topic"><a href="#–create-–topic" class="headerlink" title="–create –topic"></a>–create –topic</h5><pre><code class="prettyprint">cd /opt/module/kafka/bin
 #集群需要设置分区
 ./kafka-topics.sh --create --topic first --bootstrap-server localhost:9092
 </code></pre>

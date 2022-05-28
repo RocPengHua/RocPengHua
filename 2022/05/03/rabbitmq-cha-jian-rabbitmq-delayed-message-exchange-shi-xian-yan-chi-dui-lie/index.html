@@ -374,23 +374,23 @@
       <section id="blog-content" class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
         <ul>
 <li><p>在使用死信队列实现延迟队列效果时，RabbitMQ 只会检查第一个消息是否过期，如果过期则丢到死信队列， 如果第一个消息的延时时长很长，而第二个消息的延时时长很短，第二个消息并不会优先得到执行</p>
-<img src="/2022/05/03/rabbitmq-cha-jian-rabbitmq-delayed-message-exchange-shi-xian-yan-chi-dui-lie/image-20220503194822388.png" class="" title="image-20220503194822388"></li>
+<img src="/2022/05/03/rabbitmq-cha-jian-rabbitmq-delayed-message-exchange-shi-xian-yan-chi-dui-lie/image-20220503194822388.png" class="asset-class" title="image-20220503194822388"></li>
 </ul>
 <h4 id="download"><a href="#download" class="headerlink" title="download"></a>download</h4><h5 id="插件下载"><a href="#插件下载" class="headerlink" title="插件下载"></a>插件下载</h5><ul>
 <li><a target="_blank" rel="noopener" href="https://www.rabbitmq.com/community-plugins.html">https://www.rabbitmq.com/community-plugins.html</a></li>
 </ul>
- <img src="/2022/05/03/rabbitmq-cha-jian-rabbitmq-delayed-message-exchange-shi-xian-yan-chi-dui-lie/image-20220503193505947.png" class="" title="image-20220503193505947">
+ <img src="/2022/05/03/rabbitmq-cha-jian-rabbitmq-delayed-message-exchange-shi-xian-yan-chi-dui-lie/image-20220503193505947.png" class="asset-class" title="image-20220503193505947">
 
-<img src="/2022/05/03/rabbitmq-cha-jian-rabbitmq-delayed-message-exchange-shi-xian-yan-chi-dui-lie/image-20220503193710704.png" class="" title="image-20220503193710704">
+<img src="/2022/05/03/rabbitmq-cha-jian-rabbitmq-delayed-message-exchange-shi-xian-yan-chi-dui-lie/image-20220503193710704.png" class="asset-class" title="image-20220503193710704">
 
-<h5 id="插件安装"><a href="#插件安装" class="headerlink" title="插件安装"></a>插件安装</h5><pre><code class="shell">#上传插件到 /usr/lib/rabbitmq/lib/rabbitmq_server-3.9.16/plugins
+<h5 id="插件安装"><a href="#插件安装" class="headerlink" title="插件安装"></a>插件安装</h5><pre><code class="prettyprint">#上传插件到 /usr/lib/rabbitmq/lib/rabbitmq_server-3.9.16/plugins
 rabbitmq-plugins enable rabbitmq_delayed_message_exchange
 systemctl restart rabbitmq-server
 </code></pre>
 <h5 id="验证成功"><a href="#验证成功" class="headerlink" title="验证成功"></a>验证成功</h5><p>查看Exchanges的选择类型是否存在<code>x-delayed-message</code></p>
-<img src="/2022/05/03/rabbitmq-cha-jian-rabbitmq-delayed-message-exchange-shi-xian-yan-chi-dui-lie/image-20220503194138103.png" class="" title="image-20220503194138103">
+<img src="/2022/05/03/rabbitmq-cha-jian-rabbitmq-delayed-message-exchange-shi-xian-yan-chi-dui-lie/image-20220503194138103.png" class="asset-class" title="image-20220503194138103">
 
-<h4 id="延迟队列使用"><a href="#延迟队列使用" class="headerlink" title="延迟队列使用"></a>延迟队列使用</h4><h5 id="配置类"><a href="#配置类" class="headerlink" title="配置类"></a>配置类</h5><pre><code class="java">package com.rocpenghua.rabbitmq.springbootrabbitmq.config;
+<h4 id="延迟队列使用"><a href="#延迟队列使用" class="headerlink" title="延迟队列使用"></a>延迟队列使用</h4><h5 id="配置类"><a href="#配置类" class="headerlink" title="配置类"></a>配置类</h5><pre><code class="prettyprint">package com.rocpenghua.rabbitmq.springbootrabbitmq.config;
 
 import org.springframework.amqp.core.*;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -455,7 +455,7 @@ public class DelayedQueueConfig &#123;
     &#125;
 &#125;
 </code></pre>
-<h5 id="生产者"><a href="#生产者" class="headerlink" title="生产者"></a>生产者</h5><pre><code class="java">package com.rocpenghua.rabbitmq.springbootrabbitmq.consumer;
+<h5 id="生产者"><a href="#生产者" class="headerlink" title="生产者"></a>生产者</h5><pre><code class="prettyprint">package com.rocpenghua.rabbitmq.springbootrabbitmq.consumer;
 
 import com.rabbitmq.client.Channel;
 import com.rocpenghua.rabbitmq.springbootrabbitmq.config.DelayedQueueConfig;
@@ -485,7 +485,7 @@ public class DelayQueueConsumer &#123;
     &#125;
 &#125;
 </code></pre>
-<h5 id="消费者"><a href="#消费者" class="headerlink" title="消费者"></a>消费者</h5><pre><code class="java">package com.rocpenghua.rabbitmq.springbootrabbitmq.consumer;
+<h5 id="消费者"><a href="#消费者" class="headerlink" title="消费者"></a>消费者</h5><pre><code class="prettyprint">package com.rocpenghua.rabbitmq.springbootrabbitmq.consumer;
 
 import com.rabbitmq.client.Channel;
 import com.rocpenghua.rabbitmq.springbootrabbitmq.config.DelayedQueueConfig;
@@ -515,7 +515,7 @@ public class DelayQueueConsumer &#123;
     &#125;
 &#125;
 </code></pre>
-<h5 id="结果"><a href="#结果" class="headerlink" title="结果"></a>结果</h5><img src="/2022/05/03/rabbitmq-cha-jian-rabbitmq-delayed-message-exchange-shi-xian-yan-chi-dui-lie/image-20220503194656205.png" class="" title="image-20220503194656205">
+<h5 id="结果"><a href="#结果" class="headerlink" title="结果"></a>结果</h5><img src="/2022/05/03/rabbitmq-cha-jian-rabbitmq-delayed-message-exchange-shi-xian-yan-chi-dui-lie/image-20220503194656205.png" class="asset-class" title="image-20220503194656205">
 
       </section>
 

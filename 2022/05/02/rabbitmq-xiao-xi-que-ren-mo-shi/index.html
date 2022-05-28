@@ -386,7 +386,7 @@
 </ul>
 </li>
 </ul>
-<h4 id="创建信道"><a href="#创建信道" class="headerlink" title="创建信道"></a>创建信道</h4><pre><code class="java">package com.rocpenghua.rabbitmq.utils;
+<h4 id="创建信道"><a href="#创建信道" class="headerlink" title="创建信道"></a>创建信道</h4><pre><code class="prettyprint">package com.rocpenghua.rabbitmq.utils;
 
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
@@ -416,7 +416,7 @@ public class RabbitmqUtils &#123;
     &#125;
 &#125;
 </code></pre>
-<h4 id="单个确认"><a href="#单个确认" class="headerlink" title="单个确认"></a>单个确认</h4><pre><code class="java">public static void publishMessageIndividually() throws IOException, TimeoutException, InterruptedException &#123;
+<h4 id="单个确认"><a href="#单个确认" class="headerlink" title="单个确认"></a>单个确认</h4><pre><code class="prettyprint">public static void publishMessageIndividually() throws IOException, TimeoutException, InterruptedException &#123;
     Channel channel = RabbitmqUtils.getChannel();
     //队列声明
     String queueName = UUID.randomUUID().toString();
@@ -443,7 +443,7 @@ public class RabbitmqUtils &#123;
 
 &#125;
 </code></pre>
-<h4 id="批量确认"><a href="#批量确认" class="headerlink" title="批量确认"></a>批量确认</h4><pre><code class="java">public static void publishMessageBatch() throws IOException, TimeoutException, InterruptedException &#123;
+<h4 id="批量确认"><a href="#批量确认" class="headerlink" title="批量确认"></a>批量确认</h4><pre><code class="prettyprint">public static void publishMessageBatch() throws IOException, TimeoutException, InterruptedException &#123;
     Channel channel = RabbitmqUtils.getChannel();
     //队列声明
     String queueName = UUID.randomUUID().toString();
@@ -471,7 +471,7 @@ public class RabbitmqUtils &#123;
     System.out.println(&quot;发布&quot; + MESSAGE_COUNT + &quot;个批量确认消息，耗时&quot; + (end - start) + &quot;ms&quot;);
 &#125;
 </code></pre>
-<h4 id="异步批量确认"><a href="#异步批量确认" class="headerlink" title="异步批量确认"></a>异步批量确认</h4><pre><code class="java">public static void publishMessageAsync() throws IOException, TimeoutException &#123;
+<h4 id="异步批量确认"><a href="#异步批量确认" class="headerlink" title="异步批量确认"></a>异步批量确认</h4><pre><code class="prettyprint">public static void publishMessageAsync() throws IOException, TimeoutException &#123;
     Channel channel = RabbitmqUtils.getChannel();
     //队列声明
     String queueName = UUID.randomUUID().toString();

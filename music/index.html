@@ -299,38 +299,8 @@
 
 <div class="body-container">
   <article class="content-container layout-block post-container">
-    <div class="article-info">
-        <!-- 网易云音乐插件 -->
-        
-			<!-- require APlayer -->
-			<link rel="stylesheet" href="/lib/aplayer/APlayer.min.css">
-  			<script type="text/javascript" src="/lib/aplayer/APlayer.min.js"></script>
-			<!-- require MetingJS -->
-			<script src="/lib/Meting.js"></script>
-
-			<meting-js style="margin-top: 1.5rem;width: auto;height: auto"
-			  server="netease"
-			  type="playlist"
-			  id="3778678"
-			  order= "random"
-			  theme="#ad7a86"
-			  loop="all"
-			  autoplay="true"
-			  storageName="aplayer-setting"
-			  hideLrc= "false"
-			  list-max-height="800px"
-			  >
-			  </meting-js>
-			  <style>
-			      .aplayer{
-			          margin: 1.5rem 0;
-			      }              
-			  </style>
-
-        
-        </div>
-    <div class="widget-info">
-      <section class="widget-author widget-item layout-margin content-padding--primary soft-size--large soft-style--box">
+   	<div class="widget-info">
+        <section class="widget-author widget-item layout-margin content-padding--primary soft-size--large soft-style--box">
   <div class="widget-body">
     
       <img src="/images/p.jpg" class="soft-size--round soft-style--box" alt="RocPengHua">
@@ -364,7 +334,39 @@
     </div>
   </div>
 </section>
+    </div>
+    <div class="article-info">
+        <!-- 网易云音乐插件 -->
+        
+			<!-- require APlayer -->
+			<link rel="stylesheet" href="/lib/aplayer/APlayer.min.css">
+  			<script type="text/javascript" src="/lib/aplayer/APlayer.min.js"></script>
+			<!-- require MetingJS -->
+			<script src="/lib/Meting.js"></script>
 
+			<meting-js style="margin-top: 1.5rem;width: auto;height: auto"
+			  server="netease"
+			  type="playlist"
+			  id="3778678"
+			  order= "random"
+			  theme="#ad7a86"
+			  loop="all"
+			  autoplay="true"
+			  storageName="aplayer-setting"
+			  hideLrc= "false"
+			  list-max-height="800px"
+			  >
+			  </meting-js>
+			  <style>
+			      .aplayer{
+			          margin: 1.5rem 0;
+			      }              
+			  </style>
+
+        
+        </div>
+    <div class="widget-info">
+    
       
 <section class="widet-notice widget-item layout-margin content-padding--primary soft-size--large soft-style--box">
   <div class="widget-title">
@@ -609,7 +611,7 @@
 	    preload: 'none',
 	    theme: '#ffa500',
 	    autoplay: false,
-	    audio: JSON.parse(result)
+	    audio: result
 	  });
 	});
 

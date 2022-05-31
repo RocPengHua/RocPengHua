@@ -360,7 +360,11 @@
     </div>
   </div>
 </section>
-    
+      <section class="widget-author widget-item layout-margin content-padding--primary soft-size--large soft-style--box">
+  <div class="widget-body">
+	<div id="calendar"></div>
+  </div>
+</section>
       
 <section class="widget-toc widget-item layout-margin content-padding--primary soft-size--large soft-style--box">
   <div class="widget-title">
@@ -720,11 +724,31 @@ redis-server /etc/redis/redis.conf：这个是关键配置，让redis不是无�
 
 
   
-  <!-- 尾部用户自定义相关内容 -->
-<div id="aplayer"></div>
-<link rel="stylesheet" href="/lib/aplayer/APlayer.min.css">
+  <link rel="stylesheet" href="/lib/aplayer/APlayer.min.css">
 <script type="text/javascript" src="/lib/aplayer/APlayer.min.js"></script>
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<!-- Calendar -->
+
+    <script src="/js/calendar.js"></script>
+    <script src="/js/languages.js"></script>
+    <script type="text/javascript">
+        $(function() {
+            $('#calendar').aCalendar(
+                'zh-CN',
+                {single:true, root:'calendar/'}
+            );
+            // 下面的代码用于页面测试，可以不添加
+            
+                $('#calendar-sample').aCalendar(
+                    'zh-CN',
+                    {single:true, root:'calendar/'}
+                );
+            
+        });
+    </script>
+
+<!-- 尾部用户自定义相关内容 -->
+<div id="aplayer"></div>
 <script type="text/javascript">
 
 	/*获取音乐*/

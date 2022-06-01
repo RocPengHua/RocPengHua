@@ -278,6 +278,13 @@
 </nav>
 
   
+  <span class="local-search local-search-google local-search-plugin" style="left: 40%;top: 0px;;position:absolute;z-index:2;">
+      <input type="search" placeholder="小鹏驿站" id="local-search-input" class="local-search-input-cls" style="">
+      <div id="local-search-result" class="local-search-result-cls"></div>
+  </span>
+
+
+  
   
 
   
@@ -496,6 +503,21 @@
   
 
 
+  <!-- Baidu Analytics START -->
+  <script>
+    var _hmt = _hmt || [];
+    (function () {
+      if (window.location.hostname === "localhost" || window.location.hostname.startsWith("192.168")) {
+        return console.log("本地调试");
+      }
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?true";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+  <!-- Baidu Analytics End -->
+
   
 
 
@@ -508,6 +530,9 @@
   <link rel="stylesheet" href="/lib/aplayer/APlayer.min.css">
 <script type="text/javascript" src="/lib/aplayer/APlayer.min.js"></script>
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="/js/load.js"></script>
+<script src="/js/search.js"></script>
+
 <!-- Calendar -->
 
     <script src="/js/calendar.js"></script>

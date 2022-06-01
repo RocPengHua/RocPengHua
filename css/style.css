@@ -5155,7 +5155,7 @@ html.show-mobile-nav .navbar-list {
 }
 .content-container.post-container .widget-info .widget-toc {
   overflow: auto;
-  max-height: 700px;
+  max-height: 600px;
 }
 .content-container.post-container .widget-info .widget-toc .widget-body ol:not(:first-child) {
   padding-left: 20px;

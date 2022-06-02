@@ -393,40 +393,41 @@
       <section id="blog-content" class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
         <p>一、类注释</p>
 <ul>
-<li>打开<code>serrings --&gt; Editor --&gt; File and Code Template</code>点击右边的Class,添加注释<br>&#96;&#96;&#96;prettyprint<br>&#x2F;**</li>
+<li>打开<code>serrings --&gt; Editor --&gt; File and Code Template</code>点击右边的Class,添加注释</li>
 </ul>
-<ul>
-<li>@author jitwxs</li>
-<li>@date ${YEAR}年${MONTH}月${DAY}日 ${TIME}</li>
-</ul>
-<p> *&#x2F;</p>
-<pre><code>二、方法注释
-- 打开`serrings --&gt; Editor --&gt; Live Template`
-- 先新增Template group（如：define）
-- 选中新增的group(如：define)
-- 修改该模板的 Abbreviation、Description 和 Template text
-    Abbreviation：*
-    Description :方法注释
-    Template text：
+<pre><code class="prettyprint">/**
+ * @author jitwxs
+ * @date $&#123;YEAR&#125;年$&#123;MONTH&#125;月$&#123;DAY&#125;日 $&#123;TIME&#125;
+ */
 </code></pre>
+<p>二、方法注释</p>
 <ul>
-<li><ul>
-<li>@Description </li>
-<li>@Author pengp</li>
-<li>@Date $date$ $time$$param$ $return$</li>
-</ul>
-<p>*&#x2F;<br>&#96;&#96;&#96;</p>
+<li><p>打开<code>serrings --&gt; Editor --&gt; Live Template</code></p>
+</li>
+<li><p>先新增Template group（如：define）</p>
+</li>
+<li><p>选中新增的group(如：define)</p>
+</li>
+<li><p>修改该模板的 Abbreviation、Description 和 Template text<br>  Abbreviation：*<br>  Description :方法注释<br>  Template text：</p>
 </li>
 </ul>
+<pre><code class="prettyprint">/**
+ * @Description 
+ * @Author pengp
+ * @Date $date$ $time$$param$ $return$
+ */
+</code></pre>
 <ul>
-<li>选择No applicable contexts yet(Define)，选择java</li>
-<li>点击 Edit variables 配置自定义参数<code>$date$ $time$$param$ $return$</code><pre><code>date：date()
+<li><p>选择No applicable contexts yet(Define)，选择java</p>
+</li>
+<li><p>点击 Edit variables 配置自定义参数<code>$date$ $time$$param$ $return$</code></p>
+</li>
+</ul>
+<pre><code class="prettyprint">date：date()
 time：time()
 param：groovyScript(&quot;def result = &#39;&#39;;def params = \&quot;$&#123;_1&#125;\&quot;.replaceAll(&#39;[\\\\[|\\\\]|\\\\s]&#39;, &#39;&#39;).split(&#39;,&#39;).toList(); for(i = 0; i &lt; params.size(); i++) &#123;if(params[i] != &#39;&#39;)result+=&#39;* @param &#39; + params[i] + ((i &lt; params.size() - 1) ? &#39;\\r\\n &#39; : &#39;&#39;)&#125;; return result == &#39;&#39; ? null : &#39;\\r\\n &#39; + result&quot;, methodParameters())
 return：groovyScript(&quot;return \&quot;$&#123;_1&#125;\&quot; == &#39;void&#39; ? null : &#39;\\r\\n * @return &#39; + \&quot;$&#123;_1&#125;\&quot;&quot;, methodReturnType())
 </code></pre>
-</li>
-</ul>
 
       </section>
 

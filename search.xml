@@ -12566,4 +12566,223 @@ index = hash % array_size
         <tag>索引</tag>
       </tags>
   </entry>
+  <entry>
+    <title>雪花算法（SnowFlake）</title>
+    <url>/2022/06/03/xue-hua-suan-fa-snowflake/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><blockquote>
+<p>SnowFlake算法生成id的结果是一个64bit大小的整数，它的结构如下图：</p>
+</blockquote>
+<img src="/2022/06/03/xue-hua-suan-fa-snowflake/webp.webp" class="asset-class" title="img">
+
+<ul>
+<li><p>1bit，不用，因为二进制中最高位是符号位，1表示负数，0表示正数。生成的id一般都是用整数，所以最高位固定为0。</p>
+</li>
+<li><p>41bit时间戳，毫秒级。可以表示的数值范围是 （2^41-1），转换成单位年则是69年。</p>
+</li>
+<li><p>10bit工作机器ID，用来表示工作机器的ID，包括5位<code>datacenterId</code>(机房id)和5位<code>workerId</code>(机器id)。</p>
+</li>
+<li><p>12bit序列号，用来记录同毫秒内产生的不同id，12位可以表示的最大整数为4095，来表示同一机器同一时间截（毫秒)内产生的4095个ID序号。</p>
+</li>
+</ul>
+<blockquote>
+<p>由于在Java中64bit的整数是long类型，所以在Java中SnowFlake算法生成的id就是long来存储的。</p>
+</blockquote>
+<h3 id="算法实现"><a href="#算法实现" class="headerlink" title="算法实现"></a>算法实现</h3><pre><code class="prettyprint">package dataStructure;
+
+/**
+ * @author RocPengHua
+ * @program algorithmic-problems
+ * @description 雪花算法
+ * @date 2022年06月03日 20:46
+ */
+
+public class IdWorker &#123;
+
+    //因为二进制里第一个 bit 为如果是 1，那么都是负数，但是我们生成的 id 都是正数，所以第一个 bit 统一都是 0。
+
+    /**
+     * 机器ID  2进制5位  32位减掉1位 31个
+     */
+    private long workerId;
+    /**
+     * 机房ID 2进制5位  32位减掉1位 31个
+     */
+    private long datacenterId;
+
+    /**
+     * 代表一毫秒内生成的多个id的最新序号  12位 4096 -1 = 4095 个
+     */
+    private long sequence;
+    /**
+     * 设置一个时间初始值    2^41 - 1   差不多可以用69年
+     */
+    private long twepoch = 1585644268888L;
+    /**
+     * 5位的机器id
+     */
+    private long workerIdBits = 5L;
+    /**
+     * 5位的机房id
+     */
+    private long datacenterIdBits = 5L;
+    /**
+     * 每毫秒内产生的id数 2 的 12次方
+     */
+    private long sequenceBits = 12L;
+    /**
+     * 这个是二进制运算，就是5 bit最多只能有31个数字，也就是说机器id最多只能是32以内
+     * -1L ^ (-1L &lt;&lt; workerIdBits);
+     */
+    private long maxWorkerId = ~(-1L &lt;&lt; workerIdBits);
+    /**
+     * 这个是一个意思，就是5 bit最多只能有31个数字，机房id最多只能是32以内
+     * -1L ^ (-1L &lt;&lt; datacenterIdBits);
+     */
+    private long maxDatacenterId = ~(-1L &lt;&lt; datacenterIdBits);
+
+    private long workerIdShift = sequenceBits;
+    private long datacenterIdShift = sequenceBits + workerIdBits;
+    private long timestampLeftShift = sequenceBits + workerIdBits + datacenterIdBits;
+    /**
+     * -1L ^ (-1L &lt;&lt; sequenceBits);
+     */
+    private long sequenceMask = ~(-1L &lt;&lt; sequenceBits);
+    /**
+     * 记录产生时间毫秒数，判断是否是同1毫秒
+     */
+    private long lastTimestamp = -1L;
+
+    public long getWorkerId() &#123;
+        return workerId;
+    &#125;
+
+    public long getDatacenterId() &#123;
+        return datacenterId;
+    &#125;
+
+    public long getTimestamp() &#123;
+        return System.currentTimeMillis();
+    &#125;
+
+
+    public IdWorker(long workerId, long datacenterId, long sequence) &#123;
+
+        // 检查机房id和机器id是否超过31 不能小于0
+        if (workerId &gt; maxWorkerId || workerId &lt; 0) &#123;
+            throw new IllegalArgumentException(
+                    String.format(&quot;worker Id can&#39;t be greater than %d or less than 0&quot;, maxWorkerId));
+        &#125;
+
+        if (datacenterId &gt; maxDatacenterId || datacenterId &lt; 0) &#123;
+
+            throw new IllegalArgumentException(
+                    String.format(&quot;datacenter Id can&#39;t be greater than %d or less than 0&quot;, maxDatacenterId));
+        &#125;
+        this.workerId = workerId;
+        this.datacenterId = datacenterId;
+        this.sequence = sequence;
+    &#125;
+
+    // 这个是核心方法，通过调用nextId()方法，让当前这台机器上的snowflake算法程序生成一个全局唯一的id
+    public synchronized long nextId() &#123;
+        // 这儿就是获取当前时间戳，单位是毫秒
+        long timestamp = timeGen();
+        if (timestamp &lt; lastTimestamp) &#123;
+
+            System.err.printf(
+                    &quot;clock is moving backwards. Rejecting requests until %d.&quot;, lastTimestamp);
+            throw new RuntimeException(
+                    String.format(&quot;Clock moved backwards. Refusing to generate id for %d milliseconds&quot;,
+                            lastTimestamp - timestamp));
+        &#125;
+
+        // 下面是说假设在同一个毫秒内，又发送了一个请求生成一个id
+        // 这个时候就得把seqence序号给递增1，最多就是4096
+        if (lastTimestamp == timestamp) &#123;
+
+            // 这个意思是说一个毫秒内最多只能有4096个数字，无论你传递多少进来，
+            //这个位运算保证始终就是在4096这个范围内，避免你自己传递个sequence超过了4096这个范围
+            sequence = (sequence + 1) &amp; sequenceMask;
+            //当某一毫秒的时间，产生的id数 超过4095，系统会进入等待，直到下一毫秒，系统继续产生ID
+            if (sequence == 0) &#123;
+                timestamp = tilNextMillis(lastTimestamp);
+            &#125;
+
+        &#125; else &#123;
+            sequence = 0;
+        &#125;
+        // 这儿记录一下最近一次生成id的时间戳，单位是毫秒
+        lastTimestamp = timestamp;
+        // 这儿就是最核心的二进制位运算操作，生成一个64bit的id
+        // 先将当前时间戳左移，放到41 bit那儿；将机房id左移放到5 bit那儿；将机器id左移放到5 bit那儿；将序号放最后12 bit
+        // 最后拼接起来成一个64 bit的二进制数字，转换成10进制就是个long型
+        return ((timestamp - twepoch) &lt;&lt; timestampLeftShift) |
+                (datacenterId &lt;&lt; datacenterIdShift) |
+                (workerId &lt;&lt; workerIdShift) | sequence;
+    &#125;
+
+    /**
+     * 当某一毫秒的时间，产生的id数 超过4095，系统会进入等待，直到下一毫秒，系统继续产生ID
+     *
+     * @param lastTimestamp
+     * @return
+     */
+    private long tilNextMillis(long lastTimestamp) &#123;
+
+        long timestamp = timeGen();
+
+        while (timestamp &lt;= lastTimestamp) &#123;
+            timestamp = timeGen();
+        &#125;
+        return timestamp;
+    &#125;
+
+    //获取当前时间戳
+    private long timeGen() &#123;
+        return System.currentTimeMillis();
+    &#125;
+
+    /**
+     * main 测试类
+     *
+     * @param args
+     */
+    public static void main(String[] args) &#123;
+        System.out.println(1 &amp; 4596);
+        System.out.println(2 &amp; 4596);
+        System.out.println(6 &amp; 4596);
+        System.out.println(6 &amp; 4596);
+        System.out.println(6 &amp; 4596);
+        System.out.println(6 &amp; 4596);
+        IdWorker worker = new IdWorker(1, 1, 1);
+        for (int i = 0; i &lt; 22; i++) &#123;
+            System.out.println(worker.nextId());
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+<blockquote>
+<p>SnowFlake算法的优点：</p>
+</blockquote>
+<ul>
+<li><p>高性能高可用：生成时不依赖于数据库，完全在内存中生成。</p>
+</li>
+<li><p>容量大：每秒中能生成数百万的自增ID。</p>
+</li>
+<li><p>ID自增：存入数据库中，索引效率高。</p>
+</li>
+</ul>
+<blockquote>
+<p> SnowFlake算法的缺点：</p>
+</blockquote>
+<p>依赖与系统时间的一致性，如果系统时间被回调，或者改变，可能会造成id冲突或者重复。</p>
+<p>实际中我们的机房并没有那么多，我们可以改进改算法，将10bit的机器id优化，成业务表或者和我们系统相关的业务。</p>
+<h3 id="注意点："><a href="#注意点：" class="headerlink" title="注意点："></a>注意点：</h3><p>雪花算法产生的长整数的精度可能超过javascript能表达的精度，这会导致js获取的id与雪花算法算出来的id不一致，如雪花算法得到的是36594866121080832，但是因为javascript丢失精度后只获取到36594866121080830， 这会导致对数据的所有操作都失效。</p>
+<p>解决办法：后端的语言获取到雪花算法的id后将其转换为String类型，这样js也会当做字符串来处理，就不会丢失精度了。</p>
+<p>链接：<a href="http://events.jianshu.io/p/5769966ff5fc">http://events.jianshu.io/p/5769966ff5fc</a></p>
+]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+  </entry>
 </search>

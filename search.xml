@@ -12785,4 +12785,156 @@ public class IdWorker &#123;
         <category>算法</category>
       </categories>
   </entry>
+  <entry>
+    <title>win10安装两个mysql</title>
+    <url>/2022/06/03/win10-an-zhuang-liang-ge-mysql/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h3 id="下载地址"><a href="#下载地址" class="headerlink" title="下载地址"></a>下载地址</h3><p><a href="https://downloads.mysql.com/archives/community/">MySQL :: Download MySQL Community Server (Archived Versions)</a></p>
+<blockquote>
+<p>下载免安装版本，解压至两个文件夹</p>
+</blockquote>
+<ul>
+<li><p>mysql-8.0.11-winx64-1</p>
+</li>
+<li><p>mysql-8.0.11-winx64-2</p>
+</li>
+</ul>
+<blockquote>
+<p>分别在两个文件夹下新建<code>my.ini</code>文件</p>
+</blockquote>
+<ul>
+<li>mysql-8.0.11-winx64-1&#x2F;my.ini</li>
+</ul>
+<pre><code class="prettyprint">[mysql]
+# 设置mysql客户端默认字符集
+default-character-set=utf8mb4
+#---------分割线----------
+[mysqld]
+# 设置3306端口
+port=3306
+# 设置mysql的安装目录
+basedir=E:\\tools\\database\\mysql-8.0.11-winx64-1
+# 设置mysql数据库的数据的存放目录
+datadir=E:\\tools\\database\\mysql-8.0.11-winx64-1\\data
+# 允许最大连接数
+max_connections=200
+# 允许连接失败的次数。这是为了防止有人从该主机试图攻击数据库系统
+max_connect_errors=10
+# 服务端使用的字符集默认为 UTF8 More Byte 4
+character-set-server=utf8mb4
+# 创建新表时将使用的默认存储引擎
+default-storage-engine=INNODB
+# 默认使用“mysql_native_password”插件认证
+default_authentication_plugin=mysql_native_password
+#不区分大小写
+lower_case_table_names = 1
+#数据库过大导入问题
+max_allowed_packet=500M
+wait_timeout=288000
+interactive_timeout = 288000
+#---------分割线----------
+[client]
+# 设置mysql客户端连接服务端时默认使用的端口
+port=3306
+default-character-set=utf8mb4
+</code></pre>
+<ul>
+<li>mysql-8.0.11-winx64-2&#x2F;my.ini</li>
+</ul>
+<pre><code class="prettyprint">[mysql]
+# 设置mysql客户端默认字符集
+default-character-set=utf8mb4
+#---------分割线----------
+[mysqld]
+# 设置3306端口
+port=3316
+# 设置mysql的安装目录
+basedir=E:\\tools\\database\\mysql-8.0.11-winx64-2
+# 设置mysql数据库的数据的存放目录
+datadir=E:\\tools\\database\\mysql-8.0.11-winx64-2\\data
+# 允许最大连接数
+max_connections=200
+# 允许连接失败的次数。这是为了防止有人从该主机试图攻击数据库系统
+max_connect_errors=10
+# 服务端使用的字符集默认为 UTF8 More Byte 4
+character-set-server=utf8mb4
+# 创建新表时将使用的默认存储引擎
+default-storage-engine=INNODB
+# 默认使用“mysql_native_password”插件认证
+default_authentication_plugin=mysql_native_password
+#不区分大小写
+lower_case_table_names = 1
+#数据库过大导入问题
+max_allowed_packet=500M
+wait_timeout=288000
+interactive_timeout = 288000
+#---------分割线----------
+[client]
+# 设置mysql客户端连接服务端时默认使用的端口
+port=3316
+default-character-set=utf8mb4
+</code></pre>
+<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><p>使用管理员身份打开cmd</p>
+<p>进入到mysql免安装bin目录下</p>
+<h4 id="无密码模式"><a href="#无密码模式" class="headerlink" title="无密码模式"></a>无密码模式</h4><ul>
+<li>在mysql-1下执行脚本</li>
+</ul>
+<pre><code class="prettyprint">mysqld install mysql1
+mysqld --initialize-insecure --console
+net start mysql1
+#如有安装失败需要先删除data文件夹再安装
+#进入mysql
+mysql -uroot
+</code></pre>
+<ul>
+<li>在mysql-1下执行脚本</li>
+</ul>
+<pre><code class="prettyprint">mysqld install mysql2
+mysqld --initialize-insecure --console
+net start mysql2
+#如有安装失败需要先删除data文件夹再安装
+#进入mysql
+mysql -P3316 -uroot
+</code></pre>
+<h4 id="带密码安装"><a href="#带密码安装" class="headerlink" title="带密码安装"></a>带密码安装</h4><ul>
+<li>在mysql-1下执行脚本</li>
+</ul>
+<pre><code class="prettyprint">mysqld install mysql1
+#默认root，user可以不用指定，打印密码需要记住
+mysqld --initialize --user=root --console
+net start mysql1
+#如有安装失败需要先删除data文件夹再安装
+#进入mysql
+mysql -uroot -p
+#输入密码
+**************
+ALTER USER &#39;root&#39;@&#39;localhost&#39; IDENTIFIED WITH mysql_native_password BY &#39;root&#39;;
+create user &#39;root&#39;@&#39;%&#39; identified with mysql_native_password by &#39;root&#39;;
+grant all privileges on *.* to &#39;root&#39;@&#39;%&#39; with grant option;
+flush privileges;
+</code></pre>
+<ul>
+<li>在mysql-1下执行脚本</li>
+</ul>
+<pre><code class="prettyprint">mysqld install mysql2
+#默认root，user可以不用指定，打印密码需要记住
+mysqld --initialize --user=root --console
+net start mysql2
+#如有安装失败需要先删除data文件夹再安装
+#进入mysql
+mysql -uroot -p
+#输入密码
+**************
+ALTER USER &#39;root&#39;@&#39;localhost&#39; IDENTIFIED WITH mysql_native_password BY &#39;root&#39;;
+create user &#39;root&#39;@&#39;%&#39; identified with mysql_native_password by &#39;root&#39;;
+grant all privileges on *.* to &#39;root&#39;@&#39;%&#39; with grant option;
+flush privileges;
+</code></pre>
+]]></content>
+      <categories>
+        <category>软件</category>
+      </categories>
+      <tags>
+        <tag>mysql</tag>
+      </tags>
+  </entry>
 </search>

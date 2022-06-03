@@ -5191,7 +5191,7 @@ html.show-mobile-nav .navbar-list {
 }
 .cal tbody a {
   background-color: #258fb8;
-  color: #fff;
+  color: var(--theme-text-primary);
   display: block;
   font-weight: 700;
 }
@@ -5218,13 +5218,13 @@ html.show-mobile-nav .navbar-list {
 .cal .cal-foot:hover,
 .cal .cal-foot:focus {
   background-color: #258fb8;
-  color: #fff;
+  color: var(--theme-text-primary);
   cursor: pointer;
 }
 .cal tbody a:hover,
 .cal tbody a:focus {
   background-color: #ea6753;
-  color: #fff;
+  color: var(--theme-text-primary);
   cursor: pointer;
 }
 .local-search {

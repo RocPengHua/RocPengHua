@@ -5133,20 +5133,20 @@ html.show-mobile-nav .navbar-list {
   height: 10px;
   padding: 3px 4px;
   border: 1px solid transparent;
-  color: #333;
+  color: var(--theme-text-stress);
   outline: 0;
 }
 .cal-prev {
   left: 8px;
 }
 .cal-prev:before {
-  border-right: 9px solid #333;
+  border-right: 9px solid var(--theme-text-stress);
 }
 .cal-next {
   right: 8px;
 }
 .cal-next:before {
-  border-left: 9px solid #333;
+  border-left: 9px solid var(--theme-text-stress);
 }
 .cal-prev:before,
 .cal-next:before {
@@ -5160,18 +5160,19 @@ html.show-mobile-nav .navbar-list {
 .cal-title {
   width: 120px;
   margin: 0 auto;
-  color: #333;
+  color: var(--theme-text-stress);
   font: bold 14px/18px Arial;
   text-align: center;
 }
 .cal-title a {
   border: 1px solid transparent;
-  color: #258fb8;
+  color: var(--theme-text-primary);
 }
 .cal,
 .cal th,
 .cal td {
-  border: 1px solid #eee;
+  border: 1px solid var(--theme-bg-shadow);
+  box-shadow: var(--soft-shadow) var(--soft-shadow) calc(var(--soft-shadow) * 1) var(--theme-bg-shadow), calc(-1 * var(--soft-shadow)) calc(-1 * var(--soft-shadow)) calc(var(--soft-shadow) * 1) var(--theme-bg-high);
 }
 .cal {
   border-collapse: separate;
@@ -5182,7 +5183,7 @@ html.show-mobile-nav .navbar-list {
   margin: 0;
 }
 .cal th {
-  color: #258fb8;
+  color: var(--theme-text-primary);
   border-width: 0 1px 1px 0;
   font-weight: 700;
 }
@@ -5190,17 +5191,17 @@ html.show-mobile-nav .navbar-list {
   border-width: 0 1px 1px 0;
 }
 .cal tbody a {
-  background-color: #258fb8;
+  background-color: #eff2f5;
   color: var(--theme-text-primary);
   display: block;
   font-weight: 700;
 }
 .cal tbody .cal-today {
-  color: #258fb8;
+  color: var(--theme-text-primary);
   font-weight: bold;
 }
 .cal .cal-gray {
-  color: #ddd;
+  color: var(--theme-text-stress);
 }
 .cal th,
 .cal td {
@@ -5210,20 +5211,20 @@ html.show-mobile-nav .navbar-list {
   text-align: center;
 }
 .cal .cal-foot {
-  color: #258fb8;
+  color: var(--theme-text-primary);
 }
 .cal-title a:hover,
 .cal-prev:hover,
 .cal-next:hover,
 .cal .cal-foot:hover,
 .cal .cal-foot:focus {
-  background-color: #258fb8;
+  background-color: #eff2f5;
   color: var(--theme-text-primary);
   cursor: pointer;
 }
 .cal tbody a:hover,
 .cal tbody a:focus {
-  background-color: #ea6753;
+  background-color: var(--theme-text-active);
   color: var(--theme-text-primary);
   cursor: pointer;
 }

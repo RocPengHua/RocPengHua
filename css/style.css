@@ -5321,8 +5321,8 @@ html.show-mobile-nav .navbar-list {
   font-weight: 900;
 }
 .local-search-plugin .local-search-input-cls {
-  opacity: 0.6;
-  width: 360px;
+  opacity: 0.1;
+  width: 100px;
   transition: all 0.3s;
 }
 .local-search-plugin .local-search-input-cls:hover {

@@ -278,7 +278,7 @@
 </nav>
 
   
-  <span class="local-search local-search-google local-search-plugin" style="left: 40%;top: 0px;;position:absolute;z-index:2;">
+  <span class="local-search local-search-google local-search-plugin" style="left: calc(50% - 200px);top: 0px;;position:absolute;z-index:2;">
       <input type="search" placeholder="小鹏驿站" id="local-search-input" class="local-search-input-cls" style="">
       <div id="local-search-result" class="local-search-result-cls"></div>
   </span>
@@ -570,14 +570,14 @@ redis-server /etc/redis/redis.conf：这个是关键配置，让redis不是无�
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E5%90%8E%E7%AB%AF/">
-            后端 (1)
+          <a href="/categories/java/">
+            java (3)
           </a>
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/java/">
-            java (3)
+          <a href="/categories/%E5%90%8E%E7%AB%AF/">
+            后端 (1)
           </a>
         </li>
       
@@ -756,7 +756,6 @@ redis-server /etc/redis/redis.conf：这个是关键配置，让redis不是无�
   <link rel="stylesheet" href="/lib/aplayer/APlayer.min.css">
 <script type="text/javascript" src="/lib/aplayer/APlayer.min.js"></script>
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-<script src="/js/load.js"></script>
 <script src="/js/search.js"></script>
 
 <!-- Calendar -->
@@ -769,13 +768,6 @@ redis-server /etc/redis/redis.conf：这个是关键配置，让redis不是无�
                 'zh-CN',
                 {single:true, root:'calendar/'}
             );
-            // 下面的代码用于页面测试，可以不添加
-            
-                $('#calendar-sample').aCalendar(
-                    'zh-CN',
-                    {single:true, root:'calendar/'}
-                );
-            
         });
     </script>
 
@@ -815,7 +807,6 @@ redis-server /etc/redis/redis.conf：这个是关键配置，让redis不是无�
 	/*图片放大js*/
 	function createImgEventFullScreen() {
         var imgs = $(".post-container").find("img");
-        console.log(imgs);
         for (var i = 0; i < imgs.length; i++) {
             // $(imgs[i]).click(createCover(imgs[i]));
             imgs[i].onclick = function (e) {

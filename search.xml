@@ -1555,186 +1555,6 @@ public class OrderedController &#123;
       </tags>
   </entry>
   <entry>
-    <title>rocketmq之Schedule模式</title>
-    <url>/2022/04/25/rocketmq-zhi-schedule-mo-shi/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h4 id="添加依赖"><a href="#添加依赖" class="headerlink" title="添加依赖"></a>添加依赖</h4><pre><code class="prettyprint">&lt;dependency&gt;
-    &lt;groupId&gt;org.apache.rocketmq&lt;/groupId&gt;
-    &lt;artifactId&gt;rocketmq-client&lt;/artifactId&gt;
-    &lt;version&gt;4.9.3&lt;/version&gt;
-&lt;/dependency&gt;
-</code></pre>
-<h4 id="提供者"><a href="#提供者" class="headerlink" title="提供者"></a>提供者</h4><pre><code class="prettyprint">package com.pengpeng.rocketmq.producer;
-
-import com.pengpeng.rocketmq.config.JmsConfig;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.rocketmq.client.exception.MQClientException;
-import org.apache.rocketmq.client.producer.DefaultMQProducer;
-import org.springframework.stereotype.Component;
-
-/**
- * @author 
- * @date 2021/10/20.
- */
-@Slf4j
-@Component
-public class ScheduleProducer &#123;
-    private String producerGroup = &quot;schedule_group_name&quot;;
-    private DefaultMQProducer producer;
-
-    public ScheduleProducer()&#123;
-        //示例生产者
-        producer = new DefaultMQProducer(producerGroup);
-        //不开启vip通道 开通口端口会减2
-        producer.setVipChannelEnabled(false);
-        //绑定name server
-        producer.setNamesrvAddr(JmsConfig.NAME_SERVER);
-        start();
-    &#125;
-    /**
-     * 对象在使用之前必须要调用一次，只能初始化一次
-     */
-    public void start()&#123;
-        try &#123;
-            this.producer.start();
-        &#125; catch (MQClientException e) &#123;
-            e.printStackTrace();
-        &#125;
-    &#125;
-
-    public DefaultMQProducer getProducer()&#123;
-        return this.producer;
-    &#125;
-    /**
-     * 一般在应用上下文，使用上下文监听器，进行关闭
-     */
-    public void shutdown()&#123;
-        this.producer.shutdown();
-    &#125;
-&#125;
-</code></pre>
-<h4 id="消费者"><a href="#消费者" class="headerlink" title="消费者"></a>消费者</h4><pre><code class="prettyprint">package com.pengpeng.rocketmq.consumer;
-
-import com.pengpeng.rocketmq.config.JmsConfig;
-import lombok.SneakyThrows;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;
-import org.apache.rocketmq.client.consumer.listener.ConsumeConcurrentlyContext;
-import org.apache.rocketmq.client.consumer.listener.ConsumeConcurrentlyStatus;
-import org.apache.rocketmq.client.consumer.listener.MessageListenerConcurrently;
-import org.apache.rocketmq.client.exception.MQClientException;
-import org.apache.rocketmq.common.consumer.ConsumeFromWhere;
-import org.apache.rocketmq.common.message.MessageExt;
-import org.apache.rocketmq.common.protocol.heartbeat.MessageModel;
-import org.apache.rocketmq.remoting.common.RemotingHelper;
-import org.springframework.stereotype.Component;
-
-import java.util.List;
-
-/**
- * @author 
- * @date 2021/10/25.
- */
-@Slf4j
-@Component
-public class ScheduleConsumer &#123;
-    /**
-     * 消费者实体对象
-     */
-    private DefaultMQPushConsumer consumer;
-    /**
-     * 主题名称 主题一般是服务器设置好 而不能在代码里去新建topic（ 如果没有创建好，生产者往该主题发送消息 会报找不到topic错误）
-     */
-    public static final String TOPIC = &quot;TOPIC_SCHEDULE_CONSUMER&quot;;
-    /**
-     * 消费者组
-     */
-    public static final String CONSUMER_GROUP = &quot;schedule_group_name&quot;;
-
-    /**
-     * 通过构造函数 实例化对象
-     */
-    public ScheduleConsumer() throws MQClientException &#123;
-        consumer = new DefaultMQPushConsumer(CONSUMER_GROUP);
-        consumer.setNamesrvAddr(JmsConfig.NAME_SERVER);
-
-        consumer.setConsumeFromWhere(ConsumeFromWhere.CONSUME_FROM_FIRST_OFFSET);
-
-        consumer.subscribe(TOPIC, &quot;SCHEDULE1 || SCHEDULE2 || SCHEDULE3&quot;);
-
-        consumer.registerMessageListener(new MessageListenerConcurrently() &#123;
-            @SneakyThrows
-            @Override
-            public ConsumeConcurrentlyStatus consumeMessage(List&lt;MessageExt&gt; messages, ConsumeConcurrentlyContext context) &#123;
-                for (MessageExt msg : messages) &#123;
-                    // Print approximate delay time period
-                    String body = new String(msg.getBody(), RemotingHelper.DEFAULT_CHARSET);
-                    log.info(&quot;ScheduleConsumer-获取消息-主题topic为=&#123;&#125;, 消费消息为=&#123;&#125;, 消息id=&#123;&#125;,&#123;&#125;ms&quot;,
-                            msg.getTopic(), body,msg.getMsgId(),(System.currentTimeMillis() - msg.getStoreTimestamp()));
-                &#125;
-                return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
-            &#125;
-        &#125;);
-
-        consumer.start();
-        System.out.println(&quot;ScheduledConsumer 消费者 启动成功=======&quot;);
-    &#125;
-&#125;
-</code></pre>
-<h4 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h4><pre><code class="prettyprint">package com.pengpeng.rocketmq.web;
-
-import com.pengpeng.rocketmq.consumer.ScheduleConsumer;
-import com.pengpeng.rocketmq.producer.OrderedProducer;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.rocketmq.client.producer.SendResult;
-import org.apache.rocketmq.common.message.Message;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
-
-/**
- * @author 彭鹏 顺序消息
- * @date 2021/10/25.
- */
-@Slf4j
-@RestController
-@RequestMapping(&quot;/schedule&quot;)
-public class ScheduleController &#123;
-
-    @Autowired
-    private OrderedProducer producer;
-
-    @RequestMapping(&quot;/scheduleProducer&quot;)
-    public Object scheduleProducer() throws Exception &#123;
-        int totalMessagesToSend = 20;
-        for (int i = 0; i &lt; totalMessagesToSend; i++) &#123;
-            Message message = new Message(ScheduleConsumer.TOPIC,&quot;SCHEDULE1&quot;, (&quot;Hello scheduled message &quot; + i).getBytes());
-
-            /*
-            *  delivered
-            *  1s  5s  10s 30s 1m  2m  3m  4m  5m  6m  7m  8m  9m  10m 20m 30m 1h  2h
-            *  1   2   3   4   5   6   7   8   9   10  11  12  13  14  15  16  17  18
-            * */
-            // This message will be delivered to consumer 10 seconds later.
-            message.setDelayTimeLevel(3);
-            // Send the message
-            SendResult sendResult = producer.getProducer().send(message);
-            System.out.printf(&quot;%s%n&quot;, sendResult);
-        &#125;
-        return &quot;成功&quot;;
-    &#125;
-&#125;
-</code></pre>
-]]></content>
-      <categories>
-        <category>中间件</category>
-      </categories>
-      <tags>
-        <tag>rocketmq</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>rocketmq之事务模式</title>
     <url>/2022/04/25/rocketmq-zhi-shi-wu-mo-shi/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h4 id="添加依赖"><a href="#添加依赖" class="headerlink" title="添加依赖"></a>添加依赖</h4><pre><code class="prettyprint">&lt;dependency&gt;
@@ -1977,6 +1797,186 @@ public class TransactionController &#123;
 
         for (int i = 0; i &lt; 100000; i++) &#123;
             Thread.sleep(1000);
+        &#125;
+        return &quot;成功&quot;;
+    &#125;
+&#125;
+</code></pre>
+]]></content>
+      <categories>
+        <category>中间件</category>
+      </categories>
+      <tags>
+        <tag>rocketmq</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>rocketmq之Schedule模式</title>
+    <url>/2022/04/25/rocketmq-zhi-schedule-mo-shi/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h4 id="添加依赖"><a href="#添加依赖" class="headerlink" title="添加依赖"></a>添加依赖</h4><pre><code class="prettyprint">&lt;dependency&gt;
+    &lt;groupId&gt;org.apache.rocketmq&lt;/groupId&gt;
+    &lt;artifactId&gt;rocketmq-client&lt;/artifactId&gt;
+    &lt;version&gt;4.9.3&lt;/version&gt;
+&lt;/dependency&gt;
+</code></pre>
+<h4 id="提供者"><a href="#提供者" class="headerlink" title="提供者"></a>提供者</h4><pre><code class="prettyprint">package com.pengpeng.rocketmq.producer;
+
+import com.pengpeng.rocketmq.config.JmsConfig;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.rocketmq.client.exception.MQClientException;
+import org.apache.rocketmq.client.producer.DefaultMQProducer;
+import org.springframework.stereotype.Component;
+
+/**
+ * @author 
+ * @date 2021/10/20.
+ */
+@Slf4j
+@Component
+public class ScheduleProducer &#123;
+    private String producerGroup = &quot;schedule_group_name&quot;;
+    private DefaultMQProducer producer;
+
+    public ScheduleProducer()&#123;
+        //示例生产者
+        producer = new DefaultMQProducer(producerGroup);
+        //不开启vip通道 开通口端口会减2
+        producer.setVipChannelEnabled(false);
+        //绑定name server
+        producer.setNamesrvAddr(JmsConfig.NAME_SERVER);
+        start();
+    &#125;
+    /**
+     * 对象在使用之前必须要调用一次，只能初始化一次
+     */
+    public void start()&#123;
+        try &#123;
+            this.producer.start();
+        &#125; catch (MQClientException e) &#123;
+            e.printStackTrace();
+        &#125;
+    &#125;
+
+    public DefaultMQProducer getProducer()&#123;
+        return this.producer;
+    &#125;
+    /**
+     * 一般在应用上下文，使用上下文监听器，进行关闭
+     */
+    public void shutdown()&#123;
+        this.producer.shutdown();
+    &#125;
+&#125;
+</code></pre>
+<h4 id="消费者"><a href="#消费者" class="headerlink" title="消费者"></a>消费者</h4><pre><code class="prettyprint">package com.pengpeng.rocketmq.consumer;
+
+import com.pengpeng.rocketmq.config.JmsConfig;
+import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;
+import org.apache.rocketmq.client.consumer.listener.ConsumeConcurrentlyContext;
+import org.apache.rocketmq.client.consumer.listener.ConsumeConcurrentlyStatus;
+import org.apache.rocketmq.client.consumer.listener.MessageListenerConcurrently;
+import org.apache.rocketmq.client.exception.MQClientException;
+import org.apache.rocketmq.common.consumer.ConsumeFromWhere;
+import org.apache.rocketmq.common.message.MessageExt;
+import org.apache.rocketmq.common.protocol.heartbeat.MessageModel;
+import org.apache.rocketmq.remoting.common.RemotingHelper;
+import org.springframework.stereotype.Component;
+
+import java.util.List;
+
+/**
+ * @author 
+ * @date 2021/10/25.
+ */
+@Slf4j
+@Component
+public class ScheduleConsumer &#123;
+    /**
+     * 消费者实体对象
+     */
+    private DefaultMQPushConsumer consumer;
+    /**
+     * 主题名称 主题一般是服务器设置好 而不能在代码里去新建topic（ 如果没有创建好，生产者往该主题发送消息 会报找不到topic错误）
+     */
+    public static final String TOPIC = &quot;TOPIC_SCHEDULE_CONSUMER&quot;;
+    /**
+     * 消费者组
+     */
+    public static final String CONSUMER_GROUP = &quot;schedule_group_name&quot;;
+
+    /**
+     * 通过构造函数 实例化对象
+     */
+    public ScheduleConsumer() throws MQClientException &#123;
+        consumer = new DefaultMQPushConsumer(CONSUMER_GROUP);
+        consumer.setNamesrvAddr(JmsConfig.NAME_SERVER);
+
+        consumer.setConsumeFromWhere(ConsumeFromWhere.CONSUME_FROM_FIRST_OFFSET);
+
+        consumer.subscribe(TOPIC, &quot;SCHEDULE1 || SCHEDULE2 || SCHEDULE3&quot;);
+
+        consumer.registerMessageListener(new MessageListenerConcurrently() &#123;
+            @SneakyThrows
+            @Override
+            public ConsumeConcurrentlyStatus consumeMessage(List&lt;MessageExt&gt; messages, ConsumeConcurrentlyContext context) &#123;
+                for (MessageExt msg : messages) &#123;
+                    // Print approximate delay time period
+                    String body = new String(msg.getBody(), RemotingHelper.DEFAULT_CHARSET);
+                    log.info(&quot;ScheduleConsumer-获取消息-主题topic为=&#123;&#125;, 消费消息为=&#123;&#125;, 消息id=&#123;&#125;,&#123;&#125;ms&quot;,
+                            msg.getTopic(), body,msg.getMsgId(),(System.currentTimeMillis() - msg.getStoreTimestamp()));
+                &#125;
+                return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
+            &#125;
+        &#125;);
+
+        consumer.start();
+        System.out.println(&quot;ScheduledConsumer 消费者 启动成功=======&quot;);
+    &#125;
+&#125;
+</code></pre>
+<h4 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h4><pre><code class="prettyprint">package com.pengpeng.rocketmq.web;
+
+import com.pengpeng.rocketmq.consumer.ScheduleConsumer;
+import com.pengpeng.rocketmq.producer.OrderedProducer;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.rocketmq.client.producer.SendResult;
+import org.apache.rocketmq.common.message.Message;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+
+/**
+ * @author 彭鹏 顺序消息
+ * @date 2021/10/25.
+ */
+@Slf4j
+@RestController
+@RequestMapping(&quot;/schedule&quot;)
+public class ScheduleController &#123;
+
+    @Autowired
+    private OrderedProducer producer;
+
+    @RequestMapping(&quot;/scheduleProducer&quot;)
+    public Object scheduleProducer() throws Exception &#123;
+        int totalMessagesToSend = 20;
+        for (int i = 0; i &lt; totalMessagesToSend; i++) &#123;
+            Message message = new Message(ScheduleConsumer.TOPIC,&quot;SCHEDULE1&quot;, (&quot;Hello scheduled message &quot; + i).getBytes());
+
+            /*
+            *  delivered
+            *  1s  5s  10s 30s 1m  2m  3m  4m  5m  6m  7m  8m  9m  10m 20m 30m 1h  2h
+            *  1   2   3   4   5   6   7   8   9   10  11  12  13  14  15  16  17  18
+            * */
+            // This message will be delivered to consumer 10 seconds later.
+            message.setDelayTimeLevel(3);
+            // Send the message
+            SendResult sendResult = producer.getProducer().send(message);
+            System.out.printf(&quot;%s%n&quot;, sendResult);
         &#125;
         return &quot;成功&quot;;
     &#125;
@@ -3982,366 +3982,6 @@ rabbitmqctl forget_cluster_node rabbit@node2
       </tags>
   </entry>
   <entry>
-    <title>rocketmq集群搭建</title>
-    <url>/2022/05/10/rocketmq-ji-qun-da-jian/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h3 id="rocketmq下载安装"><a href="#rocketmq下载安装" class="headerlink" title="rocketmq下载安装"></a>rocketmq下载安装</h3><p><a href="https://rocpenghua.gitee.io/2022/04/23/centos7-shou-dong-an-zhuang-rocketmq/">centos7手动安装rocketmq | 小鹏驿站 (gitee.io)</a></p>
-<h3 id="集群模式配置"><a href="#集群模式配置" class="headerlink" title="集群模式配置"></a>集群模式配置</h3><h4 id="集群搭建介绍"><a href="#集群搭建介绍" class="headerlink" title="集群搭建介绍"></a>集群搭建介绍</h4><ul>
-<li>本次采用两台虚拟机，<code>192.168.101.132:MASTER1/SLAVE2</code>,<code>192.168.101.131:MASTER2/SLAVE1</code></li>
-<li>使用<code>2m-2s-sync</code>配置下的配置文件</li>
-</ul>
-<h4 id="HOST配置-在两台虚拟机中修改"><a href="#HOST配置-在两台虚拟机中修改" class="headerlink" title="HOST配置(在两台虚拟机中修改)"></a>HOST配置(在两台虚拟机中修改)</h4><pre><code class="prettyprint">vim /etc/hosts
-</code></pre>
-<ul>
-<li>配置文件如下</li>
-</ul>
-<pre><code class="prettyprint">192.168.101.132 rocketmq-nameserver1
-192.168.101.131 rocketmq-nameserver2
-192.168.101.132 rocketmq-master1
-192.168.101.132 rocketmq-slave2
-192.168.101.131 rocketmq-master2
-192.168.101.131 rocketmq-slave1
-</code></pre>
-<ul>
-<li>确保两台机器通信（可以关闭防火墙或者开放端口）</li>
-</ul>
-<h4 id="环境变量配置-在两台虚拟机中修改"><a href="#环境变量配置-在两台虚拟机中修改" class="headerlink" title="环境变量配置(在两台虚拟机中修改)"></a>环境变量配置(在两台虚拟机中修改)</h4><pre><code class="prettyprint">vim /etc/profile
-</code></pre>
-<ul>
-<li>在最后加入如下配置</li>
-</ul>
-<pre><code class="prettyprint">#ROCKETMQ_HOME
-ROCKETMQ_HOME=/opt/module/rocketmq
-PATH=$PATH:$ROCKETMQ_HOME/bin
-export PATH ROCKETMQ_HOME PATH
-</code></pre>
-<ul>
-<li>使配置生效</li>
-</ul>
-<pre><code class="prettyprint">source /etc/profile
-</code></pre>
-<h4 id="创建消息存储位置"><a href="#创建消息存储位置" class="headerlink" title="创建消息存储位置"></a>创建消息存储位置</h4><pre><code class="prettyprint">#主
-mkdir /opt/module/rocketmq/store
-mkdir /opt/module/rocketmq/store/commitlog
-mkdir /opt/module/rocketmq/store/consumequeue
-mkdir /opt/module/rocketmq/store/index
-#拷贝一份作为从节点的配置
-cp -r /opt/module/rocketmq/store /opt/module/rocketmq/store-slave
-</code></pre>
-<h4 id="修改broker配置文件"><a href="#修改broker配置文件" class="headerlink" title="修改broker配置文件"></a>修改broker配置文件</h4><h5 id="MASTER1-192-168-101-132"><a href="#MASTER1-192-168-101-132" class="headerlink" title="MASTER1(192.168.101.132)"></a>MASTER1(192.168.101.132)</h5><pre><code class="prettyprint">vim /opt/module/rocketmq/conf/2m-2s-sync/broker-a.properties
-</code></pre>
-<p>修改配置如下：</p>
-<pre><code class="prettyprint">#所属集群名字
-brokerClusterName=rocketmq-cluster
-#broker名字，注意此处不同的配置文件填写的不一样
-brokerName=broker-a
-#0 表示 Master，&gt;0 表示 Slave
-brokerId=0
-#nameServer地址，分号分割
-namesrvAddr=rocketmq-nameserver1:9876;rocketmq-nameserver2:9876
-#在发送消息时，自动创建服务器不存在的topic，默认创建的队列数
-defaultTopicQueueNums=4
-#是否允许 Broker 自动创建Topic，建议线下开启，线上关闭
-autoCreateTopicEnable=true
-#是否允许 Broker 自动创建订阅组，建议线下开启，线上关闭
-autoCreateSubscriptionGroup=true
-#Broker 对外服务的监听端口
-listenPort=10911
-#删除文件时间点，默认凌晨 4点
-deleteWhen=04
-#文件保留时间，默认 48 小时
-fileReservedTime=120
-#commitLog每个文件的大小默认1G
-mapedFileSizeCommitLog=1073741824
-#ConsumeQueue每个文件默认存30W条，根据业务情况调整
-mapedFileSizeConsumeQueue=300000
-#destroyMapedFileIntervalForcibly=120000
-#redeleteHangedFileInterval=120000
-#检测物理文件磁盘空间
-diskMaxUsedSpaceRatio=88
-#存储路径
-storePathRootDir=/opt/module/rocketmq/store
-#commitLog 存储路径
-storePathCommitLog=/opt/module/rocketmq/store/commitlog
-#消费队列存储路径存储路径
-storePathConsumeQueue=/opt/module/rocketmq/store/consumequeue
-#消息索引存储路径
-storePathIndex=/opt/module/rocketmq/store/index
-#checkpoint 文件存储路径
-storeCheckpoint=/opt/module/rocketmq/store/checkpoint
-#abort 文件存储路径
-abortFile=/opt/module/rocketmq/store/abort
-#限制的消息大小
-maxMessageSize=65536
-#flushCommitLogLeastPages=4
-#flushConsumeQueueLeastPages=2
-#flushCommitLogThoroughInterval=10000
-#flushConsumeQueueThoroughInterval=60000
-#Broker 的角色
-#- ASYNC_MASTER 异步复制Master
-#- SYNC_MASTER 同步双写Master
-#- SLAVE
-brokerRole=SYNC_MASTER
-#刷盘方式
-#- ASYNC_FLUSH 异步刷盘
-#- SYNC_FLUSH 同步刷盘
-flushDiskType=SYNC_FLUSH
-#checkTransactionMessageEnable=false
-#发消息线程池数量
-#sendMessageThreadPoolNums=128
-#拉消息线程池数量
-#pullMessageThreadPoolNums=128
-</code></pre>
-<h5 id="SLAVE2-192-168-101-132"><a href="#SLAVE2-192-168-101-132" class="headerlink" title="SLAVE2(192.168.101.132)"></a>SLAVE2(192.168.101.132)</h5><pre><code class="prettyprint">vim /opt/module/rocketmq/conf/2m-2s-sync/broker-b-s.properties
-</code></pre>
-<p>修改配置如下：</p>
-<pre><code class="prettyprint">#所属集群名字
-brokerClusterName=rocketmq-cluster
-#broker名字，注意此处不同的配置文件填写的不一样
-brokerName=broker-b
-#0 表示 Master，&gt;0 表示 Slave
-brokerId=1
-#nameServer地址，分号分割
-namesrvAddr=rocketmq-nameserver1:9876;rocketmq-nameserver2:9876
-#在发送消息时，自动创建服务器不存在的topic，默认创建的队列数
-defaultTopicQueueNums=4
-#是否允许 Broker 自动创建Topic，建议线下开启，线上关闭
-autoCreateTopicEnable=true
-#是否允许 Broker 自动创建订阅组，建议线下开启，线上关闭
-autoCreateSubscriptionGroup=true
-#Broker 对外服务的监听端口
-listenPort=11011
-#删除文件时间点，默认凌晨 4点
-deleteWhen=04
-#文件保留时间，默认 48 小时
-fileReservedTime=120
-#commitLog每个文件的大小默认1G
-mapedFileSizeCommitLog=1073741824
-#ConsumeQueue每个文件默认存30W条，根据业务情况调整
-mapedFileSizeConsumeQueue=300000
-#destroyMapedFileIntervalForcibly=120000
-#redeleteHangedFileInterval=120000
-#检测物理文件磁盘空间
-diskMaxUsedSpaceRatio=88
-#存储路径
-storePathRootDir=/opt/module/rocketmq/store-slave
-#commitLog 存储路径
-storePathCommitLog=/opt/module/rocketmq/store-slave/commitlog
-#消费队列存储路径存储路径
-storePathConsumeQueue=/opt/module/rocketmq/store-slave/consumequeue
-#消息索引存储路径
-storePathIndex=/opt/module/rocketmq/store-slave/index
-#checkpoint 文件存储路径
-storeCheckpoint=/opt/module/rocketmq/store-slave/checkpoint
-#abort 文件存储路径
-abortFile=/opt/module/rocketmq/store-slave/abort
-#限制的消息大小
-maxMessageSize=65536
-#flushCommitLogLeastPages=4
-#flushConsumeQueueLeastPages=2
-#flushCommitLogThoroughInterval=10000
-#flushConsumeQueueThoroughInterval=60000
-#Broker 的角色
-#- ASYNC_MASTER 异步复制Master
-#- SYNC_MASTER 同步双写Master
-#- SLAVE
-brokerRole=SLAVE
-#刷盘方式
-#- ASYNC_FLUSH 异步刷盘
-#- SYNC_FLUSH 同步刷盘
-flushDiskType=ASYNC_FLUSH
-#checkTransactionMessageEnable=false
-#发消息线程池数量
-#sendMessageThreadPoolNums=128
-#拉消息线程池数量
-#pullMessageThreadPoolNums=128
-</code></pre>
-<h5 id="MASTER2-192-168-101-131"><a href="#MASTER2-192-168-101-131" class="headerlink" title="MASTER2(192.168.101.131)"></a>MASTER2(192.168.101.131)</h5><pre><code class="prettyprint">vim /opt/module/rocketmq/conf/2m-2s-sync/broker-b.properties
-</code></pre>
-<p>修改配置如下：</p>
-<pre><code class="prettyprint">#所属集群名字
-brokerClusterName=rocketmq-cluster
-#broker名字，注意此处不同的配置文件填写的不一样
-brokerName=broker-b
-#0 表示 Master，&gt;0 表示 Slave
-brokerId=0
-#nameServer地址，分号分割
-namesrvAddr=rocketmq-nameserver1:9876;rocketmq-nameserver2:9876
-#在发送消息时，自动创建服务器不存在的topic，默认创建的队列数
-defaultTopicQueueNums=4
-#是否允许 Broker 自动创建Topic，建议线下开启，线上关闭
-autoCreateTopicEnable=true
-#是否允许 Broker 自动创建订阅组，建议线下开启，线上关闭
-autoCreateSubscriptionGroup=true
-#Broker 对外服务的监听端口
-listenPort=10911
-#删除文件时间点，默认凌晨 4点
-deleteWhen=04
-#文件保留时间，默认 48 小时
-fileReservedTime=120
-#commitLog每个文件的大小默认1G
-mapedFileSizeCommitLog=1073741824
-#ConsumeQueue每个文件默认存30W条，根据业务情况调整
-mapedFileSizeConsumeQueue=300000
-#destroyMapedFileIntervalForcibly=120000
-#redeleteHangedFileInterval=120000
-#检测物理文件磁盘空间
-diskMaxUsedSpaceRatio=88
-#存储路径
-storePathRootDir=/opt/module/rocketmq/store
-#commitLog 存储路径
-storePathCommitLog=/opt/module/rocketmq/store/commitlog
-#消费队列存储路径存储路径
-storePathConsumeQueue=/opt/module/rocketmq/store/consumequeue
-#消息索引存储路径
-storePathIndex=/opt/module/rocketmq/store/index
-#checkpoint 文件存储路径
-storeCheckpoint=/opt/module/rocketmq/store/checkpoint
-#abort 文件存储路径
-abortFile=/opt/module/rocketmq/store/abort
-#限制的消息大小
-maxMessageSize=65536
-#flushCommitLogLeastPages=4
-#flushConsumeQueueLeastPages=2
-#flushCommitLogThoroughInterval=10000
-#flushConsumeQueueThoroughInterval=60000
-#Broker 的角色
-#- ASYNC_MASTER 异步复制Master
-#- SYNC_MASTER 同步双写Master
-#- SLAVE
-brokerRole=SYNC_MASTER
-#刷盘方式
-#- ASYNC_FLUSH 异步刷盘
-#- SYNC_FLUSH 同步刷盘
-flushDiskType=SYNC_FLUSH
-#checkTransactionMessageEnable=false
-#发消息线程池数量
-#sendMessageThreadPoolNums=128
-#拉消息线程池数量
-#pullMessageThreadPoolNums=128
-</code></pre>
-<h5 id="SLAVE1-192-168-101-131"><a href="#SLAVE1-192-168-101-131" class="headerlink" title="SLAVE1(192.168.101.131)"></a>SLAVE1(192.168.101.131)</h5><pre><code class="prettyprint">vim /opt/module/rocketmq/conf/2m-2s-sync/broker-a-s.properties
-</code></pre>
-<p>修改配置如下：</p>
-<pre><code class="prettyprint">#所属集群名字
-brokerClusterName=rocketmq-cluster
-#broker名字，注意此处不同的配置文件填写的不一样
-brokerName=broker-a
-#0 表示 Master，&gt;0 表示 Slave
-brokerId=1
-#nameServer地址，分号分割
-namesrvAddr=rocketmq-nameserver1:9876;rocketmq-nameserver2:9876
-#在发送消息时，自动创建服务器不存在的topic，默认创建的队列数
-defaultTopicQueueNums=4
-#是否允许 Broker 自动创建Topic，建议线下开启，线上关闭
-autoCreateTopicEnable=true
-#是否允许 Broker 自动创建订阅组，建议线下开启，线上关闭
-autoCreateSubscriptionGroup=true
-#Broker 对外服务的监听端口
-listenPort=11011
-#删除文件时间点，默认凌晨 4点
-deleteWhen=04
-#文件保留时间，默认 48 小时
-fileReservedTime=120
-#commitLog每个文件的大小默认1G
-mapedFileSizeCommitLog=1073741824
-#ConsumeQueue每个文件默认存30W条，根据业务情况调整
-mapedFileSizeConsumeQueue=300000
-#destroyMapedFileIntervalForcibly=120000
-#redeleteHangedFileInterval=120000
-#检测物理文件磁盘空间
-diskMaxUsedSpaceRatio=88
-#存储路径
-storePathRootDir=/opt/module/rocketmq/store-slave
-#commitLog 存储路径
-storePathCommitLog=/opt/module/rocketmq/store-slave/commitlog
-#消费队列存储路径存储路径
-storePathConsumeQueue=/opt/module/rocketmq/store-slave/consumequeue
-#消息索引存储路径
-storePathIndex=/opt/module/rocketmq/store-slave/index
-#checkpoint 文件存储路径
-storeCheckpoint=/opt/module/rocketmq/store-slave/checkpoint
-#abort 文件存储路径
-abortFile=/opt/module/rocketmq/store-slave/abort
-#限制的消息大小
-maxMessageSize=65536
-#flushCommitLogLeastPages=4
-#flushConsumeQueueLeastPages=2
-#flushCommitLogThoroughInterval=10000
-#flushConsumeQueueThoroughInterval=60000
-#Broker 的角色
-#- ASYNC_MASTER 异步复制Master
-#- SYNC_MASTER 同步双写Master
-#- SLAVE
-brokerRole=SLAVE
-#刷盘方式
-#- ASYNC_FLUSH 异步刷盘
-#- SYNC_FLUSH 同步刷盘
-flushDiskType=ASYNC_FLUSH
-#checkTransactionMessageEnable=false
-#发消息线程池数量
-#sendMessageThreadPoolNums=128
-#拉消息线程池数量
-#pullMessageThreadPoolNums=128
-</code></pre>
-<h3 id="启动集群"><a href="#启动集群" class="headerlink" title="启动集群"></a>启动集群</h3><h4 id="启动NameServer集群"><a href="#启动NameServer集群" class="headerlink" title="启动NameServer集群"></a>启动NameServer集群</h4><ul>
-<li>分别在<code>192.168.101.132</code>,<code>192.168.101.131</code>执行如下命令</li>
-</ul>
-<pre><code class="prettyprint">cd /opt/module/rocketmq/bin
-sh mqnamesrv &amp;
-</code></pre>
-<h4 id="启动broker集群"><a href="#启动broker集群" class="headerlink" title="启动broker集群"></a>启动broker集群</h4><ul>
-<li>在<code>192.168.101.132</code>启动MASTER1和SLAVE2</li>
-</ul>
-<pre><code class="prettyprint">cd /opt/module/rocketmq/bin
-#启动MASTER1
-sh mqbroker -c ../conf/2m-2s-sync/broker-a.properties &amp;
-#启动SLAVE2
-sh mqbroker -c ../conf/2m-2s-sync/broker-b-s.properties &amp;
-</code></pre>
-<ul>
-<li>在<code>192.168.101.131</code>启动MASTER2和SLAVE1</li>
-</ul>
-<pre><code class="prettyprint">cd /opt/module/rocketmq/bin
-#启动MASTER2
-sh mqbroker -c ../conf/2m-2s-sync/broker-b.properties &amp;
-#启动SLAVE1
-sh mqbroker -c ../conf/2m-2s-sync/broker-a-s.properties &amp;
-</code></pre>
-<h3 id="验证启动成功"><a href="#验证启动成功" class="headerlink" title="验证启动成功"></a>验证启动成功</h3><h4 id="使用jps查看状态"><a href="#使用jps查看状态" class="headerlink" title="使用jps查看状态"></a>使用jps查看状态</h4><pre><code class="prettyprint">jps
-</code></pre>
-<img src="/2022/05/10/rocketmq-ji-qun-da-jian/image-20220510205542048.png" class="asset-class" title="image-20220510205542048">
-
-<h4 id="查看日志"><a href="#查看日志" class="headerlink" title="查看日志"></a>查看日志</h4><pre><code class="prettyprint"># 查看nameServer日志
-tail -500f /opt/module/rabbitmq/logs/rocketmqlogs/namesrv.log
-# 查看broker日志
-tail -500f /opt/module/rabbitmq/logs/rocketmqlogs/broker.log
-</code></pre>
-<h3 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h3><ul>
-<li>旧版本主从节点storePath可以在同一个路径下，新版本需要两个不同路径</li>
-</ul>
-]]></content>
-      <categories>
-        <category>软件</category>
-      </categories>
-      <tags>
-        <tag>rocketmq</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>maven小知识</title>
-    <url>/2022/05/11/maven-xiao-zhi-shi/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h4 id="打印依赖树"><a href="#打印依赖树" class="headerlink" title="打印依赖树"></a>打印依赖树</h4><pre><code class="prettyprint">#在pom目录下执行
-mvn dependency:tree &gt;&gt; tree.txt
-</code></pre>
-]]></content>
-      <categories>
-        <category>后端</category>
-      </categories>
-      <tags>
-        <tag>maven</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>rocketmq源码调试环境搭建</title>
     <url>/2022/05/15/rocketmq-yuan-ma-diao-shi-huan-jing-da-jian/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h4 id="download"><a href="#download" class="headerlink" title="download"></a>download</h4><p><a href="https://dlcdn.apache.org/rocketmq/4.9.3/rocketmq-all-4.9.3-source-release.zip">官网源码地址</a></p>
@@ -4704,6 +4344,366 @@ javap -c -verbose com.rocpenghua.jvm/MovingAverageTest
       </tags>
   </entry>
   <entry>
+    <title>maven小知识</title>
+    <url>/2022/05/11/maven-xiao-zhi-shi/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h4 id="打印依赖树"><a href="#打印依赖树" class="headerlink" title="打印依赖树"></a>打印依赖树</h4><pre><code class="prettyprint">#在pom目录下执行
+mvn dependency:tree &gt;&gt; tree.txt
+</code></pre>
+]]></content>
+      <categories>
+        <category>后端</category>
+      </categories>
+      <tags>
+        <tag>maven</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>rocketmq集群搭建</title>
+    <url>/2022/05/10/rocketmq-ji-qun-da-jian/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h3 id="rocketmq下载安装"><a href="#rocketmq下载安装" class="headerlink" title="rocketmq下载安装"></a>rocketmq下载安装</h3><p><a href="https://rocpenghua.gitee.io/2022/04/23/centos7-shou-dong-an-zhuang-rocketmq/">centos7手动安装rocketmq | 小鹏驿站 (gitee.io)</a></p>
+<h3 id="集群模式配置"><a href="#集群模式配置" class="headerlink" title="集群模式配置"></a>集群模式配置</h3><h4 id="集群搭建介绍"><a href="#集群搭建介绍" class="headerlink" title="集群搭建介绍"></a>集群搭建介绍</h4><ul>
+<li>本次采用两台虚拟机，<code>192.168.101.132:MASTER1/SLAVE2</code>,<code>192.168.101.131:MASTER2/SLAVE1</code></li>
+<li>使用<code>2m-2s-sync</code>配置下的配置文件</li>
+</ul>
+<h4 id="HOST配置-在两台虚拟机中修改"><a href="#HOST配置-在两台虚拟机中修改" class="headerlink" title="HOST配置(在两台虚拟机中修改)"></a>HOST配置(在两台虚拟机中修改)</h4><pre><code class="prettyprint">vim /etc/hosts
+</code></pre>
+<ul>
+<li>配置文件如下</li>
+</ul>
+<pre><code class="prettyprint">192.168.101.132 rocketmq-nameserver1
+192.168.101.131 rocketmq-nameserver2
+192.168.101.132 rocketmq-master1
+192.168.101.132 rocketmq-slave2
+192.168.101.131 rocketmq-master2
+192.168.101.131 rocketmq-slave1
+</code></pre>
+<ul>
+<li>确保两台机器通信（可以关闭防火墙或者开放端口）</li>
+</ul>
+<h4 id="环境变量配置-在两台虚拟机中修改"><a href="#环境变量配置-在两台虚拟机中修改" class="headerlink" title="环境变量配置(在两台虚拟机中修改)"></a>环境变量配置(在两台虚拟机中修改)</h4><pre><code class="prettyprint">vim /etc/profile
+</code></pre>
+<ul>
+<li>在最后加入如下配置</li>
+</ul>
+<pre><code class="prettyprint">#ROCKETMQ_HOME
+ROCKETMQ_HOME=/opt/module/rocketmq
+PATH=$PATH:$ROCKETMQ_HOME/bin
+export PATH ROCKETMQ_HOME PATH
+</code></pre>
+<ul>
+<li>使配置生效</li>
+</ul>
+<pre><code class="prettyprint">source /etc/profile
+</code></pre>
+<h4 id="创建消息存储位置"><a href="#创建消息存储位置" class="headerlink" title="创建消息存储位置"></a>创建消息存储位置</h4><pre><code class="prettyprint">#主
+mkdir /opt/module/rocketmq/store
+mkdir /opt/module/rocketmq/store/commitlog
+mkdir /opt/module/rocketmq/store/consumequeue
+mkdir /opt/module/rocketmq/store/index
+#拷贝一份作为从节点的配置
+cp -r /opt/module/rocketmq/store /opt/module/rocketmq/store-slave
+</code></pre>
+<h4 id="修改broker配置文件"><a href="#修改broker配置文件" class="headerlink" title="修改broker配置文件"></a>修改broker配置文件</h4><h5 id="MASTER1-192-168-101-132"><a href="#MASTER1-192-168-101-132" class="headerlink" title="MASTER1(192.168.101.132)"></a>MASTER1(192.168.101.132)</h5><pre><code class="prettyprint">vim /opt/module/rocketmq/conf/2m-2s-sync/broker-a.properties
+</code></pre>
+<p>修改配置如下：</p>
+<pre><code class="prettyprint">#所属集群名字
+brokerClusterName=rocketmq-cluster
+#broker名字，注意此处不同的配置文件填写的不一样
+brokerName=broker-a
+#0 表示 Master，&gt;0 表示 Slave
+brokerId=0
+#nameServer地址，分号分割
+namesrvAddr=rocketmq-nameserver1:9876;rocketmq-nameserver2:9876
+#在发送消息时，自动创建服务器不存在的topic，默认创建的队列数
+defaultTopicQueueNums=4
+#是否允许 Broker 自动创建Topic，建议线下开启，线上关闭
+autoCreateTopicEnable=true
+#是否允许 Broker 自动创建订阅组，建议线下开启，线上关闭
+autoCreateSubscriptionGroup=true
+#Broker 对外服务的监听端口
+listenPort=10911
+#删除文件时间点，默认凌晨 4点
+deleteWhen=04
+#文件保留时间，默认 48 小时
+fileReservedTime=120
+#commitLog每个文件的大小默认1G
+mapedFileSizeCommitLog=1073741824
+#ConsumeQueue每个文件默认存30W条，根据业务情况调整
+mapedFileSizeConsumeQueue=300000
+#destroyMapedFileIntervalForcibly=120000
+#redeleteHangedFileInterval=120000
+#检测物理文件磁盘空间
+diskMaxUsedSpaceRatio=88
+#存储路径
+storePathRootDir=/opt/module/rocketmq/store
+#commitLog 存储路径
+storePathCommitLog=/opt/module/rocketmq/store/commitlog
+#消费队列存储路径存储路径
+storePathConsumeQueue=/opt/module/rocketmq/store/consumequeue
+#消息索引存储路径
+storePathIndex=/opt/module/rocketmq/store/index
+#checkpoint 文件存储路径
+storeCheckpoint=/opt/module/rocketmq/store/checkpoint
+#abort 文件存储路径
+abortFile=/opt/module/rocketmq/store/abort
+#限制的消息大小
+maxMessageSize=65536
+#flushCommitLogLeastPages=4
+#flushConsumeQueueLeastPages=2
+#flushCommitLogThoroughInterval=10000
+#flushConsumeQueueThoroughInterval=60000
+#Broker 的角色
+#- ASYNC_MASTER 异步复制Master
+#- SYNC_MASTER 同步双写Master
+#- SLAVE
+brokerRole=SYNC_MASTER
+#刷盘方式
+#- ASYNC_FLUSH 异步刷盘
+#- SYNC_FLUSH 同步刷盘
+flushDiskType=SYNC_FLUSH
+#checkTransactionMessageEnable=false
+#发消息线程池数量
+#sendMessageThreadPoolNums=128
+#拉消息线程池数量
+#pullMessageThreadPoolNums=128
+</code></pre>
+<h5 id="SLAVE2-192-168-101-132"><a href="#SLAVE2-192-168-101-132" class="headerlink" title="SLAVE2(192.168.101.132)"></a>SLAVE2(192.168.101.132)</h5><pre><code class="prettyprint">vim /opt/module/rocketmq/conf/2m-2s-sync/broker-b-s.properties
+</code></pre>
+<p>修改配置如下：</p>
+<pre><code class="prettyprint">#所属集群名字
+brokerClusterName=rocketmq-cluster
+#broker名字，注意此处不同的配置文件填写的不一样
+brokerName=broker-b
+#0 表示 Master，&gt;0 表示 Slave
+brokerId=1
+#nameServer地址，分号分割
+namesrvAddr=rocketmq-nameserver1:9876;rocketmq-nameserver2:9876
+#在发送消息时，自动创建服务器不存在的topic，默认创建的队列数
+defaultTopicQueueNums=4
+#是否允许 Broker 自动创建Topic，建议线下开启，线上关闭
+autoCreateTopicEnable=true
+#是否允许 Broker 自动创建订阅组，建议线下开启，线上关闭
+autoCreateSubscriptionGroup=true
+#Broker 对外服务的监听端口
+listenPort=11011
+#删除文件时间点，默认凌晨 4点
+deleteWhen=04
+#文件保留时间，默认 48 小时
+fileReservedTime=120
+#commitLog每个文件的大小默认1G
+mapedFileSizeCommitLog=1073741824
+#ConsumeQueue每个文件默认存30W条，根据业务情况调整
+mapedFileSizeConsumeQueue=300000
+#destroyMapedFileIntervalForcibly=120000
+#redeleteHangedFileInterval=120000
+#检测物理文件磁盘空间
+diskMaxUsedSpaceRatio=88
+#存储路径
+storePathRootDir=/opt/module/rocketmq/store-slave
+#commitLog 存储路径
+storePathCommitLog=/opt/module/rocketmq/store-slave/commitlog
+#消费队列存储路径存储路径
+storePathConsumeQueue=/opt/module/rocketmq/store-slave/consumequeue
+#消息索引存储路径
+storePathIndex=/opt/module/rocketmq/store-slave/index
+#checkpoint 文件存储路径
+storeCheckpoint=/opt/module/rocketmq/store-slave/checkpoint
+#abort 文件存储路径
+abortFile=/opt/module/rocketmq/store-slave/abort
+#限制的消息大小
+maxMessageSize=65536
+#flushCommitLogLeastPages=4
+#flushConsumeQueueLeastPages=2
+#flushCommitLogThoroughInterval=10000
+#flushConsumeQueueThoroughInterval=60000
+#Broker 的角色
+#- ASYNC_MASTER 异步复制Master
+#- SYNC_MASTER 同步双写Master
+#- SLAVE
+brokerRole=SLAVE
+#刷盘方式
+#- ASYNC_FLUSH 异步刷盘
+#- SYNC_FLUSH 同步刷盘
+flushDiskType=ASYNC_FLUSH
+#checkTransactionMessageEnable=false
+#发消息线程池数量
+#sendMessageThreadPoolNums=128
+#拉消息线程池数量
+#pullMessageThreadPoolNums=128
+</code></pre>
+<h5 id="MASTER2-192-168-101-131"><a href="#MASTER2-192-168-101-131" class="headerlink" title="MASTER2(192.168.101.131)"></a>MASTER2(192.168.101.131)</h5><pre><code class="prettyprint">vim /opt/module/rocketmq/conf/2m-2s-sync/broker-b.properties
+</code></pre>
+<p>修改配置如下：</p>
+<pre><code class="prettyprint">#所属集群名字
+brokerClusterName=rocketmq-cluster
+#broker名字，注意此处不同的配置文件填写的不一样
+brokerName=broker-b
+#0 表示 Master，&gt;0 表示 Slave
+brokerId=0
+#nameServer地址，分号分割
+namesrvAddr=rocketmq-nameserver1:9876;rocketmq-nameserver2:9876
+#在发送消息时，自动创建服务器不存在的topic，默认创建的队列数
+defaultTopicQueueNums=4
+#是否允许 Broker 自动创建Topic，建议线下开启，线上关闭
+autoCreateTopicEnable=true
+#是否允许 Broker 自动创建订阅组，建议线下开启，线上关闭
+autoCreateSubscriptionGroup=true
+#Broker 对外服务的监听端口
+listenPort=10911
+#删除文件时间点，默认凌晨 4点
+deleteWhen=04
+#文件保留时间，默认 48 小时
+fileReservedTime=120
+#commitLog每个文件的大小默认1G
+mapedFileSizeCommitLog=1073741824
+#ConsumeQueue每个文件默认存30W条，根据业务情况调整
+mapedFileSizeConsumeQueue=300000
+#destroyMapedFileIntervalForcibly=120000
+#redeleteHangedFileInterval=120000
+#检测物理文件磁盘空间
+diskMaxUsedSpaceRatio=88
+#存储路径
+storePathRootDir=/opt/module/rocketmq/store
+#commitLog 存储路径
+storePathCommitLog=/opt/module/rocketmq/store/commitlog
+#消费队列存储路径存储路径
+storePathConsumeQueue=/opt/module/rocketmq/store/consumequeue
+#消息索引存储路径
+storePathIndex=/opt/module/rocketmq/store/index
+#checkpoint 文件存储路径
+storeCheckpoint=/opt/module/rocketmq/store/checkpoint
+#abort 文件存储路径
+abortFile=/opt/module/rocketmq/store/abort
+#限制的消息大小
+maxMessageSize=65536
+#flushCommitLogLeastPages=4
+#flushConsumeQueueLeastPages=2
+#flushCommitLogThoroughInterval=10000
+#flushConsumeQueueThoroughInterval=60000
+#Broker 的角色
+#- ASYNC_MASTER 异步复制Master
+#- SYNC_MASTER 同步双写Master
+#- SLAVE
+brokerRole=SYNC_MASTER
+#刷盘方式
+#- ASYNC_FLUSH 异步刷盘
+#- SYNC_FLUSH 同步刷盘
+flushDiskType=SYNC_FLUSH
+#checkTransactionMessageEnable=false
+#发消息线程池数量
+#sendMessageThreadPoolNums=128
+#拉消息线程池数量
+#pullMessageThreadPoolNums=128
+</code></pre>
+<h5 id="SLAVE1-192-168-101-131"><a href="#SLAVE1-192-168-101-131" class="headerlink" title="SLAVE1(192.168.101.131)"></a>SLAVE1(192.168.101.131)</h5><pre><code class="prettyprint">vim /opt/module/rocketmq/conf/2m-2s-sync/broker-a-s.properties
+</code></pre>
+<p>修改配置如下：</p>
+<pre><code class="prettyprint">#所属集群名字
+brokerClusterName=rocketmq-cluster
+#broker名字，注意此处不同的配置文件填写的不一样
+brokerName=broker-a
+#0 表示 Master，&gt;0 表示 Slave
+brokerId=1
+#nameServer地址，分号分割
+namesrvAddr=rocketmq-nameserver1:9876;rocketmq-nameserver2:9876
+#在发送消息时，自动创建服务器不存在的topic，默认创建的队列数
+defaultTopicQueueNums=4
+#是否允许 Broker 自动创建Topic，建议线下开启，线上关闭
+autoCreateTopicEnable=true
+#是否允许 Broker 自动创建订阅组，建议线下开启，线上关闭
+autoCreateSubscriptionGroup=true
+#Broker 对外服务的监听端口
+listenPort=11011
+#删除文件时间点，默认凌晨 4点
+deleteWhen=04
+#文件保留时间，默认 48 小时
+fileReservedTime=120
+#commitLog每个文件的大小默认1G
+mapedFileSizeCommitLog=1073741824
+#ConsumeQueue每个文件默认存30W条，根据业务情况调整
+mapedFileSizeConsumeQueue=300000
+#destroyMapedFileIntervalForcibly=120000
+#redeleteHangedFileInterval=120000
+#检测物理文件磁盘空间
+diskMaxUsedSpaceRatio=88
+#存储路径
+storePathRootDir=/opt/module/rocketmq/store-slave
+#commitLog 存储路径
+storePathCommitLog=/opt/module/rocketmq/store-slave/commitlog
+#消费队列存储路径存储路径
+storePathConsumeQueue=/opt/module/rocketmq/store-slave/consumequeue
+#消息索引存储路径
+storePathIndex=/opt/module/rocketmq/store-slave/index
+#checkpoint 文件存储路径
+storeCheckpoint=/opt/module/rocketmq/store-slave/checkpoint
+#abort 文件存储路径
+abortFile=/opt/module/rocketmq/store-slave/abort
+#限制的消息大小
+maxMessageSize=65536
+#flushCommitLogLeastPages=4
+#flushConsumeQueueLeastPages=2
+#flushCommitLogThoroughInterval=10000
+#flushConsumeQueueThoroughInterval=60000
+#Broker 的角色
+#- ASYNC_MASTER 异步复制Master
+#- SYNC_MASTER 同步双写Master
+#- SLAVE
+brokerRole=SLAVE
+#刷盘方式
+#- ASYNC_FLUSH 异步刷盘
+#- SYNC_FLUSH 同步刷盘
+flushDiskType=ASYNC_FLUSH
+#checkTransactionMessageEnable=false
+#发消息线程池数量
+#sendMessageThreadPoolNums=128
+#拉消息线程池数量
+#pullMessageThreadPoolNums=128
+</code></pre>
+<h3 id="启动集群"><a href="#启动集群" class="headerlink" title="启动集群"></a>启动集群</h3><h4 id="启动NameServer集群"><a href="#启动NameServer集群" class="headerlink" title="启动NameServer集群"></a>启动NameServer集群</h4><ul>
+<li>分别在<code>192.168.101.132</code>,<code>192.168.101.131</code>执行如下命令</li>
+</ul>
+<pre><code class="prettyprint">cd /opt/module/rocketmq/bin
+sh mqnamesrv &amp;
+</code></pre>
+<h4 id="启动broker集群"><a href="#启动broker集群" class="headerlink" title="启动broker集群"></a>启动broker集群</h4><ul>
+<li>在<code>192.168.101.132</code>启动MASTER1和SLAVE2</li>
+</ul>
+<pre><code class="prettyprint">cd /opt/module/rocketmq/bin
+#启动MASTER1
+sh mqbroker -c ../conf/2m-2s-sync/broker-a.properties &amp;
+#启动SLAVE2
+sh mqbroker -c ../conf/2m-2s-sync/broker-b-s.properties &amp;
+</code></pre>
+<ul>
+<li>在<code>192.168.101.131</code>启动MASTER2和SLAVE1</li>
+</ul>
+<pre><code class="prettyprint">cd /opt/module/rocketmq/bin
+#启动MASTER2
+sh mqbroker -c ../conf/2m-2s-sync/broker-b.properties &amp;
+#启动SLAVE1
+sh mqbroker -c ../conf/2m-2s-sync/broker-a-s.properties &amp;
+</code></pre>
+<h3 id="验证启动成功"><a href="#验证启动成功" class="headerlink" title="验证启动成功"></a>验证启动成功</h3><h4 id="使用jps查看状态"><a href="#使用jps查看状态" class="headerlink" title="使用jps查看状态"></a>使用jps查看状态</h4><pre><code class="prettyprint">jps
+</code></pre>
+<img src="/2022/05/10/rocketmq-ji-qun-da-jian/image-20220510205542048.png" class="asset-class" title="image-20220510205542048">
+
+<h4 id="查看日志"><a href="#查看日志" class="headerlink" title="查看日志"></a>查看日志</h4><pre><code class="prettyprint"># 查看nameServer日志
+tail -500f /opt/module/rabbitmq/logs/rocketmqlogs/namesrv.log
+# 查看broker日志
+tail -500f /opt/module/rabbitmq/logs/rocketmqlogs/broker.log
+</code></pre>
+<h3 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h3><ul>
+<li>旧版本主从节点storePath可以在同一个路径下，新版本需要两个不同路径</li>
+</ul>
+]]></content>
+      <categories>
+        <category>软件</category>
+      </categories>
+      <tags>
+        <tag>rocketmq</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>prettyprint</title>
     <url>/2022/05/28/prettyprint/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><pre><code class="prettyprint">public class PrettyPrint &#123;
@@ -4767,48 +4767,19 @@ javap -c -verbose com.rocpenghua.jvm/MovingAverageTest
       </categories>
   </entry>
   <entry>
-    <title>Centos7安装mysql8</title>
-    <url>/2021/11/14/centos7-an-zhuang-mysql8/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><ol>
-<li>下载 MySQL 所需要的安装包<code>https://dev.mysql.com/downloads/mysql/</code></li>
-<li>Select Operating System: 选择 Red Hat ，CentOS 是基于红帽的，Select OS Version: 选择 linux 7</li>
-<li>选择 RPM Bundle 点击 Download</li>
-<li><code>rpm -qa | grep mariadb</code> 命令查看 mariadb 的安装包</li>
-<li><code>rpm -e mariadb-libs-5.5.56-2.el7.x86_64 --nodeps</code> 命令装卸 mariadb</li>
-<li><code>rpm -qa | grep mariadb</code> 命令再次查看 mariadb 的安装包</li>
-</ol>
-<p>7.<code>tar -xvf mysql-8.0.11-1.el7.x86_64.rpm-bundle.tar</code>  命令解压 tar 包<br>8. <code>yum localinstall *.rpm</code> 安装所有rpm包<br>9. <code>rpm -qa | grep mysql</code> 命令查看 mysql 的安装包<br>10. 通过以下命令，完成对 mysql 数据库的初始化和相关配置</p>
-<pre><code class="prettyprint">mysqld --initialize;
-chown mysql:mysql /var/lib/mysql -R;
-systemctl start mysqld.service;
-systemctl  enable mysqld;
-</code></pre>
-<ol start="11">
-<li>通过 cat &#x2F;var&#x2F;log&#x2F;mysqld.log | grep password 命令查看数据库的密码</li>
-<li>通过 mysql -uroot -p 敲回车键进入数据库登陆界面</li>
-<li>输入刚刚查到的密码，进行数据库的登陆，复制粘贴就行，MySQL 的登陆密码也是不显示的</li>
-<li>通过 <code>ALTER USER &#39;root&#39;@&#39;localhost&#39; IDENTIFIED WITH mysql_native_password BY &#39;root&#39;;</code> 命令来修改密码（复杂点）</li>
-<li>通过 exit; 命令退出 MySQL，然后通过新密码再次登陆</li>
-<li>通过以下命令，进行远程访问的授权<pre><code class="prettyprint">create user &#39;root&#39;@&#39;%&#39; identified with mysql_native_password by &#39;root&#39;;
-grant all privileges on *.* to &#39;root&#39;@&#39;%&#39; with grant option;
-flush privileges;
-</code></pre>
-</li>
-<li>通过 <code>ALTER USER &#39;root&#39;@&#39;localhost&#39; IDENTIFIED BY &#39;root&#39; PASSWORD EXPIRE NEVER;</code> 命令修改加密规则，MySql8.0 版本 和 5.0 的加密规则不一样，而现在的可视化工具只支持旧的加密方式。</li>
-<li>通过 <code>flush privileges;</code> 命令刷新修该后的权限</li>
-<li>通过 exit; 命令退出 MySQL</li>
-<li>通过以下命令，关闭 firewall<pre><code class="prettyprint">systemctl stop firewalld.service;
-systemctl disable firewalld.service;
-systemctl mask firewalld.service;
-</code></pre>
-</li>
-</ol>
+    <title>Docker 安装部署RabbitMQ</title>
+    <url>/2021/10/16/docker-an-zhuang-bu-shu-rabbitmq/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p><code>这里注意获取镜像的时候要获取management版本的，不要获取last版本的，management版本的才带有管理界面。</code></p>
+<h3 id="1、查询镜像"><a href="#1、查询镜像" class="headerlink" title="1、查询镜像"></a>1、查询镜像</h3><p><code>docker search rabbitmq:management</code></p>
+<h3 id="2、获取镜像"><a href="#2、获取镜像" class="headerlink" title="2、获取镜像"></a>2、获取镜像</h3><p><code>docker pull rabbitmq:management</code></p>
+<h3 id="3、运行镜像"><a href="#3、运行镜像" class="headerlink" title="3、运行镜像"></a>3、运行镜像</h3><p><code>docker run -d -p 5672:5672 -p 15672:15672 --name rabbitmq rabbitmq:management</code></p>
+<p>访问管理界面的地址就是 http:&#x2F;&#x2F;[宿主机IP]:15672，可以使用默认的账户登录，用户名和密码都guest</p>
 ]]></content>
       <categories>
         <category>软件</category>
       </categories>
       <tags>
-        <tag>linux</tag>
+        <tag>docker</tag>
       </tags>
   </entry>
   <entry>
@@ -4860,19 +4831,48 @@ systemctl mask firewalld.service;
       </tags>
   </entry>
   <entry>
-    <title>Docker 安装部署RabbitMQ</title>
-    <url>/2021/10/16/docker-an-zhuang-bu-shu-rabbitmq/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p><code>这里注意获取镜像的时候要获取management版本的，不要获取last版本的，management版本的才带有管理界面。</code></p>
-<h3 id="1、查询镜像"><a href="#1、查询镜像" class="headerlink" title="1、查询镜像"></a>1、查询镜像</h3><p><code>docker search rabbitmq:management</code></p>
-<h3 id="2、获取镜像"><a href="#2、获取镜像" class="headerlink" title="2、获取镜像"></a>2、获取镜像</h3><p><code>docker pull rabbitmq:management</code></p>
-<h3 id="3、运行镜像"><a href="#3、运行镜像" class="headerlink" title="3、运行镜像"></a>3、运行镜像</h3><p><code>docker run -d -p 5672:5672 -p 15672:15672 --name rabbitmq rabbitmq:management</code></p>
-<p>访问管理界面的地址就是 http:&#x2F;&#x2F;[宿主机IP]:15672，可以使用默认的账户登录，用户名和密码都guest</p>
+    <title>Centos7安装mysql8</title>
+    <url>/2021/11/14/centos7-an-zhuang-mysql8/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><ol>
+<li>下载 MySQL 所需要的安装包<code>https://dev.mysql.com/downloads/mysql/</code></li>
+<li>Select Operating System: 选择 Red Hat ，CentOS 是基于红帽的，Select OS Version: 选择 linux 7</li>
+<li>选择 RPM Bundle 点击 Download</li>
+<li><code>rpm -qa | grep mariadb</code> 命令查看 mariadb 的安装包</li>
+<li><code>rpm -e mariadb-libs-5.5.56-2.el7.x86_64 --nodeps</code> 命令装卸 mariadb</li>
+<li><code>rpm -qa | grep mariadb</code> 命令再次查看 mariadb 的安装包</li>
+</ol>
+<p>7.<code>tar -xvf mysql-8.0.11-1.el7.x86_64.rpm-bundle.tar</code>  命令解压 tar 包<br>8. <code>yum localinstall *.rpm</code> 安装所有rpm包<br>9. <code>rpm -qa | grep mysql</code> 命令查看 mysql 的安装包<br>10. 通过以下命令，完成对 mysql 数据库的初始化和相关配置</p>
+<pre><code class="prettyprint">mysqld --initialize;
+chown mysql:mysql /var/lib/mysql -R;
+systemctl start mysqld.service;
+systemctl  enable mysqld;
+</code></pre>
+<ol start="11">
+<li>通过 cat &#x2F;var&#x2F;log&#x2F;mysqld.log | grep password 命令查看数据库的密码</li>
+<li>通过 mysql -uroot -p 敲回车键进入数据库登陆界面</li>
+<li>输入刚刚查到的密码，进行数据库的登陆，复制粘贴就行，MySQL 的登陆密码也是不显示的</li>
+<li>通过 <code>ALTER USER &#39;root&#39;@&#39;localhost&#39; IDENTIFIED WITH mysql_native_password BY &#39;root&#39;;</code> 命令来修改密码（复杂点）</li>
+<li>通过 exit; 命令退出 MySQL，然后通过新密码再次登陆</li>
+<li>通过以下命令，进行远程访问的授权<pre><code class="prettyprint">create user &#39;root&#39;@&#39;%&#39; identified with mysql_native_password by &#39;root&#39;;
+grant all privileges on *.* to &#39;root&#39;@&#39;%&#39; with grant option;
+flush privileges;
+</code></pre>
+</li>
+<li>通过 <code>ALTER USER &#39;root&#39;@&#39;localhost&#39; IDENTIFIED BY &#39;root&#39; PASSWORD EXPIRE NEVER;</code> 命令修改加密规则，MySql8.0 版本 和 5.0 的加密规则不一样，而现在的可视化工具只支持旧的加密方式。</li>
+<li>通过 <code>flush privileges;</code> 命令刷新修该后的权限</li>
+<li>通过 exit; 命令退出 MySQL</li>
+<li>通过以下命令，关闭 firewall<pre><code class="prettyprint">systemctl stop firewalld.service;
+systemctl disable firewalld.service;
+systemctl mask firewalld.service;
+</code></pre>
+</li>
+</ol>
 ]]></content>
       <categories>
         <category>软件</category>
       </categories>
       <tags>
-        <tag>docker</tag>
+        <tag>linux</tag>
       </tags>
   </entry>
   <entry>
@@ -5041,6 +5041,20 @@ mysql&gt; ALTER USER &#39;root&#39;@&#39;%&#39; IDENTIFIED WITH mysql_native_pas
       </tags>
   </entry>
   <entry>
+    <title>Docker安装nacos</title>
+    <url>/2021/10/16/docker-an-zhuang-nacos/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h4 id="1-拉取镜像"><a href="#1-拉取镜像" class="headerlink" title="1. 拉取镜像"></a>1. 拉取镜像</h4><p><code>docker pull nacos/nacos-server</code></p>
+<h4 id="2-启动"><a href="#2-启动" class="headerlink" title="2. 启动"></a>2. 启动</h4><p><code>docker run -d -p 8848:8848 \ --name nacos \ --env MODE=standalone \ --env SPRING_DATASOURCE_PLATFORM=mysql \ --env MYSQL_SERVICE_HOST=127.0.0.1 \ --env MYSQL_SERVICE_PORT=3306 \ --env MYSQL_SERVICE_DB_NAME=nacos_config \ --env MYSQL_SERVICE_USER=root \ --env MYSQL_SERVICE_PASSWORD=root \ nacos/nacos-server</code></p>
+<h4 id="3-查看"><a href="#3-查看" class="headerlink" title="3. 查看"></a>3. 查看</h4><p><code>docker ps -a</code></p>
+]]></content>
+      <categories>
+        <category>软件</category>
+      </categories>
+      <tags>
+        <tag>docker</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Docker安装rocketmq</title>
     <url>/2021/10/19/docker-an-zhuang-rocketmq/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h4 id="拉取镜像"><a href="#拉取镜像" class="headerlink" title="拉取镜像"></a>拉取镜像</h4><pre><code class="prettyprint"># 查询镜像
@@ -5099,20 +5113,6 @@ docker run -d --name rmqconsole -p 8180:8080 --link rmqserver:namesrv\
  -t styletang/rocketmq-console-ng:1.0.0
 </code></pre>
 <h4 id="访问前端UI"><a href="#访问前端UI" class="headerlink" title="访问前端UI"></a>访问前端UI</h4><p><a href="http://ip:8180/">http://ip:8180</a></p>
-]]></content>
-      <categories>
-        <category>软件</category>
-      </categories>
-      <tags>
-        <tag>docker</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Docker安装nacos</title>
-    <url>/2021/10/16/docker-an-zhuang-nacos/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h4 id="1-拉取镜像"><a href="#1-拉取镜像" class="headerlink" title="1. 拉取镜像"></a>1. 拉取镜像</h4><p><code>docker pull nacos/nacos-server</code></p>
-<h4 id="2-启动"><a href="#2-启动" class="headerlink" title="2. 启动"></a>2. 启动</h4><p><code>docker run -d -p 8848:8848 \ --name nacos \ --env MODE=standalone \ --env SPRING_DATASOURCE_PLATFORM=mysql \ --env MYSQL_SERVICE_HOST=127.0.0.1 \ --env MYSQL_SERVICE_PORT=3306 \ --env MYSQL_SERVICE_DB_NAME=nacos_config \ --env MYSQL_SERVICE_USER=root \ --env MYSQL_SERVICE_PASSWORD=root \ nacos/nacos-server</code></p>
-<h4 id="3-查看"><a href="#3-查看" class="headerlink" title="3. 查看"></a>3. 查看</h4><p><code>docker ps -a</code></p>
 ]]></content>
       <categories>
         <category>软件</category>
@@ -6285,6 +6285,21 @@ COMMENT ON COLUMN ADDRESS.CITY
       </tags>
   </entry>
   <entry>
+    <title>微信小程序构建npm问题</title>
+    <url>/2022/04/05/wei-xin-xiao-cheng-xu-gou-jian-npm-wen-ti/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><ol>
+<li><code>npm init -y</code> 生成<code>package.json</code></li>
+<li>修改 <code>project.config.json</code> 中<code>packNpmManually</code> 为false</li>
+<li><code>npm install &quot;需要下载的包&quot;</code></li>
+<li>npm构建</li>
+<li>如果没有生成<code>miniprogram_npm</code> 就再<code>npm init -y</code></li>
+</ol>
+]]></content>
+      <categories>
+        <category>微信</category>
+      </categories>
+  </entry>
+  <entry>
     <title>windows编辑生成的shell脚本在linux执行问题调整</title>
     <url>/2021/10/30/windows-bian-ji-sheng-cheng-de-shell-jiao-ben-zai-linux-zhi-xing-wen-ti-diao-zheng/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><ol>
@@ -6520,21 +6535,6 @@ public class JSONUtils &#123;
 ]]></content>
       <categories>
         <category>问题</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>微信小程序构建npm问题</title>
-    <url>/2022/04/05/wei-xin-xiao-cheng-xu-gou-jian-npm-wen-ti/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><ol>
-<li><code>npm init -y</code> 生成<code>package.json</code></li>
-<li>修改 <code>project.config.json</code> 中<code>packNpmManually</code> 为false</li>
-<li><code>npm install &quot;需要下载的包&quot;</code></li>
-<li>npm构建</li>
-<li>如果没有生成<code>miniprogram_npm</code> 就再<code>npm init -y</code></li>
-</ol>
-]]></content>
-      <categories>
-        <category>微信</category>
       </categories>
   </entry>
   <entry>

@@ -5624,8 +5624,6 @@ systemctl start crond
 <p>第一列：分minute (0 - 59)<br>第二列：时hour (0 - 23)<br>第三列：日day of month (1 - 31)<br>第四列：月month (1 - 12)<br>第五列：周day of week (0 - 6)<br>第六列：要执行的任务命令或程序</p>
 </blockquote>
 <ul>
-<li><p>例子</p>
-</li>
 <li><p>表示的 每或每一 的意思<br> <code>00 23 * * * sh /usr/local/nginx/html/task.sh</code> 每天23点00分执行任务</p>
 </li>
 <li><p>连续区间 1-10</p>

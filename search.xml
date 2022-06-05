@@ -11786,9 +11786,7 @@ document_root: /usr/share/nginx/html
 <p>正向代理对我们是透明的，对服务端是非透明的，即服务端并不知道自己收到的是来自代理的访问还是来自真实客户端的访问。</p>
 <p><strong>反向代理</strong></p>
 <blockquote>
-<ul>
-<li>反向代理*（Reverse Proxy）方式是指以代理服务器来接受internet上的连接请求，然后将请求转发给内部网络上的服务器，并将从服务器上得到的结果返回给internet上请求连接的客户端，此时代理服务器对外就表现为一个反向代理服务器。</li>
-</ul>
+<p>反向代理（Reverse Proxy）方式是指以代理服务器来接受internet上的连接请求，然后将请求转发给内部网络上的服务器，并将从服务器上得到的结果返回给internet上请求连接的客户端，此时代理服务器对外就表现为一个反向代理服务器。</p>
 </blockquote>
 <p>反向代理是为服务端服务的，反向代理可以帮助服务器接收来自客户端的请求，帮助服务器做请求转发，负载均衡等。</p>
 <p>反向代理对服务端是透明的，对我们是非透明的，即我们并不知道自己访问的是代理服务器，而服务器知道反向代理在为他服务。</p>
@@ -11904,9 +11902,14 @@ proxy_pass http://127.0.0.1:8081
 proxy_pass http://127.0.0.1:8081/proxy
 </code></pre>
 <p><code>URL</code> 参数原则</p>
-<p><code>1. URL</code> 必须以 <code>http</code> 或 <code>https</code> 开头；</p>
-<p><code>2. URL</code> 中可以携带变量；</p>
-<p><code>3. URL</code> 中是否带 <code>URI</code> ，会直接影响发往上游请求的 <code>URL</code> ；</p>
+<ol>
+<li><p><code>URL</code> 必须以 <code>http</code> 或 <code>https</code> 开头；</p>
+</li>
+<li><p><code>URL</code> 中可以携带变量；</p>
+</li>
+<li><p><code>URL</code> 中是否带 <code>URI</code> ，会直接影响发往上游请求的 <code>URL</code> ；</p>
+</li>
+</ol>
 <p>接下来让我们来看看两种常见的 <code>URL</code> 用法：</p>
 <ol>
 <li><code>proxy_pass http://192.168.100.33:8081</code></li>
@@ -11923,18 +11926,28 @@ proxy_pass http://127.0.0.1:8081/proxy
 &#125;
 </code></pre>
 <p>分析：</p>
-<p>\1. 用户请求 <code>URL</code> ：<code>/bbs/abc/test.html</code></p>
-<p>\2. 请求到达 <code>Nginx</code> 的 <code>URL</code> ：<code>/bbs/abc/test.html</code></p>
-<p>3 .请求到达上游应用服务器的 <code>URL</code> ：<code>/bbs/abc/test.html</code></p>
+<ol>
+<li><p>用户请求 <code>URL</code> ：<code>/bbs/abc/test.html</code></p>
+</li>
+<li><p>请求到达 <code>Nginx</code> 的 <code>URL</code> ：<code>/bbs/abc/test.html</code></p>
+</li>
+<li><p>请求到达上游应用服务器的 <code>URL</code> ：<code>/bbs/abc/test.html</code></p>
+</li>
+</ol>
 <p>带 <code>/</code> 的用法：</p>
 <pre><code>location /bbs/&#123;
   proxy_pass http://127.0.0.1:8080/;
 &#125;
 </code></pre>
 <p>分析：</p>
-<p>\1. 用户请求 <code>URL</code> ：<code>/bbs/abc/test.html</code></p>
-<p>\2. 请求到达 <code>Nginx</code> 的 <code>URL</code> ：<code>/bbs/abc/test.html</code></p>
-<p>\3. 请求到达上游应用服务器的 <code>URL</code> ：<code>/abc/test.html</code></p>
+<ol>
+<li><p>用户请求 <code>URL</code> ：<code>/bbs/abc/test.html</code></p>
+</li>
+<li><p>请求到达 <code>Nginx</code> 的 <code>URL</code> ：<code>/bbs/abc/test.html</code></p>
+</li>
+<li><p>请求到达上游应用服务器的 <code>URL</code> ：<code>/abc/test.html</code></p>
+</li>
+</ol>
 <p>并没有拼接上 <code>/bbs</code> ，这点和 <code>root</code> 与 <code>alias</code> 之间的区别是保持一致的。</p>
 <p><strong>配置反向代理</strong></p>
 <p>这里为了演示更加接近实际，作者准备了两台云服务器，它们的公网 <code>IP</code> 分别是：<code>121.42.11.34</code>与 <code>121.5.180.193</code> 。</p>
@@ -12220,14 +12233,24 @@ server &#123;
 <p><strong>HTTPS</strong></p>
 <p>在学习如何配置 <code>HTTPS</code> 之前，我们先来简单回顾下 <code>HTTPS</code> 的工作流程是怎么样的？它是如何进行加密保证安全的？</p>
 <p><strong>HTTPS 工作流程</strong></p>
-<p>\1. 客户端（浏览器）访问 <code>https://www.baidu.com</code> 百度网站；</p>
-<p>\2. 百度服务器返回 <code>HTTPS</code> 使用的 <code>CA</code> 证书；</p>
-<p>\3. 浏览器验证 <code>CA</code> 证书是否为合法证书；</p>
-<p>\4. 验证通过，证书合法，生成一串随机数并使用公钥（证书中提供的）进行加密；</p>
-<p>\5. 发送公钥加密后的随机数给百度服务器；</p>
-<p>\6. 百度服务器拿到密文，通过私钥进行解密，获取到随机数（公钥加密，私钥解密，反之也可以）；</p>
-<p>\7. 百度服务器把要发送给浏览器的内容，使用随机数进行加密后传输给浏览器；</p>
-<p>\8. 此时浏览器可以使用随机数进行解密，获取到服务器的真实传输内容；</p>
+<ol>
+<li><p>客户端（浏览器）访问 <code>https://www.baidu.com</code> 百度网站；</p>
+</li>
+<li><p>百度服务器返回 <code>HTTPS</code> 使用的 <code>CA</code> 证书；</p>
+</li>
+<li><p>浏览器验证 <code>CA</code> 证书是否为合法证书；</p>
+</li>
+<li><p>验证通过，证书合法，生成一串随机数并使用公钥（证书中提供的）进行加密；</p>
+</li>
+<li><p>发送公钥加密后的随机数给百度服务器；</p>
+</li>
+<li><p>百度服务器拿到密文，通过私钥进行解密，获取到随机数（公钥加密，私钥解密，反之也可以）；</p>
+</li>
+<li><p>百度服务器把要发送给浏览器的内容，使用随机数进行加密后传输给浏览器；</p>
+</li>
+<li><p>此时浏览器可以使用随机数进行解密，获取到服务器的真实传输内容；</p>
+</li>
+</ol>
 <p>这就是 <code>HTTPS</code> 的基本运作原理，使用对称加密和非对称机密配合使用，保证传输内容的安全性。</p>
 <p>关于HTTPS更多知识，可以查看作者的另外一篇文章《学习 HTTP 协议》。</p>
 <h3 id="配置证书"><a href="#配置证书" class="headerlink" title="配置证书"></a>配置证书</h3><p>下载证书的压缩文件，里面有个 <code>Nginx</code> 文件夹，把 <code>xxx.crt</code> 和 <code>xxx.key</code> 文件拷贝到服务器目录，再进行如下配置：</p>
@@ -12332,8 +12355,7 @@ gzip_http_version 1.1;
 <p>多进程中的 <code>Nginx</code> 进程架构如下图所示，会有一个父进程（ <code>Master Process</code> ），它会有很多子进程（ <code>Child Processes</code> ）。</p>
 <ul>
 <li><p><code>Master Process</code> 用来管理子进程的，其本身并不真正处理用户请求。</p>
-</li>
-<li><ul>
+<ul>
 <li>某个子进程 <code>down</code> 掉的话，它会向 <code>Master</code> 进程发送一条消息，表明自己不可用了，此时 <code>Master</code> 进程会去新起一个子进程。</li>
 <li>某个配置文件被修改了 <code>Master</code> 进程会去通知 <code>work</code> 进程获取新的配置信息，这也就是我们所说的热部署。</li>
 </ul>
@@ -12342,13 +12364,22 @@ gzip_http_version 1.1;
 </li>
 </ul>
 <h2 id="配置文件重载原理"><a href="#配置文件重载原理" class="headerlink" title="配置文件重载原理"></a>配置文件重载原理</h2><p><code>reload</code> 重载配置文件的流程：</p>
-<p>\1. 向 <code>master</code> 进程发送 <code>HUP</code> 信号（ <code>reload</code> 命令）；</p>
-<p><code>2. master</code> 进程检查配置语法是否正确；</p>
-<p><code>3. master</code> 进程打开监听端口；</p>
-<p><code>4. master</code> 进程使用新的配置文件启动新的 <code>worker</code> 子进程；</p>
-<p><code>5. master</code> 进程向老的 <code>worker</code> 子进程发送 <code>QUIT</code> 信号；</p>
-<p>\6. 老的 <code>worker</code> 进程关闭监听句柄，处理完当前连接后关闭进程；</p>
-<p>\7. 整个过程 <code>Nginx</code> 始终处于平稳运行中，实现了平滑升级，用户无感知；</p>
+<ol>
+<li><p>向 <code>master</code> 进程发送 <code>HUP</code> 信号（ <code>reload</code> 命令）；</p>
+</li>
+<li><p><code>master</code> 进程检查配置语法是否正确；</p>
+</li>
+<li><p><code>master</code> 进程打开监听端口；</p>
+</li>
+<li><p><code>master</code> 进程使用新的配置文件启动新的 <code>worker</code> 子进程；</p>
+</li>
+<li><p><code>master</code> 进程向老的 <code>worker</code> 子进程发送 <code>QUIT</code> 信号；</p>
+</li>
+<li><p>老的 <code>worker</code> 进程关闭监听句柄，处理完当前连接后关闭进程；</p>
+</li>
+<li><p>整个过程 <code>Nginx</code> 始终处于平稳运行中，实现了平滑升级，用户无感知；</p>
+</li>
+</ol>
 <h2 id="Nginx-模块化管理机制"><a href="#Nginx-模块化管理机制" class="headerlink" title="Nginx 模块化管理机制"></a>Nginx 模块化管理机制</h2><p><code>Nginx</code> 的内部结构是由核心部分和一系列的功能模块所组成。这样划分是为了使得每个模块的功能相对简单，便于开发，同时也便于对系统进行功能扩展。<code>Nginx</code> 的模块是互相独立的,低耦合高内聚。</p>
 <img src="/2022/06/05/nginx-pei-zhi-xue-xi/640-165439725505114.png" class="asset-class" title="图片">
 

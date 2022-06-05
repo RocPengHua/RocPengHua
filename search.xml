@@ -13001,4 +13001,26 @@ mysql&gt; show slave status\G;
         <category>技术</category>
       </categories>
   </entry>
+  <entry>
+    <title>git clone Filename too long</title>
+    <url>/2022/06/04/git-clone-filename-too-long/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h3 id="问题（windows）"><a href="#问题（windows）" class="headerlink" title="问题（windows）"></a>问题（windows）</h3><pre><code class="prettyprint">error: unable to create file examples/shardingsphere-jdbc-example/mixed-feature-example/sharding-readwrite-splitting-example/sharding-readwrite-splitting-raw-jdbc-example/src/main/java/org/apache/shardingsphere/example/sharding/readwrite/splitting/raw/ShardingReadwriteSplittingRawJavaConfigurationExample.java: Filename too long
+error: unable to create file examples/shardingsphere-jdbc-example/mixed-feature-example/sharding-readwrite-splitting-example/sharding-readwrite-splitting-raw-jdbc-example/src/main/java/org/apache/shardingsphere/example/sharding/readwrite/splitting/raw/ShardingReadwriteSplittingRawJavaRangeConfigurationExample.java: Filename too long
+error: unable to create file examples/shardingsphere-jdbc-example/mixed-feature-example/sharding-readwrite-splitting-example/sharding-readwrite-splitting-raw-jdbc-example/src/main/java/org/apache/shardingsphere/example/sharding/readwrite/splitting/raw/ShardingReadwriteSplittingRawYamlConfigurationExample.java: Filename too long
+error: unable to create file examples/shardingsphere-jdbc-example/mixed-feature-example/sharding-readwrite-splitting-example/sharding-readwrite-splitting-raw-jdbc-example/src/main/java/org/apache/shardingsphere/example/sharding/readwrite/splitting/raw/ShardingReadwriteSplittingRawYamlRangeConfigurationExample.java: Filename too long
+fatal: cannot create directory at &#39;examples/shardingsphere-jdbc-example/mixed-feature-example/sharding-readwrite-splitting-example/sharding-readwrite-splitting-raw-jdbc-example/src/main/java/org/apache/shardingsphere/example/sharding/readwrite/splitting/raw/config&#39;: Filename too long
+</code></pre>
+<h3 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h3><blockquote>
+<p>管理员打开<code>cmd</code></p>
+</blockquote>
+<pre><code> git config --system core.longpaths true
+</code></pre>
+]]></content>
+      <categories>
+        <category>问题</category>
+      </categories>
+      <tags>
+        <tag>git</tag>
+      </tags>
+  </entry>
 </search>

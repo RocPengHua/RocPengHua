@@ -5566,17 +5566,10 @@ fatal: cannot create directory at &#39;examples/shardingsphere-jdbc-example/mixe
     <url>/2022/06/05/linux-ding-shi-git-pull/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h3 id="编辑git-pull脚本"><a href="#编辑git-pull脚本" class="headerlink" title="编辑git pull脚本"></a>编辑git pull脚本</h3><pre><code class="prettyprint">#!/bin/bash
 
-dir=`ls /usr/local/nginx/html`
-echo &quot;git dir list:$&#123;dir&#125;---&quot;
-for d in $dir
-do
-    if [ -d $d ]
-    then
-        echo &quot;d:$d&quot;
-        cd /usr/local/nginx/html/$d
-        git pull &gt;/usr/local/nginx/html/pull_logs.txt 2&gt;&amp;1
-    fi
-done
+cd /usr/local/nginx/html/RocPengHua
+git pull
+</code></pre>
+<h3 id="给脚本权限"><a href="#给脚本权限" class="headerlink" title="给脚本权限"></a>给脚本权限</h3><pre><code class="prettyprint">chmod 777 task.sh
 </code></pre>
 <h3 id="编辑crontab定时任务"><a href="#编辑crontab定时任务" class="headerlink" title="编辑crontab定时任务"></a>编辑crontab定时任务</h3><pre><code class="prettyprint">#新建
 crontab -e
@@ -5585,6 +5578,47 @@ crontab -l
 </code></pre>
 <h4 id="编辑定时任务内容"><a href="#编辑定时任务内容" class="headerlink" title="编辑定时任务内容"></a>编辑定时任务内容</h4><pre><code class="prettyprint">#每隔两分钟，7点到23点执行
 */2 7-23 * * * sh /usr/local/nginx/html/task.sh
+</code></pre>
+<h3 id="重启定时任务"><a href="#重启定时任务" class="headerlink" title="重启定时任务"></a>重启定时任务</h3><pre><code class="prettyprint">systemctl restart crond #重启定时任务
+systemctl reload crond #重新加载
+</code></pre>
+<h3 id="查看日志"><a href="#查看日志" class="headerlink" title="查看日志"></a>查看日志</h3><pre><code class="prettyprint">tailf /val/log/cron
+</code></pre>
+<ul>
+<li>日志记录</li>
+</ul>
+<blockquote>
+<p>Jun  5 10:50:01 iZm5e198ia3o66a6om8gf3Z CROND[31499]: (root) CMD (sh &#x2F;usr&#x2F;local&#x2F;nginx&#x2F;html&#x2F;task.sh)<br>Jun  5 10:50:01 iZm5e198ia3o66a6om8gf3Z CROND[31497]: (root) MAIL (mailed 69 bytes of output but got status 0x004b#012)<br>Jun  5 10:52:01 iZm5e198ia3o66a6om8gf3Z CROND[31607]: (root) CMD (sh &#x2F;usr&#x2F;local&#x2F;nginx&#x2F;html&#x2F;task.sh)<br>Jun  5 10:52:01 iZm5e198ia3o66a6om8gf3Z CROND[31606]: (root) MAIL (mailed 69 bytes of output but got status 0x004b#012)<br>Jun  5 10:54:01 iZm5e198ia3o66a6om8gf3Z CROND[31711]: (root) CMD (sh &#x2F;usr&#x2F;local&#x2F;nginx&#x2F;html&#x2F;task.sh)<br>Jun  5 10:54:01 iZm5e198ia3o66a6om8gf3Z CROND[31710]: (root) MAIL (mailed 69 bytes of output but got status 0x004b#012)<br>Jun  5 10:56:01 iZm5e198ia3o66a6om8gf3Z CROND[31818]: (root) CMD (sh &#x2F;usr&#x2F;local&#x2F;nginx&#x2F;html&#x2F;task.sh)<br>Jun  5 10:56:01 iZm5e198ia3o66a6om8gf3Z CROND[31817]: (root) MAIL (mailed 69 bytes of output but got status 0x004b#012)</p>
+</blockquote>
+<h4 id="mailed-69-bytes-of-output-but-got-status-0x004b-012"><a href="#mailed-69-bytes-of-output-but-got-status-0x004b-012" class="headerlink" title="mailed 69 bytes of output but got status 0x004b#012"></a>mailed 69 bytes of output but got status 0x004b#012</h4><ul>
+<li><p>问题修改</p>
+<ul>
+<li>修改 &#x2F;etc&#x2F;postfix&#x2F;main.cf 文件</li>
+</ul>
+<pre><code class="prettyprint">#打开all
+inet_interfaces = all
+#inet_interfaces = $myhostname
+#inet_interfaces = $myhostname, localhost
+#注释localhost
+#inet_interfaces = localhost
+</code></pre>
+<ul>
+<li><code>service postfix start</code></li>
+</ul>
+</li>
+</ul>
+<h3 id="其他命令"><a href="#其他命令" class="headerlink" title="其他命令"></a>其他命令</h3><pre><code class="prettyprint">#查看服务状态
+systemctl status crond
+#启动
+systemctl start crond
+#停止
+systemctl stop crond
+#重启
+systemctl restart crond
+#重新加载
+systemctl reload crond
+#开机启动crontab服务
+systemctl start crond
 </code></pre>
 ]]></content>
       <categories>

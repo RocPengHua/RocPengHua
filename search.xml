@@ -5620,6 +5620,26 @@ systemctl reload crond
 #开机启动crontab服务
 systemctl start crond
 </code></pre>
+<h3 id="cron说明"><a href="#cron说明" class="headerlink" title="cron说明"></a>cron说明</h3><blockquote>
+<p>第一列：分minute (0 - 59)<br>第二列：时hour (0 - 23)<br>第三列：日day of month (1 - 31)<br>第四列：月month (1 - 12)<br>第五列：周day of week (0 - 6)<br>第六列：要执行的任务命令或程序</p>
+</blockquote>
+<ul>
+<li><p>例子</p>
+</li>
+<li><p>表示的 每或每一 的意思<br> <code>00 23 * * * sh /usr/local/nginx/html/task.sh</code> 每天23点00分执行任务</p>
+</li>
+<li><p>连续区间 1-10</p>
+<ul>
+<li><code>00 8-23 * * * sh /usr/local/nginx/html/task.sh</code> 每天8点至23点，每小时执行任务</li>
+<li><code>00 1,2,3,4,8 * * * sh /usr/local/nginx/html/task.sh</code> 每天1点、2点、3点、4点、8点执行任务</li>
+<li><code>*/10 *  * * * sh /usr/local/nginx/html/task.sh </code>每隔10分钟执行一次任务</li>
+<li><code>30 */6 * * * sh /usr/local/nginx/html/task.sh </code>每隔6小时的30分执行任务</li>
+<li><code>30 8-12/2 * * * sh /usr/local/nginx/html/task.sh</code> 每天8点至12点，每隔2小时的30分执行任务</li>
+<li><code>45 4 1,10,22 * * sh /usr/local/nginx/html/task.sh </code>每月1号、10号、22号4点45分执行任务</li>
+<li><code>10 1 * * 6,0 sh /usr/local/nginx/html/task.sh </code>每周六周日1点10执行任务</li>
+</ul>
+</li>
+</ul>
 ]]></content>
       <categories>
         <category>linux</category>

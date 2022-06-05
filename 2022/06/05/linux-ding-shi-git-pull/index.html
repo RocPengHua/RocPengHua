@@ -391,7 +391,7 @@
     <span>TOC</span>
   </div>
   <div class="widget-body">
-    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BC%96%E8%BE%91git-pull%E8%84%9A%E6%9C%AC"><span class="toc-number">1.</span> <span class="toc-text">编辑git pull脚本</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%99%E8%84%9A%E6%9C%AC%E6%9D%83%E9%99%90"><span class="toc-number">2.</span> <span class="toc-text">给脚本权限</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BC%96%E8%BE%91crontab%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1"><span class="toc-number">3.</span> <span class="toc-text">编辑crontab定时任务</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BC%96%E8%BE%91%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1%E5%86%85%E5%AE%B9"><span class="toc-number">3.1.</span> <span class="toc-text">编辑定时任务内容</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%87%8D%E5%90%AF%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1"><span class="toc-number">4.</span> <span class="toc-text">重启定时任务</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E6%97%A5%E5%BF%97"><span class="toc-number">5.</span> <span class="toc-text">查看日志</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#mailed-69-bytes-of-output-but-got-status-0x004b-012"><span class="toc-number">5.1.</span> <span class="toc-text">mailed 69 bytes of output but got status 0x004b#012</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B6%E4%BB%96%E5%91%BD%E4%BB%A4"><span class="toc-number">6.</span> <span class="toc-text">其他命令</span></a></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BC%96%E8%BE%91git-pull%E8%84%9A%E6%9C%AC"><span class="toc-number">1.</span> <span class="toc-text">编辑git pull脚本</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%99%E8%84%9A%E6%9C%AC%E6%9D%83%E9%99%90"><span class="toc-number">2.</span> <span class="toc-text">给脚本权限</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BC%96%E8%BE%91crontab%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1"><span class="toc-number">3.</span> <span class="toc-text">编辑crontab定时任务</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BC%96%E8%BE%91%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1%E5%86%85%E5%AE%B9"><span class="toc-number">3.1.</span> <span class="toc-text">编辑定时任务内容</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%87%8D%E5%90%AF%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1"><span class="toc-number">4.</span> <span class="toc-text">重启定时任务</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E6%97%A5%E5%BF%97"><span class="toc-number">5.</span> <span class="toc-text">查看日志</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#mailed-69-bytes-of-output-but-got-status-0x004b-012"><span class="toc-number">5.1.</span> <span class="toc-text">mailed 69 bytes of output but got status 0x004b#012</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B6%E4%BB%96%E5%91%BD%E4%BB%A4"><span class="toc-number">6.</span> <span class="toc-text">其他命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#cron%E8%AF%B4%E6%98%8E"><span class="toc-number">7.</span> <span class="toc-text">cron说明</span></a></li></ol>
   </div>
 </section>
 
@@ -459,6 +459,26 @@ systemctl reload crond
 #开机启动crontab服务
 systemctl start crond
 </code></pre>
+<h3 id="cron说明"><a href="#cron说明" class="headerlink" title="cron说明"></a>cron说明</h3><blockquote>
+<p>第一列：分minute (0 - 59)<br>第二列：时hour (0 - 23)<br>第三列：日day of month (1 - 31)<br>第四列：月month (1 - 12)<br>第五列：周day of week (0 - 6)<br>第六列：要执行的任务命令或程序</p>
+</blockquote>
+<ul>
+<li><p>例子</p>
+</li>
+<li><p>表示的 每或每一 的意思<br> <code>00 23 * * * sh /usr/local/nginx/html/task.sh</code> 每天23点00分执行任务</p>
+</li>
+<li><p>连续区间 1-10</p>
+<ul>
+<li><code>00 8-23 * * * sh /usr/local/nginx/html/task.sh</code> 每天8点至23点，每小时执行任务</li>
+<li><code>00 1,2,3,4,8 * * * sh /usr/local/nginx/html/task.sh</code> 每天1点、2点、3点、4点、8点执行任务</li>
+<li><code>*/10 *  * * * sh /usr/local/nginx/html/task.sh </code>每隔10分钟执行一次任务</li>
+<li><code>30 */6 * * * sh /usr/local/nginx/html/task.sh </code>每隔6小时的30分执行任务</li>
+<li><code>30 8-12/2 * * * sh /usr/local/nginx/html/task.sh</code> 每天8点至12点，每隔2小时的30分执行任务</li>
+<li><code>45 4 1,10,22 * * sh /usr/local/nginx/html/task.sh </code>每月1号、10号、22号4点45分执行任务</li>
+<li><code>10 1 * * 6,0 sh /usr/local/nginx/html/task.sh </code>每周六周日1点10执行任务</li>
+</ul>
+</li>
+</ul>
 
       </section>
 

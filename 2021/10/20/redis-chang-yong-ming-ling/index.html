@@ -391,7 +391,7 @@
     <span>TOC</span>
   </div>
   <div class="widget-body">
-    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E6%80%A7%E8%83%BD"><span class="toc-number">1.</span> <span class="toc-text">测试性能</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFRedis%EF%BC%9F"><span class="toc-number">2.</span> <span class="toc-text">什么是Redis？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%88%91%E4%BB%AC%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E4%BD%BF%E7%94%A8Redis%EF%BC%9F"><span class="toc-number">3.</span> <span class="toc-text">我们为什么要使用Redis？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85-Redis"><span class="toc-number">4.</span> <span class="toc-text">安装 Redis</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#redis%E7%9A%84%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="toc-number">5.</span> <span class="toc-text">redis的应用场景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="toc-number">6.</span> <span class="toc-text">数据类型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Redis%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="toc-number">7.</span> <span class="toc-text">Redis基本数据结构</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2-%EF%BC%88String%EF%BC%89"><span class="toc-number">7.0.1.</span> <span class="toc-text">字符串 （String）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%95%A3%E5%88%97%EF%BC%88hash%EF%BC%89"><span class="toc-number">7.0.2.</span> <span class="toc-text">散列（hash）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%97%E8%A1%A8%EF%BC%88list%EF%BC%89"><span class="toc-number">7.0.3.</span> <span class="toc-text">列表（list）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%9B%86%E5%90%88%EF%BC%88Set%EF%BC%89"><span class="toc-number">7.0.4.</span> <span class="toc-text">集合（Set）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9C%89%E5%BA%8F%E9%9B%86%E5%90%88%EF%BC%88sorted-set%EF%BC%89"><span class="toc-number">7.0.5.</span> <span class="toc-text">有序集合（sorted set）</span></a></li></ol></li></ol></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E6%80%A7%E8%83%BD"><span class="toc-number">1.</span> <span class="toc-text">测试性能</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2-%EF%BC%88String%EF%BC%89"><span class="toc-number">2.</span> <span class="toc-text">字符串 （String）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%95%A3%E5%88%97%EF%BC%88hash%EF%BC%89"><span class="toc-number">3.</span> <span class="toc-text">散列（hash）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%97%E8%A1%A8%EF%BC%88list%EF%BC%89"><span class="toc-number">4.</span> <span class="toc-text">列表（list）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%9B%86%E5%90%88%EF%BC%88Set%EF%BC%89"><span class="toc-number">5.</span> <span class="toc-text">集合（Set）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9C%89%E5%BA%8F%E9%9B%86%E5%90%88%EF%BC%88sorted-set%EF%BC%89"><span class="toc-number">6.</span> <span class="toc-text">有序集合（sorted set）</span></a></li></ol>
   </div>
 </section>
 
@@ -403,48 +403,11 @@
       
       
       <section id="blog-content" class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
-        <h2 id="测试性能"><a href="#测试性能" class="headerlink" title="测试性能"></a>测试性能</h2><pre><code class="prettyprint">#-a * 密码认证
+        <h4 id="测试性能"><a href="#测试性能" class="headerlink" title="测试性能"></a>测试性能</h4><pre><code class="prettyprint">#-a * 密码认证
 redis-benchmark -a * -n 100000 -c 32 -t SET,GET,INCR,HSET,LPUSH,MSET -q
 redis-benchmark -a * -n 100000 -c 32
 </code></pre>
-<h2 id="什么是Redis？"><a href="#什么是Redis？" class="headerlink" title="什么是Redis？"></a>什么是Redis？</h2><p>基本概念：redis是一个开源的、使用C语言编写的、支持网络交互的、可基于内存也可持久化的Key-Value数据库（非关系性数据库）。</p>
-<p>redis的优势：</p>
-<p>速度快，因为数据存在内存中，类似于HashMap，HashMap的优势就是查找和操作的时间复杂度都是O(1)</p>
-<p>支持丰富数据类型，支持string，list，set，sorted set，hash</p>
-<p>支持事务，操作都是原子性，所谓的原子性就是对数据的更改要么全部执行，要么全部不执行</p>
-<p>丰富的特性：可用于缓存，消息，按key设置过期时间，过期后将会自动删除</p>
-<h2 id="我们为什么要使用Redis？"><a href="#我们为什么要使用Redis？" class="headerlink" title="我们为什么要使用Redis？"></a>我们为什么要使用Redis？</h2><p>（1）缓存数据，减少对数据库的访问次数，提高响应速度；</p>
-<p>（2）性能极高，Redis读取速度可达110000次&#x2F;s，写速度可达81000次&#x2F;s ；</p>
-<p>（3）支持数据的持久化；</p>
-<p>（4）支持丰富的数据结构：String(字符串)、Hash（散列）、List（列表）、Set（集合）以及zset(Sorted Set：有序集合)；</p>
-<p>……</p>
-<img src="/2021/10/20/redis-chang-yong-ming-ling/v2-a9caae58bd9ccc6e03d66eedcbec6c29_720w.jpg" class="asset-class" title="img">
-
-<h2 id="安装-Redis"><a href="#安装-Redis" class="headerlink" title="安装 Redis"></a>安装 Redis</h2><p>安装方法和下载地址这里也有：<a href="https://link.zhihu.com/?target=https://redis.io/download">https://redis.io/download</a></p>
-<p>1、使用 ssh 连接到 linux 服务器</p>
-<p>ssh root@ip地址</p>
-<p>2、切换到安装目录</p>
-<p>cd &#x2F;www&#x2F;server</p>
-<p>3、下载 Redis 安装包</p>
-<p>wget <a href="https://link.zhihu.com/?target=http://download.redis.io/releases/redis-4.0.2.tar.gz">http://download.redis.io/releases/redis-4.0.2.tar.gz</a></p>
-<p>4、解压之</p>
-<p>tar xzf redis-4.0.2.tar.gz</p>
-<p>5、编译安装</p>
-<p>cd redis-4.0.2</p>
-<p>make</p>
-<p>至此基本安装成功</p>
-<h2 id="redis的应用场景"><a href="#redis的应用场景" class="headerlink" title="redis的应用场景"></a>redis的应用场景</h2><p>缓存</p>
-<p>（1）对于一些要返回给前端数据的缓存，当有大量数据库sql操作时候，为了避免每次接口请求都要去查询数据库，可以把一些数据缓存到redis中，这样是直接从内存中获取数据，速度回增快很多。</p>
-<p>（2）web端用户，用于登陆缓存session数据，登陆的一些信息存到session中，缓存到redis中</p>
-<p>队列</p>
-<p>redis中提供了list接口，这个list提供了lpush和rpop，这两个方法具有原子性，可以插入队列元素和弹出队列元素。</p>
-<p>数据存储</p>
-<p>redis是非关系型数据库，可以把redis直接用于数据存储，提供了增删改查等操作，因为redis有良好的硬盘持久化机制，redis数据就可以定期持久化到硬盘中，保证了redis数据的完整性和安全性。</p>
-<p>redis锁实现防刷机制</p>
-<p>redis锁可以处理并发问题,redis数据类型中有一个set类型，set类型在存储数据的时候是无序的，而且每个值是不一样的，不能重复，这样就可以快速的查找元素中某个值是否存在，精确的进行增加删除操作。</p>
-<h2 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h2><p>Redis主要有5种数据类型，包括String，List，Set，Zset，Hash，满足大部分的使用要求。</p>
-<p><img src="/Redis%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/v2-4a9db59fca5e33752573b38b179b0378_720w.jpg" alt="img"></p>
-<h2 id="Redis基本数据结构"><a href="#Redis基本数据结构" class="headerlink" title="Redis基本数据结构"></a>Redis基本数据结构</h2><h4 id="字符串-（String）"><a href="#字符串-（String）" class="headerlink" title="字符串 （String）"></a>字符串 （String）</h4><p>字符串类型是Redis中最为基础的数据存储类型，它在Redis中是二进制安全的，这意味着该类型可以接受任何格式的数据，如JPEG图像数据或json对象描述信息等。在Redis中字符串类型的value最多可以容纳的数据长度是512M。</p>
+<h4 id="字符串-（String）"><a href="#字符串-（String）" class="headerlink" title="字符串 （String）"></a>字符串 （String）</h4><p>字符串类型是Redis中最为基础的数据存储类型，它在Redis中是二进制安全的，这意味着该类型可以接受任何格式的数据，如JPEG图像数据或json对象描述信息等。在Redis中字符串类型的value最多可以容纳的数据长度是512M。</p>
 <p>常用命令：</p>
 <ul>
 <li>set key value 设置值</li>

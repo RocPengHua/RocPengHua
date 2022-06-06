@@ -391,7 +391,7 @@
     <span>TOC</span>
   </div>
   <div class="widget-body">
-    <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E6%80%A7%E8%83%BD"><span class="toc-number">1.</span> <span class="toc-text">测试性能</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2-%EF%BC%88String%EF%BC%89"><span class="toc-number">2.</span> <span class="toc-text">字符串 （String）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%95%A3%E5%88%97%EF%BC%88hash%EF%BC%89"><span class="toc-number">3.</span> <span class="toc-text">散列（hash）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%97%E8%A1%A8%EF%BC%88list%EF%BC%89"><span class="toc-number">4.</span> <span class="toc-text">列表（list）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%9B%86%E5%90%88%EF%BC%88Set%EF%BC%89"><span class="toc-number">5.</span> <span class="toc-text">集合（Set）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9C%89%E5%BA%8F%E9%9B%86%E5%90%88%EF%BC%88sorted-set%EF%BC%89"><span class="toc-number">6.</span> <span class="toc-text">有序集合（sorted set）</span></a></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E6%80%A7%E8%83%BD"><span class="toc-number">1.</span> <span class="toc-text">测试性能</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%94%E7%A7%8D%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="toc-number">2.</span> <span class="toc-text">五种基本数据结构</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2-%EF%BC%88String%EF%BC%89"><span class="toc-number">2.1.</span> <span class="toc-text">字符串 （String）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%95%A3%E5%88%97%EF%BC%88hash%EF%BC%89"><span class="toc-number">2.2.</span> <span class="toc-text">散列（hash）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%97%E8%A1%A8%EF%BC%88list%EF%BC%89"><span class="toc-number">2.3.</span> <span class="toc-text">列表（list）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%9B%86%E5%90%88%EF%BC%88Set%EF%BC%89"><span class="toc-number">2.4.</span> <span class="toc-text">集合（Set）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9C%89%E5%BA%8F%E9%9B%86%E5%90%88%EF%BC%88sorted-set%EF%BC%89"><span class="toc-number">2.5.</span> <span class="toc-text">有序集合（sorted set）</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%89%E7%A7%8D%E9%AB%98%E7%BA%A7%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="toc-number">3.</span> <span class="toc-text">三种高级数据结构</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Bitmaps"><span class="toc-number">3.1.</span> <span class="toc-text">Bitmaps</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Hyperloglogs"><span class="toc-number">3.2.</span> <span class="toc-text">Hyperloglogs</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#GEO"><span class="toc-number">3.3.</span> <span class="toc-text">GEO</span></a></li></ol></li></ol>
   </div>
 </section>
 
@@ -403,11 +403,11 @@
       
       
       <section id="blog-content" class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
-        <h4 id="测试性能"><a href="#测试性能" class="headerlink" title="测试性能"></a>测试性能</h4><pre><code class="prettyprint">#-a * 密码认证
+        <h3 id="测试性能"><a href="#测试性能" class="headerlink" title="测试性能"></a>测试性能</h3><pre><code class="prettyprint">#-a * 密码认证
 redis-benchmark -a * -n 100000 -c 32 -t SET,GET,INCR,HSET,LPUSH,MSET -q
 redis-benchmark -a * -n 100000 -c 32
 </code></pre>
-<h4 id="字符串-（String）"><a href="#字符串-（String）" class="headerlink" title="字符串 （String）"></a>字符串 （String）</h4><p>字符串类型是Redis中最为基础的数据存储类型，它在Redis中是二进制安全的，这意味着该类型可以接受任何格式的数据，如JPEG图像数据或json对象描述信息等。在Redis中字符串类型的value最多可以容纳的数据长度是512M。</p>
+<h3 id="五种基本数据结构"><a href="#五种基本数据结构" class="headerlink" title="五种基本数据结构"></a>五种基本数据结构</h3><h4 id="字符串-（String）"><a href="#字符串-（String）" class="headerlink" title="字符串 （String）"></a>字符串 （String）</h4><p>字符串类型是Redis中最为基础的数据存储类型，它在Redis中是二进制安全的，这意味着该类型可以接受任何格式的数据，如JPEG图像数据或json对象描述信息等。在Redis中字符串类型的value最多可以容纳的数据长度是512M。</p>
 <p>常用命令：</p>
 <ul>
 <li>set key value 设置值</li>
@@ -478,6 +478,15 @@ redis-benchmark -a * -n 100000 -c 32
 <li>zremrangebyrank key start stop 移除给定排名区间的所有成员</li>
 <li>zremrangebyscore key min max 移除给定分数区间的所有成员</li>
 <li>zscore key member 返回有序集合中成员的分数</li>
+</ul>
+<h3 id="三种高级数据结构"><a href="#三种高级数据结构" class="headerlink" title="三种高级数据结构"></a>三种高级数据结构</h3><h4 id="Bitmaps"><a href="#Bitmaps" class="headerlink" title="Bitmaps"></a>Bitmaps</h4><ul>
+<li>Bitmaps：setbit&#x2F;getbit&#x2F;bitop&#x2F;bitcount&#x2F;bitpos bitmaps不是一个真实的数据结构。而是String类型上的一组面向bit操作的集合。由于 strings是二进制安全的blob，并且它们的最大长度是512m，所以bitmaps能最大设置 2^32个不同的bit。</li>
+</ul>
+<h4 id="Hyperloglogs"><a href="#Hyperloglogs" class="headerlink" title="Hyperloglogs"></a>Hyperloglogs</h4><ul>
+<li>Hyperloglogs：pfadd&#x2F;pfcount&#x2F;pfmerge 在redis的实现中，您使用标准错误小于1％的估计度量结束。这个算法的神奇在于不再 需要与需要统计的项相对应的内存，取而代之，使用的内存一直恒定不变。最坏的情况 下只需要12k，就可以计算接近2^64个不同元素的基数。</li>
+</ul>
+<h4 id="GEO"><a href="#GEO" class="headerlink" title="GEO"></a>GEO</h4><ul>
+<li>GEO：geoadd&#x2F;geohash&#x2F;geopos&#x2F;geodist&#x2F;georadius&#x2F;georadiusbymember Redis的GEO特性在 Redis3.2版本中推出，这个功能可以将用户给定的地理位置（经 度和纬度）信息储存起来，并对这些信息进行操作。</li>
 </ul>
 
       </section>

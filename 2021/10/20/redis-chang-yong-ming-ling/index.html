@@ -391,7 +391,7 @@
     <span>TOC</span>
   </div>
   <div class="widget-body">
-    <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%99%BB%E5%BD%95"><span class="toc-number">1.</span> <span class="toc-text">登录</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4"><span class="toc-number">2.</span> <span class="toc-text">常用命令</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#redis-%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="toc-number">3.</span> <span class="toc-text">redis 配置文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E9%80%89%E9%A1%B9"><span class="toc-number">4.</span> <span class="toc-text">配置文件选项</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#redis%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="toc-number">5.</span> <span class="toc-text">redis数据类型</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#String%E7%B1%BB%E5%9E%8B"><span class="toc-number">5.1.</span> <span class="toc-text">String类型</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Hash%E7%B1%BB%E5%9E%8B"><span class="toc-number">5.2.</span> <span class="toc-text">Hash类型</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#List%E7%B1%BB%E5%9E%8B"><span class="toc-number">5.3.</span> <span class="toc-text">List类型</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Set%E9%9B%86%E5%90%88%E7%B1%BB%E5%9E%8B"><span class="toc-number">5.4.</span> <span class="toc-text">Set集合类型</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Zset%E6%9C%89%E5%BA%8F%E9%9B%86%E5%90%88%E7%B1%BB%E5%9E%8B"><span class="toc-number">5.5.</span> <span class="toc-text">Zset有序集合类型</span></a></li></ol></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E6%80%A7%E8%83%BD"><span class="toc-number">1.</span> <span class="toc-text">测试性能</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFRedis%EF%BC%9F"><span class="toc-number">2.</span> <span class="toc-text">什么是Redis？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%88%91%E4%BB%AC%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E4%BD%BF%E7%94%A8Redis%EF%BC%9F"><span class="toc-number">3.</span> <span class="toc-text">我们为什么要使用Redis？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85-Redis"><span class="toc-number">4.</span> <span class="toc-text">安装 Redis</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#redis%E7%9A%84%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="toc-number">5.</span> <span class="toc-text">redis的应用场景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="toc-number">6.</span> <span class="toc-text">数据类型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Redis%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="toc-number">7.</span> <span class="toc-text">Redis基本数据结构</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2-%EF%BC%88String%EF%BC%89"><span class="toc-number">7.0.1.</span> <span class="toc-text">字符串 （String）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%95%A3%E5%88%97%EF%BC%88hash%EF%BC%89"><span class="toc-number">7.0.2.</span> <span class="toc-text">散列（hash）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%97%E8%A1%A8%EF%BC%88list%EF%BC%89"><span class="toc-number">7.0.3.</span> <span class="toc-text">列表（list）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%9B%86%E5%90%88%EF%BC%88Set%EF%BC%89"><span class="toc-number">7.0.4.</span> <span class="toc-text">集合（Set）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9C%89%E5%BA%8F%E9%9B%86%E5%90%88%EF%BC%88sorted-set%EF%BC%89"><span class="toc-number">7.0.5.</span> <span class="toc-text">有序集合（sorted set）</span></a></li></ol></li></ol></li></ol>
   </div>
 </section>
 
@@ -403,252 +403,119 @@
       
       
       <section id="blog-content" class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
-        <h4 id="登录"><a href="#登录" class="headerlink" title="登录"></a>登录</h4><p><code>auth password</code></p>
-<h4 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h4><p>启动 redis-server</p>
-<p>关闭 redis-cli</p>
-<p>回复命令</p>
-<p>整数回复 dbsize</p>
-<p>字符串回复 keys * ,set xx xx</p>
-<h4 id="redis-配置文件"><a href="#redis-配置文件" class="headerlink" title="redis 配置文件"></a>redis 配置文件</h4><p>动态设置</p>
-<p>redis-server –port 1234</p>
-<p>redis-cli -h -localhost 1234</p>
-<p>redis-server redis.config</p>
-<p>CONFIG GET name:</p>
-<p>config get loglevel</p>
-<p>CONFIG SET loglevel</p>
-<h4 id="配置文件选项"><a href="#配置文件选项" class="headerlink" title="配置文件选项"></a>配置文件选项</h4><p>port 6379 默认端口</p>
-<p>bind 127.0.0.1 默认主机地址</p>
-<p>timeout 0 多少秒后自动关闭连接，0代表没有设置此选项</p>
-<p>loglevel notice 日志级别 debug verbose notic warning</p>
-<p>logfile “” 日志的记录方式，默认标准输出stdout,</p>
-<p>databases 16 默认数据库数量16个，默认为0</p>
-<p>select 0</p>
-<p>快照</p>
-<p>save <second> <changes> 多少秒有多少次改变将数据同步到磁盘里</p>
-<p>save 900 1</p>
-<p>save 300 10</p>
-<p>rdbccompression yes 存储本地数据库是是否启用压缩 ， 默认yes</p>
-<p>dbfilename dump.rdb 指定本地数据库的文件名，默认为dump.rdb</p>
-<p>dir .&#x2F; 指定本地数据库的存放目录，默认是当前目录</p>
-<h4 id="redis数据类型"><a href="#redis数据类型" class="headerlink" title="redis数据类型"></a>redis数据类型</h4><h5 id="String类型"><a href="#String类型" class="headerlink" title="String类型"></a>String类型</h5><p>一个健最多存储512MB</p>
-<p>1）SET key value [EX seconds][PX millisecond ] 设置key对应的value，</p>
-<p>可选项：</p>
-<p>ex seconds 设置key的过期时间</p>
-<p>px millisecond 以毫秒设置过期时间</p>
-<p>nx 只有键不存在的时候才可以设置成功</p>
-<p>xx 只有键存在时才可以设置成功</p>
-<p>如果key存在同名会产生覆盖</p>
-<p>如果ex和px同时出现，后面的会覆盖前面的</p>
-<p>set str ‘test’</p>
-<p>2）GET key 根据key找到对应的值</p>
-<p>key不存在返回nil</p>
-<p>3）GETRANGE key start end 字符截取</p>
-<p>4）GETSET 设置指定key的值，并返回原来的值，原来的值不存在返回nil</p>
-<p>5）MSET key value key value。。。 一次设置多个</p>
-<p>6）MGET key key key 一次获得多个</p>
-<p>7）STRLEN key 获取字符串长度</p>
-<p>8）SETRANGE key offset value 字符串替换</p>
-<p>如果设置的原来的字符串长度比设置的小，就以零字节（&#x2F;x00）来填充</p>
-<ol start="9">
-<li><p>SETNX key value 仅当key不存在时成功</p>
-</li>
-<li><p>SETEX key seconds value 设置key并且设置过期时间，单为为秒，原子操作</p>
-</li>
-</ol>
-<p>相当于执行 set key value ,并对这个key设置了过期时间 expire key seconds</p>
-<p>setex exstr 10 ‘test’，对相同key进行设置会产生覆盖</p>
-<p>11）TTL key 获取key的生命周期，PTTL毫秒</p>
-<p>12）MSETNX、MSET同理多个</p>
-<p>13）PSETEX key milliseconds value 以毫秒为单为设置key的生命周期</p>
-<p>14）INCR key 对key中存储的数字加1，key存储的要为数字</p>
-<p>如果key不存在，会先初始化为0，再执行incr</p>
-<p>15）INCRBY 将key中存储的数字加上指定增量</p>
-<p>INCRBY increment</p>
-<p>16）INCRBYFLOAT 给key中存储的数字加上浮点数</p>
-<p>17）DECR key 减法</p>
-<p>18）APPEND key value通过apend将值追加到字符串的末尾</p>
-<p>如果key不存在，将value set进去</p>
-<h5 id="Hash类型"><a href="#Hash类型" class="headerlink" title="Hash类型"></a>Hash类型</h5><ol>
-<li>HSET 将哈希表key中域field设置成指定的value</li>
-</ol>
-<p>HSET key field value，如果存在重新复制</p>
-<p>2）HGET 返回哈希表中field对应的值</p>
-<p>HGET key field，如果key不存在返回nil</p>
-<p>3）HSETNX 如果不存在设置</p>
-<p>如果field存在操作无效，返回0</p>
-<p>4）HMSET key 设置多个field</p>
-<p>5）HMGET 一次获得哈希表key中多个field值</p>
-<p>如果字段field不存在返回nil</p>
-<p>6）HGETALL 返回哈希表key中所有的域和值</p>
-<p>HGETALL key</p>
-<p>7）HKEYS 返回hash中key对应的所有域</p>
-<p>8）HVALS 返回hash表中所有field对应的值</p>
-<p>hvals key</p>
-<p>9）HLEN key 返回hash表feild的数量</p>
-<p>10）HINCRBY key field value 对key的field增量操作，存储的是数值才可以</p>
-<p>11）HINCRBYFLOAT key field value 增量可以为浮点型</p>
-<p>12）HDEL 删除hash中key的指定域</p>
-<p>hdel key field field</p>
-<h5 id="List类型"><a href="#List类型" class="headerlink" title="List类型"></a>List类型</h5><p>1）LPUSH 向列表的左端添加元素，可以添加多个</p>
-<p>LPUSH key value1 value2，如果不存在先创建</p>
-<p>2）RPUSH 向列表右端添加元素，可添加多个</p>
-<p>RPUSH key value1 value2</p>
-<p>3）LPUSHX 向头部添加一个值，不能添加多个，只有存在才添加</p>
-<p>4）LPOP弹出列表左边的元素</p>
-<p>5）RPOP弹出列表右边的元素</p>
-<p>6）LLEN 得到列表的长度</p>
-<p>7）LRANGE 获取列表片段</p>
-<p>LRANGE key start stop</p>
-<p>LRANGE key 0 -1 从0到最后一个</p>
-<p>如果起始点超出下表会无返回</p>
-<p>8）LREM 删除列表中指定的值</p>
-<p>LREM key count value</p>
-<p>count&gt;0：从列表的头部开始向尾部搜索，移除与value相等的元素，移除count个</p>
-<p>count&lt;0:从列表的尾部开始头部搜索，移除与value相等的元素，移除count个</p>
-<p>count&#x3D;0:移除列表中所有与value值相等的值</p>
-<p>LREM list2 2 a</p>
-<p>9）LINDEX 获得指定索引元素的zhi</p>
-<p>LINDEX key index</p>
-<p>LINDEX list2 3</p>
-<p>10）LSET设置指定索引元素的值</p>
-<p>LSET key index value</p>
-<p>11）LTRIM 只保留列表的片段</p>
-<p>LTRIM key start stop</p>
-<p>12）LINSERT 向列表插入元素</p>
-<p>LINSERT key BEFORE|AFTER privot value</p>
-<p>LINSERT key BEFORE ‘f’ ‘c’</p>
-<p>如果key不存在返回-1，空列表操作返回0</p>
-<p>13）RPOPLPUSH 将元素从一个列表转到另一个列表</p>
-<p>RPOPLPUSH source destination</p>
-<p>14）BLPOP BLPOP是LPOP的阻塞版本</p>
-<p>BLPOP key key key… timeout</p>
-<p>BLPOP list1 list2 list3 0，0表示一直阻塞，如果list都为空，则会一直阻塞直到list中有值</p>
-<h5 id="Set集合类型"><a href="#Set集合类型" class="headerlink" title="Set集合类型"></a>Set集合类型</h5><p>无序集合</p>
-<p>1）SADD 向集合中添加元素</p>
-<p>SADD key numer[,….]</p>
-<p>如果key不存在，先创建，成功返回添加成功个数，不成功返回0</p>
-<p>不能添加重复的元素</p>
-<p>2）SMEMBERS 返回指定集合中的元素</p>
-<p>SMEMBERS key</p>
-<p>3)SISMEMBER 检测value是否是集合中的成员</p>
-<p>SISMEMBER key value</p>
-<p>4）SREM 删除集合中的元素</p>
-<p>SREM key value</p>
-<p>5）SPOP 删除并返回集合中的随机元素</p>
-<p>SPOP key</p>
-<p>6）SRANDMAMER随机返回集合中的元素</p>
-<p>SRANDMUMBER key count count表示返回多少个</p>
-<p>count小于0返回一个数组，数组中成员可能出现重复，数组的长度是count取绝对值</p>
-<p>7）SDIFF 返回集合的差集</p>
-<p>SDIFF key…</p>
-<p>8）SINTER： 返回集合间的交集</p>
-<p>SINTER key key..</p>
-<p>9）SUNION 返回集合的并集</p>
-<p>SUNION key…</p>
-<p>10）SCARD 返回集合中元素个数</p>
-<p>SCARD key</p>
-<p>11）SDIFFSTORE 将差集结果保存到指定集合中</p>
-<p>SDIFFSTORE destination key key….</p>
-<p>如果目标集合存在，产生覆盖</p>
-<p>12）SINTERSTORE 将交集的结果保存在指定集合中</p>
-<p>SINTERSTORE destination key key…</p>
-<p>13） SUNIONSTORE 将并集结果保存到指定集合中</p>
-<p>SUNIONSTORE destination key</p>
-<p>14）SMOVE 将集合中的元素移动到另一个集合中</p>
-<p>SMOVE source destination member (原子操作)</p>
-<h5 id="Zset有序集合类型"><a href="#Zset有序集合类型" class="headerlink" title="Zset有序集合类型"></a>Zset有序集合类型</h5><p>散列表和跳跃列表，比set更耗内存</p>
-<p>1）ZADD 将元素及其分数添加到集合中</p>
-<p>ZADD key score member [score member]</p>
-<p>如果成功返回新添加成员的数量，不返回更新的及存在的成员变量，成员不能存在重复</p>
-<p>ZADD score 100 wency 78 tutu</p>
-<p>返回(integer) 2</p>
-<p>2）ZSCORE 获得指定元素的分数</p>
-<p>3）ZRANGE 按照元素分数从小到大的顺序反回指定索引start到stop之间的所有元素（包含两端）</p>
-<p>ZRANGE key start stop</p>
-<p>ZRANGE score 0 -1</p>
-<p>ZRANGE score 0 100</p>
-<p>ZRANGE score 0 2 WITHSCORES 返回带分数</p>
-<p>注意：当两个元素的分数相同的时候，redis在排序的时候按照元素名称的字典顺序排序，如果使用的是中文（utf-8）的方式，同样按照字典顺序排列</p>
-<p>4）ZREVRANGE 按照分数从大到小的顺序</p>
-<p>ZREVRANGE start stop 【WITHSORES】</p>
-<p>5）ZRANGEBYSCORE 获得指定分数范围内的元素 按照分数从小到大的顺序</p>
-<p>ZRANGEBYSCORE key min max [WITHSCORES] [LIMIT offset count]</p>
-<p>ZRANGEBYSCORE score (80 (90 (代表不包含端点</p>
-<p>ZRANGEBYSCORE score 90 +inf +inf 代表无穷大，-inf代表负无穷</p>
-<p>ZRANGEBYSCORE score 90 +inf limit 0 1</p>
-<p>6)ZREVRANGEBYSCORE 指定分数范围内的元素，按从大到小的顺序</p>
-<p>ZRANGEBYSCORE key max min [WITHSCORES] [LIMIT offset count]</p>
-<p>7)ZINCRBY 操作某个元素的分数，返回增加操作之后的分数</p>
-<p>ZINCYBY score 5 test1</p>
-<p>ZINCTBY score -5 test1</p>
-<p>8)ZCARD 获得集合中元素的数量</p>
-<p>ZCARD score</p>
-<p>9)ZCOUNT 获得指定分数内的元素的数量</p>
-<p>ZCOUNT key min max</p>
-<p>10）ZREM 删除一个或多个元素，返回删除元素的个数</p>
-<p>ZREM key member 。。</p>
-<p>11）ZREMRANGEBYRANK 按照排名范围删除元素</p>
-<p>ZRAMRANGEBYRANK key start stop</p>
-<p>12)ZREMRANGBYSCORE 按照分数范围删除元素</p>
-<p>ZREMRANGEBYSCORE testRem 0 7</p>
-<p>13)ZRANK 获得指定元素的排名，根据分数从小到大的顺序</p>
-<p>ZRANK key member</p>
-<p>14)ZREVRANK 获得指定的排名，根据分数从大到小的顺序</p>
-<p>ZREVRANK key member</p>
-<p>15）ZINTERSTORE 计算有序集合的交集，并将结果保存起来</p>
-<p>ZINTERSTORE destination numberkeys <a href="%E6%AF%8F%E4%B8%AA%E9%9B%86%E5%90%88%E5%90%8E%E9%9D%A2%E7%9A%84%E6%9D%83%E9%87%8D">WEIGHTS weight …</a><a href="%E9%BB%98%E8%AE%A4%E6%B1%82%E5%90%88">AGGREGATE SUM | MIN | MAX </a></p>
-<p>127.0.0.1:6379&gt; ZADD testStore1 1 a 2 b 3 c</p>
-<p>(integer) 3</p>
-<p>127.0.0.1:6379&gt; ZADD testStore2 10 a 2 b 20 c</p>
-<p>(integer) 3</p>
-<p>127.0.0.1:6379&gt; ZINTERSTORE testStore 2 testStore1 testStore2</p>
-<p>(integer) 3</p>
-<p>127.0.0.1:6379&gt; ZRANGE testStore 0 -1 WITHSCORES</p>
-<ol>
-<li><p>“b”</p>
-</li>
-<li><p>“4”</p>
-</li>
-<li><p>“a”</p>
-</li>
-<li><p>“11”</p>
-</li>
-<li><p>“c”</p>
-</li>
-<li><p>“23”</p>
-</li>
-</ol>
-<p>ZINTERSTORE testStore 2 testStore1 testStore2 WEIGHTS 1 0.1 AGGREGATE MAX</p>
-<p>16)ZUNIONSTORE 计算有序集合的并集，将结果保存起来</p>
-<p>ZUNIONSTORE destination numberkeys [WEIGHTS weight …]<a href="%E9%BB%98%E8%AE%A4%E6%B1%82%E5%90%88">AGGREGATE SUM | MIN | MAX </a></p>
-<p>和keys相关的命令<br>1）keys patten 返回所有匹配模式的key</p>
-<p>keys * 任意字符</p>
-<p>? 匹配一个任意</p>
-<p>[] 匹配[]之间的内容 eg：[a-b]</p>
-<p>\x 匹配特殊字符 eg：? ,*</p>
-<ol start="2">
-<li>exists key</li>
-</ol>
-<p>3)type key</p>
-<p>4)EXPIRE key seconds 设置key的过期时间</p>
-<p>EXPIRE key timestamp</p>
-<p>5）PEXPIRE key millisecond 以毫秒设置过期时间</p>
-<p>6）TTL以秒为单位 PTTL以毫秒为单位返回剩余时间</p>
-<p>TTL key PTTL key 如果键没有设置过期返回-1，key不存在返回-2</p>
-<p>7）PERSIST 将带有过期时间的key转变成永久key</p>
-<p>8）DEL 删除指定的key，可以删除多个</p>
-<p>DEL key key</p>
-<p>9）REMENDKEY 随机返回当前数据库中的一个key</p>
-<p>10）RENANE 重命名一个key</p>
-<p>RENAME key value</p>
-<p>11）RENAMENX 必须重命名一个不存在的名称才会生效</p>
-<p>12）DUMP 序列化给定的key，返回序列化之后的值</p>
-<p>DUMP key</p>
-<p>13）RESTORE 反序列化</p>
-<p>RESTORE key ttl value</p>
-<p>restore key 0 “\x00\x0ethis is a test\x06\x00f\x97\x10\x8bo\xb5\x91\xf8”</p>
-<p>14）MOVE 将当前数据库中的key移动到另外的数据库中<br>MOVE key dbname<br>当移动一个不存在的key会失败<br>当目标数据库存在同名的key时会失败</p>
-<p>原文链接：<a target="_blank" rel="noopener" href="https://blog.csdn.net/coderlady/article/details/90547970">https://blog.csdn.net/coderlady/article/details/90547970</a></p>
+        <h2 id="测试性能"><a href="#测试性能" class="headerlink" title="测试性能"></a>测试性能</h2><pre><code class="prettyprint">#-a * 密码认证
+redis-benchmark -a * -n 100000 -c 32 -t SET,GET,INCR,HSET,LPUSH,MSET -q
+redis-benchmark -a * -n 100000 -c 32
+</code></pre>
+<h2 id="什么是Redis？"><a href="#什么是Redis？" class="headerlink" title="什么是Redis？"></a>什么是Redis？</h2><p>基本概念：redis是一个开源的、使用C语言编写的、支持网络交互的、可基于内存也可持久化的Key-Value数据库（非关系性数据库）。</p>
+<p>redis的优势：</p>
+<p>速度快，因为数据存在内存中，类似于HashMap，HashMap的优势就是查找和操作的时间复杂度都是O(1)</p>
+<p>支持丰富数据类型，支持string，list，set，sorted set，hash</p>
+<p>支持事务，操作都是原子性，所谓的原子性就是对数据的更改要么全部执行，要么全部不执行</p>
+<p>丰富的特性：可用于缓存，消息，按key设置过期时间，过期后将会自动删除</p>
+<h2 id="我们为什么要使用Redis？"><a href="#我们为什么要使用Redis？" class="headerlink" title="我们为什么要使用Redis？"></a>我们为什么要使用Redis？</h2><p>（1）缓存数据，减少对数据库的访问次数，提高响应速度；</p>
+<p>（2）性能极高，Redis读取速度可达110000次&#x2F;s，写速度可达81000次&#x2F;s ；</p>
+<p>（3）支持数据的持久化；</p>
+<p>（4）支持丰富的数据结构：String(字符串)、Hash（散列）、List（列表）、Set（集合）以及zset(Sorted Set：有序集合)；</p>
+<p>……</p>
+<img src="/2021/10/20/redis-chang-yong-ming-ling/v2-a9caae58bd9ccc6e03d66eedcbec6c29_720w.jpg" class="asset-class" title="img">
+
+<h2 id="安装-Redis"><a href="#安装-Redis" class="headerlink" title="安装 Redis"></a>安装 Redis</h2><p>安装方法和下载地址这里也有：<a href="https://link.zhihu.com/?target=https://redis.io/download">https://redis.io/download</a></p>
+<p>1、使用 ssh 连接到 linux 服务器</p>
+<p>ssh root@ip地址</p>
+<p>2、切换到安装目录</p>
+<p>cd &#x2F;www&#x2F;server</p>
+<p>3、下载 Redis 安装包</p>
+<p>wget <a href="https://link.zhihu.com/?target=http://download.redis.io/releases/redis-4.0.2.tar.gz">http://download.redis.io/releases/redis-4.0.2.tar.gz</a></p>
+<p>4、解压之</p>
+<p>tar xzf redis-4.0.2.tar.gz</p>
+<p>5、编译安装</p>
+<p>cd redis-4.0.2</p>
+<p>make</p>
+<p>至此基本安装成功</p>
+<h2 id="redis的应用场景"><a href="#redis的应用场景" class="headerlink" title="redis的应用场景"></a>redis的应用场景</h2><p>缓存</p>
+<p>（1）对于一些要返回给前端数据的缓存，当有大量数据库sql操作时候，为了避免每次接口请求都要去查询数据库，可以把一些数据缓存到redis中，这样是直接从内存中获取数据，速度回增快很多。</p>
+<p>（2）web端用户，用于登陆缓存session数据，登陆的一些信息存到session中，缓存到redis中</p>
+<p>队列</p>
+<p>redis中提供了list接口，这个list提供了lpush和rpop，这两个方法具有原子性，可以插入队列元素和弹出队列元素。</p>
+<p>数据存储</p>
+<p>redis是非关系型数据库，可以把redis直接用于数据存储，提供了增删改查等操作，因为redis有良好的硬盘持久化机制，redis数据就可以定期持久化到硬盘中，保证了redis数据的完整性和安全性。</p>
+<p>redis锁实现防刷机制</p>
+<p>redis锁可以处理并发问题,redis数据类型中有一个set类型，set类型在存储数据的时候是无序的，而且每个值是不一样的，不能重复，这样就可以快速的查找元素中某个值是否存在，精确的进行增加删除操作。</p>
+<h2 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h2><p>Redis主要有5种数据类型，包括String，List，Set，Zset，Hash，满足大部分的使用要求。</p>
+<p><img src="/Redis%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/v2-4a9db59fca5e33752573b38b179b0378_720w.jpg" alt="img"></p>
+<h2 id="Redis基本数据结构"><a href="#Redis基本数据结构" class="headerlink" title="Redis基本数据结构"></a>Redis基本数据结构</h2><h4 id="字符串-（String）"><a href="#字符串-（String）" class="headerlink" title="字符串 （String）"></a>字符串 （String）</h4><p>字符串类型是Redis中最为基础的数据存储类型，它在Redis中是二进制安全的，这意味着该类型可以接受任何格式的数据，如JPEG图像数据或json对象描述信息等。在Redis中字符串类型的value最多可以容纳的数据长度是512M。</p>
+<p>常用命令：</p>
+<ul>
+<li>set key value 设置值</li>
+<li>get key 获取值</li>
+<li>getset 将给定的值设置进去，并返回旧值</li>
+<li>mget key1 key2… 获取一个或多个key的值</li>
+<li>setnx key value 当key不存在时才设置值</li>
+<li>incr key 将key存储的值+1</li>
+<li>incrby key increment 将 key 所储存的值加上给定的增量值（increment）</li>
+<li>decr key 将key存储的值-1</li>
+<li>decrby key increment 将 key 所储存的值减去给定的增量值（increment）</li>
+<li>strlen key 返回key所存储的字符串的长度</li>
+</ul>
+<h4 id="散列（hash）"><a href="#散列（hash）" class="headerlink" title="散列（hash）"></a>散列（hash）</h4><p>Redis中Hash类型可以看成句又String key和String value的map容器。所以该类型非常适合存储对象的信息。</p>
+<p>常用命令：</p>
+<ul>
+<li>hset key field value</li>
+<li>hget key field</li>
+<li>hmset key field1 value1 [field2 value2 ] 同时set多个field值</li>
+<li>hmget key field1 [field2]</li>
+<li>hgetall key 获取key的所有值</li>
+<li>hincrby key field increment 给指定的key的field增加给定的增量值(increment)</li>
+<li>hkeys key 获取某个key的所有field</li>
+<li>hvals key 获取某个key的所有value</li>
+<li>hlen key 获取hash表中字段的数量</li>
+<li>hexists key field 查看hash表中的字段是否存在</li>
+<li>hdel key field1 [field2] 删除一个或多个hash表字段</li>
+</ul>
+<h4 id="列表（list）"><a href="#列表（list）" class="headerlink" title="列表（list）"></a>列表（list）</h4><p>在Redis中，List类型是按照插入顺序排序的字符串链表。和数据库结构中的普通链表一样，可以在头部和尾部添加新的元素。在插入时如果键不存在，Redis将为该键创建一个新的链表。与此相反，如果链表中所有的元素均被移除，那么该键也会被从数据库中删除。</p>
+<p>常用命令：</p>
+<ul>
+<li>lpush key value1 [value2] 将一个值或多个值插入到列表头部</li>
+<li>rpush key value1 [value2] 将一个值或多个值插入到列表尾部</li>
+<li>lrange key start stop 获取列表指定范围的元素</li>
+<li>lpop key 移出并获取列表中的第一个元素</li>
+<li>rpop key 移出并获取列表中的最后一个元素</li>
+<li>blpop key1 [key2 ] timeout 阻塞性的移出并获取列表的第一个元素，如果没有元素就会阻塞到超时或有元素为止</li>
+<li>brpop key1 [key2 ] timeout 阻塞性的移出并获取列表的最后一个元素，如果没有元素就会阻塞到超时或有元素为止</li>
+<li>lindex key index 通过索引位置获取列表中的元素</li>
+<li>llen key 获取列表长度</li>
+<li>lset key index value 通过索引位置设置值</li>
+<li>ltrim key start stop 对一个列表进行修剪，只保留指定区间的元素，区间外的都删除掉</li>
+</ul>
+<h4 id="集合（Set）"><a href="#集合（Set）" class="headerlink" title="集合（Set）"></a>集合（Set）</h4><p>Redis 的 Set 是 String 类型的无序集合。集合成员是唯一的，这就意味着集合中不能出现重复的数据。Redis 中集合是通过哈希表实现的，所以添加，删除，查找的复杂度都是 O(1)。集合中最大的成员数为 2^32 - 1</p>
+<p>常用命令：</p>
+<ul>
+<li>sadd key member1 [member2] 向集合中添加元素</li>
+<li>scard key 获取集合的成员数</li>
+<li>sdiff key1 [key2] 返回第一个集合与其他集合之间的差异</li>
+<li>sinter key1 [key2] 返回给定所有集合的交集</li>
+<li>sunion key1 [key2] 返回给定集合的并集</li>
+<li>sismember key member 判断member元素是否是集合中的成员</li>
+<li>smembers key 返回集合中所有成员</li>
+<li>spop key 移除并返回集中中的一个随机元素</li>
+<li>srandmember key [count] 返回集合中一个或多个随机数</li>
+<li>srem key member1 [member2] 移除集合中一个或多个成员</li>
+</ul>
+<h4 id="有序集合（sorted-set）"><a href="#有序集合（sorted-set）" class="headerlink" title="有序集合（sorted set）"></a>有序集合（sorted set）</h4><p>Redis 有序集合和集合一样也是 string 类型元素的集合,且不允许重复的成员。不同的是每个元素都会关联一个 double 类型的分数。redis 正是通过分数来为集合中的成员进行从小到大的排序。</p>
+<p>常用命令：</p>
+<ul>
+<li>zadd key score1 member1 [score2 member2] 向有序集合中添加一个或多个成员，或更新已有成员的分数</li>
+<li>zcard key 获取有序集合中的成员数量</li>
+<li>zrange key start end [withscores] 通过索引区间返回有序集合中的成员</li>
+<li>zrevrange key start stop [WITHSCORES] 通过索引区间返回有序集合中的成员，分数从高到低</li>
+<li>zrangebyscore key min max [WITHSCORES] [LIMIT] 通过分数返回有序集合指定区间内的成员</li>
+<li>zrevrangebyscore key min max [WITHSCORES] [LIMIT] 通过分数返回有序集合指定区间内的成员，分数由高到低排序</li>
+<li>zrem key member [member …] 移除</li>
+<li>zremrangebyrank key start stop 移除给定排名区间的所有成员</li>
+<li>zremrangebyscore key min max 移除给定分数区间的所有成员</li>
+<li>zscore key member 返回有序集合中成员的分数</li>
+</ul>
 
       </section>
 

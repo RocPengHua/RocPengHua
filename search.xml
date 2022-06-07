@@ -6270,6 +6270,24 @@ docker cp [local_path] rabbitmq:/[container_path]
 redis-benchmark -a * -n 100000 -c 32 -t SET,GET,INCR,HSET,LPUSH,MSET -q
 redis-benchmark -a * -n 100000 -c 32
 </code></pre>
+<h3 id="前置命令"><a href="#前置命令" class="headerlink" title="前置命令"></a>前置命令</h3><ul>
+<li>查看状态：<code>ping</code></li>
+<li>查看当前数据库中key的数量：<code>dbsize</code></li>
+<li>选择数据库：<code>select 2</code></li>
+<li>删除当前数据库数据：<code>flushdb</code></li>
+<li>删除所有数据库数据：<code>flushdb all</code></li>
+<li>退出：<code>exit或quit</code></li>
+<li>显示所有key：<code>keys *</code><ul>
+<li><code>keys *i</code>：显示以<code>i</code>结尾的key</li>
+<li><code>keys j?</code>：匹配以<code>j</code>开头的两个字符的key</li>
+</ul>
+</li>
+<li>判断是否存在：<code>exists key</code></li>
+<li>设置key的存活时间：<code>expire key seconds</code>(单位秒)</li>
+<li>查看key的存活时间：<code>ttl key</code></li>
+<li>获取key所存数据类型：<code>type key</code></li>
+<li>删除key：<code>del key</code></li>
+</ul>
 <h3 id="五种基本数据结构"><a href="#五种基本数据结构" class="headerlink" title="五种基本数据结构"></a>五种基本数据结构</h3><h4 id="字符串-（String）"><a href="#字符串-（String）" class="headerlink" title="字符串 （String）"></a>字符串 （String）</h4><p>字符串类型是Redis中最为基础的数据存储类型，它在Redis中是二进制安全的，这意味着该类型可以接受任何格式的数据，如JPEG图像数据或json对象描述信息等。在Redis中字符串类型的value最多可以容纳的数据长度是512M。</p>
 <p>常用命令：</p>
 <ul>
@@ -14112,5 +14130,180 @@ sql.replaceAll(&quot;\\#\\&#123;.+?\\&#125;&quot;,&quot;?&quot;);
       <categories>
         <category>技术</category>
       </categories>
+  </entry>
+  <entry>
+    <title>redis淘汰算法及策略</title>
+    <url>/2022/06/07/redis-tao-tai-suan-fa-ji-ce-lue/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h3 id="过期策略"><a href="#过期策略" class="headerlink" title="过期策略"></a>过期策略</h3><h4 id="定期删除"><a href="#定期删除" class="headerlink" title="定期删除"></a>定期删除</h4><blockquote>
+<p>redis 会将每个设置了过期时间的 key 放入到一个独立的字典中，以后会定期遍历这个字典来删除到期的 key</p>
+<p>默认每100ms扫描一次，但是不会遍历所有的key，使用贪心策略</p>
+</blockquote>
+<ul>
+<li>从过期字典中随机20gekey</li>
+<li>删除者20个key中已经过期了的key</li>
+<li>如果过期比例超过1&#x2F;4，重复步骤1</li>
+</ul>
+<h4 id="惰性删除"><a href="#惰性删除" class="headerlink" title="惰性删除"></a>惰性删除</h4><blockquote>
+<p>客户端访问这个key的时候，redis对key的过期时间进行检查，如果过期了就立即删除，不会给你返回任何东西</p>
+<p>定期删除可能会导致很多过期key到了时间并没有被删除掉。所以就有了惰性删除</p>
+</blockquote>
+<p><strong>定期删除是集中处理，惰性删除是零散处理</strong></p>
+<h3 id="内存淘汰策略"><a href="#内存淘汰策略" class="headerlink" title="内存淘汰策略"></a>内存淘汰策略</h3><ul>
+<li><p><code>noeviction</code>：当内存使用超过配置的时候会返回错误，不会驱逐任何键</p>
+</li>
+<li><p><code>allkeys-lru</code>：加入键的时候，如果过限，首先通过LRU算法驱逐最久没有使用的键</p>
+</li>
+<li><p><code>volatile-lru</code>：加入键的时候如果过限，首先从设置了过期时间的键集合中驱逐最久没有使用的键</p>
+</li>
+<li><p><code>allkeys-random</code>：加入键的时候如果过限，从所有key随机删除</p>
+</li>
+<li><p><code>volatile-random</code>：加入键的时候如果过限，从过期键的集合中随机驱逐</p>
+</li>
+<li><p><code>volatile-ttl</code>：从配置了过期时间的键中驱逐马上就要过期的键</p>
+</li>
+<li><p><code>volatile-lfu</code>：从所有配置了过期时间的键中驱逐使用频率最少的键</p>
+</li>
+<li><p><code>allkeys-lfu</code>：从所有键中驱逐使用频率最少的键</p>
+</li>
+</ul>
+<h3 id="LRU"><a href="#LRU" class="headerlink" title="LRU"></a>LRU</h3><p><img src="/2022-06-07-redis%E6%B7%98%E6%B1%B0%E7%AE%97%E6%B3%95%E5%8F%8A%E7%AD%96%E7%95%A5/v2-9374e1c1ef6c7c8d14491b4092d79f80_720w.jpg" alt="img"></p>
+<ul>
+<li>新增key value的时候首先在链表结尾添加Node节点，如果超过LRU设置的阈值就淘汰队头的节点并删除掉HashMap中对应的节点。</li>
+<li>修改key对应的值的时候先修改对应的Node中的值，然后把Node节点移动队尾。</li>
+<li>访问key对应的值的时候把访问的Node节点移动到队尾即可。</li>
+</ul>
+<pre><code class="prettyprint">package LRU;
+
+import java.util.HashMap;
+
+/**
+ * @author RocPengHua
+ * @program CLRS
+ * @description LRU(最近最少使用)缓存机制
+ * @date 2022年06月07日 21:03
+ */
+public class LRUCache &#123;
+    private HashMap&lt;Integer,LinkedNode&gt; cache = new HashMap&lt;&gt;();
+    int size;
+    int capacity;
+    private LinkedNode head,tail;
+    class LinkedNode &#123;
+        int key;
+        int value;
+        LinkedNode pre;
+        LinkedNode next;
+    &#125;
+
+    public LRUCache(int capacity) &#123;
+        this.size = 0;
+        this.capacity = capacity;
+        head = new LinkedNode();
+        tail = new LinkedNode();
+        head.next = tail;
+        tail.pre = head;
+    &#125;
+
+    /**
+     * 写入数据
+     * @param key
+     * @param value
+     */
+    public void put(int key, int value)&#123;
+        LinkedNode node = cache.get(key);
+
+        /**
+         * 存在
+         */
+        if(node != null)&#123;
+            //更新数据
+            node.value = value;
+            moveToHead(node);
+        &#125;else&#123;
+            LinkedNode newNode = new LinkedNode();
+            newNode.key = key;
+            newNode.value = value;
+            //更新map
+            cache.put(key,newNode);
+            //添加节点到头部
+            addNode(newNode);
+            //更新节点数
+            size++;
+            //如果节点数目大于容量，删除最后一个节点
+            if(size &gt; capacity) &#123;
+                //获取最后一个节点
+                LinkedNode tailPre = tail.pre;
+                //从map中删除
+                cache.remove(tailPre.key);
+                //删除节点
+                removeNode(tailPre);
+                size--;
+            &#125;
+        &#125;
+    &#125;
+
+    public int get(int key)&#123;
+        LinkedNode node = cache.get(key);
+        if(node != null)&#123;
+            moveToHead(node);
+        &#125;else&#123;
+            return -1;
+        &#125;
+        return node.value;
+    &#125;
+    /**
+     * 将节点移到头部
+     * @param node
+     */
+    private void moveToHead(LinkedNode node) &#123;
+        removeNode(node);
+        addNode(node);
+    &#125;
+
+    /**
+     * 添加到头部
+     * @param node
+     */
+    private void addNode(LinkedNode node) &#123;
+        node.pre = head;
+        node.next = head.next;
+        head.next.pre = node;
+        head.next = node;
+    &#125;
+
+    /**
+     * 删除节点
+     * @param node
+     */
+    private void removeNode(LinkedNode node) &#123;
+        LinkedNode preNode = node.pre;
+        LinkedNode nextNode = node.next;
+        preNode.next = nextNode;
+        nextNode.pre = preNode;
+
+    &#125;
+
+    public static void main(String[] args) &#123;
+        LRUCache cache = new LRUCache(2);
+        cache.put(1,1);
+        cache.put(2,2);
+        System.out.println(cache.get(1));
+        cache.put(3,3);
+        System.out.println(cache.get(2));
+        cache.put(4,4);
+        cache.put(5,5);
+        cache.put(6,6);
+        System.out.println(cache.get(4));
+        System.out.println(cache.get(5));
+        System.out.println(cache.get(6));
+    &#125;
+&#125;
+</code></pre>
+]]></content>
+      <categories>
+        <category>中间件</category>
+      </categories>
+      <tags>
+        <tag>redis</tag>
+      </tags>
   </entry>
 </search>

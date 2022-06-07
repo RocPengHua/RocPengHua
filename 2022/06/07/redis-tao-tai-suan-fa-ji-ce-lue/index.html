@@ -26,7 +26,7 @@
 
   
 
-  <title>windows编辑生成的shell脚本在linux执行问题调整 | 小鹏驿站</title>
+  <title>redis淘汰算法及策略 | 小鹏驿站</title>
 
   
 
@@ -46,7 +46,7 @@
 <!-- header container -->
 <header class="header-container post">
   
-    <div class="post-image" style="background-image: url(/images/upload/2021/10/1.jpg)"></div>
+    <div class="post-image" style="background-image: url(&#39;https://api.lixingyong.com/api/images?postid=be0d4399&amp;type=url&amp;itype=image&#39;)"></div>
   
   <!-- navbar -->
 <nav class="navbar">
@@ -301,20 +301,20 @@
     <div class="header-content">
       <div class="post-text layout-block">
         <div class="layout-margin">
-          <h1 class="title-wrap" title="觉宇宙之无穷，识盈虚之有数">windows编辑生成的shell脚本在linux执行问题调整</h1>
+          <h1 class="title-wrap" title="觉宇宙之无穷，识盈虚之有数">redis淘汰算法及策略</h1>
           <h2 class="title-sub-wrap">
             <strong>RocPengHua</strong>
             <span>发布于</span>
-            <time  class="article-date" datetime="2021-10-30T06:39:34.000Z" itemprop="datePublished">2021-10-30</time>
+            <time  class="article-date" datetime="2022-06-07T12:45:05.000Z" itemprop="datePublished">2022-06-07</time>
           </h2>
           <ul class="wrap-list dark">
   
-    <li><a href="/categories/%E8%BD%AF%E4%BB%B6/">📒 软件</a></li>
+    <li><a href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/">📒 中间件</a></li>
   
 </ul>
           <ul class="wrap-list dark">
   
-    <li><a href="/tags/linux/">🏷️ linux</a></li>
+    <li><a href="/tags/redis/">🏷️ redis</a></li>
   
 </ul>
         </div>
@@ -383,6 +383,18 @@
 
       
       
+<section class="widget-toc widget-item layout-margin content-padding--primary soft-size--large soft-style--box">
+  <div class="widget-title">
+    <svg class="icon icon-toc" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M134.50666666 767.46666668H460.8c27.73333333 0 50.24000001 22.50666668 50.24000001 50.23999999v50.13333333c0 27.73333333-22.50666668 50.24000001-50.24000001 50.24000001H134.50666666c-27.73333333 0-50.24000001-22.50666668-50.23999999-50.24000001v-50.13333333c0.10666668-27.73333333 22.50666668-50.24000001 50.24000001-50.24000001zM84.37333332 541.65333333h326.18666669c27.73333333 0 50.24000001 22.39999999 50.23999999 50.13333334v50.24000001c0 27.73333333-22.50666668 50.24000001-50.24000002 50.23999999H84.37333332c-27.73333333 0-50.24000001-22.50666668-50.23999999-50.23999999v-50.24000001c0-27.73333333 22.50666668-50.13333334 50.24000001-50.13333334zM134.50666666 315.83999999H460.8c27.73333333 0 50.24000001 22.50666668 50.24000001 50.24000001v50.24000001c0 27.73333333-22.50666668 50.13333334-50.24000001 50.13333333H134.50666666c-27.73333333 0-50.24000001-22.39999999-50.23999999-50.13333333v-50.24000001c0.10666668-27.84000001 22.50666668-50.24000001 50.24000001-50.23999999zM209.81333332 89.91999999h326.18666671c27.73333333 0 50.24000001 22.39999999 50.23999997 50.13333335v50.23999999c0 27.73333333-22.50666668 50.24000001-50.24000001 50.24000001H209.81333332c-27.73333333 0-50.24000001-22.50666668-50.23999999-50.24000001v-50.24000001c0-27.73333333 22.50666668-50.13333334 50.24000001-50.13333333zM692.05333333 623.36l274.66666669 176.00000002c23.36000001 14.93333333 30.08 45.97333334 15.14666666 69.33333332L954.77333334 910.93333333c-14.93333333 23.25333334-45.97333334 30.08-69.33333335 15.14666667l-274.66666666-176c-23.36000001-14.93333333-30.08-45.97333334-15.14666667-69.33333333l27.09333334-42.24000001c14.93333333-23.36000001 46.08000001-30.08 69.33333333-15.14666666z" fill="currentColor"></path>
+</svg>
+    <span>TOC</span>
+  </div>
+  <div class="widget-body">
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%87%E6%9C%9F%E7%AD%96%E7%95%A5"><span class="toc-number">1.</span> <span class="toc-text">过期策略</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%9A%E6%9C%9F%E5%88%A0%E9%99%A4"><span class="toc-number">1.1.</span> <span class="toc-text">定期删除</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%83%B0%E6%80%A7%E5%88%A0%E9%99%A4"><span class="toc-number">1.2.</span> <span class="toc-text">惰性删除</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%85%E5%AD%98%E6%B7%98%E6%B1%B0%E7%AD%96%E7%95%A5"><span class="toc-number">2.</span> <span class="toc-text">内存淘汰策略</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LRU"><span class="toc-number">3.</span> <span class="toc-text">LRU</span></a></li></ol>
+  </div>
+</section>
+
     </div>
   
     <div class="article-info">
@@ -391,13 +403,170 @@
       
       
       <section id="blog-content" class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
-        <ol>
-<li>打开shell脚本</li>
-<li>vim file.sh</li>
-<li>shift+: 打开命令行</li>
-<li>输入 set ff 查看 发现显示 dos</li>
-<li>输入 set ff&#x3D;unix</li>
-</ol>
+        <h3 id="过期策略"><a href="#过期策略" class="headerlink" title="过期策略"></a>过期策略</h3><h4 id="定期删除"><a href="#定期删除" class="headerlink" title="定期删除"></a>定期删除</h4><blockquote>
+<p>redis 会将每个设置了过期时间的 key 放入到一个独立的字典中，以后会定期遍历这个字典来删除到期的 key</p>
+<p>默认每100ms扫描一次，但是不会遍历所有的key，使用贪心策略</p>
+</blockquote>
+<ul>
+<li>从过期字典中随机20gekey</li>
+<li>删除者20个key中已经过期了的key</li>
+<li>如果过期比例超过1&#x2F;4，重复步骤1</li>
+</ul>
+<h4 id="惰性删除"><a href="#惰性删除" class="headerlink" title="惰性删除"></a>惰性删除</h4><blockquote>
+<p>客户端访问这个key的时候，redis对key的过期时间进行检查，如果过期了就立即删除，不会给你返回任何东西</p>
+<p>定期删除可能会导致很多过期key到了时间并没有被删除掉。所以就有了惰性删除</p>
+</blockquote>
+<p><strong>定期删除是集中处理，惰性删除是零散处理</strong></p>
+<h3 id="内存淘汰策略"><a href="#内存淘汰策略" class="headerlink" title="内存淘汰策略"></a>内存淘汰策略</h3><ul>
+<li><p><code>noeviction</code>：当内存使用超过配置的时候会返回错误，不会驱逐任何键</p>
+</li>
+<li><p><code>allkeys-lru</code>：加入键的时候，如果过限，首先通过LRU算法驱逐最久没有使用的键</p>
+</li>
+<li><p><code>volatile-lru</code>：加入键的时候如果过限，首先从设置了过期时间的键集合中驱逐最久没有使用的键</p>
+</li>
+<li><p><code>allkeys-random</code>：加入键的时候如果过限，从所有key随机删除</p>
+</li>
+<li><p><code>volatile-random</code>：加入键的时候如果过限，从过期键的集合中随机驱逐</p>
+</li>
+<li><p><code>volatile-ttl</code>：从配置了过期时间的键中驱逐马上就要过期的键</p>
+</li>
+<li><p><code>volatile-lfu</code>：从所有配置了过期时间的键中驱逐使用频率最少的键</p>
+</li>
+<li><p><code>allkeys-lfu</code>：从所有键中驱逐使用频率最少的键</p>
+</li>
+</ul>
+<h3 id="LRU"><a href="#LRU" class="headerlink" title="LRU"></a>LRU</h3><p><img src="/2022-06-07-redis%E6%B7%98%E6%B1%B0%E7%AE%97%E6%B3%95%E5%8F%8A%E7%AD%96%E7%95%A5/v2-9374e1c1ef6c7c8d14491b4092d79f80_720w.jpg" alt="img"></p>
+<ul>
+<li>新增key value的时候首先在链表结尾添加Node节点，如果超过LRU设置的阈值就淘汰队头的节点并删除掉HashMap中对应的节点。</li>
+<li>修改key对应的值的时候先修改对应的Node中的值，然后把Node节点移动队尾。</li>
+<li>访问key对应的值的时候把访问的Node节点移动到队尾即可。</li>
+</ul>
+<pre><code class="prettyprint">package LRU;
+
+import java.util.HashMap;
+
+/**
+ * @author RocPengHua
+ * @program CLRS
+ * @description LRU(最近最少使用)缓存机制
+ * @date 2022年06月07日 21:03
+ */
+public class LRUCache &#123;
+    private HashMap&lt;Integer,LinkedNode&gt; cache = new HashMap&lt;&gt;();
+    int size;
+    int capacity;
+    private LinkedNode head,tail;
+    class LinkedNode &#123;
+        int key;
+        int value;
+        LinkedNode pre;
+        LinkedNode next;
+    &#125;
+
+    public LRUCache(int capacity) &#123;
+        this.size = 0;
+        this.capacity = capacity;
+        head = new LinkedNode();
+        tail = new LinkedNode();
+        head.next = tail;
+        tail.pre = head;
+    &#125;
+
+    /**
+     * 写入数据
+     * @param key
+     * @param value
+     */
+    public void put(int key, int value)&#123;
+        LinkedNode node = cache.get(key);
+
+        /**
+         * 存在
+         */
+        if(node != null)&#123;
+            //更新数据
+            node.value = value;
+            moveToHead(node);
+        &#125;else&#123;
+            LinkedNode newNode = new LinkedNode();
+            newNode.key = key;
+            newNode.value = value;
+            //更新map
+            cache.put(key,newNode);
+            //添加节点到头部
+            addNode(newNode);
+            //更新节点数
+            size++;
+            //如果节点数目大于容量，删除最后一个节点
+            if(size &gt; capacity) &#123;
+                //获取最后一个节点
+                LinkedNode tailPre = tail.pre;
+                //从map中删除
+                cache.remove(tailPre.key);
+                //删除节点
+                removeNode(tailPre);
+                size--;
+            &#125;
+        &#125;
+    &#125;
+
+    public int get(int key)&#123;
+        LinkedNode node = cache.get(key);
+        if(node != null)&#123;
+            moveToHead(node);
+        &#125;else&#123;
+            return -1;
+        &#125;
+        return node.value;
+    &#125;
+    /**
+     * 将节点移到头部
+     * @param node
+     */
+    private void moveToHead(LinkedNode node) &#123;
+        removeNode(node);
+        addNode(node);
+    &#125;
+
+    /**
+     * 添加到头部
+     * @param node
+     */
+    private void addNode(LinkedNode node) &#123;
+        node.pre = head;
+        node.next = head.next;
+        head.next.pre = node;
+        head.next = node;
+    &#125;
+
+    /**
+     * 删除节点
+     * @param node
+     */
+    private void removeNode(LinkedNode node) &#123;
+        LinkedNode preNode = node.pre;
+        LinkedNode nextNode = node.next;
+        preNode.next = nextNode;
+        nextNode.pre = preNode;
+
+    &#125;
+
+    public static void main(String[] args) &#123;
+        LRUCache cache = new LRUCache(2);
+        cache.put(1,1);
+        cache.put(2,2);
+        System.out.println(cache.get(1));
+        cache.put(3,3);
+        System.out.println(cache.get(2));
+        cache.put(4,4);
+        cache.put(5,5);
+        cache.put(6,6);
+        System.out.println(cache.get(4));
+        System.out.println(cache.get(5));
+        System.out.println(cache.get(6));
+    &#125;
+&#125;
+</code></pre>
 
       </section>
 
@@ -405,32 +574,16 @@
       
         <nav class="article-nav">
           
-            <div class="article-nav-item layout-padding">
-  <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
-    
-      <div class="card-cover" background-image-lazy data-img="/images/upload/2021/10/2.jpg"></div>
-    
-    <div class="card-text">
-      
-        <a href="/2021/11/11/jie-jue-mapper-xml-bu-zai-resources-xia-mian-wu-fa-bian-yi-de-wen-ti/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">解决mapper.xml不在resources下面无法编译的问题</h2>
-        </a>
-      
-      <div class="card-text--row">Newer</div>
-    </div>
-  </article>
-</div>
-          
           
             <div class="article-nav-item layout-padding">
   <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
     
-      <div class="card-cover" background-image-lazy data-img="/images/upload/2021/10/2.jpg"></div>
+      <div class="card-cover" background-image-lazy data-img="https://api.lixingyong.com/api/images?postid=20bc267&type=url&itype=image"></div>
     
     <div class="card-text">
       
-        <a href="/2021/10/28/docker-an-zhuang-nginx/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">docker安装nginx</h2>
+        <a href="/2022/06/05/linux-ding-shi-git-pull/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">linux定时git pull</h2>
         </a>
       
       <div class="card-text--row">Older</div>

@@ -435,7 +435,8 @@
 <li><p><code>allkeys-lfu</code>：从所有键中驱逐使用频率最少的键</p>
 </li>
 </ul>
-<h3 id="LRU"><a href="#LRU" class="headerlink" title="LRU"></a>LRU</h3><p><img src="/2022-06-07-redis%E6%B7%98%E6%B1%B0%E7%AE%97%E6%B3%95%E5%8F%8A%E7%AD%96%E7%95%A5/v2-9374e1c1ef6c7c8d14491b4092d79f80_720w.jpg" alt="img"></p>
+<h3 id="LRU"><a href="#LRU" class="headerlink" title="LRU"></a>LRU</h3><img src="/2022/06/07/redis-tao-tai-suan-fa-ji-ce-lue/v2-9374e1c1ef6c7c8d14491b4092d79f80_720w.jpg" class="asset-class" title="img">
+
 <ul>
 <li>新增key value的时候首先在链表结尾添加Node节点，如果超过LRU设置的阈值就淘汰队头的节点并删除掉HashMap中对应的节点。</li>
 <li>修改key对应的值的时候先修改对应的Node中的值，然后把Node节点移动队尾。</li>

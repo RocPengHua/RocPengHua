@@ -6288,6 +6288,10 @@ redis-benchmark -a * -n 100000 -c 32
 <li>获取key所存数据类型：<code>type key</code></li>
 <li>删除key：<code>del key</code></li>
 </ul>
+<h3 id="发布订阅"><a href="#发布订阅" class="headerlink" title="发布订阅"></a>发布订阅</h3><ul>
+<li>消息发布：<code>publish key message</code></li>
+<li>消息订阅：<code>subscribe key</code></li>
+</ul>
 <h3 id="五种基本数据结构"><a href="#五种基本数据结构" class="headerlink" title="五种基本数据结构"></a>五种基本数据结构</h3><h4 id="字符串-（String）"><a href="#字符串-（String）" class="headerlink" title="字符串 （String）"></a>字符串 （String）</h4><p>字符串类型是Redis中最为基础的数据存储类型，它在Redis中是二进制安全的，这意味着该类型可以接受任何格式的数据，如JPEG图像数据或json对象描述信息等。在Redis中字符串类型的value最多可以容纳的数据长度是512M。</p>
 <p>常用命令：</p>
 <ul>
@@ -6295,7 +6299,7 @@ redis-benchmark -a * -n 100000 -c 32
 <li>get key 获取值</li>
 <li>getset 将给定的值设置进去，并返回旧值</li>
 <li>mget key1 key2… 获取一个或多个key的值</li>
-<li>setnx key value 当key不存在时才设置值</li>
+<li>setnx key value 当key不存在时才设置值(redis实现分布式锁)</li>
 <li>incr key 将key存储的值+1</li>
 <li>incrby key increment 将 key 所储存的值加上给定的增量值（increment）</li>
 <li>decr key 将key存储的值-1</li>
@@ -6368,6 +6372,18 @@ redis-benchmark -a * -n 100000 -c 32
 </ul>
 <h4 id="GEO"><a href="#GEO" class="headerlink" title="GEO"></a>GEO</h4><ul>
 <li>GEO：geoadd&#x2F;geohash&#x2F;geopos&#x2F;geodist&#x2F;georadius&#x2F;georadiusbymember Redis的GEO特性在 Redis3.2版本中推出，这个功能可以将用户给定的地理位置（经 度和纬度）信息储存起来，并对这些信息进行操作。</li>
+</ul>
+<h3 id="分布式锁"><a href="#分布式锁" class="headerlink" title="分布式锁"></a>分布式锁</h3><ul>
+<li><p>获取锁–单个原子性操作 <code>SET lock 1 NX PX 30000</code> (毫秒)</p>
+</li>
+<li><p>释放锁–lua脚本-保证原子性+单线程，从而具有事务性 </p>
+<pre><code class="lua">if redis.call(&quot;get&quot;,KEYS[1]) == ARGV[1] then
+    return redis.call(&quot;del&quot;,KEYS[1])
+else
+    return 0
+end
+</code></pre>
+</li>
 </ul>
 ]]></content>
       <categories>

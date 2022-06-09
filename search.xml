@@ -14246,7 +14246,12 @@ sql.replaceAll(&quot;\\#\\&#123;.+?\\&#125;&quot;,&quot;?&quot;);
   <entry>
     <title>redis淘汰算法及策略</title>
     <url>/2022/06/07/redis-tao-tai-suan-fa-ji-ce-lue/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h3 id="过期策略"><a href="#过期策略" class="headerlink" title="过期策略"></a>过期策略</h3><h4 id="定期删除"><a href="#定期删除" class="headerlink" title="定期删除"></a>定期删除</h4><blockquote>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h3 id="过期策略"><a href="#过期策略" class="headerlink" title="过期策略"></a>过期策略</h3><h4 id="定时删除"><a href="#定时删除" class="headerlink" title="定时删除"></a>定时删除</h4><blockquote>
+<p>创建一个定时器，当key设置有过期时间且过期时间到达时，由定时器任务立即执行对键的删除操作</p>
+<p>优点：节省内存，快速释放</p>
+<p>缺点：cpu压力大，删除操作会影响redis响应时间和吞吐量</p>
+</blockquote>
+<h4 id="定期删除"><a href="#定期删除" class="headerlink" title="定期删除"></a>定期删除</h4><blockquote>
 <p>redis 会将每个设置了过期时间的 key 放入到一个独立的字典中，以后会定期遍历这个字典来删除到期的 key</p>
 <p>默认每100ms扫描一次，但是不会遍历所有的key，使用贪心策略</p>
 </blockquote>
@@ -15028,6 +15033,162 @@ hz 10
 # 写入硬盘并且避免大的延迟高峰这个指令是非常有用的
 aof-rewrite-incremental-fsync yes
 </code></pre>
+]]></content>
+      <categories>
+        <category>中间件</category>
+      </categories>
+      <tags>
+        <tag>redis</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>centos7安装redis6及哨兵</title>
+    <url>/2022/06/09/centos7-an-zhuang-redis6-ji-shao-bing/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h3 id="redis安装"><a href="#redis安装" class="headerlink" title="redis安装"></a>redis安装</h3><pre><code class="prettyprint">#创建一个专门存放软件的目录
+mkdir /opt/software
+cd /opt/software
+#下载
+wget https://download.redis.io/releases/redis-6.2.6.tar.gz
+#解压
+tar -zxvf redis-6.2.6.tar.gz
+#进入src目录安装
+cd redis-6.2.6/src
+#指定安装到目录
+make PREFIX=/usr/local/redis install
+#测试是否成功
+cd /usr/local/redis/bin
+#启动
+./redis-server 
+#访问
+./redis-cli
+</code></pre>
+<h3 id="哨兵配置"><a href="#哨兵配置" class="headerlink" title="哨兵配置"></a>哨兵配置</h3><h4 id="准备三份配置文件"><a href="#准备三份配置文件" class="headerlink" title="准备三份配置文件"></a>准备三份配置文件</h4><pre><code class="prettyprint">cd /opt/software
+mkdir redis-sentinel
+cd redis-sentinel
+#-r 包含目录复制
+cp -r /opt/software/redis-6.2.6/ .
+mv redis-6.2.6 redis-6.2.6-6380
+cp -r redis-6.2.6-6380 redis-6.2.6-6381
+cp -r redis-6.2.6-6380 redis-6.2.6-6382
+</code></pre>
+<h3 id="修改主节点配置"><a href="#修改主节点配置" class="headerlink" title="修改主节点配置"></a>修改主节点配置</h3><pre><code class="prettyprint">vim /opt/software/redis-sentinel/redis-6.2.6-6380/redis.conf
+</code></pre>
+<p>修改<code>redis.conf</code></p>
+<pre><code class="prettyprint">#只需要修改端口
+port 6380
+</code></pre>
+<p>修改<code>sentinel.conf</code></p>
+<pre><code class="prettyprint">#修改port
+port 26380
+#开启守护线程
+daemonize yes 
+#sentinel monitor &lt;master-group-name&gt; &lt;ip&gt; &lt;port&gt; &lt;quorum&gt;
+#master-group-name是集群名称 quorum是需要同意主节点不可用的Sentinel的数量
+sentinel monitor mymaster 192.168.101.123 6380 2
+#主节点密码，如果有
+#sentinel auth-pass &lt;master-name&gt; &lt;password&gt;
+</code></pre>
+<h4 id="修改两个从节点"><a href="#修改两个从节点" class="headerlink" title="修改两个从节点"></a>修改两个从节点</h4><pre><code class="prettyprint">vim /opt/software/redis-sentinel/redis-6.2.6-6381/redis.conf
+</code></pre>
+<p>修改<code>redis.conf</code></p>
+<pre><code class="prettyprint">#修改port（一个为6381，另一个为6382）
+port 6381
+#主从复制 replicaof &lt;masterip&gt; &lt;masterport&gt;
+replicaof 192.168.101.123 6380
+#主节点密码 masterauth &lt;master-password&gt;
+#masterauth 主节点密码
+</code></pre>
+<p>修改<code>sentinel.conf</code></p>
+<pre><code class="prettyprint">#修改port（一个为26381，另一个为26382）
+port 26381
+#开启守护线程
+daemonize yes 
+#sentinel monitor &lt;master-group-name&gt; &lt;ip&gt; &lt;port&gt; &lt;quorum&gt;
+sentinel monitor mymaster 192.168.101.123 6380 2
+#主节点密码
+#sentinel auth-pass mymaster 主节点密码
+</code></pre>
+<h3 id="启动哨兵模式"><a href="#启动哨兵模式" class="headerlink" title="启动哨兵模式"></a>启动哨兵模式</h3><h4 id="maste和slave启动"><a href="#maste和slave启动" class="headerlink" title="maste和slave启动"></a>maste和slave启动</h4><pre><code class="prettyprint">cd /usr/local/redis/bin
+# &amp; 后台启动
+./redis-server /opt/software/redis-sentinel/redis-6.2.6-6380/redis.conf &amp;
+./redis-server /opt/software/redis-sentinel/redis-6.2.6-6381/redis.conf &amp;
+./redis-server /opt/software/redis-sentinel/redis-6.2.6-6382/redis.conf &amp;
+</code></pre>
+<h4 id="sentinel启动"><a href="#sentinel启动" class="headerlink" title="sentinel启动"></a>sentinel启动</h4><pre><code class="prettyprint">cd /usr/local/redis/bin
+
+./redis-sentinel /opt/software/redis-sentinel/redis-6.2.6-6380/sentinel.conf
+./redis-sentinel /opt/software/redis-sentinel/redis-6.2.6-6381/sentinel.conf
+./redis-sentinel /opt/software/redis-sentinel/redis-6.2.6-6382/sentinel.conf
+</code></pre>
+<h4 id="测试哨兵模式"><a href="#测试哨兵模式" class="headerlink" title="测试哨兵模式"></a>测试哨兵模式</h4><blockquote>
+<p>分别连接</p>
+</blockquote>
+<pre><code class="prettyprint">./redis-cli -p 6380
+./redis-cli -p 6381
+./redis-cli -p 6382
+</code></pre>
+<blockquote>
+<p>查看角色信息</p>
+</blockquote>
+<pre><code class="prettyprint">192.168.101.123:6380&gt;info
+#role:master
+192.168.101.123:6381&gt;info
+#role:slave
+192.168.101.123:6382&gt;info
+#role:slave
+</code></pre>
+<blockquote>
+<p>测试master切换，手动shutdown主服务器,过一会重新启动6380</p>
+</blockquote>
+<pre><code>./redis-cli -p 6380 shutdown
+./redis-server /opt/software/redis-sentinel/redis-6.2.6-6380/redis.conf &amp;
+</code></pre>
+<blockquote>
+<p>再次查看角色信息</p>
+</blockquote>
+<pre><code class="prettyprint">192.168.101.123:6380&gt;info
+#role:slave
+192.168.101.123:6381&gt;info
+#role:master
+192.168.101.123:6382&gt;info
+#role:slave
+</code></pre>
+<blockquote>
+<p> 注意：</p>
+<p>如果开始配置哨兵模式使用的ip是127.0.0.1,外部客户端无法连接，需要使用机器ip</p>
+<p>修改redis.conf sentinel.conf中使用的ip之前停掉redis sentinel</p>
+<p>.&#x2F;redis-cli -p 6380 shutdown</p>
+<p>.&#x2F;redis-cli -p 6381 shutdown</p>
+<p>.&#x2F;redis-cli -p 6382 shutdown</p>
+<p>.&#x2F;redis-cli -p 26380 shutdown</p>
+<p>.&#x2F;redis-cli -p 26382 shutdown</p>
+<p>.&#x2F;redis-cli -p 26382 shutdown</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>软件</category>
+      </categories>
+      <tags>
+        <tag>redis 哨兵</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>redis脑裂</title>
+    <url>/2022/06/09/redis-nao-lie/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h3 id="redis脑裂发生"><a href="#redis脑裂发生" class="headerlink" title="redis脑裂发生"></a>redis脑裂发生</h3><ul>
+<li>假如有三台redis服务器</li>
+<li>当master服务器出现网络问题，两个slave服务器无法和master服务器通信，然而客户端是可以的</li>
+<li>那么sentine就会从两台slave服务器选取一个作为主服务器来处理客户端请求</li>
+<li>此时就存在两个master了</li>
+</ul>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><blockquote>
+<p>修改conf配置</p>
+</blockquote>
+<pre><code class="prettyprint">min-slaves-to-write 1 #要求至少有一个slave。
+
+min-slaves-max-lag 10 #主从数据同步超时时间，10秒。
+</code></pre>
+<p>以上要求无法满足拒绝客户端请求，可以将master通信异常的数据丢失控制在10s</p>
 ]]></content>
       <categories>
         <category>中间件</category>

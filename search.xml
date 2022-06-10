@@ -15169,7 +15169,8 @@ sentinel monitor mymaster 192.168.101.123 6380 2
         <category>软件</category>
       </categories>
       <tags>
-        <tag>redis 哨兵</tag>
+        <tag>redis</tag>
+        <tag>哨兵</tag>
       </tags>
   </entry>
   <entry>
@@ -15195,6 +15196,131 @@ min-slaves-max-lag 10 #主从数据同步超时时间，10秒。
       </categories>
       <tags>
         <tag>redis</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>tomcat源码环境搭建</title>
+    <url>/2022/06/10/tomcat-yuan-ma-huan-jing-da-jian/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h3 id="源码下载"><a href="#源码下载" class="headerlink" title="源码下载"></a>源码下载</h3><p><a href="https://links.jianshu.com/go?to=https://archive.apache.org/dist/tomcat/tomcat-8/v8.5.50/src/">https://archive.apache.org/dist/tomcat/tomcat-8/v8.5.50/src/</a></p>
+<h3 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h3><ul>
+<li>解压源码</li>
+<li>新建<code>source</code>文件夹用来存放配置文件和页面文件，将<code>conf</code>和<code>webapps</code>目录移动到<code>source</code>目录下</li>
+<li>在根目录下新建<code>pom.xml</code>导入依赖</li>
+</ul>
+<pre><code class="prettyprint">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;project xmlns=&quot;http://maven.apache.org/POM/4.0.0&quot;
+         xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+         xsi:schemaLocation=&quot;http://maven.apache.org/POM/4.0.0
+http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;&gt;
+    &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
+    &lt;groupId&gt;org.apache.tomcat&lt;/groupId&gt;
+    &lt;artifactId&gt;apache-tomcat-8.5.50-src&lt;/artifactId&gt;
+    &lt;name&gt;Tomcat8.5&lt;/name&gt;
+    &lt;version&gt;8.5&lt;/version&gt;
+    &lt;build&gt;
+        &lt;!--指定源目录--&gt;
+        &lt;finalName&gt;Tomcat8.5&lt;/finalName&gt;
+        &lt;sourceDirectory&gt;java&lt;/sourceDirectory&gt;
+        &lt;resources&gt;
+            &lt;resource&gt;
+                &lt;directory&gt;java&lt;/directory&gt;
+            &lt;/resource&gt;
+        &lt;/resources&gt;
+        &lt;plugins&gt;
+            &lt;!--引入编译插件--&gt;
+            &lt;plugin&gt;
+                &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;
+                &lt;artifactId&gt;maven-compiler-plugin&lt;/artifactId&gt;
+                &lt;version&gt;3.1&lt;/version&gt;
+                &lt;configuration&gt;
+                    &lt;encoding&gt;UTF-8&lt;/encoding&gt;
+                    &lt;source&gt;8&lt;/source&gt;
+                    &lt;target&gt;8&lt;/target&gt;
+                &lt;/configuration&gt;
+            &lt;/plugin&gt;
+        &lt;/plugins&gt;
+    &lt;/build&gt;
+    &lt;!--tomcat依赖的基础包--&gt;
+    &lt;dependencies&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.easymock&lt;/groupId&gt;
+            &lt;artifactId&gt;easymock&lt;/artifactId&gt;
+            &lt;version&gt;3.4&lt;/version&gt;
+        &lt;/dependency&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;ant&lt;/groupId&gt;
+            &lt;artifactId&gt;ant&lt;/artifactId&gt;
+            &lt;version&gt;1.7.0&lt;/version&gt;
+        &lt;/dependency&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;wsdl4j&lt;/groupId&gt;
+            &lt;artifactId&gt;wsdl4j&lt;/artifactId&gt;
+            &lt;version&gt;1.6.2&lt;/version&gt;
+        &lt;/dependency&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;javax.xml&lt;/groupId&gt;
+            &lt;artifactId&gt;jaxrpc&lt;/artifactId&gt;
+            &lt;version&gt;1.1&lt;/version&gt;
+        &lt;/dependency&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.eclipse.jdt.core.compiler&lt;/groupId&gt;
+            &lt;artifactId&gt;ecj&lt;/artifactId&gt;
+            &lt;version&gt;4.5.1&lt;/version&gt;
+        &lt;/dependency&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;javax.xml.soap&lt;/groupId&gt;
+            &lt;artifactId&gt;javax.xml.soap-api&lt;/artifactId&gt;
+            &lt;version&gt;1.4.0&lt;/version&gt;
+        &lt;/dependency&gt;
+    &lt;/dependencies&gt;
+&lt;/project&gt;
+</code></pre>
+<ul>
+<li>导入idea工具</li>
+</ul>
+<h3 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h3><ul>
+<li>找到<code>org.apache.catalina.startup.Bootstrap#main</code>执行启动，如果有找不到包等问题可以直接用idea提示修改</li>
+<li>配置VM.options</li>
+</ul>
+<pre><code class="prettyprint">-Dcatalina.home=E:/Download/apache-tomcat-8.5.50-src/source
+-Dcatalina.base=E:/Download/apache-tomcat-8.5.50-src/source
+-Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager
+-Djava.util.logging.config.file=/Download/apache-tomcat-8.5.50-src/source/conf/logging.properties
+</code></pre>
+<ul>
+<li>初始化jsp解析引擎jasper,<code>org.apache.catalina.startup.ContextConfig#configureStart</code></li>
+</ul>
+<pre><code>context.addServletContainerInitializer(new JasperInitializer(), null);
+</code></pre>
+<img src="/2022/06/10/tomcat-yuan-ma-huan-jing-da-jian/1654832343643.png" class="asset-class" width="1654832343643">
+
+<h3 id="中文乱码解决"><a href="#中文乱码解决" class="headerlink" title="中文乱码解决"></a>中文乱码解决</h3><ul>
+<li><code>org.apache.tomcat.util.res.StringManager#getString(java.lang.String, java.lang.Object...)</code></li>
+</ul>
+<pre><code class="prettyprint">//RocPengHua
+value = new String(value.getBytes(StandardCharsets.ISO_8859_1),StandardCharsets.UTF_8);
+</code></pre>
+<ul>
+<li><code>org.apache.jasper.compiler.Localizer#getMessage(java.lang.String)</code></li>
+</ul>
+<pre><code class="prettyprint">//RocPengHua
+errMsg = new String(errMsg.getBytes(StandardCharsets.ISO_8859_1),StandardCharsets.UTF_8);
+</code></pre>
+<ul>
+<li><code>org.apache.jasper.compiler.Localizer#getMessage(java.lang.String, java.lang.Object...)</code></li>
+</ul>
+<pre><code class="prettyprint">errMsg = new String(errMsg.getBytes(StandardCharsets.ISO_8859_1),StandardCharsets.UTF_8);
+</code></pre>
+<blockquote>
+<p>源码分析地址：</p>
+<p><a href="https://www.jianshu.com/p/7c9401b85704?utm_campaign=haruki&utm_content=note&utm_medium=seo_notes&utm_source=recommendation">一万字深度剖析Tomcat源码 - 简书 (jianshu.com)</a></p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>web</category>
+      </categories>
+      <tags>
+        <tag>tomcat</tag>
       </tags>
   </entry>
 </search>

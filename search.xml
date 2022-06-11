@@ -2536,9 +2536,24 @@ dataDir=/opt/module/kafka/zookeeper
 --replication-factor&lt;Integer: replication factor&gt; 设置分区副本。
 --config &lt;String: name=value&gt; 更新系统默认的配置。
 </code></pre>
-<h5 id="–create-–topic"><a href="#–create-–topic" class="headerlink" title="–create –topic"></a>–create –topic</h5><pre><code class="prettyprint">cd /opt/module/kafka/bin
+<h5 id="kafka-topics-sh"><a href="#kafka-topics-sh" class="headerlink" title="kafka-topics.sh"></a><code>kafka-topics.sh</code></h5><pre><code class="prettyprint">cd /opt/module/kafka/bin
 #集群需要设置分区
-./kafka-topics.sh --create --topic first --bootstrap-server localhost:9092
+./kafka-topics.sh --create --topic &quot;first1&quot; --bootstrap-server 192.168.101.123:9092 --partitions 4 --replication-factor 1
+#--list
+./kafka-topics.sh --list --bootstrap-server 192.168.101.123:9092
+#--describe
+./kafka-topics.sh --describe --topic order-test1 --bootstrap-server 192.168.101.123:9092
+</code></pre>
+<h5 id="kafka-console-consumer-sh"><a href="#kafka-console-consumer-sh" class="headerlink" title="kafka-console-consumer.sh"></a><code>kafka-console-consumer.sh</code></h5><pre><code class="prettyprint"># from-beginning 从头开始
+./kafka-console-consumer.sh --bootstrap-server localhost:9092 --from-beginning --topic first
+</code></pre>
+<h5 id="kafka-console-producer-sh"><a href="#kafka-console-producer-sh" class="headerlink" title="kafka-console-producer.sh"></a><code>kafka-console-producer.sh</code></h5><pre><code class="prettyprint">./kafka-console-producer.sh --bootstrap-server localhost:9092 --topic first
+</code></pre>
+<h5 id="性能测试"><a href="#性能测试" class="headerlink" title="性能测试"></a>性能测试</h5><h6 id="kafka-producer-perf-test-sh"><a href="#kafka-producer-perf-test-sh" class="headerlink" title="kafka-producer-perf-test.sh"></a><code>kafka-producer-perf-test.sh</code></h6><pre><code class="prettyprint">#生产数量10万个 每个数据1000字节 每秒两千个
+./kafka-producer-perf-test.sh --topic first1 --num-records 100000 --record-size 1000 --throughput 2000 --producer-props bootstrap.servers=localhost:9092
+</code></pre>
+<h6 id="kafka-consumer-perf-test-sh"><a href="#kafka-consumer-perf-test-sh" class="headerlink" title="kafka-consumer-perf-test.sh"></a><code>kafka-consumer-perf-test.sh</code></h6><pre><code class="prettyprint">#消费数量10万个
+./kafka-consumer-perf-test.sh --bootstrap-server localhost:9092 --topic first1 --fetch-size 1048576 --messages 100000 --threads 1
 </code></pre>
 ]]></content>
       <categories>
@@ -15321,6 +15336,52 @@ errMsg = new String(errMsg.getBytes(StandardCharsets.ISO_8859_1),StandardCharset
       </categories>
       <tags>
         <tag>tomcat</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>centos7搭建kafka集群</title>
+    <url>/2022/06/11/centos7-da-jian-kafka-ji-qun/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h3 id="单机安装"><a href="#单机安装" class="headerlink" title="单机安装"></a>单机安装</h3><p><a href="https://rocpenghua.gitee.io/2022/04/26/centos7-an-zhuang-kafka/">centos7安装kafka | 小鹏驿站 (gitee.io)</a></p>
+<h3 id="集群配置"><a href="#集群配置" class="headerlink" title="集群配置"></a>集群配置</h3><h4 id="创建三个properties文件"><a href="#创建三个properties文件" class="headerlink" title="创建三个properties文件"></a>创建三个properties文件</h4><ul>
+<li><code>kafka9001.properties</code>配置</li>
+</ul>
+<pre><code class="prettyprint">#修改配置
+broker.id=1
+host.name=192.168.101.123
+listeners=PLAINTEXT://192.168.101.123:9001
+advertised.listeners=PLAINTEXT://192.168.101.123:9001
+log.dirs=/opt/module/kafka/datas-logs1
+</code></pre>
+<ul>
+<li><code>kafka9002.properties</code>配置</li>
+</ul>
+<pre><code class="prettyprint">#修改配置
+broker.id=2
+host.name=192.168.101.123
+listeners=PLAINTEXT://192.168.101.123:9002
+advertised.listeners=PLAINTEXT://192.168.101.123:9002
+log.dirs=/opt/module/kafka/datas-logs2
+</code></pre>
+<ul>
+<li><code>kafka9003.properties</code>配置</li>
+</ul>
+<pre><code class="prettyprint">#修改配置
+broker.id=3
+host.name=192.168.101.123
+listeners=PLAINTEXT://192.168.101.123:9003
+advertised.listeners=PLAINTEXT://192.168.101.123:9003
+log.dirs=/opt/module/kafka/datas-logs3
+</code></pre>
+<h4 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h4><pre><code class="prettyprint">./kafka-server-start.sh ../config/kafka9001.properties &amp;
+./kafka-server-start.sh ../config/kafka9002.properties &amp;
+./kafka-server-start.sh ../config/kafka9003.properties &amp;
+</code></pre>
+]]></content>
+      <categories>
+        <category>软件</category>
+      </categories>
+      <tags>
+        <tag>kafka</tag>
       </tags>
   </entry>
 </search>

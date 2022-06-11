@@ -2555,6 +2555,8 @@ dataDir=/opt/module/kafka/zookeeper
 <h6 id="kafka-consumer-perf-test-sh"><a href="#kafka-consumer-perf-test-sh" class="headerlink" title="kafka-consumer-perf-test.sh"></a><code>kafka-consumer-perf-test.sh</code></h6><pre><code class="prettyprint">#消费数量10万个
 ./kafka-consumer-perf-test.sh --bootstrap-server 192.168.101.123:9092 --topic first1 --fetch-size 1048576 --messages 100000 --threads 1
 </code></pre>
+<h3 id="可视化工具"><a href="#可视化工具" class="headerlink" title="可视化工具"></a>可视化工具</h3><p><code>kafka-manage</code></p>
+<p><a href="https://www.jianshu.com/p/00090d770ca3">kafka-manager(cmak)安装及使用 - 简书 (jianshu.com)</a></p>
 ]]></content>
       <categories>
         <category>软件</category>
@@ -15389,7 +15391,8 @@ log.dirs=/opt/module/kafka/datas-logs3
 <ul>
 <li>3个partitions 3个副本</li>
 </ul>
-<p><img src="/2022-06-11-centos7%E6%90%AD%E5%BB%BAkafka%E9%9B%86%E7%BE%A4/image-20220611230315971.png" alt="image-20220611230315971"></p>
+<img src="/2022/06/11/centos7-da-jian-kafka-ji-qun/image-20220611230315971.png" class="asset-class" title="image-20220611230315971">
+
 <h5 id="kafka-console-consumer-sh"><a href="#kafka-console-consumer-sh" class="headerlink" title="kafka-console-consumer.sh"></a><code>kafka-console-consumer.sh</code></h5><pre><code class="prettyprint"># from-beginning 从头开始
 ./kafka-console-consumer.sh --bootstrap-server 192.168.101.123:9001,192.168.101.123:9002,192.168.101.123:9003 --from-beginning --topic first33
 </code></pre>

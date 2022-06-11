@@ -2518,11 +2518,11 @@ dataDir=/opt/module/kafka/zookeeper
 <p>打开新的窗口启动kafka</p>
 <pre><code class="prettyprint">cd /opt/module/kafka/bin
 #先启动zookeeper
-./kafkar-server-start.sh ../config/server.properties
+./kafka-server-start.sh ../config/server.properties
 </code></pre>
 <h4 id="关闭"><a href="#关闭" class="headerlink" title="关闭"></a>关闭</h4><p>先关闭kafka再关闭zookeeper</p>
 <pre><code class="prettyprint">cd /opt/module/kafka/bin
-./kafkar-server-stop.sh
+./kafka-server-stop.sh
 ./zookeeper-server-stop.sh
 </code></pre>
 <h4 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h4><h5 id="命令说明"><a href="#命令说明" class="headerlink" title="命令说明"></a>命令说明</h5><pre><code class="prettyprint">--bootstrap-server &lt;String: server toconnect to&gt; 连接的 Kafka Broker 主机名称和端口号。
@@ -15285,7 +15285,7 @@ http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;&gt;
 <pre><code class="prettyprint">-Dcatalina.home=E:/Download/apache-tomcat-8.5.50-src/source
 -Dcatalina.base=E:/Download/apache-tomcat-8.5.50-src/source
 -Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager
--Djava.util.logging.config.file=/Download/apache-tomcat-8.5.50-src/source/conf/logging.properties
+-Djava.util.logging.config.file=E:/Download/apache-tomcat-8.5.50-src/source/conf/logging.properties
 </code></pre>
 <ul>
 <li>初始化jsp解析引擎jasper,<code>org.apache.catalina.startup.ContextConfig#configureStart</code></li>

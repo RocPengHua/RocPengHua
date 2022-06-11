@@ -2545,15 +2545,15 @@ dataDir=/opt/module/kafka/zookeeper
 ./kafka-topics.sh --describe --topic order-test1 --bootstrap-server 192.168.101.123:9092
 </code></pre>
 <h5 id="kafka-console-consumer-sh"><a href="#kafka-console-consumer-sh" class="headerlink" title="kafka-console-consumer.sh"></a><code>kafka-console-consumer.sh</code></h5><pre><code class="prettyprint"># from-beginning 从头开始
-./kafka-console-consumer.sh --bootstrap-server localhost:9092 --from-beginning --topic first
+./kafka-console-consumer.sh --bootstrap-server 192.168.101.123:9092 --from-beginning --topic first
 </code></pre>
-<h5 id="kafka-console-producer-sh"><a href="#kafka-console-producer-sh" class="headerlink" title="kafka-console-producer.sh"></a><code>kafka-console-producer.sh</code></h5><pre><code class="prettyprint">./kafka-console-producer.sh --bootstrap-server localhost:9092 --topic first
+<h5 id="kafka-console-producer-sh"><a href="#kafka-console-producer-sh" class="headerlink" title="kafka-console-producer.sh"></a><code>kafka-console-producer.sh</code></h5><pre><code class="prettyprint">./kafka-console-producer.sh --bootstrap-server 192.168.101.123:9092 --topic first
 </code></pre>
 <h5 id="性能测试"><a href="#性能测试" class="headerlink" title="性能测试"></a>性能测试</h5><h6 id="kafka-producer-perf-test-sh"><a href="#kafka-producer-perf-test-sh" class="headerlink" title="kafka-producer-perf-test.sh"></a><code>kafka-producer-perf-test.sh</code></h6><pre><code class="prettyprint">#生产数量10万个 每个数据1000字节 每秒两千个
-./kafka-producer-perf-test.sh --topic first1 --num-records 100000 --record-size 1000 --throughput 2000 --producer-props bootstrap.servers=localhost:9092
+./kafka-producer-perf-test.sh --topic first1 --num-records 100000 --record-size 1000 --throughput 2000 --producer-props bootstrap.servers=192.168.101.123:9092
 </code></pre>
 <h6 id="kafka-consumer-perf-test-sh"><a href="#kafka-consumer-perf-test-sh" class="headerlink" title="kafka-consumer-perf-test.sh"></a><code>kafka-consumer-perf-test.sh</code></h6><pre><code class="prettyprint">#消费数量10万个
-./kafka-consumer-perf-test.sh --bootstrap-server localhost:9092 --topic first1 --fetch-size 1048576 --messages 100000 --threads 1
+./kafka-consumer-perf-test.sh --bootstrap-server 192.168.101.123:9092 --topic first1 --fetch-size 1048576 --messages 100000 --threads 1
 </code></pre>
 ]]></content>
       <categories>
@@ -15375,6 +15375,31 @@ log.dirs=/opt/module/kafka/datas-logs3
 <h4 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h4><pre><code class="prettyprint">./kafka-server-start.sh ../config/kafka9001.properties &amp;
 ./kafka-server-start.sh ../config/kafka9002.properties &amp;
 ./kafka-server-start.sh ../config/kafka9003.properties &amp;
+</code></pre>
+<h3 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h3><pre><code class="prettyprint">#创建
+./kafka-topics.sh --create --topic &quot;first32&quot; --bootstrap-server 192.168.101.123:9001,192.168.101.123:9002,192.168.101.123:9003 --partitions 3 --replication-factor 2
+#查看描述
+./kafka-topics.sh --describe --topic &quot;first32&quot; --bootstrap-server 192.168.101.123:9001,192.168.101.123:9002,192.168.101.123:9003
+</code></pre>
+<ul>
+<li>3个partitions 2个副本</li>
+</ul>
+<img src="/2022/06/11/centos7-da-jian-kafka-ji-qun/image-20220611230053302.png" class="asset-class" title="image-20220611230053302">
+
+<ul>
+<li>3个partitions 3个副本</li>
+</ul>
+<p><img src="/2022-06-11-centos7%E6%90%AD%E5%BB%BAkafka%E9%9B%86%E7%BE%A4/image-20220611230315971.png" alt="image-20220611230315971"></p>
+<h5 id="kafka-console-consumer-sh"><a href="#kafka-console-consumer-sh" class="headerlink" title="kafka-console-consumer.sh"></a><code>kafka-console-consumer.sh</code></h5><pre><code class="prettyprint"># from-beginning 从头开始
+./kafka-console-consumer.sh --bootstrap-server 192.168.101.123:9001,192.168.101.123:9002,192.168.101.123:9003 --from-beginning --topic first33
+</code></pre>
+<h5 id="kafka-console-producer-sh"><a href="#kafka-console-producer-sh" class="headerlink" title="kafka-console-producer.sh"></a><code>kafka-console-producer.sh</code></h5><pre><code class="prettyprint">./kafka-console-producer.sh --bootstrap-server 192.168.101.123:9001,192.168.101.123:9002,192.168.101.123:9003 --topic first33
+</code></pre>
+<h5 id="性能测试"><a href="#性能测试" class="headerlink" title="性能测试"></a>性能测试</h5><h6 id="kafka-producer-perf-test-sh"><a href="#kafka-producer-perf-test-sh" class="headerlink" title="kafka-producer-perf-test.sh"></a><code>kafka-producer-perf-test.sh</code></h6><pre><code class="prettyprint">#生产数量10万个 每个数据1000字节 每秒两千个
+./kafka-producer-perf-test.sh --topic first33 --num-records 100000 --record-size 1000 --throughput 2000 --producer-props bootstrap.servers=192.168.101.123:9001,192.168.101.123:9002,192.168.101.123:9003
+</code></pre>
+<h6 id="kafka-consumer-perf-test-sh"><a href="#kafka-consumer-perf-test-sh" class="headerlink" title="kafka-consumer-perf-test.sh"></a><code>kafka-consumer-perf-test.sh</code></h6><pre><code class="prettyprint">#消费数量10万个
+./kafka-consumer-perf-test.sh --bootstrap-server 192.168.101.123:9001,192.168.101.123:9002,192.168.101.123:9003 --topic first33 --fetch-size 1048576 --messages 100000 --threads 1
 </code></pre>
 ]]></content>
       <categories>

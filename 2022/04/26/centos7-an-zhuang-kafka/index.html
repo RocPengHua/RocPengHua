@@ -455,15 +455,15 @@ dataDir=/opt/module/kafka/zookeeper
 ./kafka-topics.sh --describe --topic order-test1 --bootstrap-server 192.168.101.123:9092
 </code></pre>
 <h5 id="kafka-console-consumer-sh"><a href="#kafka-console-consumer-sh" class="headerlink" title="kafka-console-consumer.sh"></a><code>kafka-console-consumer.sh</code></h5><pre><code class="prettyprint"># from-beginning 从头开始
-./kafka-console-consumer.sh --bootstrap-server localhost:9092 --from-beginning --topic first
+./kafka-console-consumer.sh --bootstrap-server 192.168.101.123:9092 --from-beginning --topic first
 </code></pre>
-<h5 id="kafka-console-producer-sh"><a href="#kafka-console-producer-sh" class="headerlink" title="kafka-console-producer.sh"></a><code>kafka-console-producer.sh</code></h5><pre><code class="prettyprint">./kafka-console-producer.sh --bootstrap-server localhost:9092 --topic first
+<h5 id="kafka-console-producer-sh"><a href="#kafka-console-producer-sh" class="headerlink" title="kafka-console-producer.sh"></a><code>kafka-console-producer.sh</code></h5><pre><code class="prettyprint">./kafka-console-producer.sh --bootstrap-server 192.168.101.123:9092 --topic first
 </code></pre>
 <h5 id="性能测试"><a href="#性能测试" class="headerlink" title="性能测试"></a>性能测试</h5><h6 id="kafka-producer-perf-test-sh"><a href="#kafka-producer-perf-test-sh" class="headerlink" title="kafka-producer-perf-test.sh"></a><code>kafka-producer-perf-test.sh</code></h6><pre><code class="prettyprint">#生产数量10万个 每个数据1000字节 每秒两千个
-./kafka-producer-perf-test.sh --topic first1 --num-records 100000 --record-size 1000 --throughput 2000 --producer-props bootstrap.servers=localhost:9092
+./kafka-producer-perf-test.sh --topic first1 --num-records 100000 --record-size 1000 --throughput 2000 --producer-props bootstrap.servers=192.168.101.123:9092
 </code></pre>
 <h6 id="kafka-consumer-perf-test-sh"><a href="#kafka-consumer-perf-test-sh" class="headerlink" title="kafka-consumer-perf-test.sh"></a><code>kafka-consumer-perf-test.sh</code></h6><pre><code class="prettyprint">#消费数量10万个
-./kafka-consumer-perf-test.sh --bootstrap-server localhost:9092 --topic first1 --fetch-size 1048576 --messages 100000 --threads 1
+./kafka-consumer-perf-test.sh --bootstrap-server 192.168.101.123:9092 --topic first1 --fetch-size 1048576 --messages 100000 --threads 1
 </code></pre>
 
       </section>

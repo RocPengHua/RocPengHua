@@ -26,7 +26,7 @@
 
   
 
-  <title>centos7安装rabbitmq | 小鹏驿站</title>
+  <title>centos7安装pulsar | 小鹏驿站</title>
 
   
 
@@ -46,7 +46,7 @@
 <!-- header container -->
 <header class="header-container post">
   
-    <div class="post-image" style="background-image: url(&#39;https://api.lixingyong.com/api/images?postid=9fd4f56c&amp;type=url&amp;itype=image&#39;)"></div>
+    <div class="post-image" style="background-image: url(&#39;https://api.lixingyong.com/api/images?postid=1b52a052&amp;type=url&amp;itype=image&#39;)"></div>
   
   <!-- navbar -->
 <nav class="navbar">
@@ -301,11 +301,11 @@
     <div class="header-content">
       <div class="post-text layout-block">
         <div class="layout-margin">
-          <h1 class="title-wrap" title="觉宇宙之无穷，识盈虚之有数">centos7安装rabbitmq</h1>
+          <h1 class="title-wrap" title="觉宇宙之无穷，识盈虚之有数">centos7安装pulsar</h1>
           <h2 class="title-sub-wrap">
             <strong>RocPengHua</strong>
             <span>发布于</span>
-            <time  class="article-date" datetime="2022-04-28T13:48:13.000Z" itemprop="datePublished">2022-04-28</time>
+            <time  class="article-date" datetime="2022-06-12T04:21:01.000Z" itemprop="datePublished">2022-06-12</time>
           </h2>
           <ul class="wrap-list dark">
   
@@ -314,7 +314,7 @@
 </ul>
           <ul class="wrap-list dark">
   
-    <li><a href="/tags/rabbitmq/">🏷️ rabbitmq</a></li>
+    <li><a href="/tags/pulsar/">🏷️ pulsar</a></li>
   
 </ul>
         </div>
@@ -391,7 +391,7 @@
     <span>TOC</span>
   </div>
   <div class="widget-body">
-    <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%8B%E8%BD%BD"><span class="toc-number">1.</span> <span class="toc-text">下载</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%89%E8%A3%85"><span class="toc-number">2.</span> <span class="toc-text">安装</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AE%BF%E9%97%AE"><span class="toc-number">3.</span> <span class="toc-text">访问</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%96%B0%E5%BB%BA%E8%B4%A6%E5%8F%B7"><span class="toc-number">3.1.</span> <span class="toc-text">新建账号</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B3%A8%E6%84%8F"><span class="toc-number">4.</span> <span class="toc-text">注意</span></a></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#download"><span class="toc-number">1.</span> <span class="toc-text">download</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85"><span class="toc-number">2.</span> <span class="toc-text">安装</span></a></li></ol>
   </div>
 </section>
 
@@ -403,81 +403,22 @@
       
       
       <section id="blog-content" class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
-        <h4 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h4><p>安装rabbitmq需要erlang环境，推荐使用rabbitmq封装的erlang的rpm包</p>
-<ul>
-<li>rabbitmq软件包</li>
+        <h3 id="download"><a href="#download" class="headerlink" title="download"></a>download</h3><p><a target="_blank" rel="noopener" href="https://pulsar.apache.org/zh-CN/download/">Apache Pulsar</a></p>
+<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><ul>
+<li>直接解压</li>
 </ul>
-<p><a target="_blank" rel="noopener" href="https://www.rabbitmq.com/download.html">Downloading and Installing RabbitMQ — RabbitMQ</a></p>
-<p>选择你的系统对应的安装（我的是centos7）</p>
-<img src="/2022/04/28/centos7-an-zhuang-rabbitmq/image-20220428215438858.png" class="asset-class" title="image-20220428215438858">
-
-<img src="/2022/04/28/centos7-an-zhuang-rabbitmq/image-20220428215547092.png" class="asset-class" title="image-20220428215547092">
-
-<img src="/2022/04/28/centos7-an-zhuang-rabbitmq/image-20220428215617098.png" class="asset-class" title="image-20220428215617098">
-
-<ul>
-<li><p>erlang包</p>
-<p>先找到适应版本</p>
-<img src="/2022/04/28/centos7-an-zhuang-rabbitmq/image-20220428215802459.png" class="asset-class" title="image-20220428215802459"></li>
-</ul>
-<p>再到下载rabbitmq页面找到依赖</p>
-<img src="/2022/04/28/centos7-an-zhuang-rabbitmq/image-20220428220212284.png" class="asset-class" title="image-20220428220212284">
-
-<p>选择去仓库下载 支持的erlang</p>
-<img src="/2022/04/28/centos7-an-zhuang-rabbitmq/image-20220428220427026.png" class="asset-class" title="image-20220428220427026">
-
-<p>去github下载</p>
-<img src="/2022/04/28/centos7-an-zhuang-rabbitmq/image-20220428220536750.png" class="asset-class" title="image-20220428220536750">
-
-<p>选择自己需要的</p>
-<img src="/2022/04/28/centos7-an-zhuang-rabbitmq/image-20220428220619925.png" class="asset-class" title="image-20220428220619925">
-
-<h4 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h4><p>将<a target="_blank" rel="noopener" href="https://github.com/rabbitmq/erlang-rpm/releases/download/v23.3.4.11/erlang-23.3.4.11-1.el7.x86_64.rpm">erlang-23.3.4.11-1.el7.x86_64.rpm</a>上传到服务器</p>
-<p>将<a target="_blank" rel="noopener" href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.9.16/rabbitmq-server-3.9.16-1.el8.noarch.rpm">rabbitmq-server-3.9.16-1.el8.noarch.rpm</a>上传到服务器</p>
-<pre><code class="prettyprint">rpm -ivh erlang-23.3.4.11-1.el7.x86_64.rpm
-yum install socat -y
-rpm -ivh rabbitmq-server-3.9.16-1.el8.noarch.rpm
-
-#启动 
-systemctl start rabbitmq-server
-#停止 
-systemctl stop rabbitmq-server
-#重启 
-systemctl restart rabbitmq-server
-#状态 
-systemctl status rabbitmq-server
-#开机启动
-chkconfig rabbitmq-server on
-#开启web管理插件
-rabbitmq-plugin enable rabbitmq_management
-#关闭web管理插件
-rabbitmq-plugin disable rabbitmq_management
+<pre><code class="prettyprint">tar -zxvf apache-pulsar-2.3.0-bin.tar.gz
 </code></pre>
-<h4 id="访问"><a href="#访问" class="headerlink" title="访问"></a>访问</h4><img src="/2022/04/28/centos7-an-zhuang-rabbitmq/image-20220428221219387.png" class="asset-class" title="image-20220428221219387">
-
-<p>默认账号密码guest无法登录</p>
-<h5 id="新建账号"><a href="#新建账号" class="headerlink" title="新建账号"></a>新建账号</h5><pre><code class="prettyprint"># 设置用户
-rabbitmqctl add_user admin admin
-# 设置用户角色
-rabbitmqctl set_user_tags admin administrator
-# 设置用户权限
-set_permissions [-p &lt;vhostpath&gt;] &lt;user&gt; &lt;conf&gt; &lt;write&gt; &lt;read&gt;
-rabbitmqctl set_permissions -p &quot;/&quot; admin &quot;.*&quot; &quot;.*&quot; &quot;.*&quot;
-# 查看所有用户
-rabbitmqctl list_users
-# 关闭应用的命令为
-rabbitmqctl stop_app
-# 清除的命令为
-rabbitmqctl reset
-# 重新启动命令为
-rabbitmqctl start_app
-</code></pre>
-<img src="/2022/04/28/centos7-an-zhuang-rabbitmq/image-20220428221729109.png" class="asset-class" title="image-20220428221729109">
-
-<h4 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h4><ul>
-<li>开启防火墙或者开放端口</li>
-<li>如果时云服务器还需要开放安全组</li>
+<ul>
+<li>启动验证</li>
 </ul>
+<pre><code class="prettyprint">#启动
+./pulsar standalone
+#消费者监听
+./pulsar-client consume topic1 -s &quot;first-subscription&quot;
+#发送
+./pulsar-client produce topic1 --messages &quot;hello-pulsa
+</code></pre>
 
       </section>
 
@@ -485,32 +426,16 @@ rabbitmqctl start_app
       
         <nav class="article-nav">
           
-            <div class="article-nav-item layout-padding">
-  <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
-    
-      <div class="card-cover" background-image-lazy data-img="https://api.lixingyong.com/api/images?postid=e2dfa8ec&type=url&itype=image"></div>
-    
-    <div class="card-text">
-      
-        <a href="/2022/04/29/rabbitmq/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">rabbitmq</h2>
-        </a>
-      
-      <div class="card-text--row">Newer</div>
-    </div>
-  </article>
-</div>
-          
           
             <div class="article-nav-item layout-padding">
   <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
     
-      <div class="card-cover" background-image-lazy data-img="https://api.lixingyong.com/api/images?postid=1ba822d5&type=url&itype=image"></div>
+      <div class="card-cover" background-image-lazy data-img="https://api.lixingyong.com/api/images?postid=3799a5c6&type=url&itype=image"></div>
     
     <div class="card-text">
       
-        <a href="/2022/04/26/centos7-an-zhuang-kafka/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">centos7安装kafka</h2>
+        <a href="/2022/06/11/centos7-da-jian-kafka-ji-qun/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">centos7搭建kafka集群</h2>
         </a>
       
       <div class="card-text--row">Older</div>

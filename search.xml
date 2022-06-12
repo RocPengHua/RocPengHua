@@ -15412,4 +15412,31 @@ log.dirs=/opt/module/kafka/datas-logs3
         <tag>kafka</tag>
       </tags>
   </entry>
+  <entry>
+    <title>centos7安装pulsar</title>
+    <url>/2022/06/12/centos7-an-zhuang-pulsar/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h3 id="download"><a href="#download" class="headerlink" title="download"></a>download</h3><p><a href="https://pulsar.apache.org/zh-CN/download/">Apache Pulsar</a></p>
+<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><ul>
+<li>直接解压</li>
+</ul>
+<pre><code class="prettyprint">tar -zxvf apache-pulsar-2.3.0-bin.tar.gz
+</code></pre>
+<ul>
+<li>启动验证</li>
+</ul>
+<pre><code class="prettyprint">#启动
+./pulsar standalone
+#消费者监听
+./pulsar-client consume topic1 -s &quot;first-subscription&quot;
+#发送
+./pulsar-client produce topic1 --messages &quot;hello-pulsa
+</code></pre>
+]]></content>
+      <categories>
+        <category>软件</category>
+      </categories>
+      <tags>
+        <tag>pulsar</tag>
+      </tags>
+  </entry>
 </search>

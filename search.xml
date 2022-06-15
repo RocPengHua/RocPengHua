@@ -15439,4 +15439,147 @@ log.dirs=/opt/module/kafka/datas-logs3
         <tag>pulsar</tag>
       </tags>
   </entry>
+  <entry>
+    <title>序列化缓存定制</title>
+    <url>/2022/06/15/xu-lie-hua-huan-cun-ding-zhi/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><pre><code class="prettyprint">@Configuration
+public class RedisConfig &#123;
+  /**
+   * @desc 序列化缓存定制
+   * @method
+   */
+  @Bean
+  public RedisCacheManager jsonCacheManager(RedisConnectionFactory factory) &#123;
+    RedisCacheConfiguration config = RedisCacheConfiguration.defaultCacheConfig()
+            .serializeValuesWith(RedisSerializationContext.SerializationPair
+                    //使用GenericJackson2JsonRedisSerializer可以同时支持多种不同类型的domain对象
+                .fromSerializer(new GenericJackson2JsonRedisSerializer()));
+    return RedisCacheManager.builder(factory)
+            .cacheDefaults(config)
+            .build();
+  &#125;
+&#125;
+</code></pre>
+<h3 id="序列化问题"><a href="#序列化问题" class="headerlink" title="序列化问题"></a>序列化问题</h3><p>要把<code>对象</code>做为<code>key-value</code>对保存在redis中，就必须要解决对象的序列化问题。Spring Data Redis给我们提供了一些现成的方案：</p>
+<ul>
+<li><p><code>JdkSerializationRedisSerializer</code>. 使用JDK提供的序列化功能。 优点是反序列化时不需要提供类型信息(class)，但缺点是序列化后的结果非常庞大，是JSON格式的5倍左右，这样就会消耗redis服务器的大量内存。</p>
+</li>
+<li><p><code>Jackson2JsonRedisSerializer</code>. 使用Jackson库将对象序列化为JSON字符串。优点是速度快，序列化后的字符串短小精悍。但缺点也非常致命，那就是此类的构造函数中有一个类型参数，必须提供要序列化对象的类型信息(.class对象)。 通过查看源代码，发现其只在反序列化过程中用到了类型信息。</p>
+</li>
+<li><p><code>GenericJackson2JsonRedisSerializer</code>. 和 <code>Jackson2JsonRedisSerializer</code> 类似。但是它不需要提供序列化对象的类型信息。</p>
+</li>
+</ul>
+<h3 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h3><p>如果用方案一，就必须付出缓存多占用4倍内存的代价，实在承受不起。  </p>
+<p>如果用方案二，则必须给每一种domain对象都配置一个Serializer，即如果我的应用里有100种domain对象，那就必须在spring配置文件中配置100个Jackson2JsonRedisSerializer，这显然也是不现实的。</p>
+<p>如果用方案三，就是为了解决Jackson必须提供类型信息的问题，可以同时支持多种不同类型的domain对象。</p>
+<h3 id="Jackson2JsonRedisSerializer和GenericJackson2JsonRedisSerializer的区别"><a href="#Jackson2JsonRedisSerializer和GenericJackson2JsonRedisSerializer的区别" class="headerlink" title="Jackson2JsonRedisSerializer和GenericJackson2JsonRedisSerializer的区别"></a>Jackson2JsonRedisSerializer和GenericJackson2JsonRedisSerializer的区别</h3><h4 id="一、使用Jackson2JsonRedisSerializer序列化反序列化带泛型的List数据"><a href="#一、使用Jackson2JsonRedisSerializer序列化反序列化带泛型的List数据" class="headerlink" title="一、使用Jackson2JsonRedisSerializer序列化反序列化带泛型的List数据"></a>一、使用Jackson2JsonRedisSerializer序列化反序列化带泛型的List数据</h4><p>1、使用Jackson2JsonRedisSerializer序列化value的代码</p>
+<pre><code class="prettyprint">redisTemplate.setKeySerializer(new StringRedisSerializer());
+redisTemplate.setValueSerializer(new Jackson2JsonRedisSerializer(Object.class));
+</code></pre>
+<pre><code class="prettyprint">User user = new User();
+user.setUserId(1);
+user.setUsername(&quot;张三&quot;);
+List&lt;User&gt; userList = new ArrayList&lt;&gt;();
+userList.add(user);
+//不能直接将对象存储进redis中否则在进行反序列化的时候会报
+// java.lang.ClassCastException: java.util.LinkedHashMap cannot be cast to com.lx.entity.User错误
+//可以先转为json字符串再进行存储
+String value = JSON.toJSONString(userList);
+redisTemplate.opsForValue().set(&quot;jackson2JsonRedisSerializer&quot;, value, 5,
+        TimeUnit.MINUTES);
+</code></pre>
+<p>2、使用Jackson2JsonRedisSerializer序列化后的数据形式</p>
+<pre><code class="prettyprint">[
+  &#123;
+    &quot;userId&quot;:1,
+    &quot;username&quot;:&quot;张三&quot;
+  &#125;
+]
+</code></pre>
+<p>3、使用Jackson2JsonRedisSerializer反序列化时报错</p>
+<pre><code class="prettyprint">List&lt;User&gt; userListRedis = redisTemplate.opsForValue().get(&quot;jackson2JsonRedisSerializer&quot;);
+userListRedis.forEach(u -&gt; System.out.println(JSON.toJSONString(u)));
+</code></pre>
+<p>错误信息</p>
+<pre><code>java.lang.ClassCastException: java.util.LinkedHashMap cannot be cast to com.lx.entity.User
+</code></pre>
+<ul>
+<li>原因: <strong>序列化带泛型的数据时，会以map的结构进行存储，反序列化时不能将map解析成对象。</strong></li>
+</ul>
+<p>4、解决方案：序列化存储时，转成JSON字符串<br>使用<code>jackson</code>或者<code>fastjson</code>都可以，我这里使用的是<code>fastjson</code>,<br>需要的依赖</p>
+<pre><code class="prettyprint">&lt;dependency&gt;
+  &lt;groupId&gt;com.alibaba&lt;/groupId&gt;
+  &lt;artifactId&gt;fastjson&lt;/artifactId&gt;
+  &lt;version&gt;1.2.47&lt;/version&gt;
+&lt;/dependency&gt;
+</code></pre>
+<pre><code class="prettyprint">User user = new User();
+user.setUserId(1);
+user.setUsername(&quot;张三&quot;);
+List&lt;User&gt; userList = new ArrayList&lt;&gt;();
+userList.add(user);
+
+redisTemplate.opsForValue().set(&quot;jackson2JsonRedisSerializer&quot;, JSON.toJSONString(userList), 5, TimeUnit.MINUTES);
+
+String res = (String) redisTemplate.opsForValue().get(&quot;jackson2JsonRedisSerializer&quot;);
+JSON.parseArray(res, User.class).forEach(u -&gt; System.out.println(JSON.toJSONString(u)));
+</code></pre>
+<h4 id="二、使用GenericJackson2JsonRedisSerializer序列化反序列化带泛型的List数据"><a href="#二、使用GenericJackson2JsonRedisSerializer序列化反序列化带泛型的List数据" class="headerlink" title="二、使用GenericJackson2JsonRedisSerializer序列化反序列化带泛型的List数据"></a>二、使用GenericJackson2JsonRedisSerializer序列化反序列化带泛型的List数据</h4><p>1、使用GenericJackson2JsonRedisSerializer序列化value的代码</p>
+<pre><code class="prettyprint">redisTemplate.setKeySerializer(new StringRedisSerializer());
+redisTemplate.setValueSerializer(new GenericJackson2JsonRedisSerializer());
+</code></pre>
+<pre><code class="prettyprint">User user = new User();
+user.setUserId(1);
+user.setUsername(&quot;李四&quot;);
+List&lt;User&gt; userList = new ArrayList&lt;&gt;();
+userList.add(user);
+redisTemplate.opsForValue().set(&quot;genericJackson2JsonRedisSerializer&quot;,userList,5,TimeUnit.MINUTES);
+</code></pre>
+<p>2、使用GenericJackson2JsonRedisSerializer序列化后的数据形式</p>
+<pre><code class="prettyprint">[
+    &quot;java.util.ArrayList&quot;,
+    [
+        &#123;
+            &quot;@class&quot;: &quot;com.lx.entity.User&quot;,
+            &quot;userId&quot;: 1,
+            &quot;username&quot;: &quot;李四&quot;
+        &#125;
+    ]
+]
+</code></pre>
+<p>3、使用GenericJackson2JsonRedisSerializer可以正常反序列化</p>
+<pre><code class="prettyprint">List&lt;User&gt; userListRedis = (List&lt;User&gt;) redisTemplate.opsForValue().get(&quot;genericJackson2JsonRedisSerializer&quot;);
+userListRedis.forEach(u -&gt; System.out.println(JSON.toJSONString(u)));
+</code></pre>
+<p>4、可以正常反序列化的原因<br>使用<code>GenericJackson2JsonRedisSerializer</code>序列化时，会保存序列化的对象的包名和类名，反序列化时以这个作为标示就可以反序列化成指定的对象。</p>
+<p>5、也可以以JSON字符串保存</p>
+<pre><code class="prettyprint">redisTemplate.opsForValue().set(&quot;genericJackson2JsonRedisSerializer&quot;,JSON.toJSONString(userList),5,TimeUnit.MINUTES);
+
+List&lt;User&gt; userListRedis = (List&lt;User&gt;) redisTemplate.opsForValue().get(&quot;genericJackson2JsonRedisSerializer&quot;);
+userListRedis.forEach(u -&gt; System.out.println(JSON.toJSONString(u)));
+</code></pre>
+<h4 id="四、GenericJackson2JsonRedisSerializer和Jackson2JsonRedisSerializerdo效率"><a href="#四、GenericJackson2JsonRedisSerializer和Jackson2JsonRedisSerializerdo效率" class="headerlink" title="四、GenericJackson2JsonRedisSerializer和Jackson2JsonRedisSerializerdo效率"></a>四、GenericJackson2JsonRedisSerializer和Jackson2JsonRedisSerializerdo效率</h4><pre><code class="prettyprint"> 
+</code></pre>
+<p>测试后:</p>
+<pre><code>jackson2JsonRedisSerializer序列化需要的时间:687
+genericJackson2JsonRedisSerializer序列化需要的时间:22
+</code></pre>
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><ul>
+<li><p>使用<code>Jackson2JsonRedisSerializer</code>需要指明序列化的类Class，可以使用<code>Obejct.class</code></p>
+</li>
+<li><p>使用<code>GenericJackson2JsonRedisSerializer</code>和<code>Jackson2JsonRedisSerializerdo</code>都可以正常序列化非泛型数组对象。<code>GenericJackson2JsonRedisSerializer</code>也可以正常反序列化非泛型数组对象，但是<code>Jackson2JsonRedisSerializerdo</code>因为“序列化带泛型的数据时，会以map的结构进行存储，反序列化时不能将map解析成对象”，所以不能反序列化，解决办法: 存储以JSON字符串存储</p>
+</li>
+<li><p>使用<code>GenericJacksonRedisSerializer</code>比<code>Jackson2JsonRedisSerializer</code>效率高</p>
+</li>
+<li><p><code>GenericJacksonRedisSerializer</code>和<code>Jackson2JsonRedisSerializer</code>都是以JSON格式去存储数据，都可以作为Redis的序列化方式</p>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>中间件</category>
+      </categories>
+      <tags>
+        <tag>redis</tag>
+      </tags>
+  </entry>
 </search>

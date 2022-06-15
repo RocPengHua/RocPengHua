@@ -26,7 +26,7 @@
 
   
 
-  <title>docker-compose安装 | 小鹏驿站</title>
+  <title>序列化缓存定制 | 小鹏驿站</title>
 
   
 
@@ -46,7 +46,7 @@
 <!-- header container -->
 <header class="header-container post">
   
-    <div class="post-image" style="background-image: url(&#39;https://api.lixingyong.com/api/images?postid=40ea02d2&amp;type=url&amp;itype=image&#39;)"></div>
+    <div class="post-image" style="background-image: url(&#39;https://api.lixingyong.com/api/images?postid=ede4ac09&amp;type=url&amp;itype=image&#39;)"></div>
   
   <!-- navbar -->
 <nav class="navbar">
@@ -301,20 +301,20 @@
     <div class="header-content">
       <div class="post-text layout-block">
         <div class="layout-margin">
-          <h1 class="title-wrap" title="觉宇宙之无穷，识盈虚之有数">docker-compose安装</h1>
+          <h1 class="title-wrap" title="觉宇宙之无穷，识盈虚之有数">序列化缓存定制</h1>
           <h2 class="title-sub-wrap">
             <strong>RocPengHua</strong>
             <span>发布于</span>
-            <time  class="article-date" datetime="2021-11-20T05:20:04.000Z" itemprop="datePublished">2021-11-20</time>
+            <time  class="article-date" datetime="2022-06-15T02:19:51.000Z" itemprop="datePublished">2022-06-15</time>
           </h2>
           <ul class="wrap-list dark">
   
-    <li><a href="/categories/%E8%BD%AF%E4%BB%B6/">📒 软件</a></li>
+    <li><a href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/">📒 中间件</a></li>
   
 </ul>
           <ul class="wrap-list dark">
   
-    <li><a href="/tags/docker/">🏷️ docker</a></li>
+    <li><a href="/tags/redis/">🏷️ redis</a></li>
   
 </ul>
         </div>
@@ -383,6 +383,18 @@
 
       
       
+<section class="widget-toc widget-item layout-margin content-padding--primary soft-size--large soft-style--box">
+  <div class="widget-title">
+    <svg class="icon icon-toc" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M134.50666666 767.46666668H460.8c27.73333333 0 50.24000001 22.50666668 50.24000001 50.23999999v50.13333333c0 27.73333333-22.50666668 50.24000001-50.24000001 50.24000001H134.50666666c-27.73333333 0-50.24000001-22.50666668-50.23999999-50.24000001v-50.13333333c0.10666668-27.73333333 22.50666668-50.24000001 50.24000001-50.24000001zM84.37333332 541.65333333h326.18666669c27.73333333 0 50.24000001 22.39999999 50.23999999 50.13333334v50.24000001c0 27.73333333-22.50666668 50.24000001-50.24000002 50.23999999H84.37333332c-27.73333333 0-50.24000001-22.50666668-50.23999999-50.23999999v-50.24000001c0-27.73333333 22.50666668-50.13333334 50.24000001-50.13333334zM134.50666666 315.83999999H460.8c27.73333333 0 50.24000001 22.50666668 50.24000001 50.24000001v50.24000001c0 27.73333333-22.50666668 50.13333334-50.24000001 50.13333333H134.50666666c-27.73333333 0-50.24000001-22.39999999-50.23999999-50.13333333v-50.24000001c0.10666668-27.84000001 22.50666668-50.24000001 50.24000001-50.23999999zM209.81333332 89.91999999h326.18666671c27.73333333 0 50.24000001 22.39999999 50.23999997 50.13333335v50.23999999c0 27.73333333-22.50666668 50.24000001-50.24000001 50.24000001H209.81333332c-27.73333333 0-50.24000001-22.50666668-50.23999999-50.24000001v-50.24000001c0-27.73333333 22.50666668-50.13333334 50.24000001-50.13333333zM692.05333333 623.36l274.66666669 176.00000002c23.36000001 14.93333333 30.08 45.97333334 15.14666666 69.33333332L954.77333334 910.93333333c-14.93333333 23.25333334-45.97333334 30.08-69.33333335 15.14666667l-274.66666666-176c-23.36000001-14.93333333-30.08-45.97333334-15.14666667-69.33333333l27.09333334-42.24000001c14.93333333-23.36000001 46.08000001-30.08 69.33333333-15.14666666z" fill="currentColor"></path>
+</svg>
+    <span>TOC</span>
+  </div>
+  <div class="widget-body">
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81"><span class="toc-number">1.</span> <span class="toc-text">代码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BA%8F%E5%88%97%E5%8C%96%E9%97%AE%E9%A2%98"><span class="toc-number">2.</span> <span class="toc-text">序列化问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E6%9E%90"><span class="toc-number">3.</span> <span class="toc-text">分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Jackson2JsonRedisSerializer%E5%92%8CGenericJackson2JsonRedisSerializer%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">4.</span> <span class="toc-text">Jackson2JsonRedisSerializer和GenericJackson2JsonRedisSerializer的区别</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E4%BD%BF%E7%94%A8Jackson2JsonRedisSerializer%E5%BA%8F%E5%88%97%E5%8C%96%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%B8%A6%E6%B3%9B%E5%9E%8B%E7%9A%84List%E6%95%B0%E6%8D%AE"><span class="toc-number">4.1.</span> <span class="toc-text">一、使用Jackson2JsonRedisSerializer序列化反序列化带泛型的List数据</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E4%BD%BF%E7%94%A8GenericJackson2JsonRedisSerializer%E5%BA%8F%E5%88%97%E5%8C%96%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%B8%A6%E6%B3%9B%E5%9E%8B%E7%9A%84List%E6%95%B0%E6%8D%AE"><span class="toc-number">4.2.</span> <span class="toc-text">二、使用GenericJackson2JsonRedisSerializer序列化反序列化带泛型的List数据</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9B%9B%E3%80%81GenericJackson2JsonRedisSerializer%E5%92%8CJackson2JsonRedisSerializerdo%E6%95%88%E7%8E%87"><span class="toc-number">4.3.</span> <span class="toc-text">四、GenericJackson2JsonRedisSerializer和Jackson2JsonRedisSerializerdo效率</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">4.4.</span> <span class="toc-text">总结</span></a></li></ol></li></ol>
+  </div>
+</section>
+
     </div>
   
     <div class="article-info">
@@ -391,8 +403,138 @@
       
       
       <section id="blog-content" class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
-        <p>下载<br>我们可以从 Github 上下载它的二进制包来使用，最新发行的版本地址：<a target="_blank" rel="noopener" href="https://github.com/docker/compose/releases%E3%80%82">https://github.com/docker/compose/releases。</a></p>
-<p><code>docker-compose-linux-x86_64</code><br>改名<br><code>mv  docker-compose-linux-x86_64 /usr/local/bin/docker-compose</code><br>赋权<br> <code>chmod +x /usr/local/bin/docker-compose</code><br>创建软链：<br><code>ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose</code><br>测试是否安装成功：<br> <code>docker-compose --version</code></p>
+        <h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><pre><code class="prettyprint">@Configuration
+public class RedisConfig &#123;
+  /**
+   * @desc 序列化缓存定制
+   * @method
+   */
+  @Bean
+  public RedisCacheManager jsonCacheManager(RedisConnectionFactory factory) &#123;
+    RedisCacheConfiguration config = RedisCacheConfiguration.defaultCacheConfig()
+            .serializeValuesWith(RedisSerializationContext.SerializationPair
+                    //使用GenericJackson2JsonRedisSerializer可以同时支持多种不同类型的domain对象
+                .fromSerializer(new GenericJackson2JsonRedisSerializer()));
+    return RedisCacheManager.builder(factory)
+            .cacheDefaults(config)
+            .build();
+  &#125;
+&#125;
+</code></pre>
+<h3 id="序列化问题"><a href="#序列化问题" class="headerlink" title="序列化问题"></a>序列化问题</h3><p>要把<code>对象</code>做为<code>key-value</code>对保存在redis中，就必须要解决对象的序列化问题。Spring Data Redis给我们提供了一些现成的方案：</p>
+<ul>
+<li><p><code>JdkSerializationRedisSerializer</code>. 使用JDK提供的序列化功能。 优点是反序列化时不需要提供类型信息(class)，但缺点是序列化后的结果非常庞大，是JSON格式的5倍左右，这样就会消耗redis服务器的大量内存。</p>
+</li>
+<li><p><code>Jackson2JsonRedisSerializer</code>. 使用Jackson库将对象序列化为JSON字符串。优点是速度快，序列化后的字符串短小精悍。但缺点也非常致命，那就是此类的构造函数中有一个类型参数，必须提供要序列化对象的类型信息(.class对象)。 通过查看源代码，发现其只在反序列化过程中用到了类型信息。</p>
+</li>
+<li><p><code>GenericJackson2JsonRedisSerializer</code>. 和 <code>Jackson2JsonRedisSerializer</code> 类似。但是它不需要提供序列化对象的类型信息。</p>
+</li>
+</ul>
+<h3 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h3><p>如果用方案一，就必须付出缓存多占用4倍内存的代价，实在承受不起。  </p>
+<p>如果用方案二，则必须给每一种domain对象都配置一个Serializer，即如果我的应用里有100种domain对象，那就必须在spring配置文件中配置100个Jackson2JsonRedisSerializer，这显然也是不现实的。</p>
+<p>如果用方案三，就是为了解决Jackson必须提供类型信息的问题，可以同时支持多种不同类型的domain对象。</p>
+<h3 id="Jackson2JsonRedisSerializer和GenericJackson2JsonRedisSerializer的区别"><a href="#Jackson2JsonRedisSerializer和GenericJackson2JsonRedisSerializer的区别" class="headerlink" title="Jackson2JsonRedisSerializer和GenericJackson2JsonRedisSerializer的区别"></a>Jackson2JsonRedisSerializer和GenericJackson2JsonRedisSerializer的区别</h3><h4 id="一、使用Jackson2JsonRedisSerializer序列化反序列化带泛型的List数据"><a href="#一、使用Jackson2JsonRedisSerializer序列化反序列化带泛型的List数据" class="headerlink" title="一、使用Jackson2JsonRedisSerializer序列化反序列化带泛型的List数据"></a>一、使用Jackson2JsonRedisSerializer序列化反序列化带泛型的List数据</h4><p>1、使用Jackson2JsonRedisSerializer序列化value的代码</p>
+<pre><code class="prettyprint">redisTemplate.setKeySerializer(new StringRedisSerializer());
+redisTemplate.setValueSerializer(new Jackson2JsonRedisSerializer(Object.class));
+</code></pre>
+<pre><code class="prettyprint">User user = new User();
+user.setUserId(1);
+user.setUsername(&quot;张三&quot;);
+List&lt;User&gt; userList = new ArrayList&lt;&gt;();
+userList.add(user);
+//不能直接将对象存储进redis中否则在进行反序列化的时候会报
+// java.lang.ClassCastException: java.util.LinkedHashMap cannot be cast to com.lx.entity.User错误
+//可以先转为json字符串再进行存储
+String value = JSON.toJSONString(userList);
+redisTemplate.opsForValue().set(&quot;jackson2JsonRedisSerializer&quot;, value, 5,
+        TimeUnit.MINUTES);
+</code></pre>
+<p>2、使用Jackson2JsonRedisSerializer序列化后的数据形式</p>
+<pre><code class="prettyprint">[
+  &#123;
+    &quot;userId&quot;:1,
+    &quot;username&quot;:&quot;张三&quot;
+  &#125;
+]
+</code></pre>
+<p>3、使用Jackson2JsonRedisSerializer反序列化时报错</p>
+<pre><code class="prettyprint">List&lt;User&gt; userListRedis = redisTemplate.opsForValue().get(&quot;jackson2JsonRedisSerializer&quot;);
+userListRedis.forEach(u -&gt; System.out.println(JSON.toJSONString(u)));
+</code></pre>
+<p>错误信息</p>
+<pre><code>java.lang.ClassCastException: java.util.LinkedHashMap cannot be cast to com.lx.entity.User
+</code></pre>
+<ul>
+<li>原因: <strong>序列化带泛型的数据时，会以map的结构进行存储，反序列化时不能将map解析成对象。</strong></li>
+</ul>
+<p>4、解决方案：序列化存储时，转成JSON字符串<br>使用<code>jackson</code>或者<code>fastjson</code>都可以，我这里使用的是<code>fastjson</code>,<br>需要的依赖</p>
+<pre><code class="prettyprint">&lt;dependency&gt;
+  &lt;groupId&gt;com.alibaba&lt;/groupId&gt;
+  &lt;artifactId&gt;fastjson&lt;/artifactId&gt;
+  &lt;version&gt;1.2.47&lt;/version&gt;
+&lt;/dependency&gt;
+</code></pre>
+<pre><code class="prettyprint">User user = new User();
+user.setUserId(1);
+user.setUsername(&quot;张三&quot;);
+List&lt;User&gt; userList = new ArrayList&lt;&gt;();
+userList.add(user);
+
+redisTemplate.opsForValue().set(&quot;jackson2JsonRedisSerializer&quot;, JSON.toJSONString(userList), 5, TimeUnit.MINUTES);
+
+String res = (String) redisTemplate.opsForValue().get(&quot;jackson2JsonRedisSerializer&quot;);
+JSON.parseArray(res, User.class).forEach(u -&gt; System.out.println(JSON.toJSONString(u)));
+</code></pre>
+<h4 id="二、使用GenericJackson2JsonRedisSerializer序列化反序列化带泛型的List数据"><a href="#二、使用GenericJackson2JsonRedisSerializer序列化反序列化带泛型的List数据" class="headerlink" title="二、使用GenericJackson2JsonRedisSerializer序列化反序列化带泛型的List数据"></a>二、使用GenericJackson2JsonRedisSerializer序列化反序列化带泛型的List数据</h4><p>1、使用GenericJackson2JsonRedisSerializer序列化value的代码</p>
+<pre><code class="prettyprint">redisTemplate.setKeySerializer(new StringRedisSerializer());
+redisTemplate.setValueSerializer(new GenericJackson2JsonRedisSerializer());
+</code></pre>
+<pre><code class="prettyprint">User user = new User();
+user.setUserId(1);
+user.setUsername(&quot;李四&quot;);
+List&lt;User&gt; userList = new ArrayList&lt;&gt;();
+userList.add(user);
+redisTemplate.opsForValue().set(&quot;genericJackson2JsonRedisSerializer&quot;,userList,5,TimeUnit.MINUTES);
+</code></pre>
+<p>2、使用GenericJackson2JsonRedisSerializer序列化后的数据形式</p>
+<pre><code class="prettyprint">[
+    &quot;java.util.ArrayList&quot;,
+    [
+        &#123;
+            &quot;@class&quot;: &quot;com.lx.entity.User&quot;,
+            &quot;userId&quot;: 1,
+            &quot;username&quot;: &quot;李四&quot;
+        &#125;
+    ]
+]
+</code></pre>
+<p>3、使用GenericJackson2JsonRedisSerializer可以正常反序列化</p>
+<pre><code class="prettyprint">List&lt;User&gt; userListRedis = (List&lt;User&gt;) redisTemplate.opsForValue().get(&quot;genericJackson2JsonRedisSerializer&quot;);
+userListRedis.forEach(u -&gt; System.out.println(JSON.toJSONString(u)));
+</code></pre>
+<p>4、可以正常反序列化的原因<br>使用<code>GenericJackson2JsonRedisSerializer</code>序列化时，会保存序列化的对象的包名和类名，反序列化时以这个作为标示就可以反序列化成指定的对象。</p>
+<p>5、也可以以JSON字符串保存</p>
+<pre><code class="prettyprint">redisTemplate.opsForValue().set(&quot;genericJackson2JsonRedisSerializer&quot;,JSON.toJSONString(userList),5,TimeUnit.MINUTES);
+
+List&lt;User&gt; userListRedis = (List&lt;User&gt;) redisTemplate.opsForValue().get(&quot;genericJackson2JsonRedisSerializer&quot;);
+userListRedis.forEach(u -&gt; System.out.println(JSON.toJSONString(u)));
+</code></pre>
+<h4 id="四、GenericJackson2JsonRedisSerializer和Jackson2JsonRedisSerializerdo效率"><a href="#四、GenericJackson2JsonRedisSerializer和Jackson2JsonRedisSerializerdo效率" class="headerlink" title="四、GenericJackson2JsonRedisSerializer和Jackson2JsonRedisSerializerdo效率"></a>四、GenericJackson2JsonRedisSerializer和Jackson2JsonRedisSerializerdo效率</h4><pre><code class="prettyprint"> 
+</code></pre>
+<p>测试后:</p>
+<pre><code>jackson2JsonRedisSerializer序列化需要的时间:687
+genericJackson2JsonRedisSerializer序列化需要的时间:22
+</code></pre>
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><ul>
+<li><p>使用<code>Jackson2JsonRedisSerializer</code>需要指明序列化的类Class，可以使用<code>Obejct.class</code></p>
+</li>
+<li><p>使用<code>GenericJackson2JsonRedisSerializer</code>和<code>Jackson2JsonRedisSerializerdo</code>都可以正常序列化非泛型数组对象。<code>GenericJackson2JsonRedisSerializer</code>也可以正常反序列化非泛型数组对象，但是<code>Jackson2JsonRedisSerializerdo</code>因为“序列化带泛型的数据时，会以map的结构进行存储，反序列化时不能将map解析成对象”，所以不能反序列化，解决办法: 存储以JSON字符串存储</p>
+</li>
+<li><p>使用<code>GenericJacksonRedisSerializer</code>比<code>Jackson2JsonRedisSerializer</code>效率高</p>
+</li>
+<li><p><code>GenericJacksonRedisSerializer</code>和<code>Jackson2JsonRedisSerializer</code>都是以JSON格式去存储数据，都可以作为Redis的序列化方式</p>
+</li>
+</ul>
 
       </section>
 
@@ -400,32 +542,16 @@
       
         <nav class="article-nav">
           
-            <div class="article-nav-item layout-padding">
-  <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
-    
-      <div class="card-cover" background-image-lazy data-img="https://api.lixingyong.com/api/images?postid=fe40ed83&type=url&itype=image"></div>
-    
-    <div class="card-text">
-      
-        <a href="/2021/11/26/idea-pei-zhi-zhu-shi/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">IDEA配置注释</h2>
-        </a>
-      
-      <div class="card-text--row">Newer</div>
-    </div>
-  </article>
-</div>
-          
           
             <div class="article-nav-item layout-padding">
   <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
     
-      <div class="card-cover" background-image-lazy data-img="/images/upload/2021/10/3.jpg"></div>
+      <div class="card-cover" background-image-lazy data-img="https://api.lixingyong.com/api/images?postid=1b52a052&type=url&itype=image"></div>
     
     <div class="card-text">
       
-        <a href="/2021/11/14/centos-an-zhuang-mysql5-7/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">centos安装mysql5.7</h2>
+        <a href="/2022/06/12/centos7-an-zhuang-pulsar/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">centos7安装pulsar</h2>
         </a>
       
       <div class="card-text--row">Older</div>

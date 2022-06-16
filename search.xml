@@ -15582,4 +15582,283 @@ genericJackson2JsonRedisSerializer序列化需要的时间:22
         <tag>redis</tag>
       </tags>
   </entry>
+  <entry>
+    <title>KMP-字符串匹配</title>
+    <url>/2022/06/16/kmp-zi-fu-chuan-pi-pei/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h4 id="暴力匹配"><a href="#暴力匹配" class="headerlink" title="暴力匹配"></a>暴力匹配</h4><ul>
+<li>如果当前字符匹配成功（即 str1[i] &#x3D;&#x3D; str2[j]），则 i++，j++，继续匹配下一个字符</li>
+<li>如果失配（即 str1[i]! &#x3D; str2[j]），令 i &#x3D; i - (j - 1)，j &#x3D; 0。相当于每次匹配失败时，i 回溯，j 被置为 0。</li>
+<li>用暴力方法解决的话就会有大量的回溯，每次只移动一位，若是不匹配，移动到下一位接着判断，浪费了大量的时间。(不可行!)</li>
+</ul>
+<pre><code class="prettyprint">public class ViolenceMatch &#123;
+    public static void main(String[] args) &#123;
+        //测试暴力匹配算法
+        String str1 = &quot;哇哈哈哈娃娃 哇哈哇哈 哈哇哈哈哈哈&quot;;
+        String str2 = &quot;哈哇哈哈哈&quot;;
+        int index = violenceMatch(str1, str2);
+        System.out.println(&quot;index=&quot; + index);
+    &#125;
+    // 暴力匹配算法实现
+    public static int violenceMatch(String str1, String str2) &#123;
+        char[] s1 = str1.toCharArray();
+        char[] s2 = str2.toCharArray();
+        int s1Len = s1.length;
+        int s2Len = s2.length;
+        int i = 0; // i索引指向s1
+        int j = 0; // j索引指向s2
+        while (i &lt; s1Len &amp;&amp; j &lt; s2Len) &#123;// 保证匹配时，不越界
+            if(s1[i] == s2[j]) &#123;//匹配ok
+                i++;
+                j++;
+            &#125; else &#123; //没有匹配成功
+                //如果失配（即str1[i]! = str2[j]），令i = i - (j - 1)，j = 0。
+                i = i - (j - 1);
+                j = 0;
+            &#125;
+        &#125;
+        //判断是否匹配成功
+        if(j == s2Len) &#123;
+            return i - j;
+        &#125; else &#123;
+            return -1;
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+<h3 id="KMP"><a href="#KMP" class="headerlink" title="KMP"></a>KMP</h3><p><a href="https://blog.csdn.net/weixin_52622200/article/details/110563434">什么是KMP算法（详解)</a></p>
+<pre><code class="prettyprint">public class KMPAlgorithm &#123;
+
+    public static void main(String[] args) &#123;
+        String str1 = &quot;BBC ABCDAB ABCDABCDABDE&quot;;
+        String str2 = &quot;ABCDABD&quot;;
+        //String str2 = &quot;BBC&quot;;
+        
+        int[] next = kmpNext(&quot;ABCDABD&quot;); //[0, 1, 2, 0]
+        System.out.println(&quot;next=&quot; + Arrays.toString(next));
+        
+        int index = kmpSearch(str1, str2, next);
+        System.out.println(&quot;index=&quot; + index); // 15了
+        
+        
+    &#125;
+    
+    //写出我们的kmp搜索算法
+    /**
+     * 
+     * @param str1 源字符串
+     * @param str2 子串
+     * @param next 部分匹配表, 是子串对应的部分匹配表
+     * @return 如果是-1就是没有匹配到，否则返回第一个匹配的位置
+     */
+    public static int kmpSearch(String str1, String str2, int[] next) &#123;
+        
+        //遍历 
+        for(int i = 0, j = 0; i &lt; str1.length(); i++) &#123;
+            
+            //需要处理 str1.charAt(i) ！= str2.charAt(j), 去调整j的大小
+            //KMP算法核心点, 可以验证...
+            while( j &gt; 0 &amp;&amp; str1.charAt(i) != str2.charAt(j)) &#123;
+                j = next[j-1]; 
+            &#125;
+            
+            if(str1.charAt(i) == str2.charAt(j)) &#123;
+                j++;
+            &#125;			
+            if(j == str2.length()) &#123;//找到了 // j = 3 i 
+                return i - j + 1;
+            &#125;
+        &#125;
+        return  -1;
+    &#125;
+
+    //获取到一个字符串(子串) 的部分匹配值表
+    public static  int[] kmpNext(String dest) &#123;
+        //创建一个next 数组保存部分匹配值
+        int[] next = new int[dest.length()];
+        next[0] = 0; //如果字符串是长度为1 部分匹配值就是0
+        for(int i = 1, j = 0; i &lt; dest.length(); i++) &#123;
+            //当dest.charAt(i) != dest.charAt(j) ，我们需要从next[j-1]获取新的j
+            //直到我们发现 有  dest.charAt(i) == dest.charAt(j)成立才退出
+            //这时kmp算法的核心点
+            while(j &gt; 0 &amp;&amp; dest.charAt(i) != dest.charAt(j)) &#123;
+                j = next[j-1];
+            &#125;
+            
+            //当dest.charAt(i) == dest.charAt(j) 满足时，部分匹配值就是+1
+            if(dest.charAt(i) == dest.charAt(j)) &#123;
+                j++;
+            &#125;
+            next[i] = j;
+        &#125;
+        return next;
+    &#125;
+&#125;
+</code></pre>
+]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>KMP</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>分治算法-汉诺塔</title>
+    <url>/2022/06/16/fen-zhi-suan-fa-han-nuo-ta/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h4 id="分治算法"><a href="#分治算法" class="headerlink" title="分治算法"></a>分治算法</h4><blockquote>
+<p>分解：将原问题分解为若干个规模较小，相互独立，与原问题形式相同的子问题</p>
+<p>解决：若子问题规模较小而容易被解决则直接解，否则递归地解各个子问题</p>
+<p>合并：将各个子问题的解合并为原问题的解。</p>
+</blockquote>
+<h4 id="汉诺塔"><a href="#汉诺塔" class="headerlink" title="汉诺塔"></a>汉诺塔</h4><ul>
+<li>如果是有一个盘， A-&gt;C，如果我们有 n &gt;&#x3D; 2 情况，我们总是可以看做是两个盘 <ul>
+<li>最下边的盘 </li>
+<li>上面的盘</li>
+</ul>
+</li>
+<li>先把 最上面的盘 A-&gt;B</li>
+<li>把最下边的盘 A-&gt;C</li>
+<li>把 B 塔的所有盘 从 B-&gt;C</li>
+</ul>
+<pre><code class="prettyprint">public class Hanoitower &#123;
+    private static Integer times = 0;
+    public static void main(String[] args) &#123;
+        hanoiTower(5, &#39;A&#39;, &#39;B&#39;, &#39;C&#39;);
+    &#125;
+    //汉诺塔的移动的方法
+    //使用分治算法
+    public static void hanoiTower(int num, char a, char b, char c) &#123;
+        //如果只有一个盘
+        if(num == 1) &#123;
+            System.out.println(++times +&quot;----第1个盘从 &quot; + a + &quot;-&gt;&quot; + c);
+        &#125; else &#123;
+            //如果我们有 n &gt;= 2 情况，我们总是可以看做是两个盘 1.最下边的一个盘 2. 上面的所有盘
+            //1. 先把 最上面的所有盘 A-&gt;B， 移动过程会使用到 c
+            hanoiTower(num - 1, a, c, b);
+            //2. 把最下边的盘 A-&gt;C
+            System.out.println(++times + &quot;---第&quot; + num + &quot;个盘从 &quot; + a + &quot;-&gt;&quot; + c);
+            //3. 把B塔的所有盘 从 B-&gt;C , 移动过程使用到 a塔  
+            hanoiTower(num - 1, b, a, c);
+            
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>分治</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>动态规划-背包问题</title>
+    <url>/2022/06/16/dong-tai-gui-hua-bei-bao-wen-ti/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h4 id="动态规划"><a href="#动态规划" class="headerlink" title="动态规划"></a>动态规划</h4><ul>
+<li>动态规划(Dynamic Programming)算法的核心思想是：将大问题划分为小问题进行解决，从而一步步获取最优解的处理算法</li>
+<li>动态规划算法与分治算法类似，其基本思想也是将待求解问题分解成若干个子问题，先求解子问题，然后从这些子问题的解得到原问题的解。</li>
+<li>与分治法不同的是，适合于用动态规划求解的问题，经分解得到子问题往往不是互相独立的。 ( 即下一个子阶段的求解是建立在上一个子阶段的解的基础上，进行进一步的求解 </li>
+<li>动态规划可以通过填表的方式来逐步推进，得到最优解</li>
+</ul>
+<h4 id="背包问题"><a href="#背包问题" class="headerlink" title="背包问题"></a>背包问题</h4><ul>
+<li><code>v[i][0]=v[0][j]=0;</code> &#x2F;&#x2F;表示 填入表 第一行和第一列是 0</li>
+<li>当 <code>w[i]&gt; j</code> 时：<code>v[i][j]=v[i-1][j]</code> , 当准备加入新增的商品的容量大于 当前背包的容量时，就直接使用上一个<br>单元格的装入策略</li>
+<li>当 <code>j&gt;=w[i]</code>时： <code>v[i][j]=max&#123;v[i-1][j], v[i]+v[i-1][j-w[i]]&#125;</code> 当准备加入的新增的商品的容量小于等于当前背包的容量<ul>
+<li><code>v[i-1][j]</code>： 就是上一个单元格的装入的最大值</li>
+<li><code>v[i] </code>: 表示当前商品的价值</li>
+<li><code>v[i-1][j-w[i]] </code>： 装入 i-1 商品，到剩余空间 j-w[i]的最大值</li>
+<li>当<code> j&gt;=w[i]</code>时： <code>v[i][j]=max&#123;v[i-1][j], v[i]+v[i-1][j-w[i]]&#125; </code>:</li>
+</ul>
+</li>
+</ul>
+<pre><code class="prettyprint">public class KnapsackProblem &#123;
+
+    public static void main(String[] args) &#123;
+        // TODO Auto-generated method stub
+        int[] w = &#123;1, 4, 3&#125;;//物品的重量
+        int[] val = &#123;1500, 3000, 2000&#125;; //物品的价值 这里val[i] 就是前面讲的v[i]
+        int m = 4; //背包的容量
+        int n = val.length; //物品的个数
+        
+        //创建二维数组，
+        //v[i][j] 表示在前i个物品中能够装入容量为j的背包中的最大价值
+        int[][] v = new int[n+1][m+1];
+        //为了记录放入商品的情况，我们定一个二维数组
+        int[][] path = new int[n+1][m+1];
+        
+        //初始化第一行和第一列, 这里在本程序中，可以不去处理，因为默认就是0
+        for(int i = 0; i &lt; v.length; i++) &#123;
+            v[i][0] = 0; //将第一列设置为0
+        &#125;
+        for(int i=0; i &lt; v[0].length; i++) &#123;
+            v[0][i] = 0; //将第一行设置0
+        &#125;
+        
+        
+        //根据前面得到公式来动态规划处理
+        for(int i = 1; i &lt; v.length; i++) &#123; //不处理第一行 i是从1开始的
+            for(int j=1; j &lt; v[0].length; j++) &#123;//不处理第一列, j是从1开始的
+                //公式
+                if(w[i-1]&gt; j) &#123; // 因为我们程序i 是从1开始的，因此原来公式中的 w[i] 修改成 w[i-1]
+                    v[i][j]=v[i-1][j];
+                &#125; else &#123;
+                    //说明:
+                    //因为我们的i 从1开始的， 因此公式需要调整成
+                    //v[i][j]=Math.max(v[i-1][j], val[i-1]+v[i-1][j-w[i-1]]);
+                    //v[i][j] = Math.max(v[i - 1][j], val[i - 1] + v[i - 1][j - w[i - 1]]);
+                    //为了记录商品存放到背包的情况，我们不能直接的使用上面的公式，需要使用if-else来体现公式
+                    if(v[i - 1][j] &lt; val[i - 1] + v[i - 1][j - w[i - 1]]) &#123;
+                        v[i][j] = val[i - 1] + v[i - 1][j - w[i - 1]];
+                        //把当前的情况记录到path
+                        path[i][j] = 1;
+                    &#125; else &#123;
+                        v[i][j] = v[i - 1][j];
+                    &#125;
+                    
+                &#125;
+            &#125;
+        &#125;
+        
+        //输出一下v 看看目前的情况
+        for(int i =0; i &lt; v.length;i++) &#123;
+            for(int j = 0; j &lt; v[i].length;j++) &#123;
+                System.out.print(v[i][j] + &quot; &quot;);
+            &#125;
+            System.out.println();
+        &#125;
+        
+        System.out.println(&quot;============================&quot;);
+        //输出最后我们是放入的哪些商品
+        //遍历path, 这样输出会把所有的放入情况都得到, 其实我们只需要最后的放入
+        for(int i = 0; i &lt; path.length; i++) &#123;
+            for(int j=0; j &lt; path[i].length; j++) &#123;
+                System.out.print(path[i][j] + &quot; &quot;);
+            &#125;
+            System.out.println();
+        &#125;
+        
+        //动脑筋
+        int i = path.length - 1; //行的最大下标
+        int j = path[0].length - 1;  //列的最大下标
+        while(i &gt; 0 &amp;&amp; j &gt; 0 ) &#123; //从path的最后开始找
+            if(path[i][j] == 1) &#123;
+                System.out.printf(&quot;第%d个商品放入到背包\n&quot;, i); 
+                j -= w[i-1]; //w[i-1]
+            &#125;
+            i--;
+        &#125;
+        
+    &#125;
+
+&#125;
+</code></pre>
+]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>动态规划</tag>
+      </tags>
+  </entry>
 </search>

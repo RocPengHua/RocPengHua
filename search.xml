@@ -15629,11 +15629,12 @@ genericJackson2JsonRedisSerializer序列化需要的时间:22
 <pre><code class="prettyprint">public class KMPAlgorithm &#123;
 
     public static void main(String[] args) &#123;
+        // TODO Auto-generated method stub
         String str1 = &quot;BBC ABCDAB ABCDABCDABDE&quot;;
         String str2 = &quot;ABCDABD&quot;;
         //String str2 = &quot;BBC&quot;;
         
-        int[] next = kmpNext(&quot;ABCDABD&quot;); //[0, 1, 2, 0]
+        int[] next = kmpNext(str2); //[0, 1, 2, 0]
         System.out.println(&quot;next=&quot; + Arrays.toString(next));
         
         int index = kmpSearch(str1, str2, next);
@@ -15652,12 +15653,13 @@ genericJackson2JsonRedisSerializer序列化需要的时间:22
      */
     public static int kmpSearch(String str1, String str2, int[] next) &#123;
         
-        //遍历 
+        //遍历  j标识头部用于对对比下标 i标识字符串遍历下标
         for(int i = 0, j = 0; i &lt; str1.length(); i++) &#123;
             
             //需要处理 str1.charAt(i) ！= str2.charAt(j), 去调整j的大小
             //KMP算法核心点, 可以验证...
             while( j &gt; 0 &amp;&amp; str1.charAt(i) != str2.charAt(j)) &#123;
+                //next[j-1] 表示前面有n个数匹配了和开头匹配了，直接从下标n开始
                 j = next[j-1]; 
             &#125;
             

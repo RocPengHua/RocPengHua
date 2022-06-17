@@ -15625,7 +15625,7 @@ genericJackson2JsonRedisSerializer序列化需要的时间:22
     &#125;
 &#125;
 </code></pre>
-<h3 id="KMP"><a href="#KMP" class="headerlink" title="KMP"></a>KMP</h3><p><a href="https://blog.csdn.net/weixin_52622200/article/details/110563434">什么是KMP算法（详解)</a></p>
+<h4 id="KMP"><a href="#KMP" class="headerlink" title="KMP"></a>KMP</h4><p><a href="https://blog.csdn.net/weixin_52622200/article/details/110563434">什么是KMP算法（详解)</a></p>
 <pre><code class="prettyprint">public class KMPAlgorithm &#123;
 
     public static void main(String[] args) &#123;
@@ -15861,6 +15861,436 @@ genericJackson2JsonRedisSerializer序列化需要的时间:22
       </categories>
       <tags>
         <tag>动态规划</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>贪心算法-集合覆盖</title>
+    <url>/2022/06/17/tan-xin-suan-fa-ji-he-fu-gai/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h4 id="贪心算法"><a href="#贪心算法" class="headerlink" title="贪心算法"></a>贪心算法</h4><blockquote>
+<p> 贪心算法是指在对问题进行求解时，在每一步选择中都采取最好或者最优(即最有利)的选择，从而希望能够导致结果是最好或者最优的算法</p>
+<p>贪心算法所得到的结果不一定是最优的结果(有时候会是最优解)，但是都是相对近似(接近)最优解的结果</p>
+</blockquote>
+<h4 id="集合覆盖"><a href="#集合覆盖" class="headerlink" title="集合覆盖"></a>集合覆盖</h4><ul>
+<li>目前并没有算法可以快速计算得到准备的值， 使用贪婪算法，则可以得到非常接近的解，并且效率高。选择策略上，因为需要覆盖全部地区的最小集合</li>
+<li>遍历所有的广播电台, 找到一个覆盖了最多未覆盖的地区的电台(此电台可能包含一些已覆盖的地区，但没有关系）</li>
+<li>将这个电台加入到一个集合中(比如 ArrayList), 想办法把该电台覆盖的地区在下次比较时去掉</li>
+<li>重复第 1 步直到覆盖了全部的地区</li>
+</ul>
+<pre><code class="prettyprint">public class GreedyAlgorithm &#123;
+
+    public static void main(String[] args) &#123;
+        //创建广播电台,放入到Map
+        HashMap&lt;String,HashSet&lt;String&gt;&gt; broadcasts = new HashMap&lt;String, HashSet&lt;String&gt;&gt;();
+        //将各个电台放入到broadcasts
+        HashSet&lt;String&gt; hashSet1 = new HashSet&lt;String&gt;();
+        hashSet1.add(&quot;北京&quot;);
+        hashSet1.add(&quot;上海&quot;);
+        hashSet1.add(&quot;天津&quot;);
+        
+        HashSet&lt;String&gt; hashSet2 = new HashSet&lt;String&gt;();
+        hashSet2.add(&quot;广州&quot;);
+        hashSet2.add(&quot;北京&quot;);
+        hashSet2.add(&quot;深圳&quot;);
+        
+        HashSet&lt;String&gt; hashSet3 = new HashSet&lt;String&gt;();
+        hashSet3.add(&quot;成都&quot;);
+        hashSet3.add(&quot;上海&quot;);
+        hashSet3.add(&quot;杭州&quot;);
+        
+        
+        HashSet&lt;String&gt; hashSet4 = new HashSet&lt;String&gt;();
+        hashSet4.add(&quot;上海&quot;);
+        hashSet4.add(&quot;天津&quot;);
+        
+        HashSet&lt;String&gt; hashSet5 = new HashSet&lt;String&gt;();
+        hashSet5.add(&quot;杭州&quot;);
+        hashSet5.add(&quot;大连&quot;);
+    
+        //加入到map
+        broadcasts.put(&quot;K1&quot;, hashSet1);
+        broadcasts.put(&quot;K2&quot;, hashSet2);
+        broadcasts.put(&quot;K3&quot;, hashSet3);
+        broadcasts.put(&quot;K4&quot;, hashSet4);
+        broadcasts.put(&quot;K5&quot;, hashSet5);
+        
+        //allAreas 存放所有的地区
+        HashSet&lt;String&gt; allAreas = new HashSet&lt;String&gt;();
+        allAreas.add(&quot;北京&quot;);
+        allAreas.add(&quot;上海&quot;);
+        allAreas.add(&quot;天津&quot;);
+        allAreas.add(&quot;广州&quot;);
+        allAreas.add(&quot;深圳&quot;);
+        allAreas.add(&quot;成都&quot;);
+        allAreas.add(&quot;杭州&quot;);
+        allAreas.add(&quot;大连&quot;);
+        
+        //创建ArrayList, 存放选择的电台集合
+        ArrayList&lt;String&gt; selects = new ArrayList&lt;String&gt;();
+        
+        //定义一个临时的集合， 在遍历的过程中，存放遍历过程中的电台覆盖的地区和当前还没有覆盖的地区的交集
+        HashSet&lt;String&gt; tempSet = new HashSet&lt;String&gt;();
+        
+        //定义给maxKey ， 保存在一次遍历过程中，能够覆盖最大未覆盖的地区对应的电台的key
+        //如果maxKey 不为null , 则会加入到 selects
+        String maxKey = null;
+        while(allAreas.size() != 0) &#123; // 如果allAreas 不为0, 则表示还没有覆盖到所有的地区
+            //每进行一次while,需要
+            maxKey = null;
+            
+            //遍历 broadcasts, 取出对应key
+            for(String key : broadcasts.keySet()) &#123;
+                //每进行一次for
+                tempSet.clear();
+                //当前这个key能够覆盖的地区
+                HashSet&lt;String&gt; areas = broadcasts.get(key);
+                tempSet.addAll(areas);
+                //求出tempSet 和   allAreas 集合的交集, 交集会赋给 tempSet
+                tempSet.retainAll(allAreas);
+                //如果当前这个集合包含的未覆盖地区的数量，比maxKey指向的集合地区还多
+                //就需要重置maxKey
+                // tempSet.size() &gt;broadcasts.get(maxKey).size()) 体现出贪心算法的特点,每次都选择最优的
+                if(tempSet.size() &gt; 0 &amp;&amp; 
+                        (maxKey == null || tempSet.size() &gt;broadcasts.get(maxKey).size()))&#123;
+                    maxKey = key;
+                &#125;
+            &#125;
+            //maxKey != null, 就应该将maxKey 加入selects
+            if(maxKey != null) &#123;
+                selects.add(maxKey);
+                //将maxKey指向的广播电台覆盖的地区，从 allAreas 去掉
+                allAreas.removeAll(broadcasts.get(maxKey));
+            &#125;
+            
+        &#125;
+        System.out.println(&quot;得到的选择结果是&quot; + selects);//[K1,K2,K3,K5]
+        
+    &#125;
+&#125;
+</code></pre>
+]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>贪心</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>fastdfs安装</title>
+    <url>/2022/06/17/fastdfs-an-zhuang/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h4 id="组件准备"><a href="#组件准备" class="headerlink" title="组件准备"></a>组件准备</h4><ul>
+<li><p><code>libfastcommon</code>-1.0.5：<a href="https://github.com/happyfish100/libfastcommon.git">https://github.com/happyfish100/libfastcommon.git</a></p>
+</li>
+<li><p><code>fastdfs</code>-6.0.7： <a href="https://github.com/happyfish100/fastdfs.git">https://github.com/happyfish100/fastdfs.git</a></p>
+</li>
+<li><p><code>fastdfs-nginx-module</code>-1.22：<a href="https://github.com/happyfish100/fastdfs-nginx-module.git">https://github.com/happyfish100/fastdfs-nginx-module.git</a></p>
+</li>
+<li><p><code>nginx</code>-1.20.2：<a href="http://nginx.org/en/download.html">http://nginx.org/en/download.html</a></p>
+<ul>
+<li><a href="https://rocpenghua.gitee.io/2022/06/05/nginx-pei-zhi-xue-xi/">nginx配置学习 | 小鹏驿站 (gitee.io)</a></li>
+</ul>
+</li>
+</ul>
+<img src="/2022/06/17/fastdfs-an-zhuang/image-20220617223712983.png" class="asset-class" title="image-20220617223712983">
+
+<h4 id="安装libfastcommon"><a href="#安装libfastcommon" class="headerlink" title="安装libfastcommon"></a>安装<code>libfastcommon</code></h4><pre><code class="prettyprint">cd /opt/software/fastdfs
+tar -zxvf libfastcommon-1.0.50.tar.gz
+cd libfastcommon-1.0.50
+./make.sh
+./make.sh install
+</code></pre>
+<h4 id="安装fastdfs"><a href="#安装fastdfs" class="headerlink" title="安装fastdfs"></a>安装<code>fastdfs</code></h4><pre><code class="prettyprint">cd /opt/software/fastdfs
+tar -zxvf fastdfs-6.07.tar.gz
+cd fastdfs-6.07
+./make.sh &amp;&amp; ./make.sh install
+</code></pre>
+<h4 id="创建文件和日志存储文件夹tracker和storage"><a href="#创建文件和日志存储文件夹tracker和storage" class="headerlink" title="创建文件和日志存储文件夹tracker和storage"></a>创建文件和日志存储文件夹<code>tracker</code>和<code>storage</code></h4><blockquote>
+<p>FastDFS服务有三个⻆⾊:跟踪服务器(tracker server)、存储服务器(storage server)和客户端(client) </p>
+</blockquote>
+<h5 id="配置tracker"><a href="#配置tracker" class="headerlink" title="配置tracker"></a>配置<code>tracker</code></h5><pre><code class="prettyprint"># 创建tracker的存储日志和数据的根目录
+mkdir -p /opt/software/fastdfs/tracker
+# 修改tracker配置
+cd /etc/fdfs
+cp tracker.conf.sample tracker.conf
+vim tracker.conf
+</code></pre>
+<p>修改<code>tracker.conf</code>配置</p>
+<pre><code class="prettyprint"># is this config file disabled
+# false for enabled
+# true for disabled
+# 使用默认
+disabled = false
+# the tracker server port
+# 使用默认
+port = 22122
+# the base path to store data and log files
+#配置前面新建的tracker根目录
+base_path = /opt/software/fastdfs/tracker
+</code></pre>
+<h5 id="配置storage"><a href="#配置storage" class="headerlink" title="配置storage"></a>配置<code>storage</code></h5><pre><code class="prettyprint"># 创建tracker的存储日志和数据的根目录
+mkdir -p /opt/software/fastdfs/storage
+# 修改tracker配置
+cd /etc/fdfs
+cp storage.conf.sample storage.conf
+vim storage.conf
+</code></pre>
+<p>修改<code>tracker.conf</code>配置</p>
+<pre><code class="prettyprint"># 启⽤配置⽂件（默认为 false，表示启⽤配置⽂件）
+disabled=false
+# Storage 服务端⼝（默认为 23000）
+port=23000
+# 数据和⽇志⽂件存储根⽬录
+base_path=/opt/software/fastdfs/storage
+# 存储路径，访问时路径为 M00
+# store_path1 则为 M01，以此递增到 M99（如果配置了多个存储⽬录的话，这⾥只指定 1 个）
+store_path0=/opt/software/fastdfs/storage
+# Tracker 服务器 IP 地址和端⼝，单机搭建时也不要写 127.0.0.1
+# tracker_server 可以多次出现，如果有多个，则配置多个
+tracker_server=192.168.101.123:22122
+# 设置 HTTP 访问⽂件的端⼝。这个配置已经不⽤配置了，配置了也没什么⽤
+# 这也是为何 Storage 服务器需要 Nginx 来提供 HTTP 访问的原因
+http.server_port=8888
+</code></pre>
+<h5 id="启动tracker和storage"><a href="#启动tracker和storage" class="headerlink" title="启动tracker和storage"></a>启动<code>tracker</code>和<code>storage</code></h5><pre><code class="prettyprint"># 启动tracker 
+# 其余命令 start、stop、restart、reload、status
+/etc/init.d/fdfs_trackerd start
+#启动storage 
+# 其余命令 start、stop、restart、reload、status
+/etc/init.d/fdfs_storaged start
+# 查看状态
+# ACTIVE表示成功
+/usr/bin/fdfs_monitor /etc/fdfs/storage.conf
+</code></pre>
+<h5 id="测试文件上传client"><a href="#测试文件上传client" class="headerlink" title="测试文件上传client"></a>测试文件上传<code>client</code></h5><pre><code class="prettyprint"># 修改client配置文件
+cp /etc/fdfs/client.conf.sample /etc/fdfs/client.conf
+vim /etc/fdfs/client.conf
+</code></pre>
+<p>修改<code>client.conf</code>中base_path和tracker的ip:port</p>
+<pre><code class="prettyprint"># the base path to store log files
+base_path = /opt/software/fastdfs/tracker
+
+# tracker_server can ocur more than once for multi tracker servers.
+tracker_server = 192.168.101.123:22122
+</code></pre>
+<ul>
+<li>测试文件上传</li>
+</ul>
+<pre><code class="prettyprint"># /root/soft.txt 测试的文件
+/usr/bin/fdfs_upload_file /etc/fdfs/client.conf /root/soft.txt
+</code></pre>
+<p>返回文件ID：<code>group1/M00/00/00/wKhle2KsilWACukrAAAAW5T75rI594.txt</code>表示上传成功</p>
+<p>文件查看：<code>cd /opt/software/fastdfs/storage/data/00/00/</code></p>
+<ul>
+<li>测试下载</li>
+</ul>
+<pre><code class="prettyprint">/usr/bin/fdfs_download_file /etc/fdfs/client.conf group1/M00/00/00/wKhle2KsilWACukrAAAAW5T75rI594.txt
+</code></pre>
+<ul>
+<li>测试删除</li>
+</ul>
+<pre><code class="prettyprint">/usr/bin/fdfs_delete_file /etc/fdfs/client.conf group1/M00/00/00/wKhle2KsilWACukrAAAAW5T75rI594.txt
+</code></pre>
+<h4 id="安装fastdfs-nginx-module"><a href="#安装fastdfs-nginx-module" class="headerlink" title="安装fastdfs-nginx-module"></a>安装<code>fastdfs-nginx-module</code></h4><h5 id="解压"><a href="#解压" class="headerlink" title="解压"></a>解压</h5><pre><code class="prettyprint">cd /opt/software/fastdfs
+tar -zxvf fastdfs-nginx-module-1.22.tar.gz
+cd fastdfs-nginx-module-1.22/src
+pwd
+#/opt/software/fastdfs/fastdfs-nginx-module-1.22/src
+</code></pre>
+<h5 id="安装编译nginx"><a href="#安装编译nginx" class="headerlink" title="安装编译nginx"></a>安装编译nginx</h5><pre><code class="prettyprint">cd /opt/software/fastdfs
+tar -zxvf nginx-1.20.2.tar.gz
+cd nginx-1.20.2
+#将fastdfs-nginx-module-1.22/src添加
+./configure --add-module=/opt/software/fastdfs/fastdfs-nginx-module-1.22/src
+</code></pre>
+<blockquote>
+<p>生产objs&#x2F;Makefile 表示编译成功</p>
+</blockquote>
+<h5 id="给objs-Makefile文件增加头文件目录"><a href="#给objs-Makefile文件增加头文件目录" class="headerlink" title="给objs/Makefile文件增加头文件目录"></a>给<code>objs/Makefile</code>文件增加头文件目录</h5><pre><code class="prettyprint"># 增加以下两行配置
+# -I /usr/include/fastdfs \
+# -I /usr/include/fastcommon \
+ALL_INCS = -I src/core \
+    -I /usr/include/fastdfs \
+    -I /usr/include/fastcommon \
+    -I src/event \
+    -I src/event/modules \
+    -I src/os/unix \
+    -I objs \
+    -I src/http \
+    -I src/http/modules \
+    -I /usr/local/include
+</code></pre>
+<h5 id="编译及安装nginx"><a href="#编译及安装nginx" class="headerlink" title="编译及安装nginx"></a>编译及安装nginx</h5><pre><code class="prettyprint">cd /opt/software/fastdfs/nginx-1.20.2
+make
+make install
+</code></pre>
+<h5 id="配置fastdfs-nginx-module"><a href="#配置fastdfs-nginx-module" class="headerlink" title="配置fastdfs-nginx-module"></a>配置<code>fastdfs-nginx-module</code></h5><ul>
+<li>拷贝配置文件到<code>/etc/fdfs</code>目录下</li>
+</ul>
+<pre><code class="prettyprint">cd /opt/software/fastdfs/fastdfs-nginx-module-1.22/src
+# 查看目录下文件
+ls
+# common.c  common.h  config  mod_fastdfs.conf  ngx_http_fastdfs_module.c
+</code></pre>
+<ul>
+<li>拷贝配置</li>
+</ul>
+<pre><code class="prettyprint">cp /opt/software/fastdfs/fastdfs-nginx-module-1.22/src/mod_fastdfs.conf /etc/fdfs/
+cp /opt/software/fastdfs/fastdfs-6.07/conf/http.conf /etc/fdfs/
+cp /opt/software/fastdfs/fastdfs-6.07/conf/mime.types /etc/fdfs/
+</code></pre>
+<ul>
+<li>修改<code>/etc/fdfs/mod_fastdfs.conf</code></li>
+</ul>
+<pre><code class="prettyprint"># Tracker 服务器IP和端⼝修改
+tracker_server=192.168.101.123:22122
+# url 中是否包含 group 名称，改为 true，包含 group
+url_have_group_name = true
+# 配置 Storage 信息，修改 store_path0 的信息
+store_path0=/opt/software/fastdfs/storage
+# 其它的⼀般默认即可，例如
+base_path=/tmp
+group_name=group1
+storage_server_port=23000
+store_path_count=1
+</code></pre>
+<h5 id="配置nginx"><a href="#配置nginx" class="headerlink" title="配置nginx"></a>配置<code>nginx</code></h5><p>修改配置文件 <code>vim /usr/local/nginx/conf/nginx.conf</code></p>
+<pre><code class="prettyprint">
+#user  nobody;
+worker_processes  1;
+
+#error_log  logs/error.log;
+#error_log  logs/error.log  notice;
+#error_log  logs/error.log  info;
+
+#pid        logs/nginx.pid;
+
+
+events &#123;
+    worker_connections  1024;
+&#125;
+
+
+http &#123;
+    include       mime.types;
+    default_type  application/octet-stream;
+
+    #log_format  main  &#39;$remote_addr - $remote_user [$time_local] &quot;$request&quot; &#39;
+    #                  &#39;$status $body_bytes_sent &quot;$http_referer&quot; &#39;
+    #                  &#39;&quot;$http_user_agent&quot; &quot;$http_x_forwarded_for&quot;&#39;;
+
+    #access_log  logs/access.log  main;
+
+    sendfile        on;
+    #tcp_nopush     on;
+
+    #keepalive_timeout  0;
+    keepalive_timeout  65;
+
+    #gzip  on;
+
+    server &#123;
+        listen       80;
+        server_name  localhost;
+
+        #charset koi8-r;
+
+        #access_log  logs/host.access.log  main;
+
+        location / &#123;
+            root   html;
+            index  index.html index.htm;
+        &#125;
+        
+        # 增加配置正则匹配
+        location ~/group([0-9])/M([0-9])([0-9]) &#123;
+            ngx_fastdfs_module;
+        &#125;
+
+        #error_page  404              /404.html;
+
+        # redirect server error pages to the static page /50x.html
+        #
+        error_page   500 502 503 504  /50x.html;
+        location = /50x.html &#123;
+            root   html;
+        &#125;
+
+        # proxy the PHP scripts to Apache listening on 127.0.0.1:80
+        #
+        #location ~ \.php$ &#123;
+        #    proxy_pass   http://127.0.0.1;
+        #&#125;
+
+        # pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000
+        #
+        #location ~ \.php$ &#123;
+        #    root           html;
+        #    fastcgi_pass   127.0.0.1:9000;
+        #    fastcgi_index  index.php;
+        #    fastcgi_param  SCRIPT_FILENAME  /scripts$fastcgi_script_name;
+        #    include        fastcgi_params;
+        #&#125;
+
+        # deny access to .htaccess files, if Apache&#39;s document root
+        # concurs with nginx&#39;s one
+        #
+        #location ~ /\.ht &#123;
+        #    deny  all;
+        #&#125;
+    &#125;
+
+
+    # another virtual host using mix of IP-, name-, and port-based configuration
+    #
+    #server &#123;
+    #    listen       8000;
+    #    listen       somename:8080;
+    #    server_name  somename  alias  another.alias;
+
+    #    location / &#123;
+    #        root   html;
+    #        index  index.html index.htm;
+    #    &#125;
+    #&#125;
+
+
+    # HTTPS server
+    #
+    #server &#123;
+    #    listen       443 ssl;
+    #    server_name  localhost;
+
+    #    ssl_certificate      cert.pem;
+    #    ssl_certificate_key  cert.key;
+
+    #    ssl_session_cache    shared:SSL:1m;
+    #    ssl_session_timeout  5m;
+
+    #    ssl_ciphers  HIGH:!aNULL:!MD5;
+    #    ssl_prefer_server_ciphers  on;
+
+    #    location / &#123;
+    #        root   html;
+    #        index  index.html index.htm;
+    #    &#125;
+    #&#125;
+
+&#125;
+</code></pre>
+<p>启动<code>nginx</code></p>
+<blockquote>
+<p>第一次启动 <code>/usr/local/nginx/sbin/nginx -c /usr/local/nginx/conf/nginx.conf</code></p>
+<p>重启 <code>/usr/local/nginx/sbin/nginx -s reload</code></p>
+</blockquote>
+<h5 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h5><p><a href="http://192.168.101.123/group1/M00/00/00/wKhle2KsilWACukrAAAAW5T75rI594.txt">192.168.101.123&#x2F;group1&#x2F;M00&#x2F;00&#x2F;00&#x2F;wKhle2KsilWACukrAAAAW5T75rI594.txt</a></p>
+<img src="/2022/06/17/fastdfs-an-zhuang/image-20220617231602933.png" class="asset-class" title="image-20220617231602933">
+]]></content>
+      <categories>
+        <category>软件</category>
+      </categories>
+      <tags>
+        <tag>nginx</tag>
+        <tag>fastdfs</tag>
       </tags>
   </entry>
 </search>

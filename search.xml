@@ -15978,7 +15978,7 @@ genericJackson2JsonRedisSerializer序列化需要的时间:22
   <entry>
     <title>fastdfs安装</title>
     <url>/2022/06/17/fastdfs-an-zhuang/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h4 id="组件准备"><a href="#组件准备" class="headerlink" title="组件准备"></a>组件准备</h4><ul>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h3 id="组件准备"><a href="#组件准备" class="headerlink" title="组件准备"></a>组件准备</h3><ul>
 <li><p><code>libfastcommon</code>-1.0.5：<a href="https://github.com/happyfish100/libfastcommon.git">https://github.com/happyfish100/libfastcommon.git</a></p>
 </li>
 <li><p><code>fastdfs</code>-6.0.7： <a href="https://github.com/happyfish100/fastdfs.git">https://github.com/happyfish100/fastdfs.git</a></p>
@@ -15993,21 +15993,21 @@ genericJackson2JsonRedisSerializer序列化需要的时间:22
 </ul>
 <img src="/2022/06/17/fastdfs-an-zhuang/image-20220617223712983.png" class="asset-class" title="image-20220617223712983">
 
-<h4 id="安装libfastcommon"><a href="#安装libfastcommon" class="headerlink" title="安装libfastcommon"></a>安装<code>libfastcommon</code></h4><pre><code class="prettyprint">cd /opt/software/fastdfs
+<h3 id="安装libfastcommon"><a href="#安装libfastcommon" class="headerlink" title="安装libfastcommon"></a>安装<code>libfastcommon</code></h3><pre><code class="prettyprint">cd /opt/software/fastdfs
 tar -zxvf libfastcommon-1.0.50.tar.gz
 cd libfastcommon-1.0.50
 ./make.sh
 ./make.sh install
 </code></pre>
-<h4 id="安装fastdfs"><a href="#安装fastdfs" class="headerlink" title="安装fastdfs"></a>安装<code>fastdfs</code></h4><pre><code class="prettyprint">cd /opt/software/fastdfs
+<h3 id="安装fastdfs"><a href="#安装fastdfs" class="headerlink" title="安装fastdfs"></a>安装<code>fastdfs</code></h3><pre><code class="prettyprint">cd /opt/software/fastdfs
 tar -zxvf fastdfs-6.07.tar.gz
 cd fastdfs-6.07
 ./make.sh &amp;&amp; ./make.sh install
 </code></pre>
-<h4 id="创建文件和日志存储文件夹tracker和storage"><a href="#创建文件和日志存储文件夹tracker和storage" class="headerlink" title="创建文件和日志存储文件夹tracker和storage"></a>创建文件和日志存储文件夹<code>tracker</code>和<code>storage</code></h4><blockquote>
+<h3 id="创建文件和日志存储文件夹tracker和storage"><a href="#创建文件和日志存储文件夹tracker和storage" class="headerlink" title="创建文件和日志存储文件夹tracker和storage"></a>创建文件和日志存储文件夹<code>tracker</code>和<code>storage</code></h3><blockquote>
 <p>FastDFS服务有三个⻆⾊:跟踪服务器(tracker server)、存储服务器(storage server)和客户端(client) </p>
 </blockquote>
-<h5 id="配置tracker"><a href="#配置tracker" class="headerlink" title="配置tracker"></a>配置<code>tracker</code></h5><pre><code class="prettyprint"># 创建tracker的存储日志和数据的根目录
+<h4 id="配置tracker"><a href="#配置tracker" class="headerlink" title="配置tracker"></a>配置<code>tracker</code></h4><pre><code class="prettyprint"># 创建tracker的存储日志和数据的根目录
 mkdir -p /opt/software/fastdfs/tracker
 # 修改tracker配置
 cd /etc/fdfs
@@ -16027,7 +16027,7 @@ port = 22122
 #配置前面新建的tracker根目录
 base_path = /opt/software/fastdfs/tracker
 </code></pre>
-<h5 id="配置storage"><a href="#配置storage" class="headerlink" title="配置storage"></a>配置<code>storage</code></h5><pre><code class="prettyprint"># 创建tracker的存储日志和数据的根目录
+<h4 id="配置storage"><a href="#配置storage" class="headerlink" title="配置storage"></a>配置<code>storage</code></h4><pre><code class="prettyprint"># 创建tracker的存储日志和数据的根目录
 mkdir -p /opt/software/fastdfs/storage
 # 修改tracker配置
 cd /etc/fdfs
@@ -16051,7 +16051,7 @@ tracker_server=192.168.101.123:22122
 # 这也是为何 Storage 服务器需要 Nginx 来提供 HTTP 访问的原因
 http.server_port=8888
 </code></pre>
-<h5 id="启动tracker和storage"><a href="#启动tracker和storage" class="headerlink" title="启动tracker和storage"></a>启动<code>tracker</code>和<code>storage</code></h5><pre><code class="prettyprint"># 启动tracker 
+<h4 id="启动tracker和storage"><a href="#启动tracker和storage" class="headerlink" title="启动tracker和storage"></a>启动<code>tracker</code>和<code>storage</code></h4><pre><code class="prettyprint"># 启动tracker 
 # 其余命令 start、stop、restart、reload、status
 /etc/init.d/fdfs_trackerd start
 #启动storage 
@@ -16061,7 +16061,7 @@ http.server_port=8888
 # ACTIVE表示成功
 /usr/bin/fdfs_monitor /etc/fdfs/storage.conf
 </code></pre>
-<h5 id="测试文件上传client"><a href="#测试文件上传client" class="headerlink" title="测试文件上传client"></a>测试文件上传<code>client</code></h5><pre><code class="prettyprint"># 修改client配置文件
+<h4 id="测试文件上传client"><a href="#测试文件上传client" class="headerlink" title="测试文件上传client"></a>测试文件上传<code>client</code></h4><pre><code class="prettyprint"># 修改client配置文件
 cp /etc/fdfs/client.conf.sample /etc/fdfs/client.conf
 vim /etc/fdfs/client.conf
 </code></pre>
@@ -16090,13 +16090,13 @@ tracker_server = 192.168.101.123:22122
 </ul>
 <pre><code class="prettyprint">/usr/bin/fdfs_delete_file /etc/fdfs/client.conf group1/M00/00/00/wKhle2KsilWACukrAAAAW5T75rI594.txt
 </code></pre>
-<h4 id="安装fastdfs-nginx-module"><a href="#安装fastdfs-nginx-module" class="headerlink" title="安装fastdfs-nginx-module"></a>安装<code>fastdfs-nginx-module</code></h4><h5 id="解压"><a href="#解压" class="headerlink" title="解压"></a>解压</h5><pre><code class="prettyprint">cd /opt/software/fastdfs
+<h3 id="安装fastdfs-nginx-module"><a href="#安装fastdfs-nginx-module" class="headerlink" title="安装fastdfs-nginx-module"></a>安装<code>fastdfs-nginx-module</code></h3><h4 id="解压"><a href="#解压" class="headerlink" title="解压"></a>解压</h4><pre><code class="prettyprint">cd /opt/software/fastdfs
 tar -zxvf fastdfs-nginx-module-1.22.tar.gz
 cd fastdfs-nginx-module-1.22/src
 pwd
 #/opt/software/fastdfs/fastdfs-nginx-module-1.22/src
 </code></pre>
-<h5 id="安装编译nginx"><a href="#安装编译nginx" class="headerlink" title="安装编译nginx"></a>安装编译nginx</h5><pre><code class="prettyprint">cd /opt/software/fastdfs
+<h4 id="安装编译nginx"><a href="#安装编译nginx" class="headerlink" title="安装编译nginx"></a>安装编译nginx</h4><pre><code class="prettyprint">cd /opt/software/fastdfs
 tar -zxvf nginx-1.20.2.tar.gz
 cd nginx-1.20.2
 #将fastdfs-nginx-module-1.22/src添加
@@ -16105,7 +16105,7 @@ cd nginx-1.20.2
 <blockquote>
 <p>生产objs&#x2F;Makefile 表示编译成功</p>
 </blockquote>
-<h5 id="给objs-Makefile文件增加头文件目录"><a href="#给objs-Makefile文件增加头文件目录" class="headerlink" title="给objs/Makefile文件增加头文件目录"></a>给<code>objs/Makefile</code>文件增加头文件目录</h5><pre><code class="prettyprint"># 增加以下两行配置
+<h4 id="给objs-Makefile文件增加头文件目录"><a href="#给objs-Makefile文件增加头文件目录" class="headerlink" title="给objs/Makefile文件增加头文件目录"></a>给<code>objs/Makefile</code>文件增加头文件目录</h4><pre><code class="prettyprint"># 增加以下两行配置
 # -I /usr/include/fastdfs \
 # -I /usr/include/fastcommon \
 ALL_INCS = -I src/core \
@@ -16119,11 +16119,11 @@ ALL_INCS = -I src/core \
     -I src/http/modules \
     -I /usr/local/include
 </code></pre>
-<h5 id="编译及安装nginx"><a href="#编译及安装nginx" class="headerlink" title="编译及安装nginx"></a>编译及安装nginx</h5><pre><code class="prettyprint">cd /opt/software/fastdfs/nginx-1.20.2
+<h4 id="编译及安装nginx"><a href="#编译及安装nginx" class="headerlink" title="编译及安装nginx"></a>编译及安装nginx</h4><pre><code class="prettyprint">cd /opt/software/fastdfs/nginx-1.20.2
 make
 make install
 </code></pre>
-<h5 id="配置fastdfs-nginx-module"><a href="#配置fastdfs-nginx-module" class="headerlink" title="配置fastdfs-nginx-module"></a>配置<code>fastdfs-nginx-module</code></h5><ul>
+<h4 id="配置fastdfs-nginx-module"><a href="#配置fastdfs-nginx-module" class="headerlink" title="配置fastdfs-nginx-module"></a>配置<code>fastdfs-nginx-module</code></h4><ul>
 <li>拷贝配置文件到<code>/etc/fdfs</code>目录下</li>
 </ul>
 <pre><code class="prettyprint">cd /opt/software/fastdfs/fastdfs-nginx-module-1.22/src
@@ -16153,7 +16153,7 @@ group_name=group1
 storage_server_port=23000
 store_path_count=1
 </code></pre>
-<h5 id="配置nginx"><a href="#配置nginx" class="headerlink" title="配置nginx"></a>配置<code>nginx</code></h5><p>修改配置文件 <code>vim /usr/local/nginx/conf/nginx.conf</code></p>
+<h4 id="配置nginx"><a href="#配置nginx" class="headerlink" title="配置nginx"></a>配置<code>nginx</code></h4><p>修改配置文件 <code>vim /usr/local/nginx/conf/nginx.conf</code></p>
 <pre><code class="prettyprint">
 #user  nobody;
 worker_processes  1;
@@ -16282,8 +16282,12 @@ http &#123;
 <p>第一次启动 <code>/usr/local/nginx/sbin/nginx -c /usr/local/nginx/conf/nginx.conf</code></p>
 <p>重启 <code>/usr/local/nginx/sbin/nginx -s reload</code></p>
 </blockquote>
-<h5 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h5><p><a href="http://192.168.101.123/group1/M00/00/00/wKhle2KsilWACukrAAAAW5T75rI594.txt">192.168.101.123&#x2F;group1&#x2F;M00&#x2F;00&#x2F;00&#x2F;wKhle2KsilWACukrAAAAW5T75rI594.txt</a></p>
+<h4 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h4><p><a href="http://192.168.101.123/group1/M00/00/00/wKhle2KsilWACukrAAAAW5T75rI594.txt">192.168.101.123&#x2F;group1&#x2F;M00&#x2F;00&#x2F;00&#x2F;wKhle2KsilWACukrAAAAW5T75rI594.txt</a></p>
 <img src="/2022/06/17/fastdfs-an-zhuang/image-20220617231602933.png" class="asset-class" title="image-20220617231602933">
+
+<blockquote>
+<p>代码测试路径<a href="https://gitee.com/RocPengHua/springboot-integrate.git">https://gitee.com/RocPengHua/springboot-integrate.git</a></p>
+</blockquote>
 ]]></content>
       <categories>
         <category>软件</category>
@@ -16291,6 +16295,158 @@ http &#123;
       <tags>
         <tag>nginx</tag>
         <tag>fastdfs</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>minio8.3.3启动报错</title>
+    <url>/2022/06/18/minio8-3-3-qi-dong-bao-cuo/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h4 id="报错日志"><a href="#报错日志" class="headerlink" title="报错日志"></a>报错日志</h4><pre><code class="prettyprint">Error starting ApplicationContext. To display the conditions report re-run your application with &#39;debug&#39; enabled.
+2022-06-18 19:32:30.757 ERROR 14472 --- [           main] o.s.b.d.LoggingFailureAnalysisReporter   : 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+An attempt was made to call a method that does not exist. The attempt was made from the following location:
+
+    io.minio.S3Base.&lt;clinit&gt;(S3Base.java:98)
+
+The following method did not exist:
+
+    okhttp3.RequestBody.create([BLokhttp3/MediaType;)Lokhttp3/RequestBody;
+
+The method&#39;s class, okhttp3.RequestBody, is available from the following locations:
+
+    jar:file:/E:/maven/maven_resp/com/squareup/okhttp3/okhttp/3.14.9/okhttp-3.14.9.jar!/okhttp3/RequestBody.class
+
+The class hierarchy was loaded from the following locations:
+
+    okhttp3.RequestBody: file:/E:/maven/maven_resp/com/squareup/okhttp3/okhttp/3.14.9/okhttp-3.14.9.jar
+
+
+Action:
+
+Correct the classpath of your application so that it contains a single, compatible version of okhttp3.RequestBody
+</code></pre>
+<h4 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h4><blockquote>
+<p>minio8.3.x版本内置okhttp3版本太低，部分代码缺失</p>
+<p>修改pom.xml</p>
+</blockquote>
+<pre><code class="prettyprint">&lt;dependency&gt;
+    &lt;groupId&gt;io.minio&lt;/groupId&gt;
+    &lt;artifactId&gt;minio&lt;/artifactId&gt;
+    &lt;version&gt;8.3.3&lt;/version&gt;
+    &lt;exclusions&gt;
+        &lt;exclusion&gt;
+            &lt;groupId&gt;com.squareup.okhttp3&lt;/groupId&gt;
+            &lt;artifactId&gt;okhttp&lt;/artifactId&gt;
+        &lt;/exclusion&gt;
+    &lt;/exclusions&gt;
+&lt;/dependency&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;com.squareup.okhttp3&lt;/groupId&gt;
+    &lt;artifactId&gt;okhttp&lt;/artifactId&gt;
+    &lt;version&gt;4.8.1&lt;/version&gt;
+&lt;/dependency&gt;
+</code></pre>
+]]></content>
+      <categories>
+        <category>问题</category>
+      </categories>
+      <tags>
+        <tag>minio</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>minio安装</title>
+    <url>/2022/06/18/minio-an-zhuang/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h4 id="下载地址"><a href="#下载地址" class="headerlink" title="下载地址"></a>下载地址</h4><p><a href="https://dl.minio.io/server/minio/release/linux-amd64/minio">https://dl.minio.io/server/minio/release/linux-amd64/minio</a></p>
+<p>官网：<a href="https://min.io/">https://min.io/</a></p>
+<h4 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h4><h5 id="目录创建"><a href="#目录创建" class="headerlink" title="目录创建"></a>目录创建</h5><pre><code class="prettyprint">mkdir -p /opt/software/minio
+# 上传minio到该目录下
+cd /opt/software/minio
+# minio赋权
+chmod +x minio
+# 创建数据存放目录
+mkdir data
+</code></pre>
+<h5 id="编辑配置文件"><a href="#编辑配置文件" class="headerlink" title="编辑配置文件"></a>编辑配置文件</h5><p><code>vim /etc/default/minio</code></p>
+<pre><code class="prettyprint"># 账号
+MINIO_ROOT_USER=&quot;minioadmin&quot;
+# 密码
+MINIO_ROOT_PASSWORD=&quot;minioadmin&quot;
+# 数据存放
+MINIO_VOLUMES=&quot;/opt/software/minio/data&quot;
+# 暴露端口
+MINIO_OPTS=&quot;--address 0.0.0.0:9000&quot;
+# web页面端口
+MINIO_OPTS1=&quot;--console-address 0.0.0.0:19001&quot;
+</code></pre>
+<h5 id="设置systemctl配置"><a href="#设置systemctl配置" class="headerlink" title="设置systemctl配置"></a>设置<code>systemctl</code>配置</h5><p><code>vim /etc/systemd/system/minio.service</code></p>
+<pre><code class="prettyprint">[Unit]
+Description=MinIO
+Documentation=https://docs.min.io
+Wants=network-online.target
+After=network-online.target
+AssertFileIsExecutable=/opt/software/minio/minio
+
+[Service]
+WorkingDirectory=/opt/software/minio
+ProtectProc=invisible
+
+EnvironmentFile=/etc/default/minio
+ExecStartPre=/bin/bash -c &quot;if [ -z \&quot;$&#123;MINIO_VOLUMES&#125;\&quot; ]; then echo \&quot;Variable MINIO_VOLUMES not set in /etc/default/minio\&quot;; exit 1; fi&quot;
+ExecStart=/opt/software/minio/minio server --address 0.0.0.0:9000 $MINIO_OPTS  $MINIO_OPTS1 $MINIO_VOLUMES
+
+# Let systemd restart this service always
+Restart=always
+
+# Specifies the maximum file descriptor number that can be opened by this process
+LimitNOFILE=65536
+
+# Specifies the maximum number of threads this process can create
+TasksMax=infinity
+
+# Disable timeout logic and wait until process is stopped
+TimeoutStopSec=infinity
+SendSIGKILL=no
+
+[Install]
+WantedBy=multi-user.target
+</code></pre>
+<h4 id="服务启动"><a href="#服务启动" class="headerlink" title="服务启动"></a>服务启动</h4><pre><code class="prettyprint"># 重新加载 systemctl配置
+systemctl daemon-reload
+# 启动minio
+systemctl start minio.service
+# 开机自启
+systemctl enable minio.service
+</code></pre>
+<h5 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h5><ul>
+<li><p>访问服务器路径<code>192.168.101.123：19001</code></p>
+</li>
+<li><p>输入前面配置的账号密码</p>
+<img src="/2022/06/18/minio-an-zhuang/image-20220618170516484.png" class="asset-class" title="image-20220618170516484"></li>
+</ul>
+<h5 id="其他systemctl命令"><a href="#其他systemctl命令" class="headerlink" title="其他systemctl命令"></a>其他<code>systemctl</code>命令</h5><pre><code class="prettyprint">systemctl start minio.service   #启动minio服务
+systemctl stop minio.service   #停止minio服务
+systemctl restart minio.service   #重新启动服务
+systemctl status minio.service   #查看服务当前状态
+systemctl enable minio.service   #设置开机自启动
+systemctl disable minio.service   #停止开机自启动
+</code></pre>
+<h4 id="直接启动"><a href="#直接启动" class="headerlink" title="直接启动"></a>直接启动</h4><pre><code class="prettyprint">MINIO_ROOT_USER=admin MINIO_ROOT_PASSWORD=password ./minio server /opt/software/minio/data --console-address &quot;:9001&quot;
+</code></pre>
+<blockquote>
+<p>代码测试路径<a href="https://gitee.com/RocPengHua/springboot-integrate.git">https://gitee.com/RocPengHua/springboot-integrate.git</a></p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>软件</category>
+      </categories>
+      <tags>
+        <tag>minio</tag>
       </tags>
   </entry>
 </search>

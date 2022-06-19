@@ -16461,6 +16461,8 @@ systemctl disable minio.service   #停止开机自启动
 <li>若集合 U 中顶点 ui 与集合 V-U 中的顶点 vj 之间存在边，则寻找这些边中权值最小的边，但不能构成回路，将顶点 vj 加入集合 U 中，将边（ui,vj）加入集合 D 中，标记 visited[vj]&#x3D;1</li>
 <li>重复步骤②，直到 U 与 V 相等，即所有顶点都被标记为访问过，此时 D 中有 n-1 条边</li>
 </ul>
+<h4 id="村庄修路"><a href="#村庄修路" class="headerlink" title="村庄修路"></a>村庄修路</h4><img src="/2022/06/18/pu-li-mu-suan-fa-xiu-lu-wen-ti/image-20220619112312344.png" class="asset-class" title="image-20220619112312344">
+
 <h4 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h4><pre><code class="prettyprint">public class PrimAlgorithm &#123;
 
     public static void main(String[] args) &#123;
@@ -16588,6 +16590,478 @@ class MGraph &#123;
       </categories>
       <tags>
         <tag>普里姆</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>克鲁斯卡尔-公交站问题</title>
+    <url>/2022/06/19/ke-lu-si-qia-er-gong-jiao-zhan-wen-ti/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h4 id="克鲁斯卡尔算法"><a href="#克鲁斯卡尔算法" class="headerlink" title="克鲁斯卡尔算法"></a>克鲁斯卡尔算法</h4><blockquote>
+<p>克鲁斯卡尔(Kruskal)算法，是用来求加权连通图的最小生成树的算法</p>
+<p>基本思想：按照权值从小到大的顺序选择 n-1 条边，并保证这 n-1 条边不构成回路</p>
+<p>具体做法：首先构造一个只含 n 个顶点的森林，然后依权值从小到大从连通网中选择边加入到森林中，并使森林中不产生回路，直至森林变成一棵树为止</p>
+</blockquote>
+<h4 id="公交站问题"><a href="#公交站问题" class="headerlink" title="公交站问题"></a>公交站问题</h4><img src="/2022/06/19/ke-lu-si-qia-er-gong-jiao-zhan-wen-ti/image-20220619111710523.png" class="asset-class" title="image-20220619111710523">
+
+<img src="/2022/06/19/ke-lu-si-qia-er-gong-jiao-zhan-wen-ti/image-20220619111637614.png" class="asset-class" title="image-20220619111637614">
+
+<ul>
+<li><p>第 1 步：将边&lt;E,F&gt;加入 R 中。</p>
+<ul>
+<li>边&lt;E,F&gt;的权值最小，因此将它加入到最小生成树结果 R 中。</li>
+</ul>
+</li>
+<li><p>第 2 步：将边&lt;C,D&gt;加入 R 中。</p>
+<ul>
+<li>上一步操作之后，边&lt;C,D&gt;的权值最小，因此将它加入到最小生成树结果 R 中。</li>
+</ul>
+</li>
+<li><p>第 3 步：将边&lt;D,E&gt;加入 R 中。</p>
+<ul>
+<li>上一步操作之后，边&lt;D,E&gt;的权值最小，因此将它加入到最小生成树结果 R 中。</li>
+</ul>
+</li>
+<li><p>第 4 步：将边&lt;B,F&gt;加入 R 中。</p>
+<ul>
+<li>上一步操作之后，边&lt;C,E&gt;的权值最小，但&lt;C,E&gt;会和已有的边构成回路；因此，跳过边&lt;C,E&gt;。同理，跳<br>过边&lt;C,F&gt;。将边&lt;B,F&gt;加入到最小生成树结果 R 中。</li>
+</ul>
+</li>
+<li><p>第 5 步：将边&lt;E,G&gt;加入 R 中。</p>
+<ul>
+<li>上一步操作之后，边&lt;E,G&gt;的权值最小，因此将它加入到最小生成树结果 R 中。</li>
+</ul>
+</li>
+<li><p>第 6 步：将边&lt;A,B&gt;加入 R 中。</p>
+<ul>
+<li>上一步操作之后，边&lt;F,G&gt;的权值最小，但&lt;F,G&gt;会和已有的边构成回路；因此，跳过边&lt;F,G&gt;。同理，跳<br>过边&lt;B,C&gt;。将边&lt;A,B&gt;加入到最小生成树结果 R 中。</li>
+</ul>
+</li>
+<li><p>此时，最小生成树构造完成！它包括的边依次是：&lt;E,F&gt; &lt;C,D&gt; &lt;D,E&gt; &lt;B,F&gt; &lt;E,G&gt; &lt;A,B&gt;</p>
+</li>
+</ul>
+<blockquote>
+<p>关于终点说明</p>
+<p>就是将所有顶点按照从小到大的顺序排列好之后；某个顶点的终点就是”与它连通的最大顶点”</p>
+<p>因此，接下来，虽然&lt;C,E&gt;是权值最小的边。但是 C 和 E 的终点都是 F，即它们的终点相同，因此，将&lt;C,E&gt;<br>加入最小生成树的话，会形成回路。这就是判断回路的方式。也就是说，我们加入的边的两个顶点不能都指向同一个终点，否则将构成回路</p>
+</blockquote>
+<h4 id="代码演示"><a href="#代码演示" class="headerlink" title="代码演示"></a>代码演示</h4><pre><code class="prettyprint">public class KruskalCase &#123;
+
+    private int edgeNum; //边的个数
+    private char[] vertexs; //顶点数组
+    private int[][] matrix; //邻接矩阵
+    //使用 INF 表示两个顶点不能连通
+    private static final int INF = Integer.MAX_VALUE;
+    
+    public static void main(String[] args) &#123;
+        char[] vertexs = &#123;&#39;A&#39;, &#39;B&#39;, &#39;C&#39;, &#39;D&#39;, &#39;E&#39;, &#39;F&#39;, &#39;G&#39;&#125;;
+        //克鲁斯卡尔算法的邻接矩阵  
+          int matrix[][] = &#123;
+          /*A*//*B*//*C*//*D*//*E*//*F*//*G*/
+    /*A*/ &#123;   0,  12, INF, INF, INF,  16,  14&#125;,
+    /*B*/ &#123;  12,   0,  10, INF, INF,   7, INF&#125;,
+    /*C*/ &#123; INF,  10,   0,   3,   5,   6, INF&#125;,
+    /*D*/ &#123; INF, INF,   3,   0,   4, INF, INF&#125;,
+    /*E*/ &#123; INF, INF,   5,   4,   0,   2,   8&#125;,
+    /*F*/ &#123;  16,   7,   6, INF,   2,   0,   9&#125;,
+    /*G*/ &#123;  14, INF, INF, INF,   8,   9,   0&#125;&#125;; 
+          //大家可以在去测试其它的邻接矩阵，结果都可以得到最小生成树.
+          
+          //创建KruskalCase 对象实例
+          KruskalCase kruskalCase = new KruskalCase(vertexs, matrix);
+          //输出构建的
+          kruskalCase.print();
+          kruskalCase.kruskal();
+          
+    &#125;
+    
+    //构造器
+    public KruskalCase(char[] vertexs, int[][] matrix) &#123;
+        //初始化顶点数和边的个数
+        int vlen = vertexs.length;
+        
+        //初始化顶点, 复制拷贝的方式
+        this.vertexs = new char[vlen];
+        for(int i = 0; i &lt; vertexs.length; i++) &#123;
+            this.vertexs[i] = vertexs[i];
+        &#125;
+        
+        //初始化边, 使用的是复制拷贝的方式
+        this.matrix = new int[vlen][vlen];
+        for(int i = 0; i &lt; vlen; i++) &#123;
+            for(int j= 0; j &lt; vlen; j++) &#123;
+                this.matrix[i][j] = matrix[i][j];
+            &#125;
+        &#125;
+        //统计边的条数
+        for(int i =0; i &lt; vlen; i++) &#123;
+            for(int j = i+1; j &lt; vlen; j++) &#123;
+                if(this.matrix[i][j] != INF) &#123;
+                    edgeNum++;
+                &#125;
+            &#125;
+        &#125;
+        
+    &#125;
+    public void kruskal() &#123;
+        int index = 0; //表示最后结果数组的索引
+        int[] ends = new int[edgeNum]; //用于保存&quot;已有最小生成树&quot; 中的每个顶点在最小生成树中的终点
+        //创建结果数组, 保存最后的最小生成树
+        EData[] rets = new EData[edgeNum];
+        
+        //获取图中 所有的边的集合 ， 一共有12边
+        EData[] edges = getEdges();
+        System.out.println(&quot;图的边的集合=&quot; + Arrays.toString(edges) + &quot; 共&quot;+ edges.length); //12
+        
+        //按照边的权值大小进行排序(从小到大)
+        sortEdges(edges);
+        
+        //遍历edges 数组，将边添加到最小生成树中时，判断是准备加入的边否形成了回路，如果没有，就加入 rets, 否则不能加入
+        for(int i=0; i &lt; edgeNum; i++) &#123;
+            //获取到第i条边的第一个顶点(起点)
+            int p1 = getPosition(edges[i].start); //p1=4
+            //获取到第i条边的第2个顶点
+            int p2 = getPosition(edges[i].end); //p2 = 5
+            
+            //获取p1这个顶点在已有最小生成树中的终点
+            int m = getEnd(ends, p1); //m = 4
+            //获取p2这个顶点在已有最小生成树中的终点
+            int n = getEnd(ends, p2); // n = 5
+            //是否构成回路
+            if(m != n) &#123; //没有构成回路
+                ends[m] = n; // 设置m 在&quot;已有最小生成树&quot;中的终点 &lt;E,F&gt; [0,0,0,0,5,0,0,0,0,0,0,0]
+                rets[index++] = edges[i]; //有一条边加入到rets数组
+            &#125;
+        &#125;
+        //&lt;E,F&gt; &lt;C,D&gt; &lt;D,E&gt; &lt;B,F&gt; &lt;E,G&gt; &lt;A,B&gt;。
+        //统计并打印 &quot;最小生成树&quot;, 输出  rets
+        System.out.println(&quot;最小生成树为&quot;);
+        for(int i = 0; i &lt; index; i++) &#123;
+            System.out.println(rets[i]);
+        &#125;
+        
+        
+    &#125;
+    
+    //打印邻接矩阵
+    public void print() &#123;
+        System.out.println(&quot;邻接矩阵为: \n&quot;);
+        for(int i = 0; i &lt; vertexs.length; i++) &#123;
+            for(int j=0; j &lt; vertexs.length; j++) &#123;
+                System.out.printf(&quot;%12d&quot;, matrix[i][j]);
+            &#125;
+            System.out.println();//换行
+        &#125;
+    &#125;
+
+    /**
+     * 功能：对边进行排序处理, 冒泡排序
+     * @param edges 边的集合
+     */
+    private void sortEdges(EData[] edges) &#123;
+        for(int i = 0; i &lt; edges.length - 1; i++) &#123;
+            for(int j = 0; j &lt; edges.length - 1 - i; j++) &#123;
+                if(edges[j].weight &gt; edges[j+1].weight) &#123;//交换
+                    EData tmp = edges[j];
+                    edges[j] = edges[j+1];
+                    edges[j+1] = tmp;
+                &#125;
+            &#125;
+         &#125;
+    &#125;
+    /**
+     * 
+     * @param ch 顶点的值，比如&#39;A&#39;,&#39;B&#39;
+     * @return 返回ch顶点对应的下标，如果找不到，返回-1
+     */
+    private int getPosition(char ch) &#123;
+        for(int i = 0; i &lt; vertexs.length; i++) &#123;
+            if(vertexs[i] == ch) &#123;//找到
+                return i;
+            &#125;
+        &#125;
+        //找不到,返回-1
+        return -1;
+    &#125;
+    /**
+     * 功能: 获取图中边，放到EData[] 数组中，后面我们需要遍历该数组
+     * 是通过matrix 邻接矩阵来获取
+     * EData[] 形式 [[&#39;A&#39;,&#39;B&#39;, 12], [&#39;B&#39;,&#39;F&#39;,7], .....]
+     * @return
+     */
+    private EData[] getEdges() &#123;
+        int index = 0;
+        EData[] edges = new EData[edgeNum];
+        for(int i = 0; i &lt; vertexs.length; i++) &#123;
+            for(int j=i+1; j &lt;vertexs.length; j++) &#123;
+                if(matrix[i][j] != INF) &#123;
+                    edges[index++] = new EData(vertexs[i], vertexs[j], matrix[i][j]);
+                &#125;
+            &#125;
+        &#125;
+        return edges;
+    &#125;
+    /**
+     * 功能: 获取下标为i的顶点的终点(), 用于后面判断两个顶点的终点是否相同
+     * @param ends ： 数组就是记录了各个顶点对应的终点是哪个,ends 数组是在遍历过程中，逐步形成
+     * @param i : 表示传入的顶点对应的下标
+     * @return 返回的就是 下标为i的这个顶点对应的终点的下标, 一会回头还有来理解
+     */
+    private int getEnd(int[] ends, int i) &#123; // i = 4 [0,0,0,0,5,0,0,0,0,0,0,0]
+        while(ends[i] != 0) &#123;
+            i = ends[i];
+        &#125;
+        return i;
+    &#125;
+ 
+&#125;
+
+//创建一个类EData ，它的对象实例就表示一条边
+class EData &#123;
+    char start; //边的一个点
+    char end; //边的另外一个点
+    int weight; //边的权值
+    //构造器
+    public EData(char start, char end, int weight) &#123;
+        this.start = start;
+        this.end = end;
+        this.weight = weight;
+    &#125;
+    //重写toString, 便于输出边信息
+    @Override
+    public String toString() &#123;
+        return &quot;EData [&lt;&quot; + start + &quot;, &quot; + end + &quot;&gt;= &quot; + weight + &quot;]&quot;;
+    &#125;
+&#125;
+</code></pre>
+]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>克鲁斯卡尔</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>迪杰斯特拉-送信问题</title>
+    <url>/2022/06/19/di-jie-si-te-la-song-xin-wen-ti/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h4 id="迪杰斯特拉算法"><a href="#迪杰斯特拉算法" class="headerlink" title="迪杰斯特拉算法"></a>迪杰斯特拉算法</h4><blockquote>
+<p>迪杰斯特拉(Dijkstra)算法是典型最短路径算法，用于计算一个结点到其他结点的最短路径。它的主要特点是以起始点为中心向外层层扩展(广度优先搜索思想)，直到扩展到终点为止</p>
+</blockquote>
+<ul>
+<li>设置出发顶点为 v，顶点集合 V{v1,v2,vi…}，v 到 V 中各顶点的距离构成距离集合 Dis，Dis{d1,d2,di…}，Dis集合记录着 v 到图中各顶点的距离(到自身可以看作 0，v 到 vi 距离对应为 di)</li>
+<li>从 Dis 中选择值最小的 di 并移出 Dis 集合，同时移出 V 集合中对应的顶点 vi，此时的 v 到 vi 即为最短路径</li>
+<li>更新 Dis 集合，更新规则为：比较 v 到 V 集合中顶点的距离值，与 v 通过 vi 到 V 集合中顶点的距离值，保留值较小的一个(同时也应该更新顶点的前驱节点为 vi，表明是通过 vi 到达的)</li>
+<li>重复执行两步骤，直到最短路径顶点为目标顶点即可结束</li>
+</ul>
+<h4 id="应用实践"><a href="#应用实践" class="headerlink" title="应用实践"></a>应用实践</h4><img src="/2022/06/19/di-jie-si-te-la-song-xin-wen-ti/image-20220619162939164.png" class="asset-class" title="image-20220619162939164">
+
+<img src="/2022/06/19/di-jie-si-te-la-song-xin-wen-ti/image-20220619162002594.png" class="asset-class" title="image-20220619162002594">
+
+<pre><code class="prettyprint">public class DijkstraAlgorithm &#123;
+
+    public static void main(String[] args) &#123;
+        char[] vertex = &#123; &#39;A&#39;, &#39;B&#39;, &#39;C&#39;, &#39;D&#39;, &#39;E&#39;, &#39;F&#39;, &#39;G&#39; &#125;;
+        //邻接矩阵
+        int[][] matrix = new int[vertex.length][vertex.length];
+        final int N = 65535;// 表示不可以连接
+        matrix[0]=new int[]&#123;N,5,7,N,N,N,2&#125;;  
+        matrix[1]=new int[]&#123;5,N,N,9,N,N,3&#125;;  
+        matrix[2]=new int[]&#123;7,N,N,N,8,N,N&#125;;  
+        matrix[3]=new int[]&#123;N,9,N,N,N,4,N&#125;;  
+        matrix[4]=new int[]&#123;N,N,8,N,N,5,4&#125;;  
+        matrix[5]=new int[]&#123;N,N,N,4,5,N,6&#125;;  
+        matrix[6]=new int[]&#123;2,3,N,N,4,6,N&#125;;
+        //创建 Graph对象
+        Graph graph = new Graph(vertex, matrix);
+        //测试, 看看图的邻接矩阵是否ok
+        graph.showGraph();
+        //测试迪杰斯特拉算法
+        graph.dsj(6);//G
+        graph.showDijkstra();
+        
+        
+    &#125;
+
+&#125;
+
+class Graph &#123;
+    private char[] vertex; // 顶点数组
+    private int[][] matrix; // 邻接矩阵
+    private VisitedVertex vv; //已经访问的顶点的集合
+
+    // 构造器
+    public Graph(char[] vertex, int[][] matrix) &#123;
+        this.vertex = vertex;
+        this.matrix = matrix;
+    &#125;
+    
+    //显示结果
+    public void showDijkstra() &#123;
+        vv.show();
+    &#125;
+
+    // 显示图
+    public void showGraph() &#123;
+        for (int[] link : matrix) &#123;
+            System.out.println(Arrays.toString(link));
+        &#125;
+    &#125;
+    
+    //迪杰斯特拉算法实现
+    /**
+     * 
+     * @param index 表示出发顶点对应的下标
+     */
+    public void dsj(int index) &#123;
+        vv = new VisitedVertex(vertex.length, index);
+        update(index);//更新index顶点到周围顶点的距离和前驱顶点
+        for(int j = 1; j &lt;vertex.length; j++) &#123;
+            index = vv.updateArr();// 选择并返回新的访问顶点
+            update(index); // 更新index顶点到周围顶点的距离和前驱顶点
+        &#125; 
+    &#125;
+    
+    
+    
+    //更新index下标顶点到周围顶点的距离和周围顶点的前驱顶点,
+    private void update(int index) &#123;
+        int len = 0;
+        //根据遍历我们的邻接矩阵的  matrix[index]行
+        for(int j = 0; j &lt; matrix[index].length; j++) &#123;
+            //访问过顶点就跳过
+            if(vv.in(j) )&#123;
+                continue;
+            &#125;
+            // len 含义是 : 出发顶点到index顶点的距离 + 从index顶点到j顶点的距离的和 ，获取下标j点到出发点的距离
+            len = vv.getDis(index) + matrix[index][j];
+            // 如果j顶点len 小于出发顶点到j顶点的距离，就需要更新
+            if(len &lt; vv.getDis(j)) &#123;
+                vv.updatePre(j, index); //更新j顶点的前驱为index顶点
+                vv.updateDis(j, len); //更新出发顶点到j顶点的距离
+            &#125;
+        &#125;
+    &#125;
+&#125;
+
+// 已访问顶点集合
+class VisitedVertex &#123;
+    // 记录各个顶点是否访问过 1表示访问过,0未访问,会动态更新
+    public int[] alreadyArr;
+    // 每个下标对应的值为前一个顶点下标, 会动态更新
+    public int[] preVisited;
+    // 记录出发顶点到其他所有顶点的距离,比如G为出发顶点，就会记录G到其它顶点的距离，会动态更新，求的最短距离就会存放到dis
+    public int[] dis;
+    
+    //构造器
+    /**
+     * 
+     * @param length :表示顶点的个数 
+     * @param index: 出发顶点对应的下标, 比如G顶点，下标就是6
+     */
+    public VisitedVertex(int length, int index) &#123;
+        this.alreadyArr = new int[length];
+        this.preVisited = new int[length];
+        this.dis = new int[length];
+        //初始化 dis数组
+        Arrays.fill(dis, 65535);
+        this.alreadyArr[index] = 1; //设置出发顶点被访问过
+        this.dis[index] = 0;//设置出发顶点的访问距离为0
+                
+    &#125;
+    /**
+     * 功能: 判断index顶点是否被访问过
+     * @param index
+     * @return 如果访问过，就返回true, 否则访问false
+     */
+    public boolean in(int index) &#123;
+        return alreadyArr[index] == 1;
+    &#125;
+    
+    /**
+     * 功能: 更新出发顶点到index顶点的距离
+     * @param index
+     * @param len
+     */
+    public void updateDis(int index, int len) &#123;
+        dis[index] = len;
+    &#125;
+    /**
+     * 功能: 更新pre这个顶点的前驱顶点为index顶点
+     * @param pre
+     * @param index
+     */
+    public void updatePre(int pre, int index) &#123;
+        preVisited[pre] = index;
+    &#125;
+    /**
+     * 功能:返回出发顶点到index顶点的距离
+     * @param index
+     */
+    public int getDis(int index) &#123;
+        return dis[index];
+    &#125;
+    
+    
+    /**
+     * 继续选择并返回新的访问顶点， 比如这里的G 完后，就是 A点作为新的访问顶点(注意不是出发顶点)
+     * @return
+     */
+    public int updateArr() &#123;
+        int min = 65535, index = 0;
+        for(int i = 0; i &lt; alreadyArr.length; i++) &#123;
+            //未访问过，且到起点距离最短
+            if(alreadyArr[i] == 0 &amp;&amp; dis[i] &lt; min ) &#123;
+                min = dis[i];
+                index = i;
+            &#125;
+        &#125;
+        //更新 index 顶点被访问过
+        alreadyArr[index] = 1;
+        return index;
+    &#125;
+    
+    //显示最后的结果
+    //即将三个数组的情况输出
+    public void show() &#123;
+        
+        System.out.println(&quot;==========================&quot;);
+        //输出alreadyArr
+        for(int i : alreadyArr) &#123;
+            System.out.print(i + &quot; &quot;);
+        &#125;
+        System.out.println();
+        //输出preVisited
+        for(int i : preVisited) &#123;
+            System.out.print(i + &quot; &quot;);
+        &#125;
+        System.out.println();
+        //输出dis
+        for(int i : dis) &#123;
+            System.out.print(i + &quot; &quot;);
+        &#125;
+        System.out.println();
+        //为了好看最后的最短距离，我们处理
+        char[] vertex = &#123; &#39;A&#39;, &#39;B&#39;, &#39;C&#39;, &#39;D&#39;, &#39;E&#39;, &#39;F&#39;, &#39;G&#39; &#125;;
+        int count = 0;
+        for (int i : dis) &#123;
+            if (i != 65535) &#123;
+                System.out.print(vertex[count] + &quot;(&quot;+i+&quot;) &quot;);
+            &#125; else &#123;
+                System.out.println(&quot;N &quot;);
+            &#125;
+            count++;
+        &#125;
+        System.out.println();
+        
+    &#125;
+
+&#125;
+</code></pre>
+]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>迪杰斯特拉</tag>
       </tags>
   </entry>
 </search>

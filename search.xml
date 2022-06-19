@@ -15701,7 +15701,7 @@ genericJackson2JsonRedisSerializer序列化需要的时间:22
         <category>算法</category>
       </categories>
       <tags>
-        <tag>KMP</tag>
+        <tag>常用算法</tag>
       </tags>
   </entry>
   <entry>
@@ -15751,7 +15751,7 @@ genericJackson2JsonRedisSerializer序列化需要的时间:22
         <category>算法</category>
       </categories>
       <tags>
-        <tag>分治</tag>
+        <tag>常用算法</tag>
       </tags>
   </entry>
   <entry>
@@ -15860,7 +15860,7 @@ genericJackson2JsonRedisSerializer序列化需要的时间:22
         <category>算法</category>
       </categories>
       <tags>
-        <tag>动态规划</tag>
+        <tag>常用算法</tag>
       </tags>
   </entry>
   <entry>
@@ -15972,7 +15972,7 @@ genericJackson2JsonRedisSerializer序列化需要的时间:22
         <category>算法</category>
       </categories>
       <tags>
-        <tag>贪心</tag>
+        <tag>常用算法</tag>
       </tags>
   </entry>
   <entry>
@@ -16589,7 +16589,7 @@ class MGraph &#123;
         <category>算法</category>
       </categories>
       <tags>
-        <tag>普里姆</tag>
+        <tag>常用算法</tag>
       </tags>
   </entry>
   <entry>
@@ -16837,7 +16837,7 @@ class EData &#123;
         <category>算法</category>
       </categories>
       <tags>
-        <tag>克鲁斯卡尔</tag>
+        <tag>常用算法</tag>
       </tags>
   </entry>
   <entry>
@@ -17061,7 +17061,7 @@ class VisitedVertex &#123;
         <category>算法</category>
       </categories>
       <tags>
-        <tag>迪杰斯特拉</tag>
+        <tag>常用算法</tag>
       </tags>
   </entry>
 </search>

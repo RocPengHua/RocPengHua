@@ -17347,4 +17347,164 @@ class Graph &#123;
         <tag>常用算法</tag>
       </tags>
   </entry>
+  <entry>
+    <title>centos7安装elasticsearch</title>
+    <url>/2022/06/26/centos7-an-zhuang-elasticsearch/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h3 id="下载地址"><a href="#下载地址" class="headerlink" title="下载地址"></a>下载地址</h3><p><a href="https://www.elastic.co/cn/downloads/elasticsearch">Download Elasticsearch | Elastic</a></p>
+<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><h4 id="解压"><a href="#解压" class="headerlink" title="解压"></a>解压</h4><pre><code class="prettyprint">tar -zxvf elasticsearch-8.2.3-linux-x86_64.tar.gz /opt/modeule/
+</code></pre>
+<h4 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h4><h5 id="修改elasticsearch-yml"><a href="#修改elasticsearch-yml" class="headerlink" title="修改elasticsearch.yml"></a>修改<code>elasticsearch.yml</code></h5><pre><code class="prettyprint"># ======================== Elasticsearch Configuration =========================
+#
+# NOTE: Elasticsearch comes with reasonable defaults for most settings.
+#       Before you set out to tweak and tune the configuration, make sure you
+#       understand what are you trying to accomplish and the consequences.
+#
+# The primary way of configuring a node is via this file. This template lists
+# the most important settings you may want to configure for a production cluster.
+#
+# Please consult the documentation for further information on configuration options:
+# https://www.elastic.co/guide/en/elasticsearch/reference/index.html
+#
+# ---------------------------------- Cluster -----------------------------------
+#
+# Use a descriptive name for your cluster:
+#
+#cluster.name: my-es
+#
+# ------------------------------------ Node ------------------------------------
+#
+# Use a descriptive name for the node:
+#
+#node.name: node-1
+#
+# Add custom attributes to the node:
+#
+#node.attr.rack: r1
+#
+# ----------------------------------- Paths ------------------------------------
+#
+# Path to directory where to store the data (separate multiple locations by comma):
+# 数据路径
+path.data: /opt/module/elasticsearch-8.2.3/data
+#
+# Path to log files:
+# 日志路径
+path.logs: /opt/module/elasticsearch-8.2.3/logs
+#
+# ----------------------------------- Memory -----------------------------------
+#
+# Lock the memory on startup:
+#
+#bootstrap.memory_lock: true
+#
+# Make sure that the heap size is set to about half the memory available
+# on the system and that the owner of the process is allowed to use this
+# limit.
+#
+# Elasticsearch performs poorly when the system is swapping the memory.
+#
+# ---------------------------------- Network -----------------------------------
+#
+# By default Elasticsearch is only accessible on localhost. Set a different
+# address here to expose this node on the network:
+#
+network.host: 0.0.0.0
+#
+# By default Elasticsearch listens for HTTP traffic on the first free port it
+# finds starting at 9200. Set a specific HTTP port here:
+#
+http.port: 9200
+#
+# For more information, consult the network module documentation.
+#
+# --------------------------------- Discovery ----------------------------------
+#
+# Pass an initial list of hosts to perform discovery when this node is started:
+# The default list of hosts is [&quot;127.0.0.1&quot;, &quot;[::1]&quot;]
+#
+#discovery.seed_hosts: [&quot;host1&quot;, &quot;host2&quot;]
+#
+# Bootstrap the cluster using an initial set of master-eligible nodes:
+#
+#cluster.initial_master_nodes: [&quot;node-1&quot;, &quot;node-2&quot;]
+#
+# For more information, consult the discovery and cluster formation module documentation.
+#
+# --------------------------------- Readiness ----------------------------------
+#
+# Enable an unauthenticated TCP readiness endpoint on localhost
+#
+#readiness.port: 9399
+#
+# ---------------------------------- Various -----------------------------------
+#
+# Allow wildcard deletion of indices:
+#
+#action.destructive_requires_name: false
+
+#----------------------- BEGIN SECURITY AUTO CONFIGURATION -----------------------
+#
+# The following settings, TLS certificates, and keys have been automatically      
+# generated to configure Elasticsearch security features on 26-06-2022 09:52:27
+#
+# --------------------------------------------------------------------------------
+
+# Enable security features 不使用认证
+xpack.security.enabled: false
+
+xpack.security.enrollment.enabled: true
+
+# Enable encryption for HTTP API client connections, such as Kibana, Logstash, and Agents
+xpack.security.http.ssl:
+  enabled: false
+  keystore.path: certs/http.p12
+
+# Enable encryption and mutual authentication between cluster nodes
+xpack.security.transport.ssl:
+  enabled: true
+  verification_mode: certificate
+  keystore.path: certs/transport.p12
+  truststore.path: certs/transport.p12
+# Create a new cluster with the current node only
+# Additional nodes can still join the cluster later
+
+#----------------------- END SECURITY AUTO CONFIGURATION -------------------------
+</code></pre>
+<h5 id="配置-etc-sysctl-conf"><a href="#配置-etc-sysctl-conf" class="headerlink" title="配置/etc/sysctl.conf"></a>配置<code>/etc/sysctl.conf</code></h5><pre><code class="prettyprint">vm.max_map_count=655360
+</code></pre>
+<blockquote>
+<p>sysctl -p 使配置生效</p>
+</blockquote>
+<h5 id="配置-etc-security-limits-conf用户使用线程数"><a href="#配置-etc-security-limits-conf用户使用线程数" class="headerlink" title="配置/etc/security/limits.conf用户使用线程数"></a>配置<code>/etc/security/limits.conf</code>用户使用线程数</h5><pre><code class="prettyprint">#* 表示所有用户
+* soft nofile 65536
+* hard nofile 65536
+* soft nproc 65536
+* hard nproc 65536
+# 查看 ulimit -Hn
+# 查看 ulimit -Sn
+</code></pre>
+<h3 id="新建用户"><a href="#新建用户" class="headerlink" title="新建用户"></a>新建用户</h3><blockquote>
+<p>elasticsearch不能使用root用户启动</p>
+</blockquote>
+<pre><code class="prettyprint"># 新增用户
+adduser esuser
+# 用户密码设置
+passwd esuser
+# 用户授权
+chown -R esuser:esuser /opt/module/elasticsearch-8.2.3/
+</code></pre>
+<h4 id="选择用户启动"><a href="#选择用户启动" class="headerlink" title="选择用户启动"></a>选择用户启动</h4><pre><code class="prettyprint">su esuser
+cd /opt/module/elasticsearch-8.2.3/bin
+./elasticsearch -d
+</code></pre>
+<h4 id="测试是否成功"><a href="#测试是否成功" class="headerlink" title="测试是否成功"></a>测试是否成功</h4><p><a href="http://192.168.101.123:9200/">http://192.168.101.123:9200/</a></p>
+<img src="/2022/06/26/centos7-an-zhuang-elasticsearch/image-20220626183843509.png" class="asset-class" title="image-20220626183843509">
+]]></content>
+      <categories>
+        <category>中间件</category>
+      </categories>
+      <tags>
+        <tag>elasticsearch</tag>
+      </tags>
+  </entry>
 </search>

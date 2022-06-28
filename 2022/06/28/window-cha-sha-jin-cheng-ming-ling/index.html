@@ -401,8 +401,12 @@
       
       
       <section id="blog-content" class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
-        <pre><code class="prettyprint">netstat -ano | findstr &quot;8080&quot;
+        <p><code>windows</code></p>
+<pre><code class="prettyprint">netstat -ano | findstr &quot;8080&quot;
 taskkill /f /t /im &quot;pid&quot;
+</code></pre>
+<p><code>linux</code></p>
+<pre><code class="prettyprint"> ps -ef | grep &quot;java -jar&quot;| grep -v grep | awk &#39;&#123;print $2&#125;&#39;| xargs kill -9
 </code></pre>
 
       </section>

@@ -17510,8 +17510,12 @@ cd /opt/module/elasticsearch-8.2.3/bin
   <entry>
     <title>window查杀进程命令</title>
     <url>/2022/06/28/window-cha-sha-jin-cheng-ming-ling/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><pre><code class="prettyprint">netstat -ano | findstr &quot;8080&quot;
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p><code>windows</code></p>
+<pre><code class="prettyprint">netstat -ano | findstr &quot;8080&quot;
 taskkill /f /t /im &quot;pid&quot;
+</code></pre>
+<p><code>linux</code></p>
+<pre><code class="prettyprint"> ps -ef | grep &quot;java -jar&quot;| grep -v grep | awk &#39;&#123;print $2&#125;&#39;| xargs kill -9
 </code></pre>
 ]]></content>
       <categories>

@@ -26,7 +26,7 @@
 
   
 
-  <title>加密算法之java实现DES | 小鹏驿站</title>
+  <title>window查杀进程命令 | 小鹏驿站</title>
 
   
 
@@ -46,7 +46,7 @@
 <!-- header container -->
 <header class="header-container post">
   
-    <div class="post-image" style="background-image: url(&#39;https://api.lixingyong.com/api/images?postid=2445a1c7&amp;type=url&amp;itype=image&#39;)"></div>
+    <div class="post-image" style="background-image: url(&#39;https://api.lixingyong.com/api/images?postid=da56363d&amp;type=url&amp;itype=image&#39;)"></div>
   
   <!-- navbar -->
 <nav class="navbar">
@@ -301,20 +301,18 @@
     <div class="header-content">
       <div class="post-text layout-block">
         <div class="layout-margin">
-          <h1 class="title-wrap" title="觉宇宙之无穷，识盈虚之有数">加密算法之java实现DES</h1>
+          <h1 class="title-wrap" title="觉宇宙之无穷，识盈虚之有数">window查杀进程命令</h1>
           <h2 class="title-sub-wrap">
             <strong>RocPengHua</strong>
             <span>发布于</span>
-            <time  class="article-date" datetime="2022-04-18T14:14:07.000Z" itemprop="datePublished">2022-04-18</time>
+            <time  class="article-date" datetime="2022-06-28T11:53:27.000Z" itemprop="datePublished">2022-06-28</time>
           </h2>
           <ul class="wrap-list dark">
   
-    <li><a href="/categories/%E7%AE%97%E6%B3%95/">📒 算法</a></li>
+    <li><a href="/categories/%E5%B7%A5%E5%85%B7/">📒 工具</a></li>
   
 </ul>
           <ul class="wrap-list dark">
-  
-    <li><a href="/tags/%E5%8A%A0%E5%AF%86/">🏷️ 加密</a></li>
   
 </ul>
         </div>
@@ -403,142 +401,9 @@
       
       
       <section id="blog-content" class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
-        <p><strong>简介：</strong></p>
-<p>数据加密算法（Data Encryption Algorithm，DEA）是一种对称加密算法，很可能是使用最广泛的密钥系统，特别是在保护金融数据的安全中，最初开发的DEA是嵌入硬件中的。通常，自动取款机（Automated Teller Machine，ATM）都使用DEA。它出自IBM的研究工作，IBM也曾对它拥有几年的专利权，但是在1983年已到期后，处于公有范围中，允许在特定条件下可以免除专利使用费而使用。1977年被美国政府正式采纳。</p>
-<p>1998年后实用化DES破译机的出现彻底宣告DES算法已不具备安全性，1999年NIST颁布新标准，规定DES算法只能用于遗留加密系统，但不限制使用DESede算法。当今DES算法正是推出历史舞台，AES算法称为他的替代者。</p>
-<p><strong>加密原理：</strong></p>
-<p>DES 使用一个 56 位的密钥以及附加的 8 位奇偶校验位，产生最大 64 位的分组大小。这是一个迭代的分组密码，使用称为 Feistel 的技术，其中将加密的文本块分成两半。使用子密钥对其中一半应用循环功能，然后将输出与另一半进行“异或”运算；接着交换这两半，这一过程会继续下去，但 最后一个循环不交换。DES 使用 16 个循环，使用异或，置换，代换，移位操作四种基本运算。</p>
-<p><strong>JDK对DES算法的支持</strong></p>
-<p>密钥长度：56位</p>
-<p>工作模式：ECB&#x2F;CBC&#x2F;PCBC&#x2F;CTR&#x2F;CTS&#x2F;CFB&#x2F;CFB8 to CFB128&#x2F;OFB&#x2F;OBF8 to OFB128</p>
-<p>填充方式：Nopadding&#x2F;PKCS5Padding&#x2F;ISO10126Padding&#x2F;</p>
-<p><strong>Java 加密解密之对称加密算法DESede</strong></p>
-<p>DESede 即三重DES加密算法，也被称为3DES或者Triple DES。使用三(或两)个不同的密钥对数据块进行三次(或两次)DES加密(加密一次要比进行普通加密的三次要快)。三重DES的强度大约和112- bit的密钥强度相当。通过迭代次数的提高了安全性，但同时也造成了加密效率低的问题。正因DESede算法效率问题，AES算法诞生了。</p>
-<p>到目前为止，还没有人给出攻击三重DES的有效方法。对其密钥空间中密钥进行蛮干搜索，那么由于空间太大，这实际上是不可行的。若用差分攻击的方法，相对于单一DES来说复杂性以指数形式增长。</p>
-<p><strong>三重DES有四种模型</strong></p>
-<ul>
-<li>DES-EEE3，使用三个不同密钥，顺序进行三次加密变换。</li>
-<li>DES-EDE3，使用三个不同密钥，依次进行加密-解密-加密变换。</li>
-<li>DES-EEE2，其中密钥K1&#x3D;K3，顺序进行三次加密变换。</li>
-<li>DES-EDE2， 其中密钥K1&#x3D;K3，依次进行加密-解密-加密变换。</li>
-</ul>
-<p><code>DESUtil</code>工具类</p>
-<pre><code class="prettyprint">public final class DESUtil &#123;
-    //自己定义
-    public static String DES_KEY_VALUE = &quot;&quot;;
-    private DESUtil() &#123;
-    &#125;
-    private final static String DES = &quot;DES&quot;;
-
-    public static byte[] encrypt(byte[] src, byte[] key) throws Exception &#123;
-        // DES算法要求有一个可信任的随机数源
-        SecureRandom sr = new SecureRandom();
-        // 从原始密匙数据创建DESKeySpec对象
-        DESKeySpec dks = new DESKeySpec(key);
-        // 创建一个密匙工厂，然后用它把DESKeySpec转换成一个SecretKey对象
-        SecretKeyFactory keyFactory = SecretKeyFactory.getInstance(DES);
-        SecretKey securekey = keyFactory.generateSecret(dks);
-        // Cipher对象实际完成加密操作
-        Cipher cipher = Cipher.getInstance(DES);
-        // 用密匙初始化Cipher对象
-        cipher.init(Cipher.ENCRYPT_MODE, securekey, sr);
-        // 正式执行加密操作
-        return cipher.doFinal(src);
-    &#125;
-
-    /**
-     *
-     * @param password 密码
-     * @param key 加密字符串
-     * @return
-     */
-    public final static String encrypt(String password, String key) &#123;
-        try &#123;
-            return byte2String(encrypt(password.getBytes(), key.getBytes()));
-        &#125; catch (Exception e) &#123;
-        &#125;
-        return null;
-    &#125;
-
-    public static String byte2String(byte[] b) &#123;
-        String hs = &quot;&quot;;
-        String stmp = &quot;&quot;;
-        for (int n = 0; n &lt; b.length; n++) &#123;
-            stmp = (Integer.toHexString(b[n] &amp; 0XFF));
-            if (stmp.length() == 1) &#123;
-                hs = hs + &quot;0&quot; + stmp;
-            &#125; else &#123;
-                hs = hs + stmp;
-            &#125;
-        &#125;
-        return hs.toUpperCase();
-    &#125;
-
-    /**
-     *
-     * @param src 数据源
-     * @param key 密钥，长度必须是8的倍数
-     * @return
-     * @throws Exception
-     */
-    public static byte[] decrypt(byte[] src, byte[] key) throws Exception &#123;
-        // DES算法要求有一个可信任的随机数源
-        SecureRandom sr = new SecureRandom();
-        // 从原始密匙数据创建一个DESKeySpec对象
-        DESKeySpec dks = new DESKeySpec(key);
-        // 创建一个密匙工厂，然后用它把DESKeySpec对象转换成一个SecretKey对象
-        SecretKeyFactory keyFactory = SecretKeyFactory.getInstance(DES);
-        SecretKey securekey = keyFactory.generateSecret(dks);
-        // Cipher对象实际完成解密操作
-        Cipher cipher = Cipher.getInstance(DES);
-        // 用密匙初始化Cipher对象
-        cipher.init(Cipher.DECRYPT_MODE, securekey, sr);
-
-        // 正式执行解密操作
-        return cipher.doFinal(src);
-    &#125;
-
-    public final static String decrypt(String data, String key) &#123;
-        try &#123;
-            return new String(decrypt(String2byte(data.getBytes()), key.getBytes()));
-        &#125; catch (Exception e) &#123;
-            e.printStackTrace();
-        &#125;
-        return null;
-    &#125;
-
-    public static byte[] String2byte(byte[] b) &#123;
-        if ((b.length % 2) != 0)&#123;
-            throw new IllegalArgumentException(&quot;长度不是偶数&quot;);
-        &#125;
-        byte[] b2 = new byte[b.length / 2];
-        for (int n = 0; n &lt; b.length; n += 2) &#123;
-            String item = new String(b, n, 2);
-            b2[n / 2] = (byte) Integer.parseInt(item, 16);
-        &#125;
-        return b2;
-    &#125;
-&#125;
+        <pre><code class="prettyprint">netstat -ano | findstr &quot;8080&quot;
+taskkill /f /t /im &quot;pid&quot;
 </code></pre>
-<p><code>DESUtilTest</code> 测试类</p>
-<pre><code class="prettyprint">@Test
-public void encodeAndDecode()&#123;
-    //        String data = &quot;阿斯达斯&quot;;
-    SecureRandom random = new SecureRandom();
-    String data = String.valueOf(random.nextInt(50));
-    data += &quot;123456789789456123&quot;;
-    String secretKey = DESUtil.DES_KEY_VALUE;
-    System.out.println(&quot;传输数据:&quot;+data);
-    //加密
-    String encrypte = DESUtil.encrypt(data, secretKey);
-    System.out.println(&quot;加密后数据:&quot;+encrypte+&quot;，长度：&quot;+encrypte.length());
-    //数据解密
-    String decryptDatas = DESUtil.decrypt(encrypte, secretKey);
-    System.out.println(&quot;解密后数据：&quot;+decryptDatas);
-&#125;
-</code></pre>
-<p><a target="_blank" rel="noopener" href="https://gitee.com/RocPengHua/crypto.git">gitee地址</a></p>
-<p>转载：[Java实现DES加解密算法解析](<a target="_blank" rel="noopener" href="http://www.zzvips.com/article/78986.html">Java实现DES加解密算法解析_JAVA教程_服务器之家 (zzvips.com)</a>)</p>
 
       </section>
 
@@ -546,32 +411,16 @@ public void encodeAndDecode()&#123;
       
         <nav class="article-nav">
           
-            <div class="article-nav-item layout-padding">
-  <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
-    
-      <div class="card-cover" background-image-lazy data-img="https://api.lixingyong.com/api/images?postid=228e632c&type=url&itype=image"></div>
-    
-    <div class="card-text">
-      
-        <a href="/2022/04/18/jia-mi-suan-fa-zhi-java-shi-xian-aes/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">加密算法之java实现AES</h2>
-        </a>
-      
-      <div class="card-text--row">Newer</div>
-    </div>
-  </article>
-</div>
-          
           
             <div class="article-nav-item layout-padding">
   <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
     
-      <div class="card-cover" background-image-lazy data-img="https://api.lixingyong.com/api/images?postid=ce716cf9&type=url&itype=image"></div>
+      <div class="card-cover" background-image-lazy data-img="https://api.lixingyong.com/api/images?postid=7e16f3a7&type=url&itype=image"></div>
     
     <div class="card-text">
       
-        <a href="/2022/04/17/ce-shi-tu-biao/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">测试图标</h2>
+        <a href="/2022/06/26/centos7-an-zhuang-elasticsearch/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">centos7安装elasticsearch</h2>
         </a>
       
       <div class="card-text--row">Older</div>

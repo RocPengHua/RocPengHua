@@ -15079,6 +15079,31 @@ cd /usr/local/redis/bin
 #访问
 ./redis-cli
 </code></pre>
+<h4 id="开机启动配置"><a href="#开机启动配置" class="headerlink" title="开机启动配置"></a>开机启动配置</h4><pre><code class="prettyprint">vim /etc/systemd/system/redis-server.service
+</code></pre>
+<p>粘贴内容</p>
+<pre><code class="prettyprint">[Unit]
+Description=The redis-server Process Manager
+After=syslog.target network.target
+
+
+[Service]
+Type=simple
+PIDFile=/var/run/redis_6379.pid
+ExecStart=/usr/local/redis/bin/redis-server
+ExecReload=/bin/kill -USR2 $MAINPID
+ExecStop=/bin/kill -SIGINT $MAINPID
+
+
+[Install]
+WantedBy=multi-user.target
+</code></pre>
+<p>设置启动命令</p>
+<pre><code class="prettyprint">systemctl daemon-reload 
+systemctl start redis-server.service 
+systemctl enable redis-server.servic
+systemctl status redis-server.service 
+</code></pre>
 <h3 id="哨兵配置"><a href="#哨兵配置" class="headerlink" title="哨兵配置"></a>哨兵配置</h3><h4 id="准备三份配置文件"><a href="#准备三份配置文件" class="headerlink" title="准备三份配置文件"></a>准备三份配置文件</h4><pre><code class="prettyprint">cd /opt/software
 mkdir redis-sentinel
 cd redis-sentinel

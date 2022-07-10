@@ -3883,7 +3883,7 @@ public class DelayQueueConsumer &#123;
 </code></pre>
 <p>修改之后重启虚拟机<code>reboot</code>命令或者直接操作<code>vmware</code></p>
 </li>
-<li><p>修改各节点的hosts,让哥哥节点能互相识别</p>
+<li><p>修改各节点的hosts,让各个节点能互相识别</p>
 <pre><code class="prettyprint">vim /etc/hosts
 </code></pre>
 <p>配置如下：</p>

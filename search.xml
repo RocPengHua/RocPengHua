@@ -827,6 +827,7 @@ tail -500f /opt/module/rabbitmq/logs/rocketmqlogs/broker.log
       </categories>
       <tags>
         <tag>rocketmq</tag>
+        <tag>中间件</tag>
       </tags>
   </entry>
   <entry>
@@ -2563,6 +2564,7 @@ dataDir=/opt/module/kafka/zookeeper
       </categories>
       <tags>
         <tag>kafka</tag>
+        <tag>中间件</tag>
       </tags>
   </entry>
   <entry>
@@ -2649,6 +2651,7 @@ rabbitmqctl start_app
       </categories>
       <tags>
         <tag>rabbitmq</tag>
+        <tag>中间件</tag>
       </tags>
   </entry>
   <entry>
@@ -3996,6 +3999,7 @@ rabbitmqctl forget_cluster_node rabbit@node2
       </categories>
       <tags>
         <tag>rabbitmq</tag>
+        <tag>中间件</tag>
       </tags>
   </entry>
   <entry>
@@ -4342,6 +4346,7 @@ tail -500f /opt/module/rabbitmq/logs/rocketmqlogs/broker.log
       </categories>
       <tags>
         <tag>rocketmq</tag>
+        <tag>中间件</tag>
       </tags>
   </entry>
   <entry>
@@ -15213,6 +15218,7 @@ sentinel monitor mymaster 192.168.101.123 6380 2
       <tags>
         <tag>redis</tag>
         <tag>哨兵</tag>
+        <tag>中间件</tag>
       </tags>
   </entry>
   <entry>
@@ -15435,6 +15441,7 @@ log.dirs=/opt/module/kafka/datas-logs3
       </categories>
       <tags>
         <tag>kafka</tag>
+        <tag>中间件</tag>
       </tags>
   </entry>
   <entry>
@@ -15462,6 +15469,7 @@ log.dirs=/opt/module/kafka/datas-logs3
       </categories>
       <tags>
         <tag>pulsar</tag>
+        <tag>中间件</tag>
       </tags>
   </entry>
   <entry>
@@ -16320,6 +16328,7 @@ http &#123;
       <tags>
         <tag>nginx</tag>
         <tag>fastdfs</tag>
+        <tag>文件存储</tag>
       </tags>
   </entry>
   <entry>
@@ -16472,6 +16481,7 @@ systemctl disable minio.service   #停止开机自启动
       </categories>
       <tags>
         <tag>minio</tag>
+        <tag>文件存储</tag>
       </tags>
   </entry>
   <entry>
@@ -17526,10 +17536,11 @@ cd /opt/module/elasticsearch-8.2.3/bin
 <img src="/2022/06/26/centos7-an-zhuang-elasticsearch/image-20220626183843509.png" class="asset-class" title="image-20220626183843509">
 ]]></content>
       <categories>
-        <category>中间件</category>
+        <category>软件</category>
       </categories>
       <tags>
         <tag>elasticsearch</tag>
+        <tag>中间件</tag>
       </tags>
   </entry>
   <entry>
@@ -17739,6 +17750,189 @@ public class HandleResponseAdvice implements ResponseBodyAdvice&lt;Object&gt; &#
       </categories>
       <tags>
         <tag>工具</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>centos7搭建zookeeper集群</title>
+    <url>/2022/07/11/centos7-da-jian-zookeeper-ji-qun/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h3 id="download"><a href="#download" class="headerlink" title="download"></a>download</h3><p><a href="https://archive.apache.org/dist/zookeeper/">Index of &#x2F;dist&#x2F;zookeeper (apache.org)</a></p>
+<img src="/2022/07/11/centos7-da-jian-zookeeper-ji-qun/image-20220711222049898.png" class="asset-class" title="image-20220711222049898">
+
+<blockquote>
+<p>本文使用3.5.7版本</p>
+</blockquote>
+<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><h4 id="配置host"><a href="#配置host" class="headerlink" title="配置host"></a>配置host</h4><pre><code class="prettyprint">vim /etc/hosts
+#内容如下
+# 192.168.101.131 node2
+# 192.168.101.128 node3
+# 192.168.101.130 node4
+</code></pre>
+<h4 id="解压"><a href="#解压" class="headerlink" title="解压"></a>解压</h4><pre><code class="prettyprint">tar -zxvf /opt/software/apache-zookeeper-3.5.7-bin.tar.gz -C /opt/module/
+</code></pre>
+<h4 id="修改目录名称"><a href="#修改目录名称" class="headerlink" title="修改目录名称"></a>修改目录名称</h4><pre><code class="prettyprint"># 方便统一管理
+cd /opt/module
+mv apache-zookeeper-3.5.7-bin apache-zookeeper-3.5.7
+</code></pre>
+<h4 id="配置zoo-cfg"><a href="#配置zoo-cfg" class="headerlink" title="配置zoo.cfg"></a>配置<code>zoo.cfg</code></h4><pre><code class="prettyprint">cd apache-zookeeper-3.5.7/conf
+# zookeeper默认使用配置
+cp zoo_sample.cfg zoo.cfg
+</code></pre>
+<h5 id="配置内容如下"><a href="#配置内容如下" class="headerlink" title="配置内容如下"></a>配置内容如下</h5><pre><code class="prettyprint"># zookeeper服务器和客户端心跳时间，单位毫秒
+tickTime=2000
+# The number of ticks that the initial 
+# 主从节点初始连接时间能容忍的最多心跳数
+initLimit=10
+# The number of ticks that can pass between 
+# sending a request and getting an acknowledgement
+syncLimit=5
+# the directory where the snapshot is stored.
+# do not use /tmp for storage, /tmp here is just 
+# example sakes.
+# 数据存储及日志存储
+dataDir=/opt/module/apache-zookeeper-3.5.7/data
+dataLogDir=/opt/module/apache-zookeeper-3.5.7/logs
+# 客户端连接端口
+clientPort=2181
+# 集群服务
+# server.A=B:C:D
+# A 是一个数字，表示这个是第几号服务器。集群模式下需要在zoo.cfg中dataDir指定的目录下创建一个文件myid，这个文件里面有一个数据就是A的值，Zookeeper启动时读取此文件，拿到里面的数据与zoo.cfg里面的配置信息比较从而判断到底是哪个server。
+# B 是这个服务器的地址。
+# C 是这个服务器Follower与集群中的Leader服务器交换信息的端口。
+# D 是万一集群中的Leader服务器挂了，需要一个端口来重新进行选举，选出一个新的Leader，而这个端口就是用来执行选举时服务器相互通信的端口。
+server.1=node2:3188:3288
+server.2=node3:3188:3288
+server.3=node4:3188:3288
+# the maximum number of client connections.
+# increase this if you need to handle more clients
+#maxClientCnxns=60
+#
+# Be sure to read the maintenance section of the 
+# administrator guide before turning on autopurge.
+#
+# http://zookeeper.apache.org/doc/current/zookeeperAdmin.html#sc_maintenance
+#
+# The number of snapshots to retain in dataDir
+#autopurge.snapRetainCount=3
+# Purge task interval in hours
+# Set to &quot;0&quot; to disable auto purge feature
+#autopurge.purgeInterval=1
+</code></pre>
+<h4 id="拷贝配置zoo-cfg到另外两个机器"><a href="#拷贝配置zoo-cfg到另外两个机器" class="headerlink" title="拷贝配置zoo.cfg到另外两个机器"></a>拷贝配置<code>zoo.cfg</code>到另外两个机器</h4><pre><code class="prettyprint">scp /opt/module/apache-zookeeper-3.5.7/conf/zoo.cfg 192.168.101.128:/opt/module/apache-zookeeper-3.5.7/conf/
+scp /opt/module/apache-zookeeper-3.5.7/conf/zoo.cfg 192.168.101.130:/opt/module/apache-zookeeper-3.5.7/conf/
+</code></pre>
+<h4 id="在每个节点创建data和logs"><a href="#在每个节点创建data和logs" class="headerlink" title="在每个节点创建data和logs"></a>在每个节点创建<code>data</code>和<code>logs</code></h4><pre><code class="prettyprint">mkdir -p /opt/module/apache-zookeeper-3.5.7/data
+mkdir -p /opt/module/apache-zookeeper-3.5.7/logs
+</code></pre>
+<h4 id="创建myid"><a href="#创建myid" class="headerlink" title="创建myid"></a>创建<code>myid</code></h4><pre><code class="prettyprint"># node2节点服务器
+echo 1 &gt; /opt/module/apache-zookeeper-3.5.7/data/myid
+# node3节点服务器
+echo 2 &gt; /opt/module/apache-zookeeper-3.5.7/data/myid
+# node4节点服务器
+echo 3 &gt; /opt/module/apache-zookeeper-3.5.7/data/myid
+</code></pre>
+<h3 id="配置启动脚本"><a href="#配置启动脚本" class="headerlink" title="配置启动脚本"></a>配置启动脚本</h3><pre><code class="prettyprint">#!/bin/bash
+
+case $1 in
+&quot;start&quot;)&#123;
+    for i in node2 node3 node4
+    do
+        echo  ------------- zookeeper $i 启动 ------------
+        ssh $i &quot;/opt/module/apache-zookeeper-3.5.7/bin/zkServer.sh start&quot;
+    done
+&#125;
+;;
+&quot;stop&quot;)&#123;
+    for i in node2 node3 node4
+    do
+        echo  ------------- zookeeper $i 停止 ------------
+        ssh $i &quot;/opt/module/apache-zookeeper-3.5.7/bin/zkServer.sh stop&quot;
+    done
+&#125;
+;;
+&quot;restart&quot;)&#123;
+    for i in node2 node3 node4
+    do
+        echo  ------------- zookeeper $i 停止 ------------
+        ssh $i &quot;/opt/module/apache-zookeeper-3.5.7/bin/zkServer.sh restart&quot;
+    done
+&#125;
+;;
+&quot;status&quot;)&#123;
+    for i in node2 node3 node4
+    do
+        echo  ------------- zookeeper $i 状态 ------------
+        ssh $i &quot;/opt/module/apache-zookeeper-3.5.7/bin/zkServer.sh status&quot;
+    done
+&#125;
+;;
+esac
+</code></pre>
+<h4 id="启动相关命令"><a href="#启动相关命令" class="headerlink" title="启动相关命令"></a>启动相关命令</h4><pre><code class="prettyprint"># 启动
+./zk.sh start
+# 停止
+./zk.sh stop
+# 状态查看
+./zk.sh status
+</code></pre>
+<h4 id="查看是否启动成功"><a href="#查看是否启动成功" class="headerlink" title="查看是否启动成功"></a>查看是否启动成功</h4><img src="/2022/07/11/centos7-da-jian-zookeeper-ji-qun/image-20220711222229503.png" class="asset-class" title="image-20220711222229503">
+
+<h3 id="配置service启动"><a href="#配置service启动" class="headerlink" title="配置service启动"></a>配置service启动</h3><pre><code class="prettyprint">vim /etc/init.d/zookeeper
+</code></pre>
+<ul>
+<li>配置内容</li>
+</ul>
+<pre><code class="prettyprint">#!/bin/bash
+#chkconfig:2345 20 90
+#description:Zookeeper Service Control Script
+ZK_HOME=&#39;/opt/module/apache-zookeeper-3.5.7&#39;
+case $1 in
+start)
+    echo &quot;---------- zookeeper 启动 ------------&quot;
+    $ZK_HOME/bin/zkServer.sh start
+;;
+stop)
+    echo &quot;---------- zookeeper 停止 ------------&quot;
+    $ZK_HOME/bin/zkServer.sh stop
+;;
+restart)
+    echo &quot;---------- zookeeper 重启 ------------&quot;
+    $ZK_HOME/bin/zkServer.sh restart
+;;
+status)
+    echo &quot;---------- zookeeper 状态 ------------&quot;
+    $ZK_HOME/bin/zkServer.sh status
+;;
+*)
+    echo &quot;Usage: $0 &#123;start|stop|restart|status&#125;&quot;
+esac
+</code></pre>
+<h4 id="设置权限"><a href="#设置权限" class="headerlink" title="设置权限"></a>设置权限</h4><pre><code class="prettyprint">chmod +x /etc/init.d/zookeeper
+chkconfig --add zookeeper
+</code></pre>
+<h4 id="命令"><a href="#命令" class="headerlink" title="命令"></a>命令</h4><pre><code class="prettyprint">service zookeeper start
+service zookeeper stop
+service zookeeper restart
+service zookeeper status
+</code></pre>
+<blockquote>
+<p>注意事项：</p>
+<ul>
+<li>不要下载<code>apache-zookeeper-3.5.7.tar.gz</code>要下载<code>apache-zookeeper-3.5.7-bin.tar.gz </code></li>
+<li>如果启动脚本找不到JAVA_HOME<ul>
+<li>配置jdk</li>
+<li>在 <code>bin/zkEnv.sh</code>添加<code>JAVA_HOME=/usr/local/java/jdk1.8</code></li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<img src="/2022/07/11/centos7-da-jian-zookeeper-ji-qun/image-20220711222019911.png" class="asset-class" title="image-20220711222019911">
+]]></content>
+      <categories>
+        <category>软件</category>
+      </categories>
+      <tags>
+        <tag>中间件</tag>
+        <tag>zookeeper</tag>
       </tags>
   </entry>
 </search>

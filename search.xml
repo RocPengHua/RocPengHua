@@ -17935,4 +17935,167 @@ service zookeeper status
         <tag>zookeeper</tag>
       </tags>
   </entry>
+  <entry>
+    <title>linux脚本</title>
+    <url>/2022/07/12/linux-jiao-ben/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h4 id="同步文件夹"><a href="#同步文件夹" class="headerlink" title="同步文件夹"></a>同步文件夹</h4><h5 id="每个服务器都要安装rsync"><a href="#每个服务器都要安装rsync" class="headerlink" title="每个服务器都要安装rsync"></a>每个服务器都要安装<code>rsync</code></h5><pre><code class="prettyprint">yum install rsync
+</code></pre>
+<p>在<code>/usr/local/bin</code>创建文件<code>sync</code></p>
+<pre><code class="prettyprint">#!/bin/bash
+
+#1. 判断参数个数
+if [ $# -lt 1 ]
+then
+    echo Not Enough Arguement!
+    exit;
+fi
+
+#2. 遍历集群所有机器
+for host in node2 node3 node4
+do
+    echo ====================  $host  ====================
+    #3. 遍历所有目录，挨个发送
+
+    for file in $@
+    do
+        #4. 判断文件是否存在
+        if [ -e $file ]
+            then
+                #5. 获取父目录
+                pdir=$(cd -P $(dirname $file); pwd)
+
+                #6. 获取当前文件的名称
+                fname=$(basename $file)
+                ssh $host &quot;mkdir -p $pdir&quot;
+                rsync -av $pdir/$fname $host:$pdir
+            else
+                echo $file does not exists!
+        fi
+    done
+done
+</code></pre>
+<h5 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h5><pre><code class="prettyprint">xsync kafka/
+</code></pre>
+<h4 id="zk启动脚本"><a href="#zk启动脚本" class="headerlink" title="zk启动脚本"></a>zk启动脚本</h4><pre><code class="prettyprint">#!/bin/bash
+
+case $1 in
+&quot;start&quot;)&#123;
+    for i in node2 node3 node4
+    do
+        echo  ------------- zookeeper $i 启动 ------------
+        ssh $i &quot;/opt/module/apache-zookeeper-3.5.7/bin/zkServer.sh start&quot;
+    done
+&#125;
+;;
+&quot;stop&quot;)&#123;
+    for i in node2 node3 node4
+    do
+        echo  ------------- zookeeper $i 停止 ------------
+        ssh $i &quot;/opt/module/apache-zookeeper-3.5.7/bin/zkServer.sh stop&quot;
+    done
+&#125;
+;;
+&quot;status&quot;)&#123;
+    for i in node2 node3 node4
+    do
+        echo  ------------- zookeeper $i 状态 ------------
+        ssh $i &quot;/opt/module/apache-zookeeper-3.5.7/bin/zkServer.sh status&quot;
+    done
+&#125;
+;;
+esac
+</code></pre>
+<h4 id="kafka启动脚本"><a href="#kafka启动脚本" class="headerlink" title="kafka启动脚本"></a>kafka启动脚本</h4><pre><code class="prettyprint">#!/bin/bash
+
+case $1 in
+&quot;start&quot;)&#123;
+    for i in node2 node3 node4
+    do
+        echo  ------------- kafka $i 启动 ------------
+        ssh $i &quot;source /etc/profile;nohup /opt/module/kafka/bin/kafka-server-start.sh -daemon /opt/module/kafka/config/server.properties&quot;
+    done
+&#125;
+;;
+&quot;stop&quot;)&#123;
+    for i in node2 node3 node4
+    do
+        echo  ------------- kafka $i 停止 ------------
+        ssh $i &quot;/opt/module/kafka/bin/kafka-server-stop.sh &quot;
+    done
+&#125;
+;;
+esac
+</code></pre>
+<h4 id="xcall查看jps"><a href="#xcall查看jps" class="headerlink" title="xcall查看jps"></a>xcall查看jps</h4><pre><code class="prettyprint"># 各服务器创建软链
+ln -s /usr/local/java/jdk1.8/bin/jps /usr/local/bin/jps
+</code></pre>
+<p>xcall</p>
+<pre><code class="prettyprint">#!/bin/bash
+
+for host in node2 node3 node4
+do
+        echo =============== $host ===============
+        ssh $host jps 
+done
+</code></pre>
+]]></content>
+      <categories>
+        <category>linux</category>
+      </categories>
+      <tags>
+        <tag>shell</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>服务器之间实现免密访问</title>
+    <url>/2022/07/12/fu-wu-qi-zhi-jian-shi-xian-mian-mi-fang-wen/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h4 id="准备三台机器node2-node3-node4"><a href="#准备三台机器node2-node3-node4" class="headerlink" title="准备三台机器node2,node3,node4"></a>准备三台机器<code>node2</code>,<code>node3</code>,<code>node4</code></h4><h4 id="在每台机器执行命令生产ssh公私钥"><a href="#在每台机器执行命令生产ssh公私钥" class="headerlink" title="在每台机器执行命令生产ssh公私钥"></a>在每台机器执行命令生产ssh公私钥</h4><pre><code class="prettyprint">ssh-keygen -t dsa -P &#39;&#39; -f ~/.ssh/id_dsa
+</code></pre>
+<h4 id="进入-ssh目录进行授权"><a href="#进入-ssh目录进行授权" class="headerlink" title="进入.ssh目录进行授权"></a>进入<code>.ssh</code>目录进行授权</h4><pre><code class="prettyprint">[root@node2 ~]# cd ~/.ssh/
+[root@node3 ~]# cd ~/.ssh/
+[root@node4 ~]# cd ~/.ssh/
+</code></pre>
+<h5 id="创建authorized-keys"><a href="#创建authorized-keys" class="headerlink" title="创建authorized_keys"></a>创建<code>authorized_keys</code></h5><pre><code class="prettyprint"># node2
+[root@node2 .ssh]# touch authorized_keys
+[root@node2 .ssh]# chmod 600 authorized_keys
+# node3
+[root@node3 .ssh]# touch authorized_keys
+[root@node3 .ssh]# chmod 600 authorized_keys
+# node4
+[root@node4 .ssh]# touch authorized_keys
+[root@node4 .ssh]# chmod 600 authorized_keys
+</code></pre>
+<h5 id="公钥追加到认证"><a href="#公钥追加到认证" class="headerlink" title="公钥追加到认证"></a>公钥追加到认证</h5><pre><code class="prettyprint">#自身认证
+[root@node2 .ssh]# cat id_rsa.pub &gt;&gt; authorized_keys
+[root@node3 .ssh]# cat id_rsa.pub &gt;&gt; authorized_keys
+[root@node4 .ssh]# cat id_rsa.pub &gt;&gt; authorized_keys
+</code></pre>
+<h5 id="分别将其他服务器公钥追加到认证"><a href="#分别将其他服务器公钥追加到认证" class="headerlink" title="分别将其他服务器公钥追加到认证"></a>分别将其他服务器公钥追加到认证</h5><pre><code class="prettyprint"># node2添加
+[root@node3 .ssh] scp id_rsa.pub node2:/home/
+[root@node2 .ssh]# cat /home/id_rsa.pub &gt;&gt; authorized_keys
+[root@node4 .ssh] scp id_rsa.pub node2:/home/
+[root@node2 .ssh]# cat /home/id_rsa.pub &gt;&gt; authorized_keys
+
+# node3添加
+[root@node2 .ssh] scp id_rsa.pub node3:/home/
+[root@node3 .ssh]# cat /home/id_rsa.pub &gt;&gt; authorized_keys
+[root@node4 .ssh] scp id_rsa.pub node3:/home/
+[root@node3 .ssh]# cat /home/id_rsa.pub &gt;&gt; authorized_keys
+
+# node4添加
+[root@node2 .ssh] scp id_rsa.pub node4:/home/
+[root@node4 .ssh]# cat /home/id_rsa.pub &gt;&gt; authorized_keys
+[root@node3 .ssh] scp id_rsa.pub node4:/home/
+[root@node4 .ssh]# cat /home/id_rsa.pub &gt;&gt; authorized_keys
+</code></pre>
+<h4 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h4><pre><code class="prettyprint">/opt/module/shell/kf.sh stop
+</code></pre>
+]]></content>
+      <categories>
+        <category>linux</category>
+      </categories>
+      <tags>
+        <tag>linux</tag>
+      </tags>
+  </entry>
 </search>

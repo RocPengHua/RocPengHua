@@ -15580,6 +15580,227 @@ Clearing topic-level throttles on topic first
 </code></pre>
 <h5 id="查看主题信息-1"><a href="#查看主题信息-1" class="headerlink" title="查看主题信息"></a>查看主题信息</h5><pre><code class="prettyprint">bin/kafka-topics.sh --bootstrap-server 192.168.101.123:9001 --describe --topic &quot;rocpenghua4&quot;
 </code></pre>
+<h3 id="properties配置"><a href="#properties配置" class="headerlink" title="properties配置"></a>properties配置</h3><h4 id="生产者"><a href="#生产者" class="headerlink" title="生产者"></a>生产者</h4><ul>
+<li><p><code>bootstrap.servers</code>：生 产 者 连 接 集 群 所 需 的 broker 地 址 清 单 。 例 如<br>192.168.101.123:9001,192.168.101.123:9002，可以设置 1 个或者多个，中间用逗号隔开，并非所有的broker</p>
+<ul>
+<li><pre><code class="prettyprint">properties.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG,&quot;192.168.101.123:9001,192.168.101.123:9002,192.168.101.123:9003&quot;);
+</code></pre>
+</li>
+</ul>
+</li>
+<li><p><code>key.serializer</code> 和<code>value.serializer</code>：指定发送消息的 key 和 value 的序列化类型。一定要写<br>全类名</p>
+<ul>
+<li><pre><code class="prettyprint">properties.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
+properties.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG,StringSerializer.class.getName());
+</code></pre>
+</li>
+</ul>
+</li>
+<li><p><code>buffer.memory</code>：RecordAccumulator 缓冲区总大小，默认 32m。</p>
+<ul>
+<li><pre><code class="prettyprint">properties.put(ProducerConfig.BUFFER_MEMORY_CONFIG,33554432);
+</code></pre>
+</li>
+</ul>
+</li>
+<li><p><code>batch.size</code>：缓冲区一批数据最大值，默认 16k。适当增加该值，可以提高吞吐量，但是如果该值设置太大，会导致数据传输延迟增加。</p>
+<ul>
+<li><pre><code>properties.put(ProducerConfig.BATCH_SIZE_CONFIG,16384);
+</code></pre>
+</li>
+</ul>
+</li>
+<li><p><code>linger.ms</code>：如果数据迟迟未达到 batch.size，sender 等待 linger.time之后就会发送数据。单位 ms，默认值是 0ms，表示没有延迟。生产环境建议该值大小为 5-100ms 之间</p>
+<ul>
+<li><pre><code class="prettyprint">properties.put(ProducerConfig.LINGER_MS_CONFIG, 1);
+</code></pre>
+</li>
+</ul>
+</li>
+<li><p><code>acks</code>：0：生产者发送过来的数据，不需要等数据落盘应答。1：生产者发送过来的数据，Leader 收到数据后应答。-1（all）：生产者发送过来的数据，Leader+和 isr 队列里面的所有节点收齐数据后应答。默认值是-1。</p>
+<ul>
+<li><pre><code class="prettyprint">properties.put(ProducerConfig.ACKS_CONFIG,&quot;1&quot;);
+</code></pre>
+</li>
+</ul>
+</li>
+<li><p><code>max.in.flight.requests.per.connection</code>：允许最多没有返回 ack 的次数，默认为 5，开启幂等性要保证该值是 1-5 的数字</p>
+<ul>
+<li><pre><code class="prettyprint">properties.put(ProducerConfig.MAX_IN_FLIGHT_REQUESTS_PER_CONNECTION,3);
+</code></pre>
+</li>
+</ul>
+</li>
+<li><p><code>retries</code>：当消息发送出现错误的时候，系统会重发消息。retries表示重试次数。默认是 int 最大值,2147483647。如果设置了重试，还想保证消息的有序性，需要设置MAX_IN_FLIGHT_REQUESTS_PER_CONNECTION&#x3D;1否则在重试此失败消息的时候，其他的消息可能发送成功了</p>
+<ul>
+<li><pre><code class="prettyprint">properties.put(ProducerConfig.RETRIES_CONFIG,3);
+</code></pre>
+</li>
+</ul>
+</li>
+<li><p><code>retry.backoff.ms</code>：两次重试之间的时间间隔，默认是 100ms。</p>
+</li>
+<li><p><code>enable.idempotence</code>：是否开启幂等性，默认 true，开启幂等性</p>
+</li>
+<li><p><code>compression.type</code>：生产者发送的所有数据的压缩方式。默认是 none，也就是不压缩。支持压缩类型：none、gzip、snappy、lz4 和 zstd</p>
+</li>
+<li><p><code>partitioner.class</code>：分区器</p>
+<ul>
+<li><p>默认：<code>org.apache.kafka.clients.producer.internals.DefaultPartitioner</code></p>
+</li>
+<li><p>自定义：<code>properties.put(ProducerConfig.PARTITIONER_CLASS_CONFIG,&quot;com.rocpenghua.kafka.producer.MyPartitioner&quot;);</code></p>
+<pre><code class="prettyprint">public class MyPartitioner implements Partitioner &#123;
+    @Override
+    public int partition(String topic, Object key, byte[] keyBytes, Object value, byte[] valueBytes, Cluster cluster) &#123;
+        // 获取数据 
+        String msgValues = value.toString();
+        int partition;
+
+        if (msgValues.contains(&quot;rocpenghua&quot;))&#123;
+            partition = 2;
+        &#125;else &#123;
+            partition = 1;
+        &#125;
+        return partition;
+    &#125;
+    @Override
+    public void close() &#123;
+
+    &#125;
+    @Override
+    public void configure(Map&lt;String, ?&gt; configs) &#123;
+
+    &#125;
+&#125;
+</code></pre>
+</li>
+</ul>
+</li>
+<li><p>事务开启</p>
+<ul>
+<li><pre><code class="prettyprint">public class CustomProducerTranactions &#123;
+    public static void main(String[] args) &#123;
+        // 0 配置
+        Properties properties = new Properties();
+        // 连接集群 bootstrap.servers
+        properties.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, &quot;192.168.101.123:9001,192.168.101.123:9002,192.168.101.123:9003&quot;);
+        // 指定对应的key和value的序列化类型 key.serializer
+        properties.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
+        properties.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
+        // 指定事务id
+        properties.put(ProducerConfig.TRANSACTIONAL_ID_CONFIG, &quot;tranactional_id_01&quot;);
+        // 1 创建kafka生产者对象
+        KafkaProducer&lt;String, String&gt; kafkaProducer = new KafkaProducer&lt;&gt;(properties);
+        //初始化事务
+        kafkaProducer.initTransactions();
+        //开启事务
+        kafkaProducer.beginTransaction();
+        try &#123;
+            // 2 发送数据
+            for (int i = 0; i &lt; 5; i++) &#123;
+                kafkaProducer.send(new ProducerRecord&lt;&gt;(&quot;first&quot;, &quot;rocpenghua&quot; + i));
+            &#125;
+            int i = 1 / 0;
+            //提交事务
+            kafkaProducer.commitTransaction();
+        &#125; catch (Exception e) &#123;
+            //放弃事务
+            kafkaProducer.abortTransaction();
+        &#125; finally &#123;
+            // 3 关闭资源
+            kafkaProducer.close();
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="消费者"><a href="#消费者" class="headerlink" title="消费者"></a>消费者</h4><ul>
+<li><p><code>bootstrap.servers</code>：向 Kafka 集群建立初始连接用到的 host&#x2F;port 列表。</p>
+</li>
+<li><p><code>key.deserializer</code> 和 <code>value.deserializer</code>：指定接收消息的 key 和 value 的反序列化类型</p>
+</li>
+<li><p><code>group.id</code>：标记消费者所属的消费者组。命令默认默认生成。</p>
+</li>
+<li><p><code>enable.auto.commit</code>：默认值为 true，消费者会自动周期性地向服务器提交偏移量</p>
+</li>
+<li><p><code>auto.commit.interval.ms</code>：如果设置了 enable.auto.commit 的值为 true， 则该值定义了消费者偏移量向 Kafka 提交的频率，默认 5s。</p>
+</li>
+<li><p><code>auto.offset.reset</code>：当 Kafka 中没有初始偏移量或当前偏移量在服务器中不存在（如，数据被删除了），该如何处理？ </p>
+<ul>
+<li>earliest：自动重置偏移量到最早的偏移量。</li>
+<li>latest：默认，自动重置偏移量为最新的偏移量。 </li>
+<li>none：如果消费组原来的（previous）偏移量不存在，则向消费者抛异常。 </li>
+<li>anything：向消费者抛异常</li>
+</ul>
+</li>
+<li><p><code>offsets.topic.num.partitions</code>：__consumer_offsets 的分区数，默认是 50 个分区。</p>
+</li>
+<li><p><code>heartbeat.interval.ms</code>：Kafka 消费者和 coordinator 之间的心跳时间，默认 3s。该条目的值必须小于 session.timeout.ms ，也不应该高于session.timeout.ms 的 1&#x2F;3。</p>
+</li>
+<li><p><code>session.timeout.ms</code>：Kafka 消费者和 coordinator 之间连接超时时间，默认 45s。超过该值，该消费者被移除，消费者组执行再平衡。</p>
+</li>
+<li><p><code>max.poll.interval.ms</code>：消费者处理消息的最大时长，默认是 5 分钟。超过该值，该消费者被移除，消费者组执行再平衡。</p>
+</li>
+<li><p><code>fetch.min.bytes</code>：默认 1 个字节。消费者获取服务器端一批消息最小的字节数。</p>
+</li>
+<li><p><code>fetch.max.wait.ms</code>：默认 500ms。如果没有从服务器端获取到一批数据的最小字节数。该时间到，仍然会返回数据。</p>
+</li>
+<li><p><code>fetch.max.bytes</code>：默认 Default: 52428800（50 m）。消费者获取服务器端一批消息最大的字节数。如果服务器端一批次的数据大于该值（50m）仍然可以拉取回来这批数据，因此，这不是一个绝对最大值。一批次的大小受 message.max.bytes （broker config）or max.message.bytes （topic config）影响。</p>
+</li>
+<li><p><code>max.poll.records</code>：一次 poll 拉取数据返回消息的最大条数，默认是 500 条。</p>
+</li>
+<li><p><code>partition.assignment.strategy</code>：分区策略,默认<code>org.apache.kafka.clients.consumer.RangeAssignor</code> <code>org.apache.kafka.clients.consumer.CooperativeStickyAssignor</code></p>
+<ul>
+<li><p><code>org.apache.kafka.clients.consumer.RangeAssignor</code>‎：基于每个主题分配分区。‎</p>
+</li>
+<li><p><code>org.apache.kafka.clients.consumer.RoundRobinAssignor</code>‎：以轮循机制方式将分区分配给使用者。‎</p>
+</li>
+<li><p><code>org.apache.kafka.clients.consumer.StickyAssignor</code>‎：保证分配的最大平衡，同时保留尽可能多的现有分区分配。‎</p>
+</li>
+<li><p><code>org.apache.kafka.clients.consumer.CooperativeStickyAssignor</code>‎：遵循相同的粘性Assignor逻辑，但允许合作再平衡。‎</p>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="broker"><a href="#broker" class="headerlink" title="broker"></a>broker</h4><ul>
+<li><p><code>replica.lag.time.max.ms</code>：ISR 中，如果 Follower 长时间未向 Leader 发送通信请求或同步数据，则该 Follower 将被踢出 ISR。该时间阈值，默认 30s。</p>
+</li>
+<li><p><code>auto.leader.rebalance.enable</code>：默认是 true。 自动 Leader Partition 平衡。</p>
+</li>
+<li><p><code>leader.imbalance.per.broker.percentage</code>：默认是 10%。每个 broker 允许的不平衡的 leader的比率。如果每个 broker 超过了这个值，控制器会触发 leader 的平衡。</p>
+</li>
+<li><p><code>leader.imbalance.check.interval.seconds </code>：默认值 300 秒。检查 leader 负载是否平衡的间隔时间</p>
+</li>
+<li><p><code>log.segment.bytes</code>：Kafka 中 log 日志是分成一块块存储的，此配置是指 log 日志划分 成块的大小，默认值 1G。</p>
+</li>
+<li><p><code>log.index.interval.bytes</code>：默认 4kb，kafka 里面每当写入了 4kb 大小的日志（.log），然后就往 index 文件里面记录一个索引。</p>
+</li>
+<li><p><code>log.retention.hours</code>：Kafka 中数据保存的时间，默认 7 天。</p>
+</li>
+<li><p><code>log.retention.minutes</code>：Kafka 中数据保存的时间，分钟级别，默认关闭。</p>
+</li>
+<li><p><code>log.retention.ms</code>：Kafka 中数据保存的时间，毫秒级别，默认关闭。</p>
+</li>
+<li><p><code>log.retention.check.interval.ms</code>：检查数据是否保存超时的间隔，默认是 5 分钟</p>
+</li>
+<li><p><code>log.retention.bytes</code>：默认等于-1，表示无穷大。超过设置的所有日志总大小，删除最早的 segment。</p>
+</li>
+<li><p><code>log.cleanup.policy</code>：默认是 delete，表示所有数据启用删除策略；如果设置值为 compact，表示所有数据启用压缩策略。</p>
+</li>
+<li><p><code>num.io.threads</code>：默认是 8。负责写磁盘的线程数。整个参数值要占总核数的 50%。</p>
+</li>
+<li><p><code>num.replica.fetchers</code>：副本拉取线程数，这个参数占总核数的 50%的 1&#x2F;3</p>
+</li>
+<li><p><code>num.network.threads</code>：默认是 3。数据传输线程数，这个参数占总核数的50%的 2&#x2F;3 。</p>
+</li>
+<li><p><code>log.flush.interval.messages</code>：强制页缓存刷写到磁盘的条数，默认是 long 的最大值，9223372036854775807。一般不建议修改，交给系统自己管理</p>
+</li>
+<li><p><code>log.flush.interval.ms</code>：每隔多久，刷数据到磁盘，默认是 null。一般不建议修改，交给系统自己管理。</p>
+</li>
+</ul>
 ]]></content>
       <categories>
         <category>软件</category>

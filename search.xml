@@ -15466,9 +15466,9 @@ Proposed partition reassignment configuration
 # 需要执行的存储计划json
 &#123;&quot;version&quot;:1,&quot;partitions&quot;:[&#123;&quot;topic&quot;:&quot;first&quot;,&quot;partition&quot;:0,&quot;replicas&quot;:[1,2],&quot;log_dirs&quot;:[&quot;any&quot;,&quot;any&quot;]&#125;,&#123;&quot;topic&quot;:&quot;first&quot;,&quot;partition&quot;:1,&quot;replicas&quot;:[2,3],&quot;log_dirs&quot;:[&quot;any&quot;,&quot;any&quot;]&#125;,&#123;&quot;topic&quot;:&quot;first&quot;,&quot;partition&quot;:2,&quot;replicas&quot;:[3,4],&quot;log_dirs&quot;:[&quot;any&quot;,&quot;any&quot;]&#125;]&#125;
 </code></pre>
-<h4 id="创建副本存储计划increase-replication-factor-json"><a href="#创建副本存储计划increase-replication-factor-json" class="headerlink" title="创建副本存储计划increase-replication-factor.json"></a>创建副本存储计划<code>increase-replication-factor.json</code></h4><pre><code class="prettyprint">&#123;&quot;version&quot;:1,&quot;partitions&quot;:[&#123;&quot;topic&quot;:&quot;first&quot;,&quot;partition&quot;:0,&quot;replicas&quot;:[1,2],&quot;log_dirs&quot;:[&quot;any&quot;,&quot;any&quot;]&#125;,&#123;&quot;topic&quot;:&quot;first&quot;,&quot;partition&quot;:1,&quot;replicas&quot;:[2,3],&quot;log_dirs&quot;:[&quot;any&quot;,&quot;any&quot;]&#125;,&#123;&quot;topic&quot;:&quot;first&quot;,&quot;partition&quot;:2,&quot;replicas&quot;:[3,4],&quot;log_dirs&quot;:[&quot;any&quot;,&quot;any&quot;]&#125;]&#125;
+<h4 id="创建副本存储计划increase-replication-json"><a href="#创建副本存储计划increase-replication-json" class="headerlink" title="创建副本存储计划increase-replication.json"></a>创建副本存储计划<code>increase-replication.json</code></h4><pre><code class="prettyprint">&#123;&quot;version&quot;:1,&quot;partitions&quot;:[&#123;&quot;topic&quot;:&quot;first&quot;,&quot;partition&quot;:0,&quot;replicas&quot;:[1,2],&quot;log_dirs&quot;:[&quot;any&quot;,&quot;any&quot;]&#125;,&#123;&quot;topic&quot;:&quot;first&quot;,&quot;partition&quot;:1,&quot;replicas&quot;:[2,3],&quot;log_dirs&quot;:[&quot;any&quot;,&quot;any&quot;]&#125;,&#123;&quot;topic&quot;:&quot;first&quot;,&quot;partition&quot;:2,&quot;replicas&quot;:[3,4],&quot;log_dirs&quot;:[&quot;any&quot;,&quot;any&quot;]&#125;]&#125;
 </code></pre>
-<h5 id="执行副本存储计划"><a href="#执行副本存储计划" class="headerlink" title="执行副本存储计划"></a>执行副本存储计划</h5><pre><code class="prettyprint">bin/kafka-reassign-partitions.sh --bootstrap-server 192.168.101.123:9001 --reassignment-json-file increase-replication-factor.json --execute
+<h5 id="执行副本存储计划"><a href="#执行副本存储计划" class="headerlink" title="执行副本存储计划"></a>执行副本存储计划</h5><pre><code class="prettyprint">bin/kafka-reassign-partitions.sh --bootstrap-server 192.168.101.123:9001 --reassignment-json-file increase-replication.json --execute
 </code></pre>
 <blockquote>
 <p>执行结果</p>
@@ -15480,7 +15480,7 @@ Proposed partition reassignment configuration
 Save this to use as the --reassignment-json-file option during rollback
 Successfully started partition reassignments for first-0,first-1,first-2
 </code></pre>
-<h5 id="验证副本存储计划"><a href="#验证副本存储计划" class="headerlink" title="验证副本存储计划"></a>验证副本存储计划</h5><pre><code class="prettyprint">bin/kafka-reassign-partitions.sh --bootstrap-server 192.168.101.123:9001 --reassignment-json-file increase-replication-factor.json --verify
+<h5 id="验证副本存储计划"><a href="#验证副本存储计划" class="headerlink" title="验证副本存储计划"></a>验证副本存储计划</h5><pre><code class="prettyprint">bin/kafka-reassign-partitions.sh --bootstrap-server 192.168.101.123:9001 --reassignment-json-file increase-replication.json --verify
 </code></pre>
 <blockquote>
 <p>执行结果</p>
@@ -15511,9 +15511,9 @@ Clearing topic-level throttles on topic first
 Proposed partition reassignment configuration
 &#123;&quot;version&quot;:1,&quot;partitions&quot;:[&#123;&quot;topic&quot;:&quot;first&quot;,&quot;partition&quot;:0,&quot;replicas&quot;:[3,2],&quot;log_dirs&quot;:[&quot;any&quot;,&quot;any&quot;]&#125;,&#123;&quot;topic&quot;:&quot;first&quot;,&quot;partition&quot;:1,&quot;replicas&quot;:[1,3],&quot;log_dirs&quot;:[&quot;any&quot;,&quot;any&quot;]&#125;,&#123;&quot;topic&quot;:&quot;first&quot;,&quot;partition&quot;:2,&quot;replicas&quot;:[2,1],&quot;log_dirs&quot;:[&quot;any&quot;,&quot;any&quot;]&#125;]&#125;
 </code></pre>
-<h4 id="创建副本存储计划decrease-replication-factor-json"><a href="#创建副本存储计划decrease-replication-factor-json" class="headerlink" title="创建副本存储计划decrease-replication-factor.json"></a>创建副本存储计划<code>decrease-replication-factor.json</code></h4><pre><code class="prettyprint">&#123;&quot;version&quot;:1,&quot;partitions&quot;:[&#123;&quot;topic&quot;:&quot;first&quot;,&quot;partition&quot;:0,&quot;replicas&quot;:[3,2],&quot;log_dirs&quot;:[&quot;any&quot;,&quot;any&quot;]&#125;,&#123;&quot;topic&quot;:&quot;first&quot;,&quot;partition&quot;:1,&quot;replicas&quot;:[1,3],&quot;log_dirs&quot;:[&quot;any&quot;,&quot;any&quot;]&#125;,&#123;&quot;topic&quot;:&quot;first&quot;,&quot;partition&quot;:2,&quot;replicas&quot;:[2,1],&quot;log_dirs&quot;:[&quot;any&quot;,&quot;any&quot;]&#125;]&#125;
+<h4 id="创建副本存储计划decrease-replication-json"><a href="#创建副本存储计划decrease-replication-json" class="headerlink" title="创建副本存储计划decrease-replication.json"></a>创建副本存储计划<code>decrease-replication.json</code></h4><pre><code class="prettyprint">&#123;&quot;version&quot;:1,&quot;partitions&quot;:[&#123;&quot;topic&quot;:&quot;first&quot;,&quot;partition&quot;:0,&quot;replicas&quot;:[3,2],&quot;log_dirs&quot;:[&quot;any&quot;,&quot;any&quot;]&#125;,&#123;&quot;topic&quot;:&quot;first&quot;,&quot;partition&quot;:1,&quot;replicas&quot;:[1,3],&quot;log_dirs&quot;:[&quot;any&quot;,&quot;any&quot;]&#125;,&#123;&quot;topic&quot;:&quot;first&quot;,&quot;partition&quot;:2,&quot;replicas&quot;:[2,1],&quot;log_dirs&quot;:[&quot;any&quot;,&quot;any&quot;]&#125;]&#125;
 </code></pre>
-<h5 id="执行副本存储计划-1"><a href="#执行副本存储计划-1" class="headerlink" title="执行副本存储计划"></a>执行副本存储计划</h5><pre><code class="prettyprint">bin/kafka-reassign-partitions.sh --bootstrap-server 192.168.101.123:9001 --reassignment-json-file decrease-replication-factor.json --execute
+<h5 id="执行副本存储计划-1"><a href="#执行副本存储计划-1" class="headerlink" title="执行副本存储计划"></a>执行副本存储计划</h5><pre><code class="prettyprint">bin/kafka-reassign-partitions.sh --bootstrap-server 192.168.101.123:9001 --reassignment-json-file decrease-replication.json --execute
 </code></pre>
 <blockquote>
 <p>执行结果</p>
@@ -15525,7 +15525,7 @@ Proposed partition reassignment configuration
 Save this to use as the --reassignment-json-file option during rollback
 Successfully started partition reassignments for first-0,first-1,first-2
 </code></pre>
-<h5 id="验证副本存储计划-1"><a href="#验证副本存储计划-1" class="headerlink" title="验证副本存储计划"></a>验证副本存储计划</h5><pre><code class="prettyprint">bin/kafka-reassign-partitions.sh --bootstrap-server 192.168.101.123:9001 --reassignment-json-file decrease-replication-factor.json --verify
+<h5 id="验证副本存储计划-1"><a href="#验证副本存储计划-1" class="headerlink" title="验证副本存储计划"></a>验证副本存储计划</h5><pre><code class="prettyprint">bin/kafka-reassign-partitions.sh --bootstrap-server 192.168.101.123:9001 --reassignment-json-file decrease-replication.json --verify
 </code></pre>
 <blockquote>
 <p>执行结果</p>
@@ -15537,6 +15537,48 @@ Reassignment of partition first-2 is complete.
 
 Clearing broker-level throttles on brokers 1,2,3,4
 Clearing topic-level throttles on topic first
+</code></pre>
+<h3 id="指定分区副本"><a href="#指定分区副本" class="headerlink" title="指定分区副本"></a>指定分区副本</h3><h4 id="创建分区主题"><a href="#创建分区主题" class="headerlink" title="创建分区主题"></a>创建分区主题</h4><pre><code class="prettyprint"># 4分区 2 副本
+./kafka-topics.sh --create --topic &quot;rocpenghua3&quot; --bootstrap-server 192.168.101.123:9001 --partitions 4 --replication-factor 2
+</code></pre>
+<h4 id="创建分区配置assign-replication-factor-json"><a href="#创建分区配置assign-replication-factor-json" class="headerlink" title="创建分区配置assign-replication-factor.json"></a>创建分区配置<code>assign-replication-factor.json</code></h4><pre><code class="prettyprint">&#123;
+    &quot;version&quot;:1,
+    &quot;partitions&quot;:[&#123;&quot;topic&quot;:&quot;rocpenghua3&quot;,&quot;partition&quot;:0,&quot;replicas&quot;:[1,2]&#125;,
+        &#123;&quot;topic&quot;:&quot;rocpenghua3&quot;,&quot;partition&quot;:1,&quot;replicas&quot;:[1,2]&#125;,
+        &#123;&quot;topic&quot;:&quot;rocpenghua3&quot;,&quot;partition&quot;:2,&quot;replicas&quot;:[2,1]&#125;,
+        &#123;&quot;topic&quot;:&quot;rocpenghua3&quot;,&quot;partition&quot;:3,&quot;replicas&quot;:[2,1]&#125;]
+&#125;
+</code></pre>
+<h4 id="执行副本存储计划-2"><a href="#执行副本存储计划-2" class="headerlink" title="执行副本存储计划"></a>执行副本存储计划</h4><pre><code class="prettyprint">./kafka-reassign-partitions.sh --bootstrap-server 192.168.101.123:9001 --reassignment-json-file ../assign-replication-factor.json --execute
+</code></pre>
+<h4 id="验证副本存储计划-2"><a href="#验证副本存储计划-2" class="headerlink" title="验证副本存储计划"></a>验证副本存储计划</h4><pre><code class="prettyprint">./kafka-reassign-partitions.sh --bootstrap-server 192.168.101.123:9001 --reassignment-json-file ../assign-replication-factor.json --verify
+</code></pre>
+<h5 id="查看主题信息"><a href="#查看主题信息" class="headerlink" title="查看主题信息"></a>查看主题信息</h5><pre><code class="prettyprint">bin/kafka-topics.sh --bootstrap-server 192.168.101.123:9001 --describe --topic &quot;rocpenghua3&quot;
+</code></pre>
+<blockquote>
+<p>结果信息</p>
+</blockquote>
+<pre><code class="prettyprint">Topic: rocpenghua3	TopicId: e7ZcYefrQ_ekcjzbEX4fbw	PartitionCount: 4	ReplicationFactor: 2	Configs: segment.bytes=1073741824
+    Topic: rocpenghua3	Partition: 0	Leader: 2	Replicas: 1,2	Isr: 2,1
+    Topic: rocpenghua3	Partition: 1	Leader: 1	Replicas: 1,2	Isr: 2,1
+    Topic: rocpenghua3	Partition: 2	Leader: 2	Replicas: 2,1	Isr: 1,2
+    Topic: rocpenghua3	Partition: 3	Leader: 1	Replicas: 2,1	Isr: 1,2
+</code></pre>
+<h3 id="增加分区副本"><a href="#增加分区副本" class="headerlink" title="增加分区副本"></a>增加分区副本</h3><h4 id="创建主题"><a href="#创建主题" class="headerlink" title="创建主题"></a>创建主题</h4><pre><code class="prettyprint"># 3分区 1 副本
+./kafka-topics.sh --create --topic &quot;rocpenghua4&quot; --bootstrap-server 192.168.101.123:9001 --partitions 3 --replication-factor 1
+</code></pre>
+<h4 id="创建分区配置increase-replication-factor-json"><a href="#创建分区配置increase-replication-factor-json" class="headerlink" title="创建分区配置increase-replication-factor.json"></a>创建分区配置<code>increase-replication-factor.json</code></h4><pre><code class="prettyprint">&#123;
+    &quot;version&quot;:1,
+    &quot;partitions&quot;:[&#123;&quot;topic&quot;:&quot;rocpenghua4&quot;,&quot;partition&quot;:0,&quot;replicas&quot;:[1,2,3]&#125;,
+    &#123;&quot;topic&quot;:&quot;rocpenghua4&quot;,&quot;partition&quot;:1,&quot;replicas&quot;:[1,2,3]&#125;,
+    &#123;&quot;topic&quot;:&quot;rocpenghua4&quot;,&quot;partition&quot;:2,&quot;replicas&quot;:[1,2,3]&#125;]
+&#125;
+</code></pre>
+<h4 id="执行副本存储计划-3"><a href="#执行副本存储计划-3" class="headerlink" title="执行副本存储计划"></a>执行副本存储计划</h4><pre><code class="prettyprint">./kafka-reassign-partitions.sh --bootstrap-server 192.168.101.123:9001 --reassignment-json-file ../increase-replication-factor.json --execute
+</code></pre>
+<h4 id="验证副本存储计划-3"><a href="#验证副本存储计划-3" class="headerlink" title="验证副本存储计划"></a>验证副本存储计划</h4><pre><code class="prettyprint">./kafka-reassign-partitions.sh --bootstrap-server 192.168.101.123:9001 --reassignment-json-file ../increase-replication-factor.json --verify
+</code></pre>
+<h5 id="查看主题信息-1"><a href="#查看主题信息-1" class="headerlink" title="查看主题信息"></a>查看主题信息</h5><pre><code class="prettyprint">bin/kafka-topics.sh --bootstrap-server 192.168.101.123:9001 --describe --topic &quot;rocpenghua4&quot;
 </code></pre>
 ]]></content>
       <categories>

@@ -15435,6 +15435,109 @@ log.dirs=/opt/module/kafka/datas-logs3
 <h6 id="kafka-consumer-perf-test-sh"><a href="#kafka-consumer-perf-test-sh" class="headerlink" title="kafka-consumer-perf-test.sh"></a><code>kafka-consumer-perf-test.sh</code></h6><pre><code class="prettyprint">#消费数量10万个
 ./kafka-consumer-perf-test.sh --bootstrap-server 192.168.101.123:9001,192.168.101.123:9002,192.168.101.123:9003 --topic first33 --fetch-size 1048576 --messages 100000 --threads 1
 </code></pre>
+<h3 id="服役新节点"><a href="#服役新节点" class="headerlink" title="服役新节点"></a>服役新节点</h3><h4 id="新增配置文件kafka9004-properties"><a href="#新增配置文件kafka9004-properties" class="headerlink" title="新增配置文件kafka9004.properties"></a>新增配置文件<code>kafka9004.properties</code></h4><pre><code class="prettyprint">cp kafka9001.properties kafka9004.properties
+</code></pre>
+<h5 id="修改内容"><a href="#修改内容" class="headerlink" title="修改内容"></a>修改内容</h5><pre><code class="prettyprint">#修改配置
+broker.id=4
+host.name=192.168.101.123
+listeners=PLAINTEXT://192.168.101.123:9004
+advertised.listeners=PLAINTEXT://192.168.101.123:9004
+log.dirs=/opt/module/kafka/datas-logs4
+</code></pre>
+<h5 id="启动新节点"><a href="#启动新节点" class="headerlink" title="启动新节点"></a>启动新节点</h5><pre><code class="prettyprint">./kafka-server-start.sh ../config/kafka9004.properties &amp;
+</code></pre>
+<h4 id="创建一个需要负载均衡的主题topics-to-move-json"><a href="#创建一个需要负载均衡的主题topics-to-move-json" class="headerlink" title="创建一个需要负载均衡的主题topics-to-move.json"></a>创建一个需要负载均衡的主题<code>topics-to-move.json</code></h4><pre><code class="prettyprint"># 可以传多个主题
+&#123;
+    &quot;topics&quot;: [
+        &#123;&quot;topic&quot;: &quot;first&quot;&#125;
+    ],
+    &quot;version&quot;: 1
+&#125;
+</code></pre>
+<h5 id="生成负载均衡计划"><a href="#生成负载均衡计划" class="headerlink" title="生成负载均衡计划"></a>生成负载均衡计划</h5><pre><code class="prettyprint">bin/kafka-reassign-partitions.sh --bootstrap-server 192.168.101.123:9001 --topics-to-move-json-file topics-to-move.json --broker-list &quot;1,2,3,4&quot; --generate
+</code></pre>
+<blockquote>
+<p>执行结果</p>
+</blockquote>
+<pre><code class="prettyprint">Current partition replica assignment
+&#123;&quot;version&quot;:1,&quot;partitions&quot;:[&#123;&quot;topic&quot;:&quot;first&quot;,&quot;partition&quot;:0,&quot;replicas&quot;:[1,3],&quot;log_dirs&quot;:[&quot;any&quot;,&quot;any&quot;]&#125;,&#123;&quot;topic&quot;:&quot;first&quot;,&quot;partition&quot;:1,&quot;replicas&quot;:[2,1],&quot;log_dirs&quot;:[&quot;any&quot;,&quot;any&quot;]&#125;,&#123;&quot;topic&quot;:&quot;first&quot;,&quot;partition&quot;:2,&quot;replicas&quot;:[3,2],&quot;log_dirs&quot;:[&quot;any&quot;,&quot;any&quot;]&#125;]&#125;
+
+Proposed partition reassignment configuration
+# 需要执行的存储计划json
+&#123;&quot;version&quot;:1,&quot;partitions&quot;:[&#123;&quot;topic&quot;:&quot;first&quot;,&quot;partition&quot;:0,&quot;replicas&quot;:[1,2],&quot;log_dirs&quot;:[&quot;any&quot;,&quot;any&quot;]&#125;,&#123;&quot;topic&quot;:&quot;first&quot;,&quot;partition&quot;:1,&quot;replicas&quot;:[2,3],&quot;log_dirs&quot;:[&quot;any&quot;,&quot;any&quot;]&#125;,&#123;&quot;topic&quot;:&quot;first&quot;,&quot;partition&quot;:2,&quot;replicas&quot;:[3,4],&quot;log_dirs&quot;:[&quot;any&quot;,&quot;any&quot;]&#125;]&#125;
+</code></pre>
+<h4 id="创建副本存储计划increase-replication-factor-json"><a href="#创建副本存储计划increase-replication-factor-json" class="headerlink" title="创建副本存储计划increase-replication-factor.json"></a>创建副本存储计划<code>increase-replication-factor.json</code></h4><pre><code class="prettyprint">&#123;&quot;version&quot;:1,&quot;partitions&quot;:[&#123;&quot;topic&quot;:&quot;first&quot;,&quot;partition&quot;:0,&quot;replicas&quot;:[1,2],&quot;log_dirs&quot;:[&quot;any&quot;,&quot;any&quot;]&#125;,&#123;&quot;topic&quot;:&quot;first&quot;,&quot;partition&quot;:1,&quot;replicas&quot;:[2,3],&quot;log_dirs&quot;:[&quot;any&quot;,&quot;any&quot;]&#125;,&#123;&quot;topic&quot;:&quot;first&quot;,&quot;partition&quot;:2,&quot;replicas&quot;:[3,4],&quot;log_dirs&quot;:[&quot;any&quot;,&quot;any&quot;]&#125;]&#125;
+</code></pre>
+<h5 id="执行副本存储计划"><a href="#执行副本存储计划" class="headerlink" title="执行副本存储计划"></a>执行副本存储计划</h5><pre><code class="prettyprint">bin/kafka-reassign-partitions.sh --bootstrap-server 192.168.101.123:9001 --reassignment-json-file increase-replication-factor.json --execute
+</code></pre>
+<blockquote>
+<p>执行结果</p>
+</blockquote>
+<pre><code class="prettyprint">Current partition replica assignment
+
+&#123;&quot;version&quot;:1,&quot;partitions&quot;:[&#123;&quot;topic&quot;:&quot;first&quot;,&quot;partition&quot;:0,&quot;replicas&quot;:[1,3],&quot;log_dirs&quot;:[&quot;any&quot;,&quot;any&quot;]&#125;,&#123;&quot;topic&quot;:&quot;first&quot;,&quot;partition&quot;:1,&quot;replicas&quot;:[2,1],&quot;log_dirs&quot;:[&quot;any&quot;,&quot;any&quot;]&#125;,&#123;&quot;topic&quot;:&quot;first&quot;,&quot;partition&quot;:2,&quot;replicas&quot;:[3,2],&quot;log_dirs&quot;:[&quot;any&quot;,&quot;any&quot;]&#125;]&#125;
+
+Save this to use as the --reassignment-json-file option during rollback
+Successfully started partition reassignments for first-0,first-1,first-2
+</code></pre>
+<h5 id="验证副本存储计划"><a href="#验证副本存储计划" class="headerlink" title="验证副本存储计划"></a>验证副本存储计划</h5><pre><code class="prettyprint">bin/kafka-reassign-partitions.sh --bootstrap-server 192.168.101.123:9001 --reassignment-json-file increase-replication-factor.json --verify
+</code></pre>
+<blockquote>
+<p>执行结果</p>
+</blockquote>
+<pre><code class="prettyprint">Status of partition reassignment:
+Reassignment of partition first-0 is complete.
+Reassignment of partition first-1 is complete.
+Reassignment of partition first-2 is complete.
+
+Clearing broker-level throttles on brokers 1,2,3,4
+Clearing topic-level throttles on topic first
+</code></pre>
+<h3 id="退役旧结点"><a href="#退役旧结点" class="headerlink" title="退役旧结点"></a>退役旧结点</h3><h4 id="创建一个需要负载均衡的主题topics-to-move-json-1"><a href="#创建一个需要负载均衡的主题topics-to-move-json-1" class="headerlink" title="创建一个需要负载均衡的主题topics-to-move.json"></a>创建一个需要负载均衡的主题<code>topics-to-move.json</code></h4><pre><code class="prettyprint">&#123;
+    &quot;topics&quot;: [
+        &#123;&quot;topic&quot;: &quot;first&quot;&#125;
+    ],
+    &quot;version&quot;: 1
+&#125;
+</code></pre>
+<h5 id="创建执行计划"><a href="#创建执行计划" class="headerlink" title="创建执行计划"></a>创建执行计划</h5><pre><code class="prettyprint">bin/kafka-reassign-partitions.sh --bootstrap-server 192.168.101.123:9001 --topics-to-move-json-file topics-to-move.json --broker-list &quot;1,2,3&quot; --generate
+</code></pre>
+<blockquote>
+<p>执行结果</p>
+</blockquote>
+<pre><code class="prettyprint">Current partition replica assignment
+&#123;&quot;version&quot;:1,&quot;partitions&quot;:[&#123;&quot;topic&quot;:&quot;first&quot;,&quot;partition&quot;:0,&quot;replicas&quot;:[1,3],&quot;log_dirs&quot;:[&quot;any&quot;,&quot;any&quot;]&#125;,&#123;&quot;topic&quot;:&quot;first&quot;,&quot;partition&quot;:1,&quot;replicas&quot;:[2,1],&quot;log_dirs&quot;:[&quot;any&quot;,&quot;any&quot;]&#125;,&#123;&quot;topic&quot;:&quot;first&quot;,&quot;partition&quot;:2,&quot;replicas&quot;:[3,2],&quot;log_dirs&quot;:[&quot;any&quot;,&quot;any&quot;]&#125;]&#125;
+
+Proposed partition reassignment configuration
+&#123;&quot;version&quot;:1,&quot;partitions&quot;:[&#123;&quot;topic&quot;:&quot;first&quot;,&quot;partition&quot;:0,&quot;replicas&quot;:[3,2],&quot;log_dirs&quot;:[&quot;any&quot;,&quot;any&quot;]&#125;,&#123;&quot;topic&quot;:&quot;first&quot;,&quot;partition&quot;:1,&quot;replicas&quot;:[1,3],&quot;log_dirs&quot;:[&quot;any&quot;,&quot;any&quot;]&#125;,&#123;&quot;topic&quot;:&quot;first&quot;,&quot;partition&quot;:2,&quot;replicas&quot;:[2,1],&quot;log_dirs&quot;:[&quot;any&quot;,&quot;any&quot;]&#125;]&#125;
+</code></pre>
+<h4 id="创建副本存储计划decrease-replication-factor-json"><a href="#创建副本存储计划decrease-replication-factor-json" class="headerlink" title="创建副本存储计划decrease-replication-factor.json"></a>创建副本存储计划<code>decrease-replication-factor.json</code></h4><pre><code class="prettyprint">&#123;&quot;version&quot;:1,&quot;partitions&quot;:[&#123;&quot;topic&quot;:&quot;first&quot;,&quot;partition&quot;:0,&quot;replicas&quot;:[3,2],&quot;log_dirs&quot;:[&quot;any&quot;,&quot;any&quot;]&#125;,&#123;&quot;topic&quot;:&quot;first&quot;,&quot;partition&quot;:1,&quot;replicas&quot;:[1,3],&quot;log_dirs&quot;:[&quot;any&quot;,&quot;any&quot;]&#125;,&#123;&quot;topic&quot;:&quot;first&quot;,&quot;partition&quot;:2,&quot;replicas&quot;:[2,1],&quot;log_dirs&quot;:[&quot;any&quot;,&quot;any&quot;]&#125;]&#125;
+</code></pre>
+<h5 id="执行副本存储计划-1"><a href="#执行副本存储计划-1" class="headerlink" title="执行副本存储计划"></a>执行副本存储计划</h5><pre><code class="prettyprint">bin/kafka-reassign-partitions.sh --bootstrap-server 192.168.101.123:9001 --reassignment-json-file decrease-replication-factor.json --execute
+</code></pre>
+<blockquote>
+<p>执行结果</p>
+</blockquote>
+<pre><code class="prettyprint">Current partition replica assignment
+
+&#123;&quot;version&quot;:1,&quot;partitions&quot;:[&#123;&quot;topic&quot;:&quot;first&quot;,&quot;partition&quot;:0,&quot;replicas&quot;:[1,2],&quot;log_dirs&quot;:[&quot;any&quot;,&quot;any&quot;]&#125;,&#123;&quot;topic&quot;:&quot;first&quot;,&quot;partition&quot;:1,&quot;replicas&quot;:[2,3],&quot;log_dirs&quot;:[&quot;any&quot;,&quot;any&quot;]&#125;,&#123;&quot;topic&quot;:&quot;first&quot;,&quot;partition&quot;:2,&quot;replicas&quot;:[3,4],&quot;log_dirs&quot;:[&quot;any&quot;,&quot;any&quot;]&#125;]&#125;
+
+Save this to use as the --reassignment-json-file option during rollback
+Successfully started partition reassignments for first-0,first-1,first-2
+</code></pre>
+<h5 id="验证副本存储计划-1"><a href="#验证副本存储计划-1" class="headerlink" title="验证副本存储计划"></a>验证副本存储计划</h5><pre><code class="prettyprint">bin/kafka-reassign-partitions.sh --bootstrap-server 192.168.101.123:9001 --reassignment-json-file decrease-replication-factor.json --verify
+</code></pre>
+<blockquote>
+<p>执行结果</p>
+</blockquote>
+<pre><code class="prettyprint">Status of partition reassignment:
+Reassignment of partition first-0 is complete.
+Reassignment of partition first-1 is complete.
+Reassignment of partition first-2 is complete.
+
+Clearing broker-level throttles on brokers 1,2,3,4
+Clearing topic-level throttles on topic first
+</code></pre>
 ]]></content>
       <categories>
         <category>软件</category>

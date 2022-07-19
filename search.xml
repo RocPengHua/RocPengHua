@@ -15373,9 +15373,9 @@ errMsg = new String(errMsg.getBytes(StandardCharsets.ISO_8859_1),StandardCharset
   </entry>
   <entry>
     <title>centos7搭建kafka集群</title>
-    <url>/2022/06/11/centos7-da-jian-kafka-ji-qun/</url>
+    <url>/2022/07/19/centos7-da-jian-kafka-ji-qun/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h3 id="单机安装"><a href="#单机安装" class="headerlink" title="单机安装"></a>单机安装</h3><p><a href="https://rocpenghua.gitee.io/2022/04/26/centos7-an-zhuang-kafka/">centos7安装kafka | 小鹏驿站 (gitee.io)</a></p>
-<h3 id="集群配置"><a href="#集群配置" class="headerlink" title="集群配置"></a>集群配置</h3><h4 id="创建三个properties文件"><a href="#创建三个properties文件" class="headerlink" title="创建三个properties文件"></a>创建三个properties文件</h4><ul>
+<h3 id="集群配置-一台服务器"><a href="#集群配置-一台服务器" class="headerlink" title="集群配置(一台服务器)"></a>集群配置(一台服务器)</h3><h4 id="创建三个properties文件"><a href="#创建三个properties文件" class="headerlink" title="创建三个properties文件"></a>创建三个properties文件</h4><ul>
 <li><code>kafka9001.properties</code>配置</li>
 </ul>
 <pre><code class="prettyprint">#修改配置
@@ -15409,6 +15409,137 @@ log.dirs=/opt/module/kafka/datas-logs3
 ./kafka-server-start.sh ../config/kafka9002.properties &amp;
 ./kafka-server-start.sh ../config/kafka9003.properties &amp;
 </code></pre>
+<h4 id="启动脚本"><a href="#启动脚本" class="headerlink" title="启动脚本"></a>启动脚本</h4><pre><code class="prettyprint">#!/bin/bash
+
+case $1 in
+&quot;start&quot;)&#123;
+    for i in 9001 9002 9003
+    do
+        echo  ------------- kafka $i 启动 ------------
+        &quot;source /etc/profile;nohup /opt/module/kafka/bin/kafka-server-start.sh -daemon /opt/module/kafka/config/kafka$i.properties&quot;
+    done
+&#125;
+;;
+&quot;stop&quot;)&#123;
+    echo  ------------- kafka  停止 ------------
+    &quot;/opt/module/kafka/bin/kafka-server-stop.sh &quot;
+&#125;
+;;
+esac
+</code></pre>
+<h3 id="集群配置-三台服务器node2-node3-node4"><a href="#集群配置-三台服务器node2-node3-node4" class="headerlink" title="集群配置(三台服务器node2,node3,node4)"></a>集群配置(三台服务器<code>node2</code>,<code>node3</code>,<code>node4</code>)</h3><h4 id="修改node2配置文件config-server-properties"><a href="#修改node2配置文件config-server-properties" class="headerlink" title="修改node2配置文件config/server.properties"></a>修改<code>node2</code>配置文件<code>config/server.properties</code></h4><pre><code class="prettyprint"># broker 的全局唯一编号，不能重复，只能是数字。
+broker.id=0
+# kafka 运行日志(数据)存放的路径，路径不需要提前创建，kafka 自动帮你创建，可以配置多个磁盘路径，路径与路径之间可以用&quot;，&quot;分隔
+log.dirs=/opt/module/kafka/datas
+# 配置连接 Zookeeper 集群地址（在 zk 根目录下创建/kafka，方便管理）
+zookeeper.connect=node2:2181,node3:2181,node4:2181/kafka
+</code></pre>
+<h4 id="分发安装包"><a href="#分发安装包" class="headerlink" title="分发安装包"></a>分发安装包</h4><blockquote>
+<p>xsync配置<a href="https://rocpenghua.gitee.io/2022/07/12/linux-jiao-ben/">linux脚本 | 小鹏驿站 (gitee.io)</a></p>
+</blockquote>
+<pre><code class="prettyprint">cd /opt/module
+xsync kafka/
+</code></pre>
+<h4 id="修改node3-node4下面config-server-properties"><a href="#修改node3-node4下面config-server-properties" class="headerlink" title="修改node3,node4下面config/server.properties"></a>修改<code>node3</code>,<code>node4</code>下面<code>config/server.properties</code></h4><pre><code class="prettyprint"># node3 broker 的全局唯一编号，不能重复，只能是数字。
+broker.id=1
+# node4 broker 的全局唯一编号，不能重复，只能是数字。
+broker.id=2
+</code></pre>
+<h4 id="环境变量增加kafka配置（node2-node3-node4）"><a href="#环境变量增加kafka配置（node2-node3-node4）" class="headerlink" title="环境变量增加kafka配置（node2,node3,node4）"></a>环境变量增加<code>kafka</code>配置（node2,node3,node4）</h4><pre><code class="prettyprint">vim /etc/profile
+</code></pre>
+<p>添加内容</p>
+<pre><code class="prettyprint">#KAFKA_HOME
+export KAFKA_HOME=/opt/module/kafka
+export PATH=$PATH:$KAFKA_HOME/bin
+</code></pre>
+<p>刷新环境变量脚本</p>
+<pre><code class="prettyprint">source /etc/profile
+</code></pre>
+<h4 id="zk启动脚本，kafka启动脚本编写"><a href="#zk启动脚本，kafka启动脚本编写" class="headerlink" title="zk启动脚本，kafka启动脚本编写"></a>zk启动脚本，kafka启动脚本编写</h4><p><a href="https://rocpenghua.gitee.io/2022/07/12/linux-jiao-ben/">linux脚本 | 小鹏驿站 (gitee.io)</a></p>
+<pre><code class="prettyprint"># 先启动zk
+./zk.sh start
+# 再启动kafka
+./kf.sh start
+</code></pre>
+<h3 id="集群配置kraft-三台服务器node2-node3-node4"><a href="#集群配置kraft-三台服务器node2-node3-node4" class="headerlink" title="集群配置kraft(三台服务器node2,node3,node4)"></a>集群配置<code>kraft</code>(三台服务器<code>node2</code>,<code>node3</code>,<code>node4</code>)</h3><h4 id="修改node2配置文件config-kraft-server-properties"><a href="#修改node2配置文件config-kraft-server-properties" class="headerlink" title="修改node2配置文件config/kraft/server.properties"></a>修改<code>node2</code>配置文件<code>config/kraft/server.properties</code></h4><pre><code class="prettyprint"># 节点 id
+node.id=2
+#全 Controller 列表
+controller.quorum.voters=2@node2:9093,3@node3:9093,4@node4:9093
+#broker 对外暴露的地址
+advertised.Listeners=PLAINTEXT://node2:9092
+#kafka 数据存储目录
+log.dirs=/opt/module/kafka/data
+</code></pre>
+<h4 id="分发安装包-1"><a href="#分发安装包-1" class="headerlink" title="分发安装包"></a>分发安装包</h4><blockquote>
+<p>xsync配置<a href="https://rocpenghua.gitee.io/2022/07/12/linux-jiao-ben/">linux脚本 | 小鹏驿站 (gitee.io)</a></p>
+</blockquote>
+<pre><code class="prettyprint">cd /opt/module
+xsync kafka/
+</code></pre>
+<h4 id="修改node3-node4下面config-server-properties-1"><a href="#修改node3-node4下面config-server-properties-1" class="headerlink" title="修改node3,node4下面config/server.properties"></a>修改<code>node3</code>,<code>node4</code>下面<code>config/server.properties</code></h4><pre><code class="prettyprint"># 节点 id
+node.id=3
+# broker 对外暴露的地址
+advertised.Listeners=PLAINTEXT://node3:9092
+
+
+# 节点 id
+node.id=4
+# broker 对外暴露的地址
+advertised.Listeners=PLAINTEXT://node4:9092
+</code></pre>
+<h4 id="环境变量增加kafka配置（node2-node3-node4）-1"><a href="#环境变量增加kafka配置（node2-node3-node4）-1" class="headerlink" title="环境变量增加kafka配置（node2,node3,node4）"></a>环境变量增加<code>kafka</code>配置（node2,node3,node4）</h4><pre><code class="prettyprint">vim /etc/profile
+</code></pre>
+<p>添加内容</p>
+<pre><code class="prettyprint">#KAFKA_HOME
+export KAFKA_HOME=/opt/module/kafka
+export PATH=$PATH:$KAFKA_HOME/bin
+</code></pre>
+<p>刷新环境变量脚本</p>
+<pre><code class="prettyprint">source /etc/profile
+</code></pre>
+<h4 id="初始化集群数据目录"><a href="#初始化集群数据目录" class="headerlink" title="初始化集群数据目录"></a>初始化集群数据目录</h4><pre><code class="prettyprint"># 生成存储目录唯一ID
+[root@node2 ~]# cd /opt/module/kafka/bin
+[root@node2 bin]# ./kafka-storage.sh random-uuid
+MBJ8mVoITCC3hDl886zuyA
+# node2
+[root@node2 bin]# ./kafka-storage.sh format -t MBJ8mVoITCC3hDl886zuyA -c /opt/module/kafka/config/kraft/server.properties 
+Formatting /opt/module/kafka/data
+
+# node3
+[root@node3 bin]# ./kafka-storage.sh format -t MBJ8mVoITCC3hDl886zuyA -c /opt/module/kafka/config/kraft/server.properties 
+Formatting /opt/module/kafka/data
+
+# node4
+[root@node4 bin]# ./kafka-storage.sh format -t MBJ8mVoITCC3hDl886zuyA -c /opt/module/kafka/config/kraft/server.properties 
+Formatting /opt/module/kafka/data
+</code></pre>
+<h4 id="启动-1"><a href="#启动-1" class="headerlink" title="启动"></a>启动</h4><pre><code class="prettyprint">[root@node2 bin]# ./kafka-server-start.sh -daemon ../config/kraft/server.properties
+
+[root@node3 bin]# ./kafka-server-start.sh -daemon ../config/kraft/server.properties
+
+[root@node4 bin]# ./kafka-server-start.sh -daemon ../config/kraft/server.properties
+</code></pre>
+<h5 id="启动脚本-1"><a href="#启动脚本-1" class="headerlink" title="启动脚本"></a>启动脚本</h5><pre><code class="prettyprint">#!/bin/bash
+
+case $1 in
+&quot;start&quot;)&#123;
+    for i in node2 node3 node4
+    do
+        echo  ------------- kafka $i 启动 ------------
+        ssh $i &quot;source /etc/profile;nohup /opt/module/kafka/bin/kafka-server-start.sh -daemon /opt/module/kafka/config/kraft/server.properties&quot;
+    done
+&#125;
+;;
+&quot;stop&quot;)&#123;
+    for i in node2 node3 node4
+    do
+        echo  ------------- kafka $i 停止 ------------
+        ssh $i &quot;/opt/module/kafka/bin/kafka-server-stop.sh &quot;
+    done
+&#125;
+;;
+esac
+</code></pre>
 <h3 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h3><pre><code class="prettyprint">#创建
 ./kafka-topics.sh --create --topic &quot;first32&quot; --bootstrap-server 192.168.101.123:9001,192.168.101.123:9002,192.168.101.123:9003 --partitions 3 --replication-factor 2
 #查看描述
@@ -15417,12 +15548,12 @@ log.dirs=/opt/module/kafka/datas-logs3
 <ul>
 <li>3个partitions 2个副本</li>
 </ul>
-<img src="/2022/06/11/centos7-da-jian-kafka-ji-qun/image-20220611230053302.png" class="asset-class" title="image-20220611230053302">
+<img src="/2022/07/19/centos7-da-jian-kafka-ji-qun/image-20220611230053302.png" class="asset-class" title="image-20220611230053302">
 
 <ul>
 <li>3个partitions 3个副本</li>
 </ul>
-<img src="/2022/06/11/centos7-da-jian-kafka-ji-qun/image-20220611230315971.png" class="asset-class" title="image-20220611230315971">
+<img src="/2022/07/19/centos7-da-jian-kafka-ji-qun/image-20220611230315971.png" class="asset-class" title="image-20220611230315971">
 
 <h5 id="kafka-console-consumer-sh"><a href="#kafka-console-consumer-sh" class="headerlink" title="kafka-console-consumer.sh"></a><code>kafka-console-consumer.sh</code></h5><pre><code class="prettyprint"># from-beginning 从头开始
 ./kafka-console-consumer.sh --bootstrap-server 192.168.101.123:9001,192.168.101.123:9002,192.168.101.123:9003 --from-beginning --topic first33
@@ -18306,7 +18437,7 @@ service zookeeper status
     <url>/2022/07/12/linux-jiao-ben/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h4 id="同步文件夹"><a href="#同步文件夹" class="headerlink" title="同步文件夹"></a>同步文件夹</h4><h5 id="每个服务器都要安装rsync"><a href="#每个服务器都要安装rsync" class="headerlink" title="每个服务器都要安装rsync"></a>每个服务器都要安装<code>rsync</code></h5><pre><code class="prettyprint">yum install rsync
 </code></pre>
-<p>在<code>/usr/local/bin</code>创建文件<code>sync</code></p>
+<p>在<code>/usr/local/bin</code>创建文件<code>xsync</code></p>
 <pre><code class="prettyprint">#!/bin/bash
 
 #1. 判断参数个数
@@ -18415,7 +18546,7 @@ done
   <entry>
     <title>服务器之间实现免密访问</title>
     <url>/2022/07/12/fu-wu-qi-zhi-jian-shi-xian-mian-mi-fang-wen/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h4 id="准备三台机器node2-node3-node4"><a href="#准备三台机器node2-node3-node4" class="headerlink" title="准备三台机器node2,node3,node4"></a>准备三台机器<code>node2</code>,<code>node3</code>,<code>node4</code></h4><h4 id="在每台机器执行命令生产ssh公私钥"><a href="#在每台机器执行命令生产ssh公私钥" class="headerlink" title="在每台机器执行命令生产ssh公私钥"></a>在每台机器执行命令生产ssh公私钥</h4><pre><code class="prettyprint">ssh-keygen -t dsa -P &#39;&#39; -f ~/.ssh/id_dsa
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h4 id="准备三台机器node2-node3-node4"><a href="#准备三台机器node2-node3-node4" class="headerlink" title="准备三台机器node2,node3,node4"></a>准备三台机器<code>node2</code>,<code>node3</code>,<code>node4</code></h4><h4 id="在每台机器执行命令生产ssh公私钥"><a href="#在每台机器执行命令生产ssh公私钥" class="headerlink" title="在每台机器执行命令生产ssh公私钥"></a>在每台机器执行命令生产ssh公私钥</h4><pre><code class="prettyprint">ssh-keygen -t rsa -P &#39;&#39; -f ~/.ssh/id_rsa
 </code></pre>
 <h4 id="进入-ssh目录进行授权"><a href="#进入-ssh目录进行授权" class="headerlink" title="进入.ssh目录进行授权"></a>进入<code>.ssh</code>目录进行授权</h4><pre><code class="prettyprint">[root@node2 ~]# cd ~/.ssh/
 [root@node3 ~]# cd ~/.ssh/

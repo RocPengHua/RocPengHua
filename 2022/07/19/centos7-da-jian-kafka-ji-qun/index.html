@@ -305,7 +305,7 @@
           <h2 class="title-sub-wrap">
             <strong>RocPengHua</strong>
             <span>发布于</span>
-            <time  class="article-date" datetime="2022-06-11T14:49:39.000Z" itemprop="datePublished">2022-06-11</time>
+            <time  class="article-date" datetime="2022-07-19T13:01:39.000Z" itemprop="datePublished">2022-07-19</time>
           </h2>
           <ul class="wrap-list dark">
   
@@ -393,7 +393,7 @@
     <span>TOC</span>
   </div>
   <div class="widget-body">
-    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8D%95%E6%9C%BA%E5%AE%89%E8%A3%85"><span class="toc-number">1.</span> <span class="toc-text">单机安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9B%86%E7%BE%A4%E9%85%8D%E7%BD%AE"><span class="toc-number">2.</span> <span class="toc-text">集群配置</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E4%B8%89%E4%B8%AAproperties%E6%96%87%E4%BB%B6"><span class="toc-number">2.1.</span> <span class="toc-text">创建三个properties文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%90%AF%E5%8A%A8"><span class="toc-number">2.2.</span> <span class="toc-text">启动</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95"><span class="toc-number">3.</span> <span class="toc-text">测试</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#kafka-console-consumer-sh"><span class="toc-number">3.0.1.</span> <span class="toc-text">kafka-console-consumer.sh</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#kafka-console-producer-sh"><span class="toc-number">3.0.2.</span> <span class="toc-text">kafka-console-producer.sh</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95"><span class="toc-number">3.0.3.</span> <span class="toc-text">性能测试</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#kafka-producer-perf-test-sh"><span class="toc-number">3.0.3.1.</span> <span class="toc-text">kafka-producer-perf-test.sh</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#kafka-consumer-perf-test-sh"><span class="toc-number">3.0.3.2.</span> <span class="toc-text">kafka-consumer-perf-test.sh</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%8D%E5%BD%B9%E6%96%B0%E8%8A%82%E7%82%B9"><span class="toc-number">4.</span> <span class="toc-text">服役新节点</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%96%B0%E5%A2%9E%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6kafka9004-properties"><span class="toc-number">4.1.</span> <span class="toc-text">新增配置文件kafka9004.properties</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9%E5%86%85%E5%AE%B9"><span class="toc-number">4.1.1.</span> <span class="toc-text">修改内容</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%90%AF%E5%8A%A8%E6%96%B0%E8%8A%82%E7%82%B9"><span class="toc-number">4.1.2.</span> <span class="toc-text">启动新节点</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E9%9C%80%E8%A6%81%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E7%9A%84%E4%B8%BB%E9%A2%98topics-to-move-json"><span class="toc-number">4.2.</span> <span class="toc-text">创建一个需要负载均衡的主题topics-to-move.json</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%94%9F%E6%88%90%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E8%AE%A1%E5%88%92"><span class="toc-number">4.2.1.</span> <span class="toc-text">生成负载均衡计划</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E5%89%AF%E6%9C%AC%E5%AD%98%E5%82%A8%E8%AE%A1%E5%88%92increase-replication-json"><span class="toc-number">4.3.</span> <span class="toc-text">创建副本存储计划increase-replication.json</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%89%A7%E8%A1%8C%E5%89%AF%E6%9C%AC%E5%AD%98%E5%82%A8%E8%AE%A1%E5%88%92"><span class="toc-number">4.3.1.</span> <span class="toc-text">执行副本存储计划</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%AA%8C%E8%AF%81%E5%89%AF%E6%9C%AC%E5%AD%98%E5%82%A8%E8%AE%A1%E5%88%92"><span class="toc-number">4.3.2.</span> <span class="toc-text">验证副本存储计划</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%80%E5%BD%B9%E6%97%A7%E7%BB%93%E7%82%B9"><span class="toc-number">5.</span> <span class="toc-text">退役旧结点</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E9%9C%80%E8%A6%81%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E7%9A%84%E4%B8%BB%E9%A2%98topics-to-move-json-1"><span class="toc-number">5.1.</span> <span class="toc-text">创建一个需要负载均衡的主题topics-to-move.json</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E6%89%A7%E8%A1%8C%E8%AE%A1%E5%88%92"><span class="toc-number">5.1.1.</span> <span class="toc-text">创建执行计划</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E5%89%AF%E6%9C%AC%E5%AD%98%E5%82%A8%E8%AE%A1%E5%88%92decrease-replication-json"><span class="toc-number">5.2.</span> <span class="toc-text">创建副本存储计划decrease-replication.json</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%89%A7%E8%A1%8C%E5%89%AF%E6%9C%AC%E5%AD%98%E5%82%A8%E8%AE%A1%E5%88%92-1"><span class="toc-number">5.2.1.</span> <span class="toc-text">执行副本存储计划</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%AA%8C%E8%AF%81%E5%89%AF%E6%9C%AC%E5%AD%98%E5%82%A8%E8%AE%A1%E5%88%92-1"><span class="toc-number">5.2.2.</span> <span class="toc-text">验证副本存储计划</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8C%87%E5%AE%9A%E5%88%86%E5%8C%BA%E5%89%AF%E6%9C%AC"><span class="toc-number">6.</span> <span class="toc-text">指定分区副本</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E5%88%86%E5%8C%BA%E4%B8%BB%E9%A2%98"><span class="toc-number">6.1.</span> <span class="toc-text">创建分区主题</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E5%88%86%E5%8C%BA%E9%85%8D%E7%BD%AEassign-replication-factor-json"><span class="toc-number">6.2.</span> <span class="toc-text">创建分区配置assign-replication-factor.json</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%89%A7%E8%A1%8C%E5%89%AF%E6%9C%AC%E5%AD%98%E5%82%A8%E8%AE%A1%E5%88%92-2"><span class="toc-number">6.3.</span> <span class="toc-text">执行副本存储计划</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%AA%8C%E8%AF%81%E5%89%AF%E6%9C%AC%E5%AD%98%E5%82%A8%E8%AE%A1%E5%88%92-2"><span class="toc-number">6.4.</span> <span class="toc-text">验证副本存储计划</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E4%B8%BB%E9%A2%98%E4%BF%A1%E6%81%AF"><span class="toc-number">6.4.1.</span> <span class="toc-text">查看主题信息</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A2%9E%E5%8A%A0%E5%88%86%E5%8C%BA%E5%89%AF%E6%9C%AC"><span class="toc-number">7.</span> <span class="toc-text">增加分区副本</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E4%B8%BB%E9%A2%98"><span class="toc-number">7.1.</span> <span class="toc-text">创建主题</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E5%88%86%E5%8C%BA%E9%85%8D%E7%BD%AEincrease-replication-factor-json"><span class="toc-number">7.2.</span> <span class="toc-text">创建分区配置increase-replication-factor.json</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%89%A7%E8%A1%8C%E5%89%AF%E6%9C%AC%E5%AD%98%E5%82%A8%E8%AE%A1%E5%88%92-3"><span class="toc-number">7.3.</span> <span class="toc-text">执行副本存储计划</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%AA%8C%E8%AF%81%E5%89%AF%E6%9C%AC%E5%AD%98%E5%82%A8%E8%AE%A1%E5%88%92-3"><span class="toc-number">7.4.</span> <span class="toc-text">验证副本存储计划</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E4%B8%BB%E9%A2%98%E4%BF%A1%E6%81%AF-1"><span class="toc-number">7.4.1.</span> <span class="toc-text">查看主题信息</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#properties%E9%85%8D%E7%BD%AE"><span class="toc-number">8.</span> <span class="toc-text">properties配置</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%94%9F%E4%BA%A7%E8%80%85"><span class="toc-number">8.1.</span> <span class="toc-text">生产者</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B6%88%E8%B4%B9%E8%80%85"><span class="toc-number">8.2.</span> <span class="toc-text">消费者</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#broker"><span class="toc-number">8.3.</span> <span class="toc-text">broker</span></a></li></ol></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8D%95%E6%9C%BA%E5%AE%89%E8%A3%85"><span class="toc-number">1.</span> <span class="toc-text">单机安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9B%86%E7%BE%A4%E9%85%8D%E7%BD%AE-%E4%B8%80%E5%8F%B0%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="toc-number">2.</span> <span class="toc-text">集群配置(一台服务器)</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E4%B8%89%E4%B8%AAproperties%E6%96%87%E4%BB%B6"><span class="toc-number">2.1.</span> <span class="toc-text">创建三个properties文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%90%AF%E5%8A%A8"><span class="toc-number">2.2.</span> <span class="toc-text">启动</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%90%AF%E5%8A%A8%E8%84%9A%E6%9C%AC"><span class="toc-number">2.3.</span> <span class="toc-text">启动脚本</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9B%86%E7%BE%A4%E9%85%8D%E7%BD%AE-%E4%B8%89%E5%8F%B0%E6%9C%8D%E5%8A%A1%E5%99%A8node2-node3-node4"><span class="toc-number">3.</span> <span class="toc-text">集群配置(三台服务器node2,node3,node4)</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9node2%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6config-server-properties"><span class="toc-number">3.1.</span> <span class="toc-text">修改node2配置文件config&#x2F;server.properties</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%86%E5%8F%91%E5%AE%89%E8%A3%85%E5%8C%85"><span class="toc-number">3.2.</span> <span class="toc-text">分发安装包</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9node3-node4%E4%B8%8B%E9%9D%A2config-server-properties"><span class="toc-number">3.3.</span> <span class="toc-text">修改node3,node4下面config&#x2F;server.properties</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E5%A2%9E%E5%8A%A0kafka%E9%85%8D%E7%BD%AE%EF%BC%88node2-node3-node4%EF%BC%89"><span class="toc-number">3.4.</span> <span class="toc-text">环境变量增加kafka配置（node2,node3,node4）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#zk%E5%90%AF%E5%8A%A8%E8%84%9A%E6%9C%AC%EF%BC%8Ckafka%E5%90%AF%E5%8A%A8%E8%84%9A%E6%9C%AC%E7%BC%96%E5%86%99"><span class="toc-number">3.5.</span> <span class="toc-text">zk启动脚本，kafka启动脚本编写</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9B%86%E7%BE%A4%E9%85%8D%E7%BD%AEkraft-%E4%B8%89%E5%8F%B0%E6%9C%8D%E5%8A%A1%E5%99%A8node2-node3-node4"><span class="toc-number">4.</span> <span class="toc-text">集群配置kraft(三台服务器node2,node3,node4)</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9node2%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6config-kraft-server-properties"><span class="toc-number">4.1.</span> <span class="toc-text">修改node2配置文件config&#x2F;kraft&#x2F;server.properties</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%86%E5%8F%91%E5%AE%89%E8%A3%85%E5%8C%85-1"><span class="toc-number">4.2.</span> <span class="toc-text">分发安装包</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9node3-node4%E4%B8%8B%E9%9D%A2config-server-properties-1"><span class="toc-number">4.3.</span> <span class="toc-text">修改node3,node4下面config&#x2F;server.properties</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E5%A2%9E%E5%8A%A0kafka%E9%85%8D%E7%BD%AE%EF%BC%88node2-node3-node4%EF%BC%89-1"><span class="toc-number">4.4.</span> <span class="toc-text">环境变量增加kafka配置（node2,node3,node4）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96%E9%9B%86%E7%BE%A4%E6%95%B0%E6%8D%AE%E7%9B%AE%E5%BD%95"><span class="toc-number">4.5.</span> <span class="toc-text">初始化集群数据目录</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%90%AF%E5%8A%A8-1"><span class="toc-number">4.6.</span> <span class="toc-text">启动</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%90%AF%E5%8A%A8%E8%84%9A%E6%9C%AC-1"><span class="toc-number">4.6.1.</span> <span class="toc-text">启动脚本</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95"><span class="toc-number">5.</span> <span class="toc-text">测试</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#kafka-console-consumer-sh"><span class="toc-number">5.0.1.</span> <span class="toc-text">kafka-console-consumer.sh</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#kafka-console-producer-sh"><span class="toc-number">5.0.2.</span> <span class="toc-text">kafka-console-producer.sh</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95"><span class="toc-number">5.0.3.</span> <span class="toc-text">性能测试</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#kafka-producer-perf-test-sh"><span class="toc-number">5.0.3.1.</span> <span class="toc-text">kafka-producer-perf-test.sh</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#kafka-consumer-perf-test-sh"><span class="toc-number">5.0.3.2.</span> <span class="toc-text">kafka-consumer-perf-test.sh</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%8D%E5%BD%B9%E6%96%B0%E8%8A%82%E7%82%B9"><span class="toc-number">6.</span> <span class="toc-text">服役新节点</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%96%B0%E5%A2%9E%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6kafka9004-properties"><span class="toc-number">6.1.</span> <span class="toc-text">新增配置文件kafka9004.properties</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9%E5%86%85%E5%AE%B9"><span class="toc-number">6.1.1.</span> <span class="toc-text">修改内容</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%90%AF%E5%8A%A8%E6%96%B0%E8%8A%82%E7%82%B9"><span class="toc-number">6.1.2.</span> <span class="toc-text">启动新节点</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E9%9C%80%E8%A6%81%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E7%9A%84%E4%B8%BB%E9%A2%98topics-to-move-json"><span class="toc-number">6.2.</span> <span class="toc-text">创建一个需要负载均衡的主题topics-to-move.json</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%94%9F%E6%88%90%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E8%AE%A1%E5%88%92"><span class="toc-number">6.2.1.</span> <span class="toc-text">生成负载均衡计划</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E5%89%AF%E6%9C%AC%E5%AD%98%E5%82%A8%E8%AE%A1%E5%88%92increase-replication-json"><span class="toc-number">6.3.</span> <span class="toc-text">创建副本存储计划increase-replication.json</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%89%A7%E8%A1%8C%E5%89%AF%E6%9C%AC%E5%AD%98%E5%82%A8%E8%AE%A1%E5%88%92"><span class="toc-number">6.3.1.</span> <span class="toc-text">执行副本存储计划</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%AA%8C%E8%AF%81%E5%89%AF%E6%9C%AC%E5%AD%98%E5%82%A8%E8%AE%A1%E5%88%92"><span class="toc-number">6.3.2.</span> <span class="toc-text">验证副本存储计划</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%80%E5%BD%B9%E6%97%A7%E7%BB%93%E7%82%B9"><span class="toc-number">7.</span> <span class="toc-text">退役旧结点</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E9%9C%80%E8%A6%81%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E7%9A%84%E4%B8%BB%E9%A2%98topics-to-move-json-1"><span class="toc-number">7.1.</span> <span class="toc-text">创建一个需要负载均衡的主题topics-to-move.json</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E6%89%A7%E8%A1%8C%E8%AE%A1%E5%88%92"><span class="toc-number">7.1.1.</span> <span class="toc-text">创建执行计划</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E5%89%AF%E6%9C%AC%E5%AD%98%E5%82%A8%E8%AE%A1%E5%88%92decrease-replication-json"><span class="toc-number">7.2.</span> <span class="toc-text">创建副本存储计划decrease-replication.json</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%89%A7%E8%A1%8C%E5%89%AF%E6%9C%AC%E5%AD%98%E5%82%A8%E8%AE%A1%E5%88%92-1"><span class="toc-number">7.2.1.</span> <span class="toc-text">执行副本存储计划</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%AA%8C%E8%AF%81%E5%89%AF%E6%9C%AC%E5%AD%98%E5%82%A8%E8%AE%A1%E5%88%92-1"><span class="toc-number">7.2.2.</span> <span class="toc-text">验证副本存储计划</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8C%87%E5%AE%9A%E5%88%86%E5%8C%BA%E5%89%AF%E6%9C%AC"><span class="toc-number">8.</span> <span class="toc-text">指定分区副本</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E5%88%86%E5%8C%BA%E4%B8%BB%E9%A2%98"><span class="toc-number">8.1.</span> <span class="toc-text">创建分区主题</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E5%88%86%E5%8C%BA%E9%85%8D%E7%BD%AEassign-replication-factor-json"><span class="toc-number">8.2.</span> <span class="toc-text">创建分区配置assign-replication-factor.json</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%89%A7%E8%A1%8C%E5%89%AF%E6%9C%AC%E5%AD%98%E5%82%A8%E8%AE%A1%E5%88%92-2"><span class="toc-number">8.3.</span> <span class="toc-text">执行副本存储计划</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%AA%8C%E8%AF%81%E5%89%AF%E6%9C%AC%E5%AD%98%E5%82%A8%E8%AE%A1%E5%88%92-2"><span class="toc-number">8.4.</span> <span class="toc-text">验证副本存储计划</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E4%B8%BB%E9%A2%98%E4%BF%A1%E6%81%AF"><span class="toc-number">8.4.1.</span> <span class="toc-text">查看主题信息</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A2%9E%E5%8A%A0%E5%88%86%E5%8C%BA%E5%89%AF%E6%9C%AC"><span class="toc-number">9.</span> <span class="toc-text">增加分区副本</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E4%B8%BB%E9%A2%98"><span class="toc-number">9.1.</span> <span class="toc-text">创建主题</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E5%88%86%E5%8C%BA%E9%85%8D%E7%BD%AEincrease-replication-factor-json"><span class="toc-number">9.2.</span> <span class="toc-text">创建分区配置increase-replication-factor.json</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%89%A7%E8%A1%8C%E5%89%AF%E6%9C%AC%E5%AD%98%E5%82%A8%E8%AE%A1%E5%88%92-3"><span class="toc-number">9.3.</span> <span class="toc-text">执行副本存储计划</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%AA%8C%E8%AF%81%E5%89%AF%E6%9C%AC%E5%AD%98%E5%82%A8%E8%AE%A1%E5%88%92-3"><span class="toc-number">9.4.</span> <span class="toc-text">验证副本存储计划</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E4%B8%BB%E9%A2%98%E4%BF%A1%E6%81%AF-1"><span class="toc-number">9.4.1.</span> <span class="toc-text">查看主题信息</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#properties%E9%85%8D%E7%BD%AE"><span class="toc-number">10.</span> <span class="toc-text">properties配置</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%94%9F%E4%BA%A7%E8%80%85"><span class="toc-number">10.1.</span> <span class="toc-text">生产者</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B6%88%E8%B4%B9%E8%80%85"><span class="toc-number">10.2.</span> <span class="toc-text">消费者</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#broker"><span class="toc-number">10.3.</span> <span class="toc-text">broker</span></a></li></ol></li></ol>
   </div>
 </section>
 
@@ -406,7 +406,7 @@
       
       <section id="blog-content" class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
         <h3 id="单机安装"><a href="#单机安装" class="headerlink" title="单机安装"></a>单机安装</h3><p><a href="https://rocpenghua.gitee.io/2022/04/26/centos7-an-zhuang-kafka/">centos7安装kafka | 小鹏驿站 (gitee.io)</a></p>
-<h3 id="集群配置"><a href="#集群配置" class="headerlink" title="集群配置"></a>集群配置</h3><h4 id="创建三个properties文件"><a href="#创建三个properties文件" class="headerlink" title="创建三个properties文件"></a>创建三个properties文件</h4><ul>
+<h3 id="集群配置-一台服务器"><a href="#集群配置-一台服务器" class="headerlink" title="集群配置(一台服务器)"></a>集群配置(一台服务器)</h3><h4 id="创建三个properties文件"><a href="#创建三个properties文件" class="headerlink" title="创建三个properties文件"></a>创建三个properties文件</h4><ul>
 <li><code>kafka9001.properties</code>配置</li>
 </ul>
 <pre><code class="prettyprint">#修改配置
@@ -440,6 +440,137 @@ log.dirs=/opt/module/kafka/datas-logs3
 ./kafka-server-start.sh ../config/kafka9002.properties &amp;
 ./kafka-server-start.sh ../config/kafka9003.properties &amp;
 </code></pre>
+<h4 id="启动脚本"><a href="#启动脚本" class="headerlink" title="启动脚本"></a>启动脚本</h4><pre><code class="prettyprint">#!/bin/bash
+
+case $1 in
+&quot;start&quot;)&#123;
+    for i in 9001 9002 9003
+    do
+        echo  ------------- kafka $i 启动 ------------
+        &quot;source /etc/profile;nohup /opt/module/kafka/bin/kafka-server-start.sh -daemon /opt/module/kafka/config/kafka$i.properties&quot;
+    done
+&#125;
+;;
+&quot;stop&quot;)&#123;
+    echo  ------------- kafka  停止 ------------
+    &quot;/opt/module/kafka/bin/kafka-server-stop.sh &quot;
+&#125;
+;;
+esac
+</code></pre>
+<h3 id="集群配置-三台服务器node2-node3-node4"><a href="#集群配置-三台服务器node2-node3-node4" class="headerlink" title="集群配置(三台服务器node2,node3,node4)"></a>集群配置(三台服务器<code>node2</code>,<code>node3</code>,<code>node4</code>)</h3><h4 id="修改node2配置文件config-server-properties"><a href="#修改node2配置文件config-server-properties" class="headerlink" title="修改node2配置文件config/server.properties"></a>修改<code>node2</code>配置文件<code>config/server.properties</code></h4><pre><code class="prettyprint"># broker 的全局唯一编号，不能重复，只能是数字。
+broker.id=0
+# kafka 运行日志(数据)存放的路径，路径不需要提前创建，kafka 自动帮你创建，可以配置多个磁盘路径，路径与路径之间可以用&quot;，&quot;分隔
+log.dirs=/opt/module/kafka/datas
+# 配置连接 Zookeeper 集群地址（在 zk 根目录下创建/kafka，方便管理）
+zookeeper.connect=node2:2181,node3:2181,node4:2181/kafka
+</code></pre>
+<h4 id="分发安装包"><a href="#分发安装包" class="headerlink" title="分发安装包"></a>分发安装包</h4><blockquote>
+<p>xsync配置<a href="https://rocpenghua.gitee.io/2022/07/12/linux-jiao-ben/">linux脚本 | 小鹏驿站 (gitee.io)</a></p>
+</blockquote>
+<pre><code class="prettyprint">cd /opt/module
+xsync kafka/
+</code></pre>
+<h4 id="修改node3-node4下面config-server-properties"><a href="#修改node3-node4下面config-server-properties" class="headerlink" title="修改node3,node4下面config/server.properties"></a>修改<code>node3</code>,<code>node4</code>下面<code>config/server.properties</code></h4><pre><code class="prettyprint"># node3 broker 的全局唯一编号，不能重复，只能是数字。
+broker.id=1
+# node4 broker 的全局唯一编号，不能重复，只能是数字。
+broker.id=2
+</code></pre>
+<h4 id="环境变量增加kafka配置（node2-node3-node4）"><a href="#环境变量增加kafka配置（node2-node3-node4）" class="headerlink" title="环境变量增加kafka配置（node2,node3,node4）"></a>环境变量增加<code>kafka</code>配置（node2,node3,node4）</h4><pre><code class="prettyprint">vim /etc/profile
+</code></pre>
+<p>添加内容</p>
+<pre><code class="prettyprint">#KAFKA_HOME
+export KAFKA_HOME=/opt/module/kafka
+export PATH=$PATH:$KAFKA_HOME/bin
+</code></pre>
+<p>刷新环境变量脚本</p>
+<pre><code class="prettyprint">source /etc/profile
+</code></pre>
+<h4 id="zk启动脚本，kafka启动脚本编写"><a href="#zk启动脚本，kafka启动脚本编写" class="headerlink" title="zk启动脚本，kafka启动脚本编写"></a>zk启动脚本，kafka启动脚本编写</h4><p><a href="https://rocpenghua.gitee.io/2022/07/12/linux-jiao-ben/">linux脚本 | 小鹏驿站 (gitee.io)</a></p>
+<pre><code class="prettyprint"># 先启动zk
+./zk.sh start
+# 再启动kafka
+./kf.sh start
+</code></pre>
+<h3 id="集群配置kraft-三台服务器node2-node3-node4"><a href="#集群配置kraft-三台服务器node2-node3-node4" class="headerlink" title="集群配置kraft(三台服务器node2,node3,node4)"></a>集群配置<code>kraft</code>(三台服务器<code>node2</code>,<code>node3</code>,<code>node4</code>)</h3><h4 id="修改node2配置文件config-kraft-server-properties"><a href="#修改node2配置文件config-kraft-server-properties" class="headerlink" title="修改node2配置文件config/kraft/server.properties"></a>修改<code>node2</code>配置文件<code>config/kraft/server.properties</code></h4><pre><code class="prettyprint"># 节点 id
+node.id=2
+#全 Controller 列表
+controller.quorum.voters=2@node2:9093,3@node3:9093,4@node4:9093
+#broker 对外暴露的地址
+advertised.Listeners=PLAINTEXT://node2:9092
+#kafka 数据存储目录
+log.dirs=/opt/module/kafka/data
+</code></pre>
+<h4 id="分发安装包-1"><a href="#分发安装包-1" class="headerlink" title="分发安装包"></a>分发安装包</h4><blockquote>
+<p>xsync配置<a href="https://rocpenghua.gitee.io/2022/07/12/linux-jiao-ben/">linux脚本 | 小鹏驿站 (gitee.io)</a></p>
+</blockquote>
+<pre><code class="prettyprint">cd /opt/module
+xsync kafka/
+</code></pre>
+<h4 id="修改node3-node4下面config-server-properties-1"><a href="#修改node3-node4下面config-server-properties-1" class="headerlink" title="修改node3,node4下面config/server.properties"></a>修改<code>node3</code>,<code>node4</code>下面<code>config/server.properties</code></h4><pre><code class="prettyprint"># 节点 id
+node.id=3
+# broker 对外暴露的地址
+advertised.Listeners=PLAINTEXT://node3:9092
+
+
+# 节点 id
+node.id=4
+# broker 对外暴露的地址
+advertised.Listeners=PLAINTEXT://node4:9092
+</code></pre>
+<h4 id="环境变量增加kafka配置（node2-node3-node4）-1"><a href="#环境变量增加kafka配置（node2-node3-node4）-1" class="headerlink" title="环境变量增加kafka配置（node2,node3,node4）"></a>环境变量增加<code>kafka</code>配置（node2,node3,node4）</h4><pre><code class="prettyprint">vim /etc/profile
+</code></pre>
+<p>添加内容</p>
+<pre><code class="prettyprint">#KAFKA_HOME
+export KAFKA_HOME=/opt/module/kafka
+export PATH=$PATH:$KAFKA_HOME/bin
+</code></pre>
+<p>刷新环境变量脚本</p>
+<pre><code class="prettyprint">source /etc/profile
+</code></pre>
+<h4 id="初始化集群数据目录"><a href="#初始化集群数据目录" class="headerlink" title="初始化集群数据目录"></a>初始化集群数据目录</h4><pre><code class="prettyprint"># 生成存储目录唯一ID
+[root@node2 ~]# cd /opt/module/kafka/bin
+[root@node2 bin]# ./kafka-storage.sh random-uuid
+MBJ8mVoITCC3hDl886zuyA
+# node2
+[root@node2 bin]# ./kafka-storage.sh format -t MBJ8mVoITCC3hDl886zuyA -c /opt/module/kafka/config/kraft/server.properties 
+Formatting /opt/module/kafka/data
+
+# node3
+[root@node3 bin]# ./kafka-storage.sh format -t MBJ8mVoITCC3hDl886zuyA -c /opt/module/kafka/config/kraft/server.properties 
+Formatting /opt/module/kafka/data
+
+# node4
+[root@node4 bin]# ./kafka-storage.sh format -t MBJ8mVoITCC3hDl886zuyA -c /opt/module/kafka/config/kraft/server.properties 
+Formatting /opt/module/kafka/data
+</code></pre>
+<h4 id="启动-1"><a href="#启动-1" class="headerlink" title="启动"></a>启动</h4><pre><code class="prettyprint">[root@node2 bin]# ./kafka-server-start.sh -daemon ../config/kraft/server.properties
+
+[root@node3 bin]# ./kafka-server-start.sh -daemon ../config/kraft/server.properties
+
+[root@node4 bin]# ./kafka-server-start.sh -daemon ../config/kraft/server.properties
+</code></pre>
+<h5 id="启动脚本-1"><a href="#启动脚本-1" class="headerlink" title="启动脚本"></a>启动脚本</h5><pre><code class="prettyprint">#!/bin/bash
+
+case $1 in
+&quot;start&quot;)&#123;
+    for i in node2 node3 node4
+    do
+        echo  ------------- kafka $i 启动 ------------
+        ssh $i &quot;source /etc/profile;nohup /opt/module/kafka/bin/kafka-server-start.sh -daemon /opt/module/kafka/config/kraft/server.properties&quot;
+    done
+&#125;
+;;
+&quot;stop&quot;)&#123;
+    for i in node2 node3 node4
+    do
+        echo  ------------- kafka $i 停止 ------------
+        ssh $i &quot;/opt/module/kafka/bin/kafka-server-stop.sh &quot;
+    done
+&#125;
+;;
+esac
+</code></pre>
 <h3 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h3><pre><code class="prettyprint">#创建
 ./kafka-topics.sh --create --topic &quot;first32&quot; --bootstrap-server 192.168.101.123:9001,192.168.101.123:9002,192.168.101.123:9003 --partitions 3 --replication-factor 2
 #查看描述
@@ -448,12 +579,12 @@ log.dirs=/opt/module/kafka/datas-logs3
 <ul>
 <li>3个partitions 2个副本</li>
 </ul>
-<img src="/2022/06/11/centos7-da-jian-kafka-ji-qun/image-20220611230053302.png" class="asset-class" title="image-20220611230053302">
+<img src="/2022/07/19/centos7-da-jian-kafka-ji-qun/image-20220611230053302.png" class="asset-class" title="image-20220611230053302">
 
 <ul>
 <li>3个partitions 3个副本</li>
 </ul>
-<img src="/2022/06/11/centos7-da-jian-kafka-ji-qun/image-20220611230315971.png" class="asset-class" title="image-20220611230315971">
+<img src="/2022/07/19/centos7-da-jian-kafka-ji-qun/image-20220611230315971.png" class="asset-class" title="image-20220611230315971">
 
 <h5 id="kafka-console-consumer-sh"><a href="#kafka-console-consumer-sh" class="headerlink" title="kafka-console-consumer.sh"></a><code>kafka-console-consumer.sh</code></h5><pre><code class="prettyprint"># from-beginning 从头开始
 ./kafka-console-consumer.sh --bootstrap-server 192.168.101.123:9001,192.168.101.123:9002,192.168.101.123:9003 --from-beginning --topic first33
@@ -839,32 +970,16 @@ properties.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG,StringSerializer.cla
       
         <nav class="article-nav">
           
-            <div class="article-nav-item layout-padding">
-  <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
-    
-      <div class="card-cover" background-image-lazy data-img="https://api.lixingyong.com/api/images?postid=1b52a052&type=url&itype=image"></div>
-    
-    <div class="card-text">
-      
-        <a href="/2022/06/12/centos7-an-zhuang-pulsar/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">centos7安装pulsar</h2>
-        </a>
-      
-      <div class="card-text--row">Newer</div>
-    </div>
-  </article>
-</div>
-          
           
             <div class="article-nav-item layout-padding">
   <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
     
-      <div class="card-cover" background-image-lazy data-img="https://api.lixingyong.com/api/images?postid=ca2f73ab&type=url&itype=image"></div>
+      <div class="card-cover" background-image-lazy data-img="https://api.lixingyong.com/api/images?postid=705ac99d&type=url&itype=image"></div>
     
     <div class="card-text">
       
-        <a href="/2022/06/10/tomcat-yuan-ma-huan-jing-da-jian/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">tomcat源码环境搭建</h2>
+        <a href="/2022/07/12/linux-jiao-ben/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">linux脚本</h2>
         </a>
       
       <div class="card-text--row">Older</div>

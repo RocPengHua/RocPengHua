@@ -403,7 +403,7 @@
       
       
       <section id="blog-content" class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
-        <h4 id="准备三台机器node2-node3-node4"><a href="#准备三台机器node2-node3-node4" class="headerlink" title="准备三台机器node2,node3,node4"></a>准备三台机器<code>node2</code>,<code>node3</code>,<code>node4</code></h4><h4 id="在每台机器执行命令生产ssh公私钥"><a href="#在每台机器执行命令生产ssh公私钥" class="headerlink" title="在每台机器执行命令生产ssh公私钥"></a>在每台机器执行命令生产ssh公私钥</h4><pre><code class="prettyprint">ssh-keygen -t dsa -P &#39;&#39; -f ~/.ssh/id_dsa
+        <h4 id="准备三台机器node2-node3-node4"><a href="#准备三台机器node2-node3-node4" class="headerlink" title="准备三台机器node2,node3,node4"></a>准备三台机器<code>node2</code>,<code>node3</code>,<code>node4</code></h4><h4 id="在每台机器执行命令生产ssh公私钥"><a href="#在每台机器执行命令生产ssh公私钥" class="headerlink" title="在每台机器执行命令生产ssh公私钥"></a>在每台机器执行命令生产ssh公私钥</h4><pre><code class="prettyprint">ssh-keygen -t rsa -P &#39;&#39; -f ~/.ssh/id_rsa
 </code></pre>
 <h4 id="进入-ssh目录进行授权"><a href="#进入-ssh目录进行授权" class="headerlink" title="进入.ssh目录进行授权"></a>进入<code>.ssh</code>目录进行授权</h4><pre><code class="prettyprint">[root@node2 ~]# cd ~/.ssh/
 [root@node3 ~]# cd ~/.ssh/

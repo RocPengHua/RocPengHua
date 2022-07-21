@@ -15380,9 +15380,9 @@ errMsg = new String(errMsg.getBytes(StandardCharsets.ISO_8859_1),StandardCharset
 </ul>
 <pre><code class="prettyprint">#修改配置
 broker.id=1
-host.name=192.168.101.123
-listeners=PLAINTEXT://192.168.101.123:9001
-advertised.listeners=PLAINTEXT://192.168.101.123:9001
+host.name=192.168.101.143
+listeners=PLAINTEXT://192.168.101.143:9001
+advertised.listeners=PLAINTEXT://192.168.101.143:9001
 log.dirs=/opt/module/kafka/datas-logs1
 </code></pre>
 <ul>
@@ -15390,9 +15390,9 @@ log.dirs=/opt/module/kafka/datas-logs1
 </ul>
 <pre><code class="prettyprint">#修改配置
 broker.id=2
-host.name=192.168.101.123
-listeners=PLAINTEXT://192.168.101.123:9002
-advertised.listeners=PLAINTEXT://192.168.101.123:9002
+host.name=192.168.101.143
+listeners=PLAINTEXT://192.168.101.143:9002
+advertised.listeners=PLAINTEXT://192.168.101.143:9002
 log.dirs=/opt/module/kafka/datas-logs2
 </code></pre>
 <ul>
@@ -15400,9 +15400,9 @@ log.dirs=/opt/module/kafka/datas-logs2
 </ul>
 <pre><code class="prettyprint">#修改配置
 broker.id=3
-host.name=192.168.101.123
-listeners=PLAINTEXT://192.168.101.123:9003
-advertised.listeners=PLAINTEXT://192.168.101.123:9003
+host.name=192.168.101.143
+listeners=PLAINTEXT://192.168.101.143:9003
+advertised.listeners=PLAINTEXT://192.168.101.143:9003
 log.dirs=/opt/module/kafka/datas-logs3
 </code></pre>
 <blockquote>
@@ -15589,43 +15589,111 @@ case $1 in
 esac
 </code></pre>
 <h3 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h3><pre><code class="prettyprint">#创建
-./kafka-topics.sh --create --topic &quot;first32&quot; --bootstrap-server 192.168.101.123:9001,192.168.101.123:9002,192.168.101.123:9003 --partitions 3 --replication-factor 2
+./kafka-topics.sh --create --topic &quot;first32&quot; --bootstrap-server 192.168.101.143:9001,192.168.101.143:9002,192.168.101.143:9003 --partitions 3 --replication-factor 2
 #查看描述
-./kafka-topics.sh --describe --topic &quot;first32&quot; --bootstrap-server 192.168.101.123:9001,192.168.101.123:9002,192.168.101.123:9003
+./kafka-topics.sh --describe --topic &quot;first32&quot; --bootstrap-server 192.168.101.143:9001,192.168.101.143:9002,192.168.101.143:9003
 </code></pre>
 <ul>
 <li>3个partitions 2个副本</li>
 </ul>
-<img src="/2022/07/19/centos7-da-jian-kafka-ji-qun/image-20220611230053302.png" class="asset-class" title="image-20220611230053302">
+
 
 <ul>
 <li>3个partitions 3个副本</li>
 </ul>
-<img src="/2022/07/19/centos7-da-jian-kafka-ji-qun/image-20220611230315971.png" class="asset-class" title="image-20220611230315971">
+
 
 <ul>
 <li><code>kafka-console-consumer.sh</code></li>
 </ul>
 <pre><code class="prettyprint"># from-beginning 从头开始
-./kafka-console-consumer.sh --bootstrap-server 192.168.101.123:9001,192.168.101.123:9002,192.168.101.123:9003 --from-beginning --topic first33
+./kafka-console-consumer.sh --bootstrap-server 192.168.101.143:9001,192.168.101.143:9002,192.168.101.143:9003 --from-beginning --topic first33
 </code></pre>
 <ul>
 <li><code>kafka-console-producer.sh</code></li>
 </ul>
-<pre><code class="prettyprint">./kafka-console-producer.sh --bootstrap-server 192.168.101.123:9001,192.168.101.123:9002,192.168.101.123:9003 --topic first33
+<pre><code class="prettyprint">./kafka-console-producer.sh --bootstrap-server 192.168.101.143:9001,192.168.101.143:9002,192.168.101.143:9003 --topic first33
 </code></pre>
-<h4 id="性能测试"><a href="#性能测试" class="headerlink" title="性能测试"></a>性能测试</h4><ul>
-<li><code>kafka-producer-perf-test.sh</code></li>
-</ul>
-<pre><code class="prettyprint">#生产数量10万个 每个数据1000字节 每秒两千个
-./kafka-producer-perf-test.sh --topic first33 --num-records 100000 --record-size 1000 --throughput 2000 --producer-props bootstrap.servers=192.168.101.123:9001,192.168.101.123:9002,192.168.101.123:9003
+<h4 id="性能测试"><a href="#性能测试" class="headerlink" title="性能测试"></a>性能测试</h4><h5 id="kafka-producer-perf-test-sh"><a href="#kafka-producer-perf-test-sh" class="headerlink" title="kafka-producer-perf-test.sh"></a><code>kafka-producer-perf-test.sh</code></h5><pre><code class="prettyprint">#生产数量100万个 每个数据1000字节 每秒两千个
+[root@rocketmq-nameserver1 bin]# ./kafka-producer-perf-test.sh --topic test --record-size 1024 --num-records 1000000 --throughput 10000 --producer-props bootstrap.servers=192.168.101.143:9001,192.168.101.143:9002,192.168.101.143:9003 batch.size=16384 linger.ms=0
 </code></pre>
+<blockquote>
+<p>参数说明</p>
 <ul>
-<li><code>kafka-consumer-perf-test.sh</code></li>
+<li>record-size 是一条信息有多大，单位是字节，本次测试设置为 1k</li>
+<li>num-records 是总共发送多少条信息，本次测试设置为 100 万条</li>
+<li>throughput 是每秒多少条信息，设成-1，表示不限流，尽可能快的生产数据，可测出生产者最大吞吐量。本次实验设置为每秒钟 1 万条</li>
+<li>producer-props 后面可以配置生产者相关参数，batch.size 配置为 16k</li>
 </ul>
-<pre><code class="prettyprint">#消费数量10万个
-./kafka-consumer-perf-test.sh --bootstrap-server 192.168.101.123:9001,192.168.101.123:9002,192.168.101.123:9003 --topic first33 --fetch-size 1048576 --messages 100000 --threads 1
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>压测结果（机器不同效率也有影响）</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>batch.size&#x3D;16384 linger.ms&#x3D;0</td>
+<td>1000000 records sent, 6565.384666 records&#x2F;sec (6.41 MB&#x2F;sec), 4552.62 ms avg latency, 11020.00 ms max latency, 4028 ms 50th, 8530 ms 95th, 10529 ms 99th, 10988 ms 99.9th.</td>
+</tr>
+<tr>
+<td>batch.size&#x3D;32768 linger.ms&#x3D;0</td>
+<td>1000000 records sent, 9996.101520 records&#x2F;sec (9.76 MB&#x2F;sec), 1187.20 ms avg latency, 4831.00 ms max latency, 374 ms 50th, 4008 ms 95th, 4556 ms 99th, 4731 ms 99.9th.</td>
+</tr>
+<tr>
+<td>batch.size&#x3D;4096 linger.ms&#x3D;0</td>
+<td>1000000 records sent, 3801.052892 records&#x2F;sec (3.71 MB&#x2F;sec), 6347.24 ms avg latency, 16980.00 ms max latency, 7125 ms 50th, 13355 ms 95th, 16519 ms 99th, 16904 ms 99.9th.</td>
+</tr>
+<tr>
+<td>batch.size&#x3D;4096 linger.ms&#x3D;50</td>
+<td>1000000 records sent, 4139.569733 records&#x2F;sec (4.04 MB&#x2F;sec), 5786.82 ms avg latency, 17962.00 ms max latency, 3667 ms 50th, 16259 ms 95th, 17789 ms 99th, 17923 ms 99.9th</td>
+</tr>
+<tr>
+<td>batch.size&#x3D;32768 linger.ms&#x3D;0 compression.type&#x3D;snappy</td>
+<td>1000000 records sent, 9997.600576 records&#x2F;sec (9.76 MB&#x2F;sec), 1865.76 ms avg latency, 5883.00 ms max latency, 1455 ms 50th, 4909 ms 95th, 5438 ms 99th, 5801 ms 99.9th.</td>
+</tr>
+<tr>
+<td>batch.size&#x3D;32768 linger.ms&#x3D;50 compression.type&#x3D;gzip</td>
+<td>1000000 records sent, 9998.300289 records&#x2F;sec (9.76 MB&#x2F;sec), 37.91 ms avg latency, 739.00 ms max latency, 6 ms 50th, 199 ms 95th, 562 ms 99th, 639 ms 99.9th.</td>
+</tr>
+<tr>
+<td>batch.size&#x3D;16384 linger.ms&#x3D;50 compression.type&#x3D;gzip buffer.memory&#x3D;67108864</td>
+<td>1000000 records sent, 9998.400256 records&#x2F;sec (9.76 MB&#x2F;sec), 45.36 ms avg latency, 1219.00 ms max latency, 4 ms 50th, 260 ms 95th, 945 ms 99th, 1161 ms 99.9th</td>
+</tr>
+</tbody></table>
+<h5 id="kafka-consumer-perf-test-sh"><a href="#kafka-consumer-perf-test-sh" class="headerlink" title="kafka-consumer-perf-test.sh"></a><code>kafka-consumer-perf-test.sh</code></h5><pre><code class="prettyprint">#消费数量10万个
+./kafka-consumer-perf-test.sh --bootstrap-server 192.168.101.143:9001,192.168.101.143:9002,192.168.101.143:9003 --topic test --messages 1000000 --consumer.config ../config/consumer.properties
 </code></pre>
+<blockquote>
+<ul>
+<li>–bootstrap-server 指定 Kafka 集群地址</li>
+<li>–topic 指定 topic 的名称</li>
+<li>–messages 总共要消费的消息个数。本次实验 100 万条。</li>
+</ul>
+<p>修改配置consumer.properties</p>
+<p>max.poll.records&#x3D;500：一次 poll 拉取数据返回消息的最大条数</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>结果start.time, end.time, data.consumed.in.MB, MB.sec, data.consumed.in.nMsg, nMsg.sec, rebalance.time.ms, fetch.time.ms, fetch.MB.sec, fetch.nMsg.sec</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>max.poll.records&#x3D;500 fetch.max.bytes&#x3D;52428800</td>
+<td>2022-07-21 20:39:56:913, 2022-07-21 20:40:07:561, 976.7051, <strong>91.7266</strong>, 1000146, 93928.0616, 1531, 9117, 107.1301, 109701.2175</td>
+</tr>
+<tr>
+<td>max.poll.records&#x3D;2000 fetch.max.bytes&#x3D;52428800</td>
+<td>2022-07-21 20:41:14:571, 2022-07-21 20:41:19:923, 976.9424, <strong>182.5378</strong>, 1000389, 186918.7220, 641, 4711, 207.3747, 212351.7300</td>
+</tr>
+<tr>
+<td>max.poll.records&#x3D;2000 fetch.max.bytes&#x3D;104857600</td>
+<td>2022-07-21 20:42:24:476, 2022-07-21 20:42:29:266, 977.1650, <strong>204.0011</strong>, 1000617, 208897.0772, 509, 4281, 228.2563, 233734.4078</td>
+</tr>
+</tbody></table>
 <h3 id="服役新节点"><a href="#服役新节点" class="headerlink" title="服役新节点"></a>服役新节点</h3><ul>
 <li>新增配置文件<code>kafka9004.properties</code></li>
 </ul>
@@ -15636,9 +15704,9 @@ esac
 </ul>
 <pre><code class="prettyprint">#修改配置
 broker.id=4
-host.name=192.168.101.123
-listeners=PLAINTEXT://192.168.101.123:9004
-advertised.listeners=PLAINTEXT://192.168.101.123:9004
+host.name=192.168.101.143
+listeners=PLAINTEXT://192.168.101.143:9004
+advertised.listeners=PLAINTEXT://192.168.101.143:9004
 log.dirs=/opt/module/kafka/datas-logs4
 </code></pre>
 <ul>
@@ -15660,7 +15728,7 @@ log.dirs=/opt/module/kafka/datas-logs4
 <ul>
 <li>生成负载均衡计划</li>
 </ul>
-<pre><code class="prettyprint">bin/kafka-reassign-partitions.sh --bootstrap-server 192.168.101.123:9001 --topics-to-move-json-file topics-to-move.json --broker-list &quot;1,2,3,4&quot; --generate
+<pre><code class="prettyprint">bin/kafka-reassign-partitions.sh --bootstrap-server 192.168.101.143:9001 --topics-to-move-json-file topics-to-move.json --broker-list &quot;1,2,3,4&quot; --generate
 </code></pre>
 <blockquote>
 <p>执行结果</p>
@@ -15680,7 +15748,7 @@ Proposed partition reassignment configuration
 <ul>
 <li>执行副本存储计划</li>
 </ul>
-<pre><code class="prettyprint">bin/kafka-reassign-partitions.sh --bootstrap-server 192.168.101.123:9001 --reassignment-json-file increase-replication.json --execute
+<pre><code class="prettyprint">bin/kafka-reassign-partitions.sh --bootstrap-server 192.168.101.143:9001 --reassignment-json-file increase-replication.json --execute
 </code></pre>
 <blockquote>
 <p>执行结果</p>
@@ -15695,7 +15763,7 @@ Successfully started partition reassignments for first-0,first-1,first-2
 <ul>
 <li>验证副本存储计划</li>
 </ul>
-<pre><code class="prettyprint">bin/kafka-reassign-partitions.sh --bootstrap-server 192.168.101.123:9001 --reassignment-json-file increase-replication.json --verify
+<pre><code class="prettyprint">bin/kafka-reassign-partitions.sh --bootstrap-server 192.168.101.143:9001 --reassignment-json-file increase-replication.json --verify
 </code></pre>
 <blockquote>
 <p>执行结果</p>
@@ -15721,7 +15789,7 @@ Clearing topic-level throttles on topic first
 <ul>
 <li>创建执行计划</li>
 </ul>
-<pre><code class="prettyprint">bin/kafka-reassign-partitions.sh --bootstrap-server 192.168.101.123:9001 --topics-to-move-json-file topics-to-move.json --broker-list &quot;1,2,3&quot; --generate
+<pre><code class="prettyprint">bin/kafka-reassign-partitions.sh --bootstrap-server 192.168.101.143:9001 --topics-to-move-json-file topics-to-move.json --broker-list &quot;1,2,3&quot; --generate
 </code></pre>
 <blockquote>
 <p>执行结果</p>
@@ -15740,7 +15808,7 @@ Proposed partition reassignment configuration
 <ul>
 <li>执行副本存储计划</li>
 </ul>
-<pre><code class="prettyprint">bin/kafka-reassign-partitions.sh --bootstrap-server 192.168.101.123:9001 --reassignment-json-file decrease-replication.json --execute
+<pre><code class="prettyprint">bin/kafka-reassign-partitions.sh --bootstrap-server 192.168.101.143:9001 --reassignment-json-file decrease-replication.json --execute
 </code></pre>
 <blockquote>
 <p>执行结果</p>
@@ -15755,7 +15823,7 @@ Successfully started partition reassignments for first-0,first-1,first-2
 <ul>
 <li>验证副本存储计划</li>
 </ul>
-<pre><code class="prettyprint">bin/kafka-reassign-partitions.sh --bootstrap-server 192.168.101.123:9001 --reassignment-json-file decrease-replication.json --verify
+<pre><code class="prettyprint">bin/kafka-reassign-partitions.sh --bootstrap-server 192.168.101.143:9001 --reassignment-json-file decrease-replication.json --verify
 </code></pre>
 <blockquote>
 <p>执行结果</p>
@@ -15772,7 +15840,7 @@ Clearing topic-level throttles on topic first
 <li>创建分区主题</li>
 </ul>
 <pre><code class="prettyprint"># 4分区 2 副本
-./kafka-topics.sh --create --topic &quot;rocpenghua3&quot; --bootstrap-server 192.168.101.123:9001 --partitions 4 --replication-factor 2
+./kafka-topics.sh --create --topic &quot;rocpenghua3&quot; --bootstrap-server 192.168.101.143:9001 --partitions 4 --replication-factor 2
 </code></pre>
 <ul>
 <li>创建分区配置<code>assign-replication-factor.json</code></li>
@@ -15788,17 +15856,17 @@ Clearing topic-level throttles on topic first
 <ul>
 <li>执行副本存储计划</li>
 </ul>
-<pre><code class="prettyprint">./kafka-reassign-partitions.sh --bootstrap-server 192.168.101.123:9001 --reassignment-json-file ../assign-replication-factor.json --execute
+<pre><code class="prettyprint">./kafka-reassign-partitions.sh --bootstrap-server 192.168.101.143:9001 --reassignment-json-file ../assign-replication-factor.json --execute
 </code></pre>
 <ul>
 <li>验证副本存储计划</li>
 </ul>
-<pre><code class="prettyprint">./kafka-reassign-partitions.sh --bootstrap-server 192.168.101.123:9001 --reassignment-json-file ../assign-replication-factor.json --verify
+<pre><code class="prettyprint">./kafka-reassign-partitions.sh --bootstrap-server 192.168.101.143:9001 --reassignment-json-file ../assign-replication-factor.json --verify
 </code></pre>
 <ul>
 <li>查看主题信息</li>
 </ul>
-<pre><code class="prettyprint">bin/kafka-topics.sh --bootstrap-server 192.168.101.123:9001 --describe --topic &quot;rocpenghua3&quot;
+<pre><code class="prettyprint">bin/kafka-topics.sh --bootstrap-server 192.168.101.143:9001 --describe --topic &quot;rocpenghua3&quot;
 </code></pre>
 <blockquote>
 <p>结果信息</p>
@@ -15813,7 +15881,7 @@ Clearing topic-level throttles on topic first
 <li>创建主题</li>
 </ul>
 <pre><code class="prettyprint"># 3分区 1 副本
-./kafka-topics.sh --create --topic &quot;rocpenghua4&quot; --bootstrap-server 192.168.101.123:9001 --partitions 3 --replication-factor 1
+./kafka-topics.sh --create --topic &quot;rocpenghua4&quot; --bootstrap-server 192.168.101.143:9001 --partitions 3 --replication-factor 1
 </code></pre>
 <ul>
 <li>创建分区配置<code>increase-replication-factor.json</code></li>
@@ -15828,20 +15896,20 @@ Clearing topic-level throttles on topic first
 <ul>
 <li>执行副本存储计划</li>
 </ul>
-<pre><code class="prettyprint">./kafka-reassign-partitions.sh --bootstrap-server 192.168.101.123:9001 --reassignment-json-file ../increase-replication-factor.json --execute
+<pre><code class="prettyprint">./kafka-reassign-partitions.sh --bootstrap-server 192.168.101.143:9001 --reassignment-json-file ../increase-replication-factor.json --execute
 </code></pre>
 <ul>
 <li>验证副本存储计划</li>
 </ul>
-<pre><code class="prettyprint">./kafka-reassign-partitions.sh --bootstrap-server 192.168.101.123:9001 --reassignment-json-file ../increase-replication-factor.json --verify
+<pre><code class="prettyprint">./kafka-reassign-partitions.sh --bootstrap-server 192.168.101.143:9001 --reassignment-json-file ../increase-replication-factor.json --verify
 </code></pre>
 <ul>
 <li>查看主题信息</li>
 </ul>
-<pre><code class="prettyprint">bin/kafka-topics.sh --bootstrap-server 192.168.101.123:9001 --describe --topic &quot;rocpenghua4&quot;
+<pre><code class="prettyprint">bin/kafka-topics.sh --bootstrap-server 192.168.101.143:9001 --describe --topic &quot;rocpenghua4&quot;
 </code></pre>
 <h3 id="核心参数配置"><a href="#核心参数配置" class="headerlink" title="核心参数配置"></a>核心参数配置</h3><h4 id="生产者"><a href="#生产者" class="headerlink" title="生产者"></a>生产者</h4><ul>
-<li><p><code>bootstrap.servers</code>：生 产 者 连 接 集 群 所 需 的 broker 地 址 清 单 。 例 如<br>192.168.101.123:9001,192.168.101.123:9002，可以设置 1 个或者多个，中间用逗号隔开，并非所有的broker</p>
+<li><p><code>bootstrap.servers</code>：生 产 者 连 接 集 群 所 需 的 broker 地 址 清 单 。 例 如<br>192.168.101.143:9001,192.168.101.143:9002，可以设置 1 个或者多个，中间用逗号隔开，并非所有的broker</p>
 </li>
 <li><p><code>key.serializer</code> 和<code>value.serializer</code>：指定发送消息的 key 和 value 的序列化类型。一定要写<br>全类名</p>
 </li>
@@ -15907,7 +15975,7 @@ Clearing topic-level throttles on topic first
         // 0 配置
         Properties properties = new Properties();
         // 连接集群 bootstrap.servers
-        properties.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, &quot;192.168.101.123:9001,192.168.101.123:9002,192.168.101.123:9003&quot;);
+        properties.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, &quot;192.168.101.143:9001,192.168.101.143:9002,192.168.101.143:9003&quot;);
         // 指定对应的key和value的序列化类型 key.serializer
         properties.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
         properties.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());

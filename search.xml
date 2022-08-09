@@ -15084,6 +15084,10 @@ cd /usr/local/redis/bin
 #访问
 ./redis-cli
 </code></pre>
+<blockquote>
+<p>ps：&#x2F;bin&#x2F;sh: cc: command not found</p>
+<p>yum install gcc gcc-c++ libstdc++-devel</p>
+</blockquote>
 <h4 id="开机启动配置"><a href="#开机启动配置" class="headerlink" title="开机启动配置"></a>开机启动配置</h4><pre><code class="prettyprint">vim /etc/systemd/system/redis-server.service
 </code></pre>
 <p>粘贴内容</p>
@@ -15095,7 +15099,7 @@ After=syslog.target network.target
 [Service]
 Type=simple
 PIDFile=/var/run/redis_6379.pid
-ExecStart=/usr/local/redis/bin/redis-server
+ExecStart=/usr/local/redis/bin/redis-server /usr/local/redis/redis.conf
 ExecReload=/bin/kill -USR2 $MAINPID
 ExecStop=/bin/kill -SIGINT $MAINPID
 
@@ -18809,6 +18813,73 @@ done
       </categories>
       <tags>
         <tag>linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>redis过期key监听</title>
+    <url>/2022/08/09/redis-guo-qi-key-jian-ting/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h4 id="配置文件修改"><a href="#配置文件修改" class="headerlink" title="配置文件修改"></a>配置文件修改</h4><pre><code class="prettyprint">vim /usr/local/redis/redis.conf
+</code></pre>
+<blockquote>
+<p> 修改字段 监听过期</p>
+</blockquote>
+<pre><code class="prettyprint">notify-keyspace-events Ex
+</code></pre>
+<h4 id="java代码事件监听"><a href="#java代码事件监听" class="headerlink" title="java代码事件监听"></a>java代码事件监听</h4><pre><code class="prettyprint">@Slf4j
+@Component
+public class KeyExpiredListener extends KeyExpirationEventMessageListener &#123;
+    @Autowired
+    private RedisTemplate&lt;String, String&gt; redisTemplate;
+
+    public KeyExpiredListener(RedisMessageListenerContainer listenerContainer) &#123;
+        super(listenerContainer);
+    &#125;
+
+    @Override
+    public void onMessage(Message message, byte[] pattern) &#123;
+        //获取失效key名称
+        String expireKey = new String(message.getBody(), StandardCharsets.UTF_8);
+        //获取key原本的value 获取不到 是null
+        String expireKeyValue = redisTemplate.opsForValue().get(&quot;myKey&quot;);
+        log.info(&quot;expireKey---&quot;+expireKey);
+        log.info(&quot;expireKeyValue---&quot;+expireKeyValue);
+        log.info(&quot;pattern----&#123;&#125;&quot;,new String(pattern));
+    &#125;
+&#125;
+</code></pre>
+]]></content>
+      <categories>
+        <category>中间件</category>
+      </categories>
+      <tags>
+        <tag>redis</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>redis事务命令</title>
+    <url>/2022/08/09/redis-shi-wu-ming-ling/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h4 id="命令介绍"><a href="#命令介绍" class="headerlink" title="命令介绍"></a>命令介绍</h4><ul>
+<li><code>multi</code>：开启事务</li>
+<li><code>exec</code>：执行事务</li>
+<li><code>discard</code>：取消事务</li>
+<li><code>watch</code>：监视Key改变，用于实现乐观锁。如果监视的Key的值改变，事务最终会执行失败</li>
+<li><code>unwatch</code>：放弃监视</li>
+</ul>
+<blockquote>
+<p>事务说明</p>
+<ul>
+<li><strong>事务没有隔离级别的概念</strong>：批量操作在发送 EXEC 命令前被放入队列缓存，并不会被实际执行，也就不存在事务内的查询要看到事务里的更新，事务外查询不能看到。</li>
+<li><strong>Redis不保证原子性</strong>：Redis中，单条命令是原子性执行的，但事务不保证原子性，且没有回滚。事务中任意命令执行失败，其余的命令仍会被执行</li>
+<li>事务执行时，事务放入队列命令错误，所有命令都不会执行</li>
+<li>事务执行时，事务执行错误，只有执行错误的命令不执行，其余命令依然执行</li>
+</ul>
+</blockquote>
+]]></content>
+      <categories>
+        <category>中间件</category>
+      </categories>
+      <tags>
+        <tag>redis,事务</tag>
       </tags>
   </entry>
 </search>

@@ -1,6 +1,6 @@
 @media screen and (min-width: 768px) {
   :root {
-    --layout-max-width: 1600px;
+    --layout-max-width: 1800px;
     --layout-padding: 20px;
     --content-large-padding: 40px 38px 46px;
     --content-small-padding: 20px 19px 23px;

@@ -3633,6 +3633,133 @@ public class RabbitmqUtils &#123;
       </tags>
   </entry>
   <entry>
+    <title>rabbitmq集群搭建</title>
+    <url>/2022/05/06/rabbitmq-ji-qun-da-jian/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h4 id="rabbitmq安装"><a href="#rabbitmq安装" class="headerlink" title="rabbitmq安装"></a>rabbitmq安装</h4><p><a href="https://rocpenghua.gitee.io/2022/04/28/centos7-an-zhuang-rabbitmq/">centos7安装rabbitmq | 小鹏驿站 (gitee.io)</a></p>
+<h4 id="集群环境准备"><a href="#集群环境准备" class="headerlink" title="集群环境准备"></a>集群环境准备</h4><ul>
+<li><p>准备三台虚拟机，修改hostname</p>
+<pre><code class="prettyprint">vim /etc/hostname
+#分别命名node1,node2,node3
+</code></pre>
+<p>修改之后重启虚拟机<code>reboot</code>命令或者直接操作<code>vmware</code></p>
+</li>
+<li><p>修改各节点的hosts,让各个节点能互相识别</p>
+<pre><code class="prettyprint">vim /etc/hosts
+</code></pre>
+<p>配置如下：</p>
+<pre><code class="prettyprint">192.168.101.125 node1
+192.168.101.129 node2
+192.168.101.128 node3
+</code></pre>
+</li>
+<li><p>确保各个节点erlang的cokkie一样,将node1中<code>.erlang.cookie</code>拷贝过去</p>
+<pre><code class="prettyprint">scp /var/lib/rabbitmq/.erlang.cookie root@node2:/var/lib/rabbitmq/.erlang.cookie
+scp /var/lib/rabbitmq/.erlang.cookie root@node3:/var/lib/rabbitmq/.erlang.cookie
+</code></pre>
+</li>
+</ul>
+<h4 id="集群命令"><a href="#集群命令" class="headerlink" title="集群命令"></a>集群命令</h4><h5 id="启动rabbitmq服务"><a href="#启动rabbitmq服务" class="headerlink" title="启动rabbitmq服务"></a>启动rabbitmq服务</h5><ul>
+<li><p>node1</p>
+<pre><code class="prettyprint">rabbitmq-server -detached
+#停止（rabbitmqctl stop 会将Erlang 虚拟机关闭，rabbitmqctl stop_app 只关闭 RabbitMQ 服务）
+rabbitmqctl stop_app
+#重置
+rabbitmqctl reset
+#启动
+rabbitmqctl start_app
+</code></pre>
+</li>
+<li><p>node2</p>
+<pre><code class="prettyprint">rabbitmq-server -detached
+#停止（rabbitmqctl stop 会将Erlang 虚拟机关闭，rabbitmqctl stop_app 只关闭 RabbitMQ 服务）
+rabbitmqctl stop_app
+#重置
+rabbitmqctl reset
+#集群方式加入node1
+rabbitmqctl join_cluster rabbit@node1
+#启动
+rabbitmqctl start_app
+</code></pre>
+</li>
+<li><p>node3</p>
+<pre><code class="prettyprint">rabbitmq-server -detached
+#停止（rabbitmqctl stop 会将Erlang 虚拟机关闭，rabbitmqctl stop_app 只关闭 RabbitMQ 服务）
+rabbitmqctl stop_app
+#重置
+rabbitmqctl reset
+#集群方式加入node2,也可以加入node1
+rabbitmqctl join_cluster rabbit@node2
+#启动
+rabbitmqctl start_app
+</code></pre>
+</li>
+</ul>
+<h5 id="查看集群状态"><a href="#查看集群状态" class="headerlink" title="查看集群状态"></a>查看集群状态</h5><pre><code class="prettyprint">rabbitmqctl cluster_status
+</code></pre>
+<img src="/2022/05/06/rabbitmq-ji-qun-da-jian/image-20220506204436347.png" class="asset-class" title="image-20220506204436347">
+
+<h5 id="重新创建并设置用户"><a href="#重新创建并设置用户" class="headerlink" title="重新创建并设置用户"></a>重新创建并设置用户</h5><ul>
+<li><p>创建账号</p>
+<pre><code class="prettyprint">rabbitmqctl add_user admin admin
+</code></pre>
+</li>
+<li><p>设置用户超级管理员角色</p>
+<pre><code class="prettyprint">rabbitmqctl set_user_tags admin administrator
+</code></pre>
+</li>
+<li><p>设置用户权限</p>
+<pre><code class="prettyprint">rabbitmqctl set_permissions -p &quot;/&quot; admin &quot;.*&quot; &quot;.*&quot; &quot;.*&quot;
+</code></pre>
+</li>
+</ul>
+<img src="/2022/05/06/rabbitmq-ji-qun-da-jian/image-20220506204513466.png" class="asset-class" title="image-20220506204513466">
+
+<h5 id="解除集群节点"><a href="#解除集群节点" class="headerlink" title="解除集群节点"></a>解除集群节点</h5><pre><code class="prettyprint">#在node2 node3 执行
+rabbitmqctl stop_app
+rabbitmqctl reset
+rabbitmqctl start_app
+rabbitmqctl cluster_status
+#node1上面执行
+rabbitmqctl forget_cluster_node rabbit@node2
+</code></pre>
+<h4 id="集群模式下镜像队列配置"><a href="#集群模式下镜像队列配置" class="headerlink" title="集群模式下镜像队列配置"></a>集群模式下镜像队列配置</h4><img src="/2022/05/06/rabbitmq-ji-qun-da-jian/image-20220506210406153.png" class="asset-class" title="image-20220506210406153">
+
+<ul>
+<li>Name：策略名称</li>
+<li>Pattern：正则匹配规则</li>
+<li>Apply to：应用于<ul>
+<li><code>Exchanges and queues</code>：交换机和队列</li>
+<li><code>Exchanges</code>：交换机</li>
+<li><code>Queues</code>：队列</li>
+</ul>
+</li>
+<li>Priority：优先级，默认0</li>
+<li>Definition：自定义配置<ul>
+<li><code>ha-mode</code><ul>
+<li><code>all</code>集群所有节点</li>
+<li><code>exactly</code>集群中部分节点，需要配合<code>ha-params</code>使用</li>
+</ul>
+</li>
+<li><code>ha-params</code>：镜像的节点个数</li>
+<li><code>ha-sync-mode</code><ul>
+<li><code>automatic</code>：自动</li>
+<li><code>manual</code>：手动</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<img src="/2022/05/06/rabbitmq-ji-qun-da-jian/image-20220506211201527.png" class="asset-class" title="image-20220506211201527">
+]]></content>
+      <categories>
+        <category>软件</category>
+      </categories>
+      <tags>
+        <tag>中间件</tag>
+        <tag>rabbitmq</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>rabbitmq队列声明扩展参数说明</title>
     <url>/2022/05/02/rabbitmq-dui-lie-sheng-ming-kuo-zhan-can-shu-shuo-ming/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h4 id="queueDeclare"><a href="#queueDeclare" class="headerlink" title="queueDeclare"></a>queueDeclare</h4><p>声明队列</p>
@@ -3873,147 +4000,6 @@ public class DelayQueueConsumer &#123;
       </categories>
       <tags>
         <tag>rabbitmq</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>rabbitmq集群搭建</title>
-    <url>/2022/05/06/rabbitmq-ji-qun-da-jian/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h4 id="rabbitmq安装"><a href="#rabbitmq安装" class="headerlink" title="rabbitmq安装"></a>rabbitmq安装</h4><p><a href="https://rocpenghua.gitee.io/2022/04/28/centos7-an-zhuang-rabbitmq/">centos7安装rabbitmq | 小鹏驿站 (gitee.io)</a></p>
-<h4 id="集群环境准备"><a href="#集群环境准备" class="headerlink" title="集群环境准备"></a>集群环境准备</h4><ul>
-<li><p>准备三台虚拟机，修改hostname</p>
-<pre><code class="prettyprint">vim /etc/hostname
-#分别命名node1,node2,node3
-</code></pre>
-<p>修改之后重启虚拟机<code>reboot</code>命令或者直接操作<code>vmware</code></p>
-</li>
-<li><p>修改各节点的hosts,让各个节点能互相识别</p>
-<pre><code class="prettyprint">vim /etc/hosts
-</code></pre>
-<p>配置如下：</p>
-<pre><code class="prettyprint">192.168.101.125 node1
-192.168.101.129 node2
-192.168.101.128 node3
-</code></pre>
-</li>
-<li><p>确保各个节点erlang的cokkie一样,将node1中<code>.erlang.cookie</code>拷贝过去</p>
-<pre><code class="prettyprint">scp /var/lib/rabbitmq/.erlang.cookie root@node2:/var/lib/rabbitmq/.erlang.cookie
-scp /var/lib/rabbitmq/.erlang.cookie root@node3:/var/lib/rabbitmq/.erlang.cookie
-</code></pre>
-</li>
-</ul>
-<h4 id="集群命令"><a href="#集群命令" class="headerlink" title="集群命令"></a>集群命令</h4><h5 id="启动rabbitmq服务"><a href="#启动rabbitmq服务" class="headerlink" title="启动rabbitmq服务"></a>启动rabbitmq服务</h5><ul>
-<li><p>node1</p>
-<pre><code class="prettyprint">rabbitmq-server -detached
-#停止（rabbitmqctl stop 会将Erlang 虚拟机关闭，rabbitmqctl stop_app 只关闭 RabbitMQ 服务）
-rabbitmqctl stop_app
-#重置
-rabbitmqctl reset
-#启动
-rabbitmqctl start_app
-</code></pre>
-</li>
-<li><p>node2</p>
-<pre><code class="prettyprint">rabbitmq-server -detached
-#停止（rabbitmqctl stop 会将Erlang 虚拟机关闭，rabbitmqctl stop_app 只关闭 RabbitMQ 服务）
-rabbitmqctl stop_app
-#重置
-rabbitmqctl reset
-#集群方式加入node1
-rabbitmqctl join_cluster rabbit@node1
-#启动
-rabbitmqctl start_app
-</code></pre>
-</li>
-<li><p>node3</p>
-<pre><code class="prettyprint">rabbitmq-server -detached
-#停止（rabbitmqctl stop 会将Erlang 虚拟机关闭，rabbitmqctl stop_app 只关闭 RabbitMQ 服务）
-rabbitmqctl stop_app
-#重置
-rabbitmqctl reset
-#集群方式加入node2,也可以加入node1
-rabbitmqctl join_cluster rabbit@node2
-#启动
-rabbitmqctl start_app
-</code></pre>
-</li>
-</ul>
-<h5 id="查看集群状态"><a href="#查看集群状态" class="headerlink" title="查看集群状态"></a>查看集群状态</h5><pre><code class="prettyprint">rabbitmqctl cluster_status
-</code></pre>
-<img src="/2022/05/06/rabbitmq-ji-qun-da-jian/image-20220506204436347.png" class="asset-class" title="image-20220506204436347">
-
-<h5 id="重新创建并设置用户"><a href="#重新创建并设置用户" class="headerlink" title="重新创建并设置用户"></a>重新创建并设置用户</h5><ul>
-<li><p>创建账号</p>
-<pre><code class="prettyprint">rabbitmqctl add_user admin admin
-</code></pre>
-</li>
-<li><p>设置用户超级管理员角色</p>
-<pre><code class="prettyprint">rabbitmqctl set_user_tags admin administrator
-</code></pre>
-</li>
-<li><p>设置用户权限</p>
-<pre><code class="prettyprint">rabbitmqctl set_permissions -p &quot;/&quot; admin &quot;.*&quot; &quot;.*&quot; &quot;.*&quot;
-</code></pre>
-</li>
-</ul>
-<img src="/2022/05/06/rabbitmq-ji-qun-da-jian/image-20220506204513466.png" class="asset-class" title="image-20220506204513466">
-
-<h5 id="解除集群节点"><a href="#解除集群节点" class="headerlink" title="解除集群节点"></a>解除集群节点</h5><pre><code class="prettyprint">#在node2 node3 执行
-rabbitmqctl stop_app
-rabbitmqctl reset
-rabbitmqctl start_app
-rabbitmqctl cluster_status
-#node1上面执行
-rabbitmqctl forget_cluster_node rabbit@node2
-</code></pre>
-<h4 id="集群模式下镜像队列配置"><a href="#集群模式下镜像队列配置" class="headerlink" title="集群模式下镜像队列配置"></a>集群模式下镜像队列配置</h4><img src="/2022/05/06/rabbitmq-ji-qun-da-jian/image-20220506210406153.png" class="asset-class" title="image-20220506210406153">
-
-<ul>
-<li>Name：策略名称</li>
-<li>Pattern：正则匹配规则</li>
-<li>Apply to：应用于<ul>
-<li><code>Exchanges and queues</code>：交换机和队列</li>
-<li><code>Exchanges</code>：交换机</li>
-<li><code>Queues</code>：队列</li>
-</ul>
-</li>
-<li>Priority：优先级，默认0</li>
-<li>Definition：自定义配置<ul>
-<li><code>ha-mode</code><ul>
-<li><code>all</code>集群所有节点</li>
-<li><code>exactly</code>集群中部分节点，需要配合<code>ha-params</code>使用</li>
-</ul>
-</li>
-<li><code>ha-params</code>：镜像的节点个数</li>
-<li><code>ha-sync-mode</code><ul>
-<li><code>automatic</code>：自动</li>
-<li><code>manual</code>：手动</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<img src="/2022/05/06/rabbitmq-ji-qun-da-jian/image-20220506211201527.png" class="asset-class" title="image-20220506211201527">
-]]></content>
-      <categories>
-        <category>软件</category>
-      </categories>
-      <tags>
-        <tag>中间件</tag>
-        <tag>rabbitmq</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>maven小知识</title>
-    <url>/2022/05/11/maven-xiao-zhi-shi/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h4 id="打印依赖树"><a href="#打印依赖树" class="headerlink" title="打印依赖树"></a>打印依赖树</h4><pre><code class="prettyprint">#在pom目录下执行
-mvn dependency:tree &gt;&gt; tree.txt
-</code></pre>
-]]></content>
-      <categories>
-        <category>后端</category>
-      </categories>
-      <tags>
-        <tag>maven</tag>
       </tags>
   </entry>
   <entry>
@@ -4361,6 +4347,20 @@ tail -500f /opt/module/rabbitmq/logs/rocketmqlogs/broker.log
       <tags>
         <tag>中间件</tag>
         <tag>rocketmq</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>maven小知识</title>
+    <url>/2022/05/11/maven-xiao-zhi-shi/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h4 id="打印依赖树"><a href="#打印依赖树" class="headerlink" title="打印依赖树"></a>打印依赖树</h4><pre><code class="prettyprint">#在pom目录下执行
+mvn dependency:tree &gt;&gt; tree.txt
+</code></pre>
+]]></content>
+      <categories>
+        <category>后端</category>
+      </categories>
+      <tags>
+        <tag>maven</tag>
       </tags>
   </entry>
   <entry>
@@ -5850,44 +5850,6 @@ public class LRUCache &#123;
       </tags>
   </entry>
   <entry>
-    <title>缓存穿透、击穿、雪崩</title>
-    <url>/2022/06/08/huan-cun-chuan-tou-ji-chuan-xue-beng/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h4 id="缓存穿透"><a href="#缓存穿透" class="headerlink" title="缓存穿透"></a>缓存穿透</h4><blockquote>
-<p>大量并发查询不存在的KEY，导致都直接将压力透传到数据库</p>
-</blockquote>
-<p><strong>解决方法</strong></p>
-<ul>
-<li>缓存空值的KEY，这样第一次不存在也会被加载会记录，下次拿到有这个KEY</li>
-<li>Bloom过滤或RoaringBitmap 判断KEY是否存</li>
-<li>完全以缓存为准，使用 延迟异步加载 的策略</li>
-</ul>
-<h4 id="缓存击穿"><a href="#缓存击穿" class="headerlink" title="缓存击穿"></a>缓存击穿</h4><blockquote>
-<p>某个KEY失效的时候，正好有大量并发请求访问这个KEY</p>
-</blockquote>
-<p><strong>解决方法</strong></p>
-<ul>
-<li>KEY的更新操作添加全局互斥锁(异步双删)</li>
-<li>完全以缓存为准，使用 延迟异步加载 的策略</li>
-</ul>
-<h4 id="缓存雪崩"><a href="#缓存雪崩" class="headerlink" title="缓存雪崩"></a>缓存雪崩</h4><blockquote>
-<p>当某一时刻发生大规模的缓存失效的情况，会有大量的请求进来直接打到数据库，导致数 据库压力过大升值宕机</p>
-</blockquote>
-<p><strong>解决方法</strong></p>
-<ul>
-<li>更新策略在时间上做到比较均匀</li>
-<li>使用的热数据尽量分散到不同的机器上</li>
-<li>多台机器做主从复制或者多副本，实现高可用</li>
-<li>实现熔断限流机制，对系统进行负载能力控制</li>
-</ul>
-]]></content>
-      <categories>
-        <category>中间件</category>
-      </categories>
-      <tags>
-        <tag>redis</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>centos7安装redis6及哨兵</title>
     <url>/2022/06/09/centos7-an-zhuang-redis6-ji-shao-bing/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h3 id="redis安装"><a href="#redis安装" class="headerlink" title="redis安装"></a>redis安装</h3><pre><code class="prettyprint">#创建一个专门存放软件的目录
@@ -6056,6 +6018,44 @@ sentinel monitor mymaster 192.168.101.123 6380 2
         <tag>中间件</tag>
         <tag>redis</tag>
         <tag>哨兵</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>缓存穿透、击穿、雪崩</title>
+    <url>/2022/06/08/huan-cun-chuan-tou-ji-chuan-xue-beng/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h4 id="缓存穿透"><a href="#缓存穿透" class="headerlink" title="缓存穿透"></a>缓存穿透</h4><blockquote>
+<p>大量并发查询不存在的KEY，导致都直接将压力透传到数据库</p>
+</blockquote>
+<p><strong>解决方法</strong></p>
+<ul>
+<li>缓存空值的KEY，这样第一次不存在也会被加载会记录，下次拿到有这个KEY</li>
+<li>Bloom过滤或RoaringBitmap 判断KEY是否存</li>
+<li>完全以缓存为准，使用 延迟异步加载 的策略</li>
+</ul>
+<h4 id="缓存击穿"><a href="#缓存击穿" class="headerlink" title="缓存击穿"></a>缓存击穿</h4><blockquote>
+<p>某个KEY失效的时候，正好有大量并发请求访问这个KEY</p>
+</blockquote>
+<p><strong>解决方法</strong></p>
+<ul>
+<li>KEY的更新操作添加全局互斥锁(异步双删)</li>
+<li>完全以缓存为准，使用 延迟异步加载 的策略</li>
+</ul>
+<h4 id="缓存雪崩"><a href="#缓存雪崩" class="headerlink" title="缓存雪崩"></a>缓存雪崩</h4><blockquote>
+<p>当某一时刻发生大规模的缓存失效的情况，会有大量的请求进来直接打到数据库，导致数 据库压力过大升值宕机</p>
+</blockquote>
+<p><strong>解决方法</strong></p>
+<ul>
+<li>更新策略在时间上做到比较均匀</li>
+<li>使用的热数据尽量分散到不同的机器上</li>
+<li>多台机器做主从复制或者多副本，实现高可用</li>
+<li>实现熔断限流机制，对系统进行负载能力控制</li>
+</ul>
+]]></content>
+      <categories>
+        <category>中间件</category>
+      </categories>
+      <tags>
+        <tag>redis</tag>
       </tags>
   </entry>
   <entry>
@@ -6502,56 +6502,6 @@ genericJackson2JsonRedisSerializer序列化需要的时间:22
       </tags>
   </entry>
   <entry>
-    <title>分治算法-汉诺塔</title>
-    <url>/2022/06/16/fen-zhi-suan-fa-han-nuo-ta/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h4 id="分治算法"><a href="#分治算法" class="headerlink" title="分治算法"></a>分治算法</h4><blockquote>
-<p>分解：将原问题分解为若干个规模较小，相互独立，与原问题形式相同的子问题</p>
-<p>解决：若子问题规模较小而容易被解决则直接解，否则递归地解各个子问题</p>
-<p>合并：将各个子问题的解合并为原问题的解。</p>
-</blockquote>
-<h4 id="汉诺塔"><a href="#汉诺塔" class="headerlink" title="汉诺塔"></a>汉诺塔</h4><ul>
-<li>如果是有一个盘， A-&gt;C，如果我们有 n &gt;&#x3D; 2 情况，我们总是可以看做是两个盘 <ul>
-<li>最下边的盘 </li>
-<li>上面的盘</li>
-</ul>
-</li>
-<li>先把 最上面的盘 A-&gt;B</li>
-<li>把最下边的盘 A-&gt;C</li>
-<li>把 B 塔的所有盘 从 B-&gt;C</li>
-</ul>
-<pre><code class="prettyprint">public class Hanoitower &#123;
-    private static Integer times = 0;
-    public static void main(String[] args) &#123;
-        hanoiTower(5, &#39;A&#39;, &#39;B&#39;, &#39;C&#39;);
-    &#125;
-    //汉诺塔的移动的方法
-    //使用分治算法
-    public static void hanoiTower(int num, char a, char b, char c) &#123;
-        //如果只有一个盘
-        if(num == 1) &#123;
-            System.out.println(++times +&quot;----第1个盘从 &quot; + a + &quot;-&gt;&quot; + c);
-        &#125; else &#123;
-            //如果我们有 n &gt;= 2 情况，我们总是可以看做是两个盘 1.最下边的一个盘 2. 上面的所有盘
-            //1. 先把 最上面的所有盘 A-&gt;B， 移动过程会使用到 c
-            hanoiTower(num - 1, a, c, b);
-            //2. 把最下边的盘 A-&gt;C
-            System.out.println(++times + &quot;---第&quot; + num + &quot;个盘从 &quot; + a + &quot;-&gt;&quot; + c);
-            //3. 把B塔的所有盘 从 B-&gt;C , 移动过程使用到 a塔  
-            hanoiTower(num - 1, b, a, c);
-            
-        &#125;
-    &#125;
-&#125;
-</code></pre>
-]]></content>
-      <categories>
-        <category>算法</category>
-      </categories>
-      <tags>
-        <tag>常用算法</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>动态规划-背包问题</title>
     <url>/2022/06/16/dong-tai-gui-hua-bei-bao-wen-ti/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h4 id="动态规划"><a href="#动态规划" class="headerlink" title="动态规划"></a>动态规划</h4><ul>
@@ -6650,6 +6600,56 @@ genericJackson2JsonRedisSerializer序列化需要的时间:22
         
     &#125;
 
+&#125;
+</code></pre>
+]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>常用算法</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>分治算法-汉诺塔</title>
+    <url>/2022/06/16/fen-zhi-suan-fa-han-nuo-ta/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h4 id="分治算法"><a href="#分治算法" class="headerlink" title="分治算法"></a>分治算法</h4><blockquote>
+<p>分解：将原问题分解为若干个规模较小，相互独立，与原问题形式相同的子问题</p>
+<p>解决：若子问题规模较小而容易被解决则直接解，否则递归地解各个子问题</p>
+<p>合并：将各个子问题的解合并为原问题的解。</p>
+</blockquote>
+<h4 id="汉诺塔"><a href="#汉诺塔" class="headerlink" title="汉诺塔"></a>汉诺塔</h4><ul>
+<li>如果是有一个盘， A-&gt;C，如果我们有 n &gt;&#x3D; 2 情况，我们总是可以看做是两个盘 <ul>
+<li>最下边的盘 </li>
+<li>上面的盘</li>
+</ul>
+</li>
+<li>先把 最上面的盘 A-&gt;B</li>
+<li>把最下边的盘 A-&gt;C</li>
+<li>把 B 塔的所有盘 从 B-&gt;C</li>
+</ul>
+<pre><code class="prettyprint">public class Hanoitower &#123;
+    private static Integer times = 0;
+    public static void main(String[] args) &#123;
+        hanoiTower(5, &#39;A&#39;, &#39;B&#39;, &#39;C&#39;);
+    &#125;
+    //汉诺塔的移动的方法
+    //使用分治算法
+    public static void hanoiTower(int num, char a, char b, char c) &#123;
+        //如果只有一个盘
+        if(num == 1) &#123;
+            System.out.println(++times +&quot;----第1个盘从 &quot; + a + &quot;-&gt;&quot; + c);
+        &#125; else &#123;
+            //如果我们有 n &gt;= 2 情况，我们总是可以看做是两个盘 1.最下边的一个盘 2. 上面的所有盘
+            //1. 先把 最上面的所有盘 A-&gt;B， 移动过程会使用到 c
+            hanoiTower(num - 1, a, c, b);
+            //2. 把最下边的盘 A-&gt;C
+            System.out.println(++times + &quot;---第&quot; + num + &quot;个盘从 &quot; + a + &quot;-&gt;&quot; + c);
+            //3. 把B塔的所有盘 从 B-&gt;C , 移动过程使用到 a塔  
+            hanoiTower(num - 1, b, a, c);
+            
+        &#125;
+    &#125;
 &#125;
 </code></pre>
 ]]></content>
@@ -7923,6 +7923,167 @@ class Graph &#123;
       </tags>
   </entry>
   <entry>
+    <title>centos7安装elasticsearch</title>
+    <url>/2022/06/26/centos7-an-zhuang-elasticsearch/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h3 id="下载地址"><a href="#下载地址" class="headerlink" title="下载地址"></a>下载地址</h3><p><a href="https://www.elastic.co/cn/downloads/elasticsearch">Download Elasticsearch | Elastic</a></p>
+<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><h4 id="解压"><a href="#解压" class="headerlink" title="解压"></a>解压</h4><pre><code class="prettyprint">tar -zxvf elasticsearch-8.2.3-linux-x86_64.tar.gz /opt/modeule/
+</code></pre>
+<h4 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h4><h5 id="修改elasticsearch-yml"><a href="#修改elasticsearch-yml" class="headerlink" title="修改elasticsearch.yml"></a>修改<code>elasticsearch.yml</code></h5><pre><code class="prettyprint"># ======================== Elasticsearch Configuration =========================
+#
+# NOTE: Elasticsearch comes with reasonable defaults for most settings.
+#       Before you set out to tweak and tune the configuration, make sure you
+#       understand what are you trying to accomplish and the consequences.
+#
+# The primary way of configuring a node is via this file. This template lists
+# the most important settings you may want to configure for a production cluster.
+#
+# Please consult the documentation for further information on configuration options:
+# https://www.elastic.co/guide/en/elasticsearch/reference/index.html
+#
+# ---------------------------------- Cluster -----------------------------------
+#
+# Use a descriptive name for your cluster:
+#
+#cluster.name: my-es
+#
+# ------------------------------------ Node ------------------------------------
+#
+# Use a descriptive name for the node:
+#
+#node.name: node-1
+#
+# Add custom attributes to the node:
+#
+#node.attr.rack: r1
+#
+# ----------------------------------- Paths ------------------------------------
+#
+# Path to directory where to store the data (separate multiple locations by comma):
+# 数据路径
+path.data: /opt/module/elasticsearch-8.2.3/data
+#
+# Path to log files:
+# 日志路径
+path.logs: /opt/module/elasticsearch-8.2.3/logs
+#
+# ----------------------------------- Memory -----------------------------------
+#
+# Lock the memory on startup:
+#
+#bootstrap.memory_lock: true
+#
+# Make sure that the heap size is set to about half the memory available
+# on the system and that the owner of the process is allowed to use this
+# limit.
+#
+# Elasticsearch performs poorly when the system is swapping the memory.
+#
+# ---------------------------------- Network -----------------------------------
+#
+# By default Elasticsearch is only accessible on localhost. Set a different
+# address here to expose this node on the network:
+#
+network.host: 0.0.0.0
+#
+# By default Elasticsearch listens for HTTP traffic on the first free port it
+# finds starting at 9200. Set a specific HTTP port here:
+#
+http.port: 9200
+#
+# For more information, consult the network module documentation.
+#
+# --------------------------------- Discovery ----------------------------------
+#
+# Pass an initial list of hosts to perform discovery when this node is started:
+# The default list of hosts is [&quot;127.0.0.1&quot;, &quot;[::1]&quot;]
+#
+#discovery.seed_hosts: [&quot;host1&quot;, &quot;host2&quot;]
+#
+# Bootstrap the cluster using an initial set of master-eligible nodes:
+#
+#cluster.initial_master_nodes: [&quot;node-1&quot;, &quot;node-2&quot;]
+#
+# For more information, consult the discovery and cluster formation module documentation.
+#
+# --------------------------------- Readiness ----------------------------------
+#
+# Enable an unauthenticated TCP readiness endpoint on localhost
+#
+#readiness.port: 9399
+#
+# ---------------------------------- Various -----------------------------------
+#
+# Allow wildcard deletion of indices:
+#
+#action.destructive_requires_name: false
+
+#----------------------- BEGIN SECURITY AUTO CONFIGURATION -----------------------
+#
+# The following settings, TLS certificates, and keys have been automatically      
+# generated to configure Elasticsearch security features on 26-06-2022 09:52:27
+#
+# --------------------------------------------------------------------------------
+
+# Enable security features 不使用认证
+xpack.security.enabled: false
+
+xpack.security.enrollment.enabled: true
+
+# Enable encryption for HTTP API client connections, such as Kibana, Logstash, and Agents
+xpack.security.http.ssl:
+  enabled: false
+  keystore.path: certs/http.p12
+
+# Enable encryption and mutual authentication between cluster nodes
+xpack.security.transport.ssl:
+  enabled: true
+  verification_mode: certificate
+  keystore.path: certs/transport.p12
+  truststore.path: certs/transport.p12
+# Create a new cluster with the current node only
+# Additional nodes can still join the cluster later
+
+#----------------------- END SECURITY AUTO CONFIGURATION -------------------------
+</code></pre>
+<h5 id="配置-etc-sysctl-conf"><a href="#配置-etc-sysctl-conf" class="headerlink" title="配置/etc/sysctl.conf"></a>配置<code>/etc/sysctl.conf</code></h5><pre><code class="prettyprint">vm.max_map_count=655360
+</code></pre>
+<blockquote>
+<p>sysctl -p 使配置生效</p>
+</blockquote>
+<h5 id="配置-etc-security-limits-conf用户使用线程数"><a href="#配置-etc-security-limits-conf用户使用线程数" class="headerlink" title="配置/etc/security/limits.conf用户使用线程数"></a>配置<code>/etc/security/limits.conf</code>用户使用线程数</h5><pre><code class="prettyprint">#* 表示所有用户
+* soft nofile 65536
+* hard nofile 65536
+* soft nproc 65536
+* hard nproc 65536
+# 查看 ulimit -Hn
+# 查看 ulimit -Sn
+</code></pre>
+<h3 id="新建用户"><a href="#新建用户" class="headerlink" title="新建用户"></a>新建用户</h3><blockquote>
+<p>elasticsearch不能使用root用户启动</p>
+</blockquote>
+<pre><code class="prettyprint"># 新增用户
+adduser esuser
+# 用户密码设置
+passwd esuser
+# 用户授权
+chown -R esuser:esuser /opt/module/elasticsearch-8.2.3/
+</code></pre>
+<h4 id="选择用户启动"><a href="#选择用户启动" class="headerlink" title="选择用户启动"></a>选择用户启动</h4><pre><code class="prettyprint">su esuser
+cd /opt/module/elasticsearch-8.2.3/bin
+./elasticsearch -d
+</code></pre>
+<h4 id="测试是否成功"><a href="#测试是否成功" class="headerlink" title="测试是否成功"></a>测试是否成功</h4><p><a href="http://192.168.101.123:9200/">http://192.168.101.123:9200/</a></p>
+<img src="/2022/06/26/centos7-an-zhuang-elasticsearch/image-20220626183843509.png" class="asset-class" title="image-20220626183843509">
+]]></content>
+      <categories>
+        <category>软件</category>
+      </categories>
+      <tags>
+        <tag>中间件</tag>
+        <tag>elasticsearch</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>迪杰斯特拉-送信问题</title>
     <url>/2022/06/19/di-jie-si-te-la-song-xin-wen-ti/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h4 id="迪杰斯特拉算法"><a href="#迪杰斯特拉算法" class="headerlink" title="迪杰斯特拉算法"></a>迪杰斯特拉算法</h4><blockquote>
@@ -8144,167 +8305,6 @@ class VisitedVertex &#123;
       </categories>
       <tags>
         <tag>常用算法</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>centos7安装elasticsearch</title>
-    <url>/2022/06/26/centos7-an-zhuang-elasticsearch/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h3 id="下载地址"><a href="#下载地址" class="headerlink" title="下载地址"></a>下载地址</h3><p><a href="https://www.elastic.co/cn/downloads/elasticsearch">Download Elasticsearch | Elastic</a></p>
-<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><h4 id="解压"><a href="#解压" class="headerlink" title="解压"></a>解压</h4><pre><code class="prettyprint">tar -zxvf elasticsearch-8.2.3-linux-x86_64.tar.gz /opt/modeule/
-</code></pre>
-<h4 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h4><h5 id="修改elasticsearch-yml"><a href="#修改elasticsearch-yml" class="headerlink" title="修改elasticsearch.yml"></a>修改<code>elasticsearch.yml</code></h5><pre><code class="prettyprint"># ======================== Elasticsearch Configuration =========================
-#
-# NOTE: Elasticsearch comes with reasonable defaults for most settings.
-#       Before you set out to tweak and tune the configuration, make sure you
-#       understand what are you trying to accomplish and the consequences.
-#
-# The primary way of configuring a node is via this file. This template lists
-# the most important settings you may want to configure for a production cluster.
-#
-# Please consult the documentation for further information on configuration options:
-# https://www.elastic.co/guide/en/elasticsearch/reference/index.html
-#
-# ---------------------------------- Cluster -----------------------------------
-#
-# Use a descriptive name for your cluster:
-#
-#cluster.name: my-es
-#
-# ------------------------------------ Node ------------------------------------
-#
-# Use a descriptive name for the node:
-#
-#node.name: node-1
-#
-# Add custom attributes to the node:
-#
-#node.attr.rack: r1
-#
-# ----------------------------------- Paths ------------------------------------
-#
-# Path to directory where to store the data (separate multiple locations by comma):
-# 数据路径
-path.data: /opt/module/elasticsearch-8.2.3/data
-#
-# Path to log files:
-# 日志路径
-path.logs: /opt/module/elasticsearch-8.2.3/logs
-#
-# ----------------------------------- Memory -----------------------------------
-#
-# Lock the memory on startup:
-#
-#bootstrap.memory_lock: true
-#
-# Make sure that the heap size is set to about half the memory available
-# on the system and that the owner of the process is allowed to use this
-# limit.
-#
-# Elasticsearch performs poorly when the system is swapping the memory.
-#
-# ---------------------------------- Network -----------------------------------
-#
-# By default Elasticsearch is only accessible on localhost. Set a different
-# address here to expose this node on the network:
-#
-network.host: 0.0.0.0
-#
-# By default Elasticsearch listens for HTTP traffic on the first free port it
-# finds starting at 9200. Set a specific HTTP port here:
-#
-http.port: 9200
-#
-# For more information, consult the network module documentation.
-#
-# --------------------------------- Discovery ----------------------------------
-#
-# Pass an initial list of hosts to perform discovery when this node is started:
-# The default list of hosts is [&quot;127.0.0.1&quot;, &quot;[::1]&quot;]
-#
-#discovery.seed_hosts: [&quot;host1&quot;, &quot;host2&quot;]
-#
-# Bootstrap the cluster using an initial set of master-eligible nodes:
-#
-#cluster.initial_master_nodes: [&quot;node-1&quot;, &quot;node-2&quot;]
-#
-# For more information, consult the discovery and cluster formation module documentation.
-#
-# --------------------------------- Readiness ----------------------------------
-#
-# Enable an unauthenticated TCP readiness endpoint on localhost
-#
-#readiness.port: 9399
-#
-# ---------------------------------- Various -----------------------------------
-#
-# Allow wildcard deletion of indices:
-#
-#action.destructive_requires_name: false
-
-#----------------------- BEGIN SECURITY AUTO CONFIGURATION -----------------------
-#
-# The following settings, TLS certificates, and keys have been automatically      
-# generated to configure Elasticsearch security features on 26-06-2022 09:52:27
-#
-# --------------------------------------------------------------------------------
-
-# Enable security features 不使用认证
-xpack.security.enabled: false
-
-xpack.security.enrollment.enabled: true
-
-# Enable encryption for HTTP API client connections, such as Kibana, Logstash, and Agents
-xpack.security.http.ssl:
-  enabled: false
-  keystore.path: certs/http.p12
-
-# Enable encryption and mutual authentication between cluster nodes
-xpack.security.transport.ssl:
-  enabled: true
-  verification_mode: certificate
-  keystore.path: certs/transport.p12
-  truststore.path: certs/transport.p12
-# Create a new cluster with the current node only
-# Additional nodes can still join the cluster later
-
-#----------------------- END SECURITY AUTO CONFIGURATION -------------------------
-</code></pre>
-<h5 id="配置-etc-sysctl-conf"><a href="#配置-etc-sysctl-conf" class="headerlink" title="配置/etc/sysctl.conf"></a>配置<code>/etc/sysctl.conf</code></h5><pre><code class="prettyprint">vm.max_map_count=655360
-</code></pre>
-<blockquote>
-<p>sysctl -p 使配置生效</p>
-</blockquote>
-<h5 id="配置-etc-security-limits-conf用户使用线程数"><a href="#配置-etc-security-limits-conf用户使用线程数" class="headerlink" title="配置/etc/security/limits.conf用户使用线程数"></a>配置<code>/etc/security/limits.conf</code>用户使用线程数</h5><pre><code class="prettyprint">#* 表示所有用户
-* soft nofile 65536
-* hard nofile 65536
-* soft nproc 65536
-* hard nproc 65536
-# 查看 ulimit -Hn
-# 查看 ulimit -Sn
-</code></pre>
-<h3 id="新建用户"><a href="#新建用户" class="headerlink" title="新建用户"></a>新建用户</h3><blockquote>
-<p>elasticsearch不能使用root用户启动</p>
-</blockquote>
-<pre><code class="prettyprint"># 新增用户
-adduser esuser
-# 用户密码设置
-passwd esuser
-# 用户授权
-chown -R esuser:esuser /opt/module/elasticsearch-8.2.3/
-</code></pre>
-<h4 id="选择用户启动"><a href="#选择用户启动" class="headerlink" title="选择用户启动"></a>选择用户启动</h4><pre><code class="prettyprint">su esuser
-cd /opt/module/elasticsearch-8.2.3/bin
-./elasticsearch -d
-</code></pre>
-<h4 id="测试是否成功"><a href="#测试是否成功" class="headerlink" title="测试是否成功"></a>测试是否成功</h4><p><a href="http://192.168.101.123:9200/">http://192.168.101.123:9200/</a></p>
-<img src="/2022/06/26/centos7-an-zhuang-elasticsearch/image-20220626183843509.png" class="asset-class" title="image-20220626183843509">
-]]></content>
-      <categories>
-        <category>软件</category>
-      </categories>
-      <tags>
-        <tag>中间件</tag>
-        <tag>elasticsearch</tag>
       </tags>
   </entry>
   <entry>
@@ -8811,33 +8811,6 @@ done
       </tags>
   </entry>
   <entry>
-    <title>redis事务命令</title>
-    <url>/2022/08/09/redis-shi-wu-ming-ling/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h4 id="命令介绍"><a href="#命令介绍" class="headerlink" title="命令介绍"></a>命令介绍</h4><ul>
-<li><code>multi</code>：开启事务</li>
-<li><code>exec</code>：执行事务</li>
-<li><code>discard</code>：取消事务</li>
-<li><code>watch</code>：监视Key改变，用于实现乐观锁。如果监视的Key的值改变，事务最终会执行失败</li>
-<li><code>unwatch</code>：放弃监视</li>
-</ul>
-<blockquote>
-<p>事务说明</p>
-<ul>
-<li><strong>事务没有隔离级别的概念</strong>：批量操作在发送 EXEC 命令前被放入队列缓存，并不会被实际执行，也就不存在事务内的查询要看到事务里的更新，事务外查询不能看到。</li>
-<li><strong>Redis不保证原子性</strong>：Redis中，单条命令是原子性执行的，但事务不保证原子性，且没有回滚。事务中任意命令执行失败，其余的命令仍会被执行</li>
-<li>事务执行时，事务放入队列命令错误，所有命令都不会执行</li>
-<li>事务执行时，事务执行错误，只有执行错误的命令不执行，其余命令依然执行</li>
-</ul>
-</blockquote>
-]]></content>
-      <categories>
-        <category>中间件</category>
-      </categories>
-      <tags>
-        <tag>redis,事务</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>服务器之间实现免密访问</title>
     <url>/2022/07/12/fu-wu-qi-zhi-jian-shi-xian-mian-mi-fang-wen/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h4 id="准备三台机器node2-node3-node4"><a href="#准备三台机器node2-node3-node4" class="headerlink" title="准备三台机器node2,node3,node4"></a>准备三台机器<code>node2</code>,<code>node3</code>,<code>node4</code></h4><h4 id="在每台机器执行命令生产ssh公私钥"><a href="#在每台机器执行命令生产ssh公私钥" class="headerlink" title="在每台机器执行命令生产ssh公私钥"></a>在每台机器执行命令生产ssh公私钥</h4><pre><code class="prettyprint">ssh-keygen -t rsa -P &#39;&#39; -f ~/.ssh/id_rsa
@@ -8890,6 +8863,33 @@ done
       </tags>
   </entry>
   <entry>
+    <title>redis事务命令</title>
+    <url>/2022/08/09/redis-shi-wu-ming-ling/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h4 id="命令介绍"><a href="#命令介绍" class="headerlink" title="命令介绍"></a>命令介绍</h4><ul>
+<li><code>multi</code>：开启事务</li>
+<li><code>exec</code>：执行事务</li>
+<li><code>discard</code>：取消事务</li>
+<li><code>watch</code>：监视Key改变，用于实现乐观锁。如果监视的Key的值改变，事务最终会执行失败</li>
+<li><code>unwatch</code>：放弃监视</li>
+</ul>
+<blockquote>
+<p>事务说明</p>
+<ul>
+<li><strong>事务没有隔离级别的概念</strong>：批量操作在发送 EXEC 命令前被放入队列缓存，并不会被实际执行，也就不存在事务内的查询要看到事务里的更新，事务外查询不能看到。</li>
+<li><strong>Redis不保证原子性</strong>：Redis中，单条命令是原子性执行的，但事务不保证原子性，且没有回滚。事务中任意命令执行失败，其余的命令仍会被执行</li>
+<li>事务执行时，事务放入队列命令错误，所有命令都不会执行</li>
+<li>事务执行时，事务执行错误，只有执行错误的命令不执行，其余命令依然执行</li>
+</ul>
+</blockquote>
+]]></content>
+      <categories>
+        <category>中间件</category>
+      </categories>
+      <tags>
+        <tag>redis,事务</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>redis过期key监听</title>
     <url>/2022/08/09/redis-guo-qi-key-jian-ting/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h4 id="配置文件修改"><a href="#配置文件修改" class="headerlink" title="配置文件修改"></a>配置文件修改</h4><pre><code class="prettyprint">vim /usr/local/redis/redis.conf
@@ -8927,6 +8927,63 @@ public class KeyExpiredListener extends KeyExpirationEventMessageListener &#123;
       </categories>
       <tags>
         <tag>redis</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>redis集群搭建</title>
+    <url>/2022/08/14/redis-ji-qun-da-jian/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h4 id="redis安装"><a href="#redis安装" class="headerlink" title="redis安装"></a>redis安装</h4><p><a href="https://rocpenghua.gitee.io/2022/06/09/centos7-an-zhuang-redis6-ji-shao-bing/">centos7安装redis6及哨兵 | 小鹏驿站 (gitee.io)</a></p>
+<h4 id="集群配置文件"><a href="#集群配置文件" class="headerlink" title="集群配置文件"></a>集群配置文件</h4><h5 id="创建配置文件及存放目录"><a href="#创建配置文件及存放目录" class="headerlink" title="创建配置文件及存放目录"></a>创建配置文件及存放目录</h5><pre><code class="prettyprint">cd /usr/local/redis
+mkdir myredis
+cp redis.conf myredis/
+</code></pre>
+<blockquote>
+<p>最好修改成后台启动</p>
+<p>daemonize yes</p>
+</blockquote>
+<h5 id="创建集群节点配置文件-6379-6380-6381-6389-6390-6391"><a href="#创建集群节点配置文件-6379-6380-6381-6389-6390-6391" class="headerlink" title="创建集群节点配置文件(6379,6380,6381,6389,6390,6391)"></a>创建集群节点配置文件(<code>6379,6380,6381,6389,6390,6391</code>)</h5><ul>
+<li><code>redis6379.conf</code></li>
+</ul>
+<pre><code class="prettyprint">include /usr/local/redis/myredis/redis.conf
+pidfile /var/run/redis_6379.pid
+port 6379
+dbfilename dump6379.rdb
+cluster-enabled yes
+cluster-config-file nodes-6379.conf
+cluster-node-timeout 15000
+</code></pre>
+<ul>
+<li>6380,6381,6389,6390,6391(配置同上修改6379为对应数字)</li>
+</ul>
+<h5 id="分别启动各个节点"><a href="#分别启动各个节点" class="headerlink" title="分别启动各个节点"></a>分别启动各个节点</h5><pre><code class="prettyprint">redis-server redis6379.conf
+redis-server redis6380.conf
+redis-server redis6381.conf
+redis-server redis6389.conf
+redis-server redis6390.conf
+redis-server redis6391.conf
+</code></pre>
+<h5 id="合并集群"><a href="#合并集群" class="headerlink" title="合并集群"></a>合并集群</h5><pre><code class="prettyprint"># 进入开始解压安装目录(依赖ruby)
+cd /opt/module/redis-6.2.7/src/
+./redis-cli --cluster create --cluster-replicas 1 192.168.101.146:6379 192.168.101.146:6380 192.168.101.146:6381 192.168.101.146:6389 192.168.101.146:6390 192.168.101.146:6391
+</code></pre>
+<h4 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h4><pre><code class="prettyprint"># 集群方式连接
+redis-cli -c -p 6379
+#查看集群节点信息
+127.0.0.1:6379&gt; cluster nodes 
+ebbb1359010776cb51e2eb6eb67e875abcfd1fec 192.168.101.146:6389@16389 slave 2aec40cbb7d21ee79a54c7b83df872b816633aa2 0 1660356353000 2 connected
+c638adf60dd9ae528ca55e856aa05a6033b0197f 192.168.101.146:6391@16391 slave 664cfc95d9673a069794b0c54d79db8a99a25bbc 0 1660356352000 1 connected
+2eb521f23b5fe37ef81c22a851e140232a3f1e9f 192.168.101.146:6381@16381 master - 0 1660356354675 3 connected 10923-16383
+2aec40cbb7d21ee79a54c7b83df872b816633aa2 192.168.101.146:6380@16380 master - 0 1660356355705 2 connected 5461-10922
+664cfc95d9673a069794b0c54d79db8a99a25bbc 192.168.101.146:6379@16379 myself,master - 0 1660356354000 1 connected 0-5460
+877c1a91ccbe778d7ed70000ba27b81e5aca2940 192.168.101.146:6390@16390 slave 2eb521f23b5fe37ef81c22a851e140232a3f1e9f 0 1660356353652 3 connected
+127.0.0.1:6379&gt; 
+</code></pre>
+]]></content>
+      <categories>
+        <category>软件</category>
+      </categories>
+      <tags>
+        <tag>中间件,redis</tag>
       </tags>
   </entry>
   <entry>
@@ -9117,126 +9174,6 @@ systemctl mask firewalld.service;
       </tags>
   </entry>
   <entry>
-    <title>Docker 部署 Halo</title>
-    <url>/2021/10/16/docker-bu-shu-halo/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h4 id="使用-Docker-镜像"><a href="#使用-Docker-镜像" class="headerlink" title="使用 Docker 镜像#"></a>使用 Docker 镜像#</h4><p>Halo 在 Docker Hub 上发布的镜像为 halohub&#x2F;halo</p>
-<h4 id="创建工作目录"><a href="#创建工作目录" class="headerlink" title="创建工作目录"></a>创建工作目录</h4><p><code>mkdir ~/.halo &amp;&amp; cd ~/.halo</code><br>下载示例配置文件到工作目录<br><code>wget https://dl.halo.run/config/application-template.yaml -O ./application.yaml</code><br>编辑配置文件，配置数据库或者端口等，如需配置请参考参考配置<br><code>vim application.yaml</code><br>拉取最新的 Halo 镜像<br><code>docker pull halohub/halo:1.4.12</code><br>INFO<br>查看最新版本镜像：<code>https://hub.docker.com/r/halohub/halo</code> ，我们推荐使用具体版本号的镜像，但也提供了 latest 标签的镜像，它始终是最新的。</p>
-<p>创建容器<br><code>docker run -it -d --name halo -p 8090:8090 -v ~/.halo:/root/.halo --restart=unless-stopped halohub/halo:1.4.12</code></p>
-<pre><code class="-it：">-d： 后台运行容器
---name： 为容器指定一个名称
--p： 端口映射，格式为 主机(宿主)端口:容器端口 ，可在 application.yaml 配置。
--v： 工作目录映射。形式为：-v 宿主机路径:/root/.halo，后者不能修改。
---restart： 建议设置为 unless-stopped，在 Docker 启动的时候自动启动 Halo 容器。
-</code></pre>
-<p>打开 <a href="http://ip:端口号">http://ip:端口号</a> 即可看到安装引导界面。<br>TIP<br>如果需要配置域名访问，建议先配置好反向代理以及域名解析再进行初始化。如果通过 <a href="http://ip:端口号">http://ip:端口号</a> 的形式无法访问，请到服务器厂商后台将运行的端口号添加到安全组，如果服务器使用了 Linux 面板，请检查此 Linux 面板是否有还有安全组配置，需要同样将端口号添加到安全组。</p>
-<p>反向代理#<br>你可以在下面的反向代理软件中任选一项，我们假设你已经安装好了其中一项，并对其的基本操作有一定了解。如果你对 Nginx 不熟悉，我们推荐使用 OneinStack 来管理 Nginx。</p>
-<pre><code class="prettyprint#">upstream halo &#123;
-  server 127.0.0.1:8090;
-&#125;
-server &#123;
-  listen 80;
-  listen [::]:80;
-  server_name www.yourdomain.com;
-  client_max_body_size 1024m;
-  location / &#123;
-    proxy_pass http://halo;
-    proxy_set_header HOST $host;
-    proxy_set_header X-Forwarded-Proto $scheme;
-    proxy_set_header X-Real-IP $remote_addr;
-    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-  &#125;
-&#125;
-</code></pre>
-<p>以上配置都可以在 <a href="https://github.com/halo-dev/halo-common">https://github.com/halo-dev/halo-common</a> 找到。</p>
-]]></content>
-      <categories>
-        <category>软件</category>
-      </categories>
-      <tags>
-        <tag>docker</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Docker安装MySQL8.0</title>
-    <url>/2021/10/16/docker-an-zhuang-mysql8-0/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h4 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h4><p>CentOS 7.5<br>Docker 1.13.1<br>MySQL 8.0.16</p>
-<h4 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h4><h5 id="拉取镜像"><a href="#拉取镜像" class="headerlink" title="拉取镜像"></a>拉取镜像</h5><p>默认拉取最新版本的镜像</p>
-<p><code>pull mysql</code><br>如果要指定版本，使用下面的命令</p>
-<p><code>docker pull mysql:8.0.16</code><br>创建数据目录和配置文件<br>在宿主机创建放置mysql的配置文件的目录和数据目录，并且进行授权</p>
-<p><code>mkdir -p /usr/mysql/conf /usr/mysql/data</code></p>
-<p><code>chmod -R 755 /usr/mysql/</code><br>创建配置文件<br>在上面创建的配置文件目录&#x2F;usr&#x2F;mysql&#x2F;conf下创建MySQL的配置文件my.cnf</p>
-<p><code>vim /usr/mysql/conf/my.cnf</code><br>添加以下内容到上述创建的配置文件中</p>
-<pre><code class="[client]">
-#socket = /usr/mysql/mysqld.sock
-
-default-character-set = utf8mb4
-
-[mysqld]
-
-#pid-file        = /var/run/mysqld/mysqld.pid
-
-#socket          = /var/run/mysqld/mysqld.sock
-
-#datadir         = /var/lib/mysql
-
-#socket = /usr/mysql/mysqld.sock
-
-#pid-file = /usr/mysql/mysqld.pid
-
-datadir = /usr/mysql/data
-
-character_set_server = utf8mb4
-
-collation_server = utf8mb4_bin
-
-secure-file-priv= NULL
-
-# Disabling symbolic-links is recommended to prevent assorted security risks
-
-symbolic-links=0
-
-# Custom config should go here
-
-!includedir /etc/mysql/conf.d/
-</code></pre>
-<p>启动创建容器</p>
-<pre><code>docker run --restart=unless-stopped -d --name mysql -v /usr/mysql/conf/my.cnf:/etc/mysql/my.cnf -v 
-/usr/mysql/data:/var/lib/mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=123456 mysql
-</code></pre>
-<p>参数解释：</p>
-<pre><code>-v : 挂载宿主机目录和 docker容器中的目录，前面是宿主机目录，后面是容器内部目录
-
--d : 后台运行容器
-
--p 映射容器端口号和宿主机端口号
-
--e 环境参数，MYSQL_ROOT_PASSWORD设置root用户的密码
-</code></pre>
-<p>执行上述命令后，执行查询容器的命令就可以看到创建的mysql容器</p>
-<p><code>docker ps -a</code></p>
-<h5 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h5><p>上述虽然安装好了mysql，但是使用远程的Navicat连接时提示错误，不能正确连接mysql，此时需要修改按照下面说的步骤修改一下mysql的密码模式以及主机等内容才可以。</p>
-<p>修改mysql密码以及可访问主机</p>
-<pre><code>#进入容器内部
-docker exec -it mysql /bin/bash`
-连接mysql
-mysql -uroot -p`
-使用mysql库
-mysql&gt; use mysql`
-修改访问主机以及密码等，设置为所有主机可访问
-mysql&gt; ALTER USER &#39;root&#39;@&#39;%&#39; IDENTIFIED WITH mysql_native_password BY &#39;新密码&#39;;
-</code></pre>
-<p>注意：</p>
-<p>mysql_native_password，mysql8.x版本必须使用这种模式，否则navicate无法正确连接</p>
-<p>刷新<br>$ mysql&gt; flush privileges<br>经过以上步骤，再次远程使用Navicat连接数据库时就可以正常连接了。</p>
-]]></content>
-      <categories>
-        <category>软件</category>
-      </categories>
-      <tags>
-        <tag>docker</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Docker中安装并配置redis</title>
     <url>/2021/10/16/docker-zhong-an-zhuang-bing-pei-zhi-redis/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h3 id="一、找到一个合适的docker的redis的版本"><a href="#一、找到一个合适的docker的redis的版本" class="headerlink" title="一、找到一个合适的docker的redis的版本"></a>一、找到一个合适的docker的redis的版本</h3><p>可以去docker hub中去找一下</p>
@@ -9273,6 +9210,46 @@ redis-server /etc/redis/redis.conf：这个是关键配置，让redis不是无�
 </code></pre>
 <h3 id="七、查看是否启动成功"><a href="#七、查看是否启动成功" class="headerlink" title="七、查看是否启动成功"></a>七、查看是否启动成功</h3><p>查看是否成功启动：sudo docker ps</p>
 <p>可以查看一下日志：sudo docker logs redis</p>
+]]></content>
+      <categories>
+        <category>软件</category>
+      </categories>
+      <tags>
+        <tag>docker</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Docker 部署 Halo</title>
+    <url>/2021/10/16/docker-bu-shu-halo/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h4 id="使用-Docker-镜像"><a href="#使用-Docker-镜像" class="headerlink" title="使用 Docker 镜像#"></a>使用 Docker 镜像#</h4><p>Halo 在 Docker Hub 上发布的镜像为 halohub&#x2F;halo</p>
+<h4 id="创建工作目录"><a href="#创建工作目录" class="headerlink" title="创建工作目录"></a>创建工作目录</h4><p><code>mkdir ~/.halo &amp;&amp; cd ~/.halo</code><br>下载示例配置文件到工作目录<br><code>wget https://dl.halo.run/config/application-template.yaml -O ./application.yaml</code><br>编辑配置文件，配置数据库或者端口等，如需配置请参考参考配置<br><code>vim application.yaml</code><br>拉取最新的 Halo 镜像<br><code>docker pull halohub/halo:1.4.12</code><br>INFO<br>查看最新版本镜像：<code>https://hub.docker.com/r/halohub/halo</code> ，我们推荐使用具体版本号的镜像，但也提供了 latest 标签的镜像，它始终是最新的。</p>
+<p>创建容器<br><code>docker run -it -d --name halo -p 8090:8090 -v ~/.halo:/root/.halo --restart=unless-stopped halohub/halo:1.4.12</code></p>
+<pre><code class="-it：">-d： 后台运行容器
+--name： 为容器指定一个名称
+-p： 端口映射，格式为 主机(宿主)端口:容器端口 ，可在 application.yaml 配置。
+-v： 工作目录映射。形式为：-v 宿主机路径:/root/.halo，后者不能修改。
+--restart： 建议设置为 unless-stopped，在 Docker 启动的时候自动启动 Halo 容器。
+</code></pre>
+<p>打开 <a href="http://ip:端口号">http://ip:端口号</a> 即可看到安装引导界面。<br>TIP<br>如果需要配置域名访问，建议先配置好反向代理以及域名解析再进行初始化。如果通过 <a href="http://ip:端口号">http://ip:端口号</a> 的形式无法访问，请到服务器厂商后台将运行的端口号添加到安全组，如果服务器使用了 Linux 面板，请检查此 Linux 面板是否有还有安全组配置，需要同样将端口号添加到安全组。</p>
+<p>反向代理#<br>你可以在下面的反向代理软件中任选一项，我们假设你已经安装好了其中一项，并对其的基本操作有一定了解。如果你对 Nginx 不熟悉，我们推荐使用 OneinStack 来管理 Nginx。</p>
+<pre><code class="prettyprint#">upstream halo &#123;
+  server 127.0.0.1:8090;
+&#125;
+server &#123;
+  listen 80;
+  listen [::]:80;
+  server_name www.yourdomain.com;
+  client_max_body_size 1024m;
+  location / &#123;
+    proxy_pass http://halo;
+    proxy_set_header HOST $host;
+    proxy_set_header X-Forwarded-Proto $scheme;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+  &#125;
+&#125;
+</code></pre>
+<p>以上配置都可以在 <a href="https://github.com/halo-dev/halo-common">https://github.com/halo-dev/halo-common</a> 找到。</p>
 ]]></content>
       <categories>
         <category>软件</category>
@@ -9354,6 +9331,86 @@ docker run -d --name rmqconsole -p 8180:8080 --link rmqserver:namesrv\
  -t styletang/rocketmq-console-ng:1.0.0
 </code></pre>
 <h4 id="访问前端UI"><a href="#访问前端UI" class="headerlink" title="访问前端UI"></a>访问前端UI</h4><p><a href="http://ip:8180/">http://ip:8180</a></p>
+]]></content>
+      <categories>
+        <category>软件</category>
+      </categories>
+      <tags>
+        <tag>docker</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Docker安装MySQL8.0</title>
+    <url>/2021/10/16/docker-an-zhuang-mysql8-0/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h4 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h4><p>CentOS 7.5<br>Docker 1.13.1<br>MySQL 8.0.16</p>
+<h4 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h4><h5 id="拉取镜像"><a href="#拉取镜像" class="headerlink" title="拉取镜像"></a>拉取镜像</h5><p>默认拉取最新版本的镜像</p>
+<p><code>pull mysql</code><br>如果要指定版本，使用下面的命令</p>
+<p><code>docker pull mysql:8.0.16</code><br>创建数据目录和配置文件<br>在宿主机创建放置mysql的配置文件的目录和数据目录，并且进行授权</p>
+<p><code>mkdir -p /usr/mysql/conf /usr/mysql/data</code></p>
+<p><code>chmod -R 755 /usr/mysql/</code><br>创建配置文件<br>在上面创建的配置文件目录&#x2F;usr&#x2F;mysql&#x2F;conf下创建MySQL的配置文件my.cnf</p>
+<p><code>vim /usr/mysql/conf/my.cnf</code><br>添加以下内容到上述创建的配置文件中</p>
+<pre><code class="[client]">
+#socket = /usr/mysql/mysqld.sock
+
+default-character-set = utf8mb4
+
+[mysqld]
+
+#pid-file        = /var/run/mysqld/mysqld.pid
+
+#socket          = /var/run/mysqld/mysqld.sock
+
+#datadir         = /var/lib/mysql
+
+#socket = /usr/mysql/mysqld.sock
+
+#pid-file = /usr/mysql/mysqld.pid
+
+datadir = /usr/mysql/data
+
+character_set_server = utf8mb4
+
+collation_server = utf8mb4_bin
+
+secure-file-priv= NULL
+
+# Disabling symbolic-links is recommended to prevent assorted security risks
+
+symbolic-links=0
+
+# Custom config should go here
+
+!includedir /etc/mysql/conf.d/
+</code></pre>
+<p>启动创建容器</p>
+<pre><code>docker run --restart=unless-stopped -d --name mysql -v /usr/mysql/conf/my.cnf:/etc/mysql/my.cnf -v 
+/usr/mysql/data:/var/lib/mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=123456 mysql
+</code></pre>
+<p>参数解释：</p>
+<pre><code>-v : 挂载宿主机目录和 docker容器中的目录，前面是宿主机目录，后面是容器内部目录
+
+-d : 后台运行容器
+
+-p 映射容器端口号和宿主机端口号
+
+-e 环境参数，MYSQL_ROOT_PASSWORD设置root用户的密码
+</code></pre>
+<p>执行上述命令后，执行查询容器的命令就可以看到创建的mysql容器</p>
+<p><code>docker ps -a</code></p>
+<h5 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h5><p>上述虽然安装好了mysql，但是使用远程的Navicat连接时提示错误，不能正确连接mysql，此时需要修改按照下面说的步骤修改一下mysql的密码模式以及主机等内容才可以。</p>
+<p>修改mysql密码以及可访问主机</p>
+<pre><code>#进入容器内部
+docker exec -it mysql /bin/bash`
+连接mysql
+mysql -uroot -p`
+使用mysql库
+mysql&gt; use mysql`
+修改访问主机以及密码等，设置为所有主机可访问
+mysql&gt; ALTER USER &#39;root&#39;@&#39;%&#39; IDENTIFIED WITH mysql_native_password BY &#39;新密码&#39;;
+</code></pre>
+<p>注意：</p>
+<p>mysql_native_password，mysql8.x版本必须使用这种模式，否则navicate无法正确连接</p>
+<p>刷新<br>$ mysql&gt; flush privileges<br>经过以上步骤，再次远程使用Navicat连接数据库时就可以正常连接了。</p>
 ]]></content>
       <categories>
         <category>软件</category>
@@ -9525,6 +9582,54 @@ docker cp [local_path] rabbitmq:/[container_path]
       </categories>
       <tags>
         <tag>docker</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>IDEA配置注释</title>
+    <url>/2021/11/26/idea-pei-zhi-zhu-shi/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>一、类注释</p>
+<ul>
+<li>打开<code>serrings --&gt; Editor --&gt; File and Code Template</code>点击右边的Class,添加注释</li>
+</ul>
+<pre><code class="prettyprint">/**
+ * @author jitwxs
+ * @date $&#123;YEAR&#125;年$&#123;MONTH&#125;月$&#123;DAY&#125;日 $&#123;TIME&#125;
+ */
+</code></pre>
+<p>二、方法注释</p>
+<ul>
+<li><p>打开<code>serrings --&gt; Editor --&gt; Live Template</code></p>
+</li>
+<li><p>先新增Template group（如：define）</p>
+</li>
+<li><p>选中新增的group(如：define)</p>
+</li>
+<li><p>修改该模板的 Abbreviation、Description 和 Template text<br>  Abbreviation：*<br>  Description :方法注释<br>  Template text：</p>
+</li>
+</ul>
+<pre><code class="prettyprint">/**
+ * @Description 
+ * @Author pengp
+ * @Date $date$ $time$$param$ $return$
+ */
+</code></pre>
+<ul>
+<li><p>选择No applicable contexts yet(Define)，选择java</p>
+</li>
+<li><p>点击 Edit variables 配置自定义参数<code>$date$ $time$$param$ $return$</code></p>
+</li>
+</ul>
+<pre><code class="prettyprint">date：date()
+time：time()
+param：groovyScript(&quot;def result = &#39;&#39;;def params = \&quot;$&#123;_1&#125;\&quot;.replaceAll(&#39;[\\\\[|\\\\]|\\\\s]&#39;, &#39;&#39;).split(&#39;,&#39;).toList(); for(i = 0; i &lt; params.size(); i++) &#123;if(params[i] != &#39;&#39;)result+=&#39;* @param &#39; + params[i] + ((i &lt; params.size() - 1) ? &#39;\\r\\n &#39; : &#39;&#39;)&#125;; return result == &#39;&#39; ? null : &#39;\\r\\n &#39; + result&quot;, methodParameters())
+return：groovyScript(&quot;return \&quot;$&#123;_1&#125;\&quot; == &#39;void&#39; ? null : &#39;\\r\\n * @return &#39; + \&quot;$&#123;_1&#125;\&quot;&quot;, methodReturnType())
+</code></pre>
+]]></content>
+      <categories>
+        <category>闲谈</category>
+      </categories>
+      <tags>
+        <tag>idea</tag>
       </tags>
   </entry>
   <entry>
@@ -9754,9 +9859,113 @@ public class TransactionExample &#123;
       </tags>
   </entry>
   <entry>
+    <title>centos安装mysql5.7</title>
+    <url>/2021/11/14/centos-an-zhuang-mysql5-7/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>卸载CentOS7系统自带mariadb</p>
+<p>查看系统自带的Mariadb<br>[root@CDH-141 ~]# rpm -qa|grep mariadb<br>mariadb-libs-5.5.44-2.el7.centos.x86_64<br>卸载系统自带的Mariadb<br>[root@CDH-141 ~]# rpm -e –nodeps mariadb-libs-5.5.442.el7.centos.x86_64<br>删除etc目录下的my.cnf ，一定要删掉，等下再重新建，之前我将就用这个文件，后面改配置各种不生效<br>[root@CDH-141 ~]# rm &#x2F;etc&#x2F;my.cnf</p>
+<p>rpm -qa |grep -i mysql   查看yum 安装的所有mysql相关安装包。</p>
+<p>yum remove mysql-community mysql-community-server mysql-community-libs mysql-community-common   依次删除</p>
+<p>一定要删除干净 rpm -qa |grep -i mysql 后没有任何安装包。</p>
+<p>然后 find &#x2F; -name mysql  查看mysql相关文件  rm -rf  文件或者文件夹目录路径</p>
+<p>mysql5.7.20安装过程</p>
+<p>1.下载mysql yum源文件并安装</p>
+<p> 下载：wget <a href="http://repo.mysql.com/mysql57-community-release-el7-10.noarch.rpm">http://repo.mysql.com/mysql57-community-release-el7-10.noarch.rpm</a></p>
+<p> 安装：rpm -Uvh mysql57-community-release-el7-10.noarch.rpm</p>
+<p>2.安装mysql服务端需要等待一段时间</p>
+<p>命令：yum install  -y  mysql-community-server</p>
+<p>3.开启mysql</p>
+<p>命令：service mysqld start</p>
+<p>查看mysql是否启动命令：service mysqld status</p>
+<p>4.进入mysql 修改密码</p>
+<p>查看初始密码命令：grep “password” &#x2F;var&#x2F;log&#x2F;mysqld.log</p>
+<p>登录 <code>mysql -uroot -p</code></p>
+<p>修改密码过于简单会报错</p>
+<p>这一错误其实与validate_password_policy值的设置有关</p>
+<p>validate_password_policy值默认为1，即MEDIUM，所以刚开始设置的密码必须符合长度要求，且必须含有数字，小写或大写字母，特殊字符</p>
+<p>如果我们只是做为测试用而不需要如此复杂的密码，可使用如下方式修改validate_password_policy值</p>
+<p>命令：<code>set global validate_password_policy=0;</code></p>
+<p>密码的最小长度由validate_password_length值决定，validate_password_length参数默认为8</p>
+<p>修改长度命令：<code>set global validate_password_length=4;</code></p>
+<p>修改密码命令：<code>SET PASSWORD FOR &#39;root&#39;@&#39;localhost&#39; = PASSWORD(&#39;root&#39;);</code></p>
+<p>配置mysql远程链接：<br><code>GRANT ALL PRIVILEGES ON *.* TO &#39;root&#39;@&#39;%&#39; IDENTIFIED BY &#39;root&#39; WITH GRANT OPTION;</code></p>
+<p>刷新权限： flush privileges;</p>
+]]></content>
+      <categories>
+        <category>软件</category>
+      </categories>
+      <tags>
+        <tag>linux</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>centos初始化安装</title>
     <url>/2022/04/07/centos-chu-shi-hua-an-zhuang/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h4 id="安装ifconfig"><a href="#安装ifconfig" class="headerlink" title="安装ifconfig"></a>安装ifconfig</h4><pre><code class="prettyprint">yum search ifconfig # 查看ifconfig命令包
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h4 id="配置阿里云镜像地址"><a href="#配置阿里云镜像地址" class="headerlink" title="配置阿里云镜像地址"></a>配置阿里云镜像地址</h4><pre><code class="prettyprint"># 下载
+curl -o /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo
+# 清理
+yum clean all
+#缓存
+yum makecache
+</code></pre>
+<h4 id="阿里云镜像加速"><a href="#阿里云镜像加速" class="headerlink" title="阿里云镜像加速"></a>阿里云镜像加速</h4><ul>
+<li>登录阿里云，选择<code>容器镜像服务</code></li>
+</ul>
+<img src="/2022/04/07/centos-chu-shi-hua-an-zhuang/image-20220830211532886.png" class="asset-class" title="image-20220830211532886">
+
+<ul>
+<li>选择<code>镜像加速器</code></li>
+</ul>
+<img src="/2022/04/07/centos-chu-shi-hua-an-zhuang/image-20220830211609835.png" class="asset-class" title="image-20220830211609835">
+
+<ul>
+<li>执行命令</li>
+</ul>
+<pre><code class="prettyprint">mkdir -p /etc/docker
+tee /etc/docker/daemon.json &lt;&lt;-&#39;EOF&#39;
+&#123;
+  &quot;registry-mirrors&quot;: [&quot;https://bkp0r8cc.mirror.aliyuncs.com&quot;]
+&#125;
+EOF
+systemctl daemon-reload
+# 需要安装docker
+systemctl restart docker
+</code></pre>
+<h4 id="安装docker"><a href="#安装docker" class="headerlink" title="安装docker"></a>安装docker</h4><ul>
+<li>如果有旧的docker要先卸载</li>
+</ul>
+<pre><code class="prettyprint">yum remove docker \
+                  docker-client \
+                  docker-client-latest \
+                  docker-common \
+                  docker-latest \
+                  docker-latest-logrotate \
+                  docker-logrotate \
+                  docker-engine
+</code></pre>
+<ul>
+<li>安装yum工具</li>
+</ul>
+<pre><code class="prettyprint">yum install -y yum-utils
+# 配置docker仓库源，我们配置阿里云
+yum-config-manager --add-repo http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
+</code></pre>
+<ul>
+<li>安装docker 引擎</li>
+</ul>
+<pre><code class="prettyprint">yum install docker-ce docker-ce-cli containerd.io docker-compose-plugin
+</code></pre>
+<ul>
+<li>启动、测试</li>
+</ul>
+<pre><code class="prettyprint"># 启动
+systemctl start|restart|stop|status|enable|disable docker
+docker version
+</code></pre>
+<img src="/2022/04/07/centos-chu-shi-hua-an-zhuang/image-20220830212012004.png" class="asset-class" title="image-20220830212012004">
+
+
+
+<h4 id="安装ifconfig"><a href="#安装ifconfig" class="headerlink" title="安装ifconfig"></a>安装ifconfig</h4><pre><code class="prettyprint">yum search ifconfig # 查看ifconfig命令包
 yum install net-tools.x86_64 # 安装
 </code></pre>
 <h4 id="安装vim"><a href="#安装vim" class="headerlink" title="安装vim"></a>安装vim</h4><pre><code class="prettyprint">yum -y install vim
@@ -9795,54 +10004,6 @@ yum -y install libaio make cmake gcc-c++ gcc zib zlib-devel open openssl-devel p
       </tags>
   </entry>
   <entry>
-    <title>IDEA配置注释</title>
-    <url>/2021/11/26/idea-pei-zhi-zhu-shi/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>一、类注释</p>
-<ul>
-<li>打开<code>serrings --&gt; Editor --&gt; File and Code Template</code>点击右边的Class,添加注释</li>
-</ul>
-<pre><code class="prettyprint">/**
- * @author jitwxs
- * @date $&#123;YEAR&#125;年$&#123;MONTH&#125;月$&#123;DAY&#125;日 $&#123;TIME&#125;
- */
-</code></pre>
-<p>二、方法注释</p>
-<ul>
-<li><p>打开<code>serrings --&gt; Editor --&gt; Live Template</code></p>
-</li>
-<li><p>先新增Template group（如：define）</p>
-</li>
-<li><p>选中新增的group(如：define)</p>
-</li>
-<li><p>修改该模板的 Abbreviation、Description 和 Template text<br>  Abbreviation：*<br>  Description :方法注释<br>  Template text：</p>
-</li>
-</ul>
-<pre><code class="prettyprint">/**
- * @Description 
- * @Author pengp
- * @Date $date$ $time$$param$ $return$
- */
-</code></pre>
-<ul>
-<li><p>选择No applicable contexts yet(Define)，选择java</p>
-</li>
-<li><p>点击 Edit variables 配置自定义参数<code>$date$ $time$$param$ $return$</code></p>
-</li>
-</ul>
-<pre><code class="prettyprint">date：date()
-time：time()
-param：groovyScript(&quot;def result = &#39;&#39;;def params = \&quot;$&#123;_1&#125;\&quot;.replaceAll(&#39;[\\\\[|\\\\]|\\\\s]&#39;, &#39;&#39;).split(&#39;,&#39;).toList(); for(i = 0; i &lt; params.size(); i++) &#123;if(params[i] != &#39;&#39;)result+=&#39;* @param &#39; + params[i] + ((i &lt; params.size() - 1) ? &#39;\\r\\n &#39; : &#39;&#39;)&#125;; return result == &#39;&#39; ? null : &#39;\\r\\n &#39; + result&quot;, methodParameters())
-return：groovyScript(&quot;return \&quot;$&#123;_1&#125;\&quot; == &#39;void&#39; ? null : &#39;\\r\\n * @return &#39; + \&quot;$&#123;_1&#125;\&quot;&quot;, methodReturnType())
-</code></pre>
-]]></content>
-      <categories>
-        <category>闲谈</category>
-      </categories>
-      <tags>
-        <tag>idea</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>docker-compose安装</title>
     <url>/2021/11/20/docker-compose-an-zhuang/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>下载<br>我们可以从 Github 上下载它的二进制包来使用，最新发行的版本地址：<a href="https://github.com/docker/compose/releases%E3%80%82">https://github.com/docker/compose/releases。</a></p>
@@ -9853,45 +10014,6 @@ return：groovyScript(&quot;return \&quot;$&#123;_1&#125;\&quot; == &#39;void&#3
       </categories>
       <tags>
         <tag>docker</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>centos安装mysql5.7</title>
-    <url>/2021/11/14/centos-an-zhuang-mysql5-7/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>卸载CentOS7系统自带mariadb</p>
-<p>查看系统自带的Mariadb<br>[root@CDH-141 ~]# rpm -qa|grep mariadb<br>mariadb-libs-5.5.44-2.el7.centos.x86_64<br>卸载系统自带的Mariadb<br>[root@CDH-141 ~]# rpm -e –nodeps mariadb-libs-5.5.442.el7.centos.x86_64<br>删除etc目录下的my.cnf ，一定要删掉，等下再重新建，之前我将就用这个文件，后面改配置各种不生效<br>[root@CDH-141 ~]# rm &#x2F;etc&#x2F;my.cnf</p>
-<p>rpm -qa |grep -i mysql   查看yum 安装的所有mysql相关安装包。</p>
-<p>yum remove mysql-community mysql-community-server mysql-community-libs mysql-community-common   依次删除</p>
-<p>一定要删除干净 rpm -qa |grep -i mysql 后没有任何安装包。</p>
-<p>然后 find &#x2F; -name mysql  查看mysql相关文件  rm -rf  文件或者文件夹目录路径</p>
-<p>mysql5.7.20安装过程</p>
-<p>1.下载mysql yum源文件并安装</p>
-<p> 下载：wget <a href="http://repo.mysql.com/mysql57-community-release-el7-10.noarch.rpm">http://repo.mysql.com/mysql57-community-release-el7-10.noarch.rpm</a></p>
-<p> 安装：rpm -Uvh mysql57-community-release-el7-10.noarch.rpm</p>
-<p>2.安装mysql服务端需要等待一段时间</p>
-<p>命令：yum install  -y  mysql-community-server</p>
-<p>3.开启mysql</p>
-<p>命令：service mysqld start</p>
-<p>查看mysql是否启动命令：service mysqld status</p>
-<p>4.进入mysql 修改密码</p>
-<p>查看初始密码命令：grep “password” &#x2F;var&#x2F;log&#x2F;mysqld.log</p>
-<p>登录 <code>mysql -uroot -p</code></p>
-<p>修改密码过于简单会报错</p>
-<p>这一错误其实与validate_password_policy值的设置有关</p>
-<p>validate_password_policy值默认为1，即MEDIUM，所以刚开始设置的密码必须符合长度要求，且必须含有数字，小写或大写字母，特殊字符</p>
-<p>如果我们只是做为测试用而不需要如此复杂的密码，可使用如下方式修改validate_password_policy值</p>
-<p>命令：<code>set global validate_password_policy=0;</code></p>
-<p>密码的最小长度由validate_password_length值决定，validate_password_length参数默认为8</p>
-<p>修改长度命令：<code>set global validate_password_length=4;</code></p>
-<p>修改密码命令：<code>SET PASSWORD FOR &#39;root&#39;@&#39;localhost&#39; = PASSWORD(&#39;root&#39;);</code></p>
-<p>配置mysql远程链接：<br><code>GRANT ALL PRIVILEGES ON *.* TO &#39;root&#39;@&#39;%&#39; IDENTIFIED BY &#39;root&#39; WITH GRANT OPTION;</code></p>
-<p>刷新权限： flush privileges;</p>
-]]></content>
-      <categories>
-        <category>软件</category>
-      </categories>
-      <tags>
-        <tag>linux</tag>
       </tags>
   </entry>
   <entry>
@@ -10198,6 +10320,31 @@ http &#123;
       </tags>
   </entry>
   <entry>
+    <title>docker安装dubbo-admin</title>
+    <url>/2021/10/27/docker-an-zhuang-dubbo-admin/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h4 id="拉取镜像"><a href="#拉取镜像" class="headerlink" title="拉取镜像"></a>拉取镜像</h4><pre><code>docker pull apache/dubbo-admin
+</code></pre>
+<h4 id="安装zookeeper"><a href="#安装zookeeper" class="headerlink" title="安装zookeeper"></a>安装zookeeper</h4><p><a href="http://47.105.140.253:8090/archives/docker-compose-da-jian-zookeeper-ji-qun">docker-compose搭建zookeeper集群</a></p>
+<h4 id="启动镜像"><a href="#启动镜像" class="headerlink" title="启动镜像"></a>启动镜像</h4><pre><code>docker run -d \
+--name dubbo-admin \
+-v /usr/local/dubbo/data:/data \
+-p 9600:8080 \
+-e admin.registry.address=zookeeper://47.105.140.253:2181,47.105.140.253:2182,47.105.140.253:2183 \
+-e admin.config-center=zookeeper://47.105.140.253:2181,47.105.140.253:2182,47.105.140.253:2183 \
+-e admin.metadata-report.address=zookeeper://47.105.140.253:2181,47.105.140.253:2182,47.105.140.253:2183 \
+--restart=always \
+docker.io/apache/dubbo-admin
+</code></pre>
+<h4 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h4><p><a href="http://47.105.140.253:9600/">dubbo-admin</a> 账号root&#x2F;root</p>
+]]></content>
+      <categories>
+        <category>软件</category>
+      </categories>
+      <tags>
+        <tag>docker</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>mysql小技巧</title>
     <url>/2022/04/07/mysql-xiao-ji-qiao/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h3 id="1、this-is-incompatible-with-sql-mode-x3D-only-full-group-by"><a href="#1、this-is-incompatible-with-sql-mode-x3D-only-full-group-by" class="headerlink" title="1、this is incompatible with sql_mode&#x3D;only_full_group_by"></a>1、this is incompatible with sql_mode&#x3D;only_full_group_by</h3><pre><code class="prettyprint">--  mysql 7、8问题
@@ -10255,31 +10402,6 @@ LIMIT 0,30
       </categories>
       <tags>
         <tag>mysql</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>docker安装dubbo-admin</title>
-    <url>/2021/10/27/docker-an-zhuang-dubbo-admin/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h4 id="拉取镜像"><a href="#拉取镜像" class="headerlink" title="拉取镜像"></a>拉取镜像</h4><pre><code>docker pull apache/dubbo-admin
-</code></pre>
-<h4 id="安装zookeeper"><a href="#安装zookeeper" class="headerlink" title="安装zookeeper"></a>安装zookeeper</h4><p><a href="http://47.105.140.253:8090/archives/docker-compose-da-jian-zookeeper-ji-qun">docker-compose搭建zookeeper集群</a></p>
-<h4 id="启动镜像"><a href="#启动镜像" class="headerlink" title="启动镜像"></a>启动镜像</h4><pre><code>docker run -d \
---name dubbo-admin \
--v /usr/local/dubbo/data:/data \
--p 9600:8080 \
--e admin.registry.address=zookeeper://47.105.140.253:2181,47.105.140.253:2182,47.105.140.253:2183 \
--e admin.config-center=zookeeper://47.105.140.253:2181,47.105.140.253:2182,47.105.140.253:2183 \
--e admin.metadata-report.address=zookeeper://47.105.140.253:2181,47.105.140.253:2182,47.105.140.253:2183 \
---restart=always \
-docker.io/apache/dubbo-admin
-</code></pre>
-<h4 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h4><p><a href="http://47.105.140.253:9600/">dubbo-admin</a> 账号root&#x2F;root</p>
-]]></content>
-      <categories>
-        <category>软件</category>
-      </categories>
-      <tags>
-        <tag>docker</tag>
       </tags>
   </entry>
   <entry>
@@ -10388,113 +10510,6 @@ npm_mirror: https://npm.taobao.org/mirrors/npm/
       </categories>
       <tags>
         <tag>node</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>oracle小技巧</title>
-    <url>/2022/04/07/oracle-xiao-ji-qiao/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h3 id="1、megre-into"><a href="#1、megre-into" class="headerlink" title="1、megre into"></a>1、megre into</h3><pre><code class="prettyprint">MERGE INTO table1 T1
-        USING (SELECT  &#39;&#39; cloumn 
-                 FROM DUAL) T2
-        ON (T1.cloumn      = T2.cloumn)
-        WHEN MATCHED THEN
-          UPDATE
-             SET T1.cloumn1      = T2.cloumn1
-        WHEN NOT MATCHED THEN
-        insert
-          (cloumn1)
-        values
-          (T2.cloumn1)
-</code></pre>
-<h3 id="2、连续前几周连续的周日期数据-2019W14-2019W25"><a href="#2、连续前几周连续的周日期数据-2019W14-2019W25" class="headerlink" title="2、连续前几周连续的周日期数据(2019W14-2019W25)"></a>2、连续前几周连续的周日期数据(2019W14-2019W25)</h3><pre><code class="prettyprint">select to_char(t.statCycle, &#39;yyyyMMdd&#39;) statCycleDay,
-       to_char(t.statCycle, &#39;yyyy&#39;) || &#39;W&#39; || to_char(t.statCycle, &#39;WW&#39;) statCycle
-  from (select Rownum rn,
-               (trunc(to_date(&#39;20190622&#39;, &#39;yyyyMMdd&#39;) + Rownum - 7 * 12,
-                      &#39;dd&#39;)) statCycle
-          from dual
-        connect by rownum &lt;= 7 * 12) t
- where t.rn / 7 = cast(t.rn / 7 as int)
- order by t.rn
-</code></pre>
-<h3 id="3、获取前几天的天日期数据"><a href="#3、获取前几天的天日期数据" class="headerlink" title="3、获取前几天的天日期数据"></a>3、获取前几天的天日期数据</h3><pre><code class="prettyprint">select Rownum rn,
-       to_char((trunc(to_date(&#39;20190622&#39;, &#39;yyyyMMdd&#39;) + Rownum - 12, &#39;dd&#39;)),
-               &#39;yyyyMMdd&#39;) statCycle
-  from dual
-connect by rownum &lt;= 12
-</code></pre>
-<h3 id="4、获取前几个月的月日期数据"><a href="#4、获取前几个月的月日期数据" class="headerlink" title="4、获取前几个月的月日期数据"></a>4、获取前几个月的月日期数据</h3><pre><code class="prettyprint">select k.stat_cycle statCycle
-  from (select t.stat_cycle, rownum rn
-          from (select to_char(to_date(&#39;201906&#39;, &#39;yyyyMM&#39;), &#39;yyyy&#39;) - 1 ||
-                       lpad(level, 2, 0) stat_cycle
-                  from dual
-                 start with level = 0
-                connect by level &lt;= 12
-                union all
-                select to_char(to_date(&#39;201906&#39;, &#39;yyyyMM&#39;), &#39;yyyy&#39;) ||
-                       lpad(level, 2, 0) stat_cycle
-                  from dual
-                connect by level &lt;=
-                           to_char(to_date(&#39;201906&#39;, &#39;yyyyMM&#39;), &#39;MM&#39;)) t) k
- where k.rn &gt; to_char(to_date(&#39;201906&#39;, &#39;yyyyMM&#39;), &#39;MM&#39;)
-</code></pre>
-<h3 id="5、获取最近24小时数据"><a href="#5、获取最近24小时数据" class="headerlink" title="5、获取最近24小时数据"></a>5、获取最近24小时数据</h3><pre><code class="prettyprint">select Rownum, trunc(sysdate, &#39;hh&#39;) + rownum / 24 past24
-  from dual
-connect by rownum &lt;= 24
-</code></pre>
-<h3 id="6、字符串’aaa-bbb-ccc’转表数据’aaa’-’bbb’-’ccc’"><a href="#6、字符串’aaa-bbb-ccc’转表数据’aaa’-’bbb’-’ccc’" class="headerlink" title="6、字符串’aaa,bbb,ccc’转表数据’aaa’,’bbb’,’ccc’"></a>6、字符串’aaa,bbb,ccc’转表数据’aaa’,’bbb’,’ccc’</h3><pre><code class="prettyprint">select regexp_substr(&#39;aaa,bbb,ccc&#39;, &#39;[^,]+&#39;, 1, level)
-  from dual
-connect by level &lt;=
-           length(&#39;aaa,bbb,ccc&#39;) - length(replace(&#39;aaa,bbb,ccc&#39;, &#39;,&#39;)) + 1
-</code></pre>
-<h3 id="7、Oracle中rank-over-dense-rank-row-number-的区别"><a href="#7、Oracle中rank-over-dense-rank-row-number-的区别" class="headerlink" title="7、Oracle中rank() over, dense_rank(), row_number() 的区别"></a>7、Oracle中rank() over, dense_rank(), row_number() 的区别</h3><pre><code class="prettyprint">--1. rank over ()可以实现对学生排名，特点是成绩相同的两名是并列，如下1 2 2 4 5
-select name,
-      course,
-      rank() over(partition by course order by score desc) as rank
-  from student;
---2. dense_rank()和rank over()很像，但学生成绩并列后并不会空出并列所占的名次，如下1 2 2 3 4
- 
-select name,
-      course,
-      dense_rank() over(partition by course order by score desc) as rank
-  from student;
---3. row_number这个函数不需要考虑是否并列，那怕根据条件查询出来的数值相同也会进行连续排名
-select name,
-      course,
-      row_number() over(partition by course order by score desc) as rank
-  from student;
-</code></pre>
-<h3 id="8、group-by-与-partition-by-区别"><a href="#8、group-by-与-partition-by-区别" class="headerlink" title="8、group by 与 partition by 区别"></a>8、group by 与 partition by 区别</h3><pre><code class="prettyprint">1. partition by用于给结果集进行分区。
-2. partition by和group by有何区别？
-partition by只是将原始数据进行名次排列(记录数不变)
-group by是对原始数据进行聚合统计(记录数可能变少, 每组返回一条)
-3. 使用rank over()的时候，空值是最大的，如果排序字段为null, 可能造成null字段排在最前面，影响排序结果。
-可以这样： rank over(partition by course order by score desc nulls last)
-</code></pre>
-<h3 id="9、DDL"><a href="#9、DDL" class="headerlink" title="9、DDL"></a>9、DDL</h3><pre><code class="prettyprint">--修改字段类型
-ALTER TABLE ADDRESS MODIFY COLUMN CITY CHAR(30);
---修改字段长度
-ALTER TABLE ADDRESS MODIFY COLUMN CITY VARCHAR(32);
---新增字段
-ALTER TABLE ADDRESS ADD (CITY VARCHAR2(256));
--- 给字段添加注释
-COMMENT ON COLUMN ADDRESS.CITY
-  IS &#39;发帖人联系方式&#39;;
-</code></pre>
-<h3 id="10、plsq注册码"><a href="#10、plsq注册码" class="headerlink" title="10、plsq注册码"></a>10、plsq注册码</h3><ul>
-<li>Product Code：4t46t6vydkvsxekkvf3fjnpzy5wbuhphqz</li>
-<li>serial Number：601769</li>
-<li>password：xs374ca</li>
-</ul>
-<h3 id="11、行转列"><a href="#11、行转列" class="headerlink" title="11、行转列"></a>11、行转列</h3><p><code>LISTAGG*(BUY,&#39;,&#39;) WITHIN GROUP(ORDER BY BUY DESC)</code></p>
-<h3 id="12、根据某一个字段排序获取序号"><a href="#12、根据某一个字段排序获取序号" class="headerlink" title="12、根据某一个字段排序获取序号"></a>12、根据某一个字段排序获取序号</h3><p><code>ROW_NUMBER() OVER(PARTITION BY A.org_no ORDER BY a.det_id DESC) rowflag</code></p>
-<h3 id="13、根据某一个字段获取数量"><a href="#13、根据某一个字段获取数量" class="headerlink" title="13、根据某一个字段获取数量"></a>13、根据某一个字段获取数量</h3><p><code>count(*) over(partition by A.field) coutflag</code></p>
-<h3 id="14、数据库赋权"><a href="#14、数据库赋权" class="headerlink" title="14、数据库赋权"></a>14、数据库赋权</h3><p><code>Grant select on db1.table to db2</code></p>
-]]></content>
-      <categories>
-        <category>数据</category>
-      </categories>
-      <tags>
-        <tag>oracle</tag>
       </tags>
   </entry>
   <entry>
@@ -10736,6 +10751,113 @@ public class JSONUtils &#123;
       </categories>
   </entry>
   <entry>
+    <title>oracle小技巧</title>
+    <url>/2022/04/07/oracle-xiao-ji-qiao/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h3 id="1、megre-into"><a href="#1、megre-into" class="headerlink" title="1、megre into"></a>1、megre into</h3><pre><code class="prettyprint">MERGE INTO table1 T1
+        USING (SELECT  &#39;&#39; cloumn 
+                 FROM DUAL) T2
+        ON (T1.cloumn      = T2.cloumn)
+        WHEN MATCHED THEN
+          UPDATE
+             SET T1.cloumn1      = T2.cloumn1
+        WHEN NOT MATCHED THEN
+        insert
+          (cloumn1)
+        values
+          (T2.cloumn1)
+</code></pre>
+<h3 id="2、连续前几周连续的周日期数据-2019W14-2019W25"><a href="#2、连续前几周连续的周日期数据-2019W14-2019W25" class="headerlink" title="2、连续前几周连续的周日期数据(2019W14-2019W25)"></a>2、连续前几周连续的周日期数据(2019W14-2019W25)</h3><pre><code class="prettyprint">select to_char(t.statCycle, &#39;yyyyMMdd&#39;) statCycleDay,
+       to_char(t.statCycle, &#39;yyyy&#39;) || &#39;W&#39; || to_char(t.statCycle, &#39;WW&#39;) statCycle
+  from (select Rownum rn,
+               (trunc(to_date(&#39;20190622&#39;, &#39;yyyyMMdd&#39;) + Rownum - 7 * 12,
+                      &#39;dd&#39;)) statCycle
+          from dual
+        connect by rownum &lt;= 7 * 12) t
+ where t.rn / 7 = cast(t.rn / 7 as int)
+ order by t.rn
+</code></pre>
+<h3 id="3、获取前几天的天日期数据"><a href="#3、获取前几天的天日期数据" class="headerlink" title="3、获取前几天的天日期数据"></a>3、获取前几天的天日期数据</h3><pre><code class="prettyprint">select Rownum rn,
+       to_char((trunc(to_date(&#39;20190622&#39;, &#39;yyyyMMdd&#39;) + Rownum - 12, &#39;dd&#39;)),
+               &#39;yyyyMMdd&#39;) statCycle
+  from dual
+connect by rownum &lt;= 12
+</code></pre>
+<h3 id="4、获取前几个月的月日期数据"><a href="#4、获取前几个月的月日期数据" class="headerlink" title="4、获取前几个月的月日期数据"></a>4、获取前几个月的月日期数据</h3><pre><code class="prettyprint">select k.stat_cycle statCycle
+  from (select t.stat_cycle, rownum rn
+          from (select to_char(to_date(&#39;201906&#39;, &#39;yyyyMM&#39;), &#39;yyyy&#39;) - 1 ||
+                       lpad(level, 2, 0) stat_cycle
+                  from dual
+                 start with level = 0
+                connect by level &lt;= 12
+                union all
+                select to_char(to_date(&#39;201906&#39;, &#39;yyyyMM&#39;), &#39;yyyy&#39;) ||
+                       lpad(level, 2, 0) stat_cycle
+                  from dual
+                connect by level &lt;=
+                           to_char(to_date(&#39;201906&#39;, &#39;yyyyMM&#39;), &#39;MM&#39;)) t) k
+ where k.rn &gt; to_char(to_date(&#39;201906&#39;, &#39;yyyyMM&#39;), &#39;MM&#39;)
+</code></pre>
+<h3 id="5、获取最近24小时数据"><a href="#5、获取最近24小时数据" class="headerlink" title="5、获取最近24小时数据"></a>5、获取最近24小时数据</h3><pre><code class="prettyprint">select Rownum, trunc(sysdate, &#39;hh&#39;) + rownum / 24 past24
+  from dual
+connect by rownum &lt;= 24
+</code></pre>
+<h3 id="6、字符串’aaa-bbb-ccc’转表数据’aaa’-’bbb’-’ccc’"><a href="#6、字符串’aaa-bbb-ccc’转表数据’aaa’-’bbb’-’ccc’" class="headerlink" title="6、字符串’aaa,bbb,ccc’转表数据’aaa’,’bbb’,’ccc’"></a>6、字符串’aaa,bbb,ccc’转表数据’aaa’,’bbb’,’ccc’</h3><pre><code class="prettyprint">select regexp_substr(&#39;aaa,bbb,ccc&#39;, &#39;[^,]+&#39;, 1, level)
+  from dual
+connect by level &lt;=
+           length(&#39;aaa,bbb,ccc&#39;) - length(replace(&#39;aaa,bbb,ccc&#39;, &#39;,&#39;)) + 1
+</code></pre>
+<h3 id="7、Oracle中rank-over-dense-rank-row-number-的区别"><a href="#7、Oracle中rank-over-dense-rank-row-number-的区别" class="headerlink" title="7、Oracle中rank() over, dense_rank(), row_number() 的区别"></a>7、Oracle中rank() over, dense_rank(), row_number() 的区别</h3><pre><code class="prettyprint">--1. rank over ()可以实现对学生排名，特点是成绩相同的两名是并列，如下1 2 2 4 5
+select name,
+      course,
+      rank() over(partition by course order by score desc) as rank
+  from student;
+--2. dense_rank()和rank over()很像，但学生成绩并列后并不会空出并列所占的名次，如下1 2 2 3 4
+ 
+select name,
+      course,
+      dense_rank() over(partition by course order by score desc) as rank
+  from student;
+--3. row_number这个函数不需要考虑是否并列，那怕根据条件查询出来的数值相同也会进行连续排名
+select name,
+      course,
+      row_number() over(partition by course order by score desc) as rank
+  from student;
+</code></pre>
+<h3 id="8、group-by-与-partition-by-区别"><a href="#8、group-by-与-partition-by-区别" class="headerlink" title="8、group by 与 partition by 区别"></a>8、group by 与 partition by 区别</h3><pre><code class="prettyprint">1. partition by用于给结果集进行分区。
+2. partition by和group by有何区别？
+partition by只是将原始数据进行名次排列(记录数不变)
+group by是对原始数据进行聚合统计(记录数可能变少, 每组返回一条)
+3. 使用rank over()的时候，空值是最大的，如果排序字段为null, 可能造成null字段排在最前面，影响排序结果。
+可以这样： rank over(partition by course order by score desc nulls last)
+</code></pre>
+<h3 id="9、DDL"><a href="#9、DDL" class="headerlink" title="9、DDL"></a>9、DDL</h3><pre><code class="prettyprint">--修改字段类型
+ALTER TABLE ADDRESS MODIFY COLUMN CITY CHAR(30);
+--修改字段长度
+ALTER TABLE ADDRESS MODIFY COLUMN CITY VARCHAR(32);
+--新增字段
+ALTER TABLE ADDRESS ADD (CITY VARCHAR2(256));
+-- 给字段添加注释
+COMMENT ON COLUMN ADDRESS.CITY
+  IS &#39;发帖人联系方式&#39;;
+</code></pre>
+<h3 id="10、plsq注册码"><a href="#10、plsq注册码" class="headerlink" title="10、plsq注册码"></a>10、plsq注册码</h3><ul>
+<li>Product Code：4t46t6vydkvsxekkvf3fjnpzy5wbuhphqz</li>
+<li>serial Number：601769</li>
+<li>password：xs374ca</li>
+</ul>
+<h3 id="11、行转列"><a href="#11、行转列" class="headerlink" title="11、行转列"></a>11、行转列</h3><p><code>LISTAGG*(BUY,&#39;,&#39;) WITHIN GROUP(ORDER BY BUY DESC)</code></p>
+<h3 id="12、根据某一个字段排序获取序号"><a href="#12、根据某一个字段排序获取序号" class="headerlink" title="12、根据某一个字段排序获取序号"></a>12、根据某一个字段排序获取序号</h3><p><code>ROW_NUMBER() OVER(PARTITION BY A.org_no ORDER BY a.det_id DESC) rowflag</code></p>
+<h3 id="13、根据某一个字段获取数量"><a href="#13、根据某一个字段获取数量" class="headerlink" title="13、根据某一个字段获取数量"></a>13、根据某一个字段获取数量</h3><p><code>count(*) over(partition by A.field) coutflag</code></p>
+<h3 id="14、数据库赋权"><a href="#14、数据库赋权" class="headerlink" title="14、数据库赋权"></a>14、数据库赋权</h3><p><code>Grant select on db1.table to db2</code></p>
+]]></content>
+      <categories>
+        <category>数据</category>
+      </categories>
+      <tags>
+        <tag>oracle</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>微信小程序构建npm问题</title>
     <url>/2022/04/05/wei-xin-xiao-cheng-xu-gou-jian-npm-wen-ti/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><ol>
@@ -10780,17 +10902,6 @@ public class JSONUtils &#123;
 ]]></content>
   </entry>
   <entry>
-    <title>算法可视化地址</title>
-    <url>/2021/10/11/suan-fa-ke-shi-hua-di-zhi/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p><a href="https://www.cs.usfca.edu/~galles/visualization/Algorithms.html">https://www.cs.usfca.edu/~galles/visualization/Algorithms.html</a><br><a href="https://algorithm-visualizer.org/">https://algorithm-visualizer.org/</a></p>
-<div class="aplayer-box" data-url='http://www.ytmp3.cn/down/51689.mp3' data-name='你一定要幸福' data-artist='简弘亦' data-cover='http://img.ytmp3.cn/image/52.jpg' data-lrc='http://img.ytmp3.cn/image/52..lrc' data-lrcType='3' ></div>
-
-]]></content>
-      <categories>
-        <category>闲谈</category>
-      </categories>
-  </entry>
-  <entry>
     <title>若依学习-验证码</title>
     <url>/2021/08/31/ruo-yi-xue-xi-yan-zheng-ma/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h2 id="后端"><a href="#后端" class="headerlink" title="后端"></a>后端</h2><h3 id="pom依赖"><a href="#pom依赖" class="headerlink" title="pom依赖"></a>pom依赖</h3><pre><code class="prettyprint">&lt;properties&gt;
@@ -10809,19 +10920,6 @@ public class JSONUtils &#123;
 ]]></content>
       <categories>
         <category>若依</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>记一次dubbo获取服务接口问题</title>
-    <url>/2022/03/30/ji-yi-ci-dubbo-huo-qu-fu-wu-jie-kou-wen-ti/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><ol>
-<li>新版本程序使用旧版本zk导致，服务存在但是新增接口方法不存在</li>
-<li>清理zk数据，未重启服务导致所有服务不存在</li>
-<li>重启服务解决问题<br>ps:zk如果宕机会取本地缓存，但是没有宕机，服务数据不存在就会找不到对应的服务及接口</li>
-</ol>
-]]></content>
-      <categories>
-        <category>问题</category>
       </categories>
   </entry>
   <entry>
@@ -10853,8 +10951,32 @@ public class JSONUtils &#123;
       </categories>
   </entry>
   <entry>
+    <title>算法可视化地址</title>
+    <url>/2021/10/11/suan-fa-ke-shi-hua-di-zhi/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p><a href="https://www.cs.usfca.edu/~galles/visualization/Algorithms.html">https://www.cs.usfca.edu/~galles/visualization/Algorithms.html</a><br><a href="https://algorithm-visualizer.org/">https://algorithm-visualizer.org/</a></p>
+<div class="aplayer-box" data-url='http://www.ytmp3.cn/down/51689.mp3' data-name='你一定要幸福' data-artist='简弘亦' data-cover='http://img.ytmp3.cn/image/52.jpg' data-lrc='http://img.ytmp3.cn/image/52..lrc' data-lrcType='3' ></div>
+
+]]></content>
+      <categories>
+        <category>闲谈</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>记一次dubbo获取服务接口问题</title>
+    <url>/2022/03/30/ji-yi-ci-dubbo-huo-qu-fu-wu-jie-kou-wen-ti/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><ol>
+<li>新版本程序使用旧版本zk导致，服务存在但是新增接口方法不存在</li>
+<li>清理zk数据，未重启服务导致所有服务不存在</li>
+<li>重启服务解决问题<br>ps:zk如果宕机会取本地缓存，但是没有宕机，服务数据不存在就会找不到对应的服务及接口</li>
+</ol>
+]]></content>
+      <categories>
+        <category>问题</category>
+      </categories>
+  </entry>
+  <entry>
     <title>阿里云服务器安装Docker</title>
-    <url>/2021/10/16/a-li-yun-fu-wu-qi-an-zhuang-dockerr/</url>
+    <url>/2021/10/16/a-li-yun-fu-wu-qi-an-zhuang-docker/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>在阿里云服务器上安装Docker，服务器的系统是CentOS 7.6，</p>
 <p>所以可以看官方Docker安装文档：<a href="https://docs.docker.com/install/linux/docker-ce/centos/">https://docs.docker.com/install/linux/docker-ce/centos/</a></p>
 <p>从阅读官网来看，首先若是没有较旧的Docker版本只需3步就可以完成Dockers的安装；但是有旧版本的话，需要先卸载旧版本</p>
@@ -12830,69 +12952,6 @@ Clearing topic-level throttles on topic first
       <tags>
         <tag>中间件</tag>
         <tag>kafka</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>VMware下CentOS7最小化安装及配置</title>
-    <url>/2021/11/14/vmware-xia-centos7-zui-xiao-hua-an-zhuang-ji-pei-zhi/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p><a href="https://blog.csdn.net/hellboy0621/article/details/80392273">https://blog.csdn.net/hellboy0621/article/details/80392273</a></p>
-<p>3、配置</p>
-<p>3.1 配置网络</p>
-<p>在最小化安装的CentOS7中，ifconfig是不能使用的，查看网卡信息的命令是</p>
-<p>ip addr</p>
-<p>其中“ens33”为网卡名称，修改IP地址等信息</p>
-<p>vi &#x2F;etc&#x2F;sysconfig&#x2F;network-scripts&#x2F;ifcfg-ens33<br>根据实际情况修改内容：</p>
-<p>TYPE&#x3D;Ethernet<br>PROXY_METHOD&#x3D;none<br>BROWSER_ONLY&#x3D;no<br>BOOTPROTO&#x3D;static #启用静态ip地址<br>DEFROUTE&#x3D;yes<br>IPV4_FAILURE_FATAL&#x3D;no<br>IPV6INIT&#x3D;yes<br>IPV6_AUTOCONF&#x3D;yes<br>IPV6_DEFROUTE&#x3D;yes<br>IPV6_FAILURE_FATAL&#x3D;no<br>IPV6_ADDR_GEN_MODE&#x3D;stable-privacy<br>NAME&#x3D;ens33<br>UUID&#x3D;8d497804-9ffa-4edc-951a-5ddd8d2ed504<br>DEVICE&#x3D;ens33<br>ONBOOT&#x3D;yes #自动启用网络连接<br>IPADDR0&#x3D;192.168.0.201 #IP地址<br>PREFIXO0&#x3D;24 #子网掩码<br>GATEWAY0&#x3D;192.168.0.1 #网关<br>DNS1&#x3D;192.168.0.1 #DNS<br>修改好后保存退出，并重启网络，测试网络是否连接正常：</p>
-<p>[root@centos7 ~]# service network restart<br>Restarting network (via systemctl):                        [  OK  ]<br>[root@centos7 ~]# ping <a href="http://www.baidu.com/">www.baidu.com</a><br>PING <a href="http://www.a.shifen.com/">www.a.shifen.com</a> (220.181.111.188) 56(84) bytes of data.<br>64 bytes from 220.181.111.188 (220.181.111.188): icmp_seq&#x3D;1 ttl&#x3D;55 time&#x3D;27.6 ms<br>64 bytes from 220.181.111.188 (220.181.111.188): icmp_seq&#x3D;2 ttl&#x3D;55 time&#x3D;89.3 ms<br>64 bytes from 220.181.111.188 (220.181.111.188): icmp_seq&#x3D;3 ttl&#x3D;55 time&#x3D;27.1 ms<br>64 bytes from 220.181.111.188 (220.181.111.188): icmp_seq&#x3D;4 ttl&#x3D;55 time&#x3D;26.2 ms<br>^C<br>— <a href="http://www.a.shifen.com/">www.a.shifen.com</a> ping statistics —<br>4 packets transmitted, 4 received, 0% packet loss, time 3005ms<br>rtt min&#x2F;avg&#x2F;max&#x2F;mdev &#x3D; 26.254&#x2F;42.606&#x2F;89.358&#x2F;26.997 ms<br>3.2 安装ifconfig命令</p>
-<p>查看哪个组件包含了ifconfig命令</p>
-<p>yum provides ifconfig<br>或<br>yum whatprovides ifconfig</p>
-<p>ifconfig命令依赖于net-tools的，安装</p>
-<p>yum install -y net-tools<br>3.3 安装vim编辑器</p>
-<p>yum install -y vim-enhanced<br>3.4 安装wget</p>
-<p>yum install -y wget<br>3.5 关闭SELinux</p>
-<p>编辑SELinux配置文件</p>
-<p>vim &#x2F;etc&#x2F;selinux&#x2F;config<br>注释掉2行代码，并在最后添加1行代码</p>
-<p>#SELINUX&#x3D;enforcing<br>#SELINUXTYPE&#x3D;targeted<br>SELINUX&#x3D;disabled<br>保存并关闭，使设置启用，最好重启一下系统，也可以稍后重启</p>
-<p>setenforce 0<br>3.6 关闭CentOS自带firewall防火墙，启用iptables</p>
-<h1 id="停止firewall"><a href="#停止firewall" class="headerlink" title="停止firewall"></a>停止firewall</h1><p>[root@centos7 &#x2F;]# systemctl stop firewalld</p>
-<h1 id="关闭firewall自动启动"><a href="#关闭firewall自动启动" class="headerlink" title="关闭firewall自动启动"></a>关闭firewall自动启动</h1><p>[root@centos7 &#x2F;]# systemctl disable firewalld.service<br>Removed symlink &#x2F;etc&#x2F;systemd&#x2F;system&#x2F;multi-user.target.wants&#x2F;firewalld.service.<br>Removed symlink &#x2F;etc&#x2F;systemd&#x2F;system&#x2F;dbus-org.fedoraproject.FirewallD1.service.<br>安装iptables防火墙</p>
-<p>yum install -y iptables-services<br>使用iptables默认配置文件，可以在此配置文件中增加规则</p>
-<p>[root@centos7 ~]# vim &#x2F;etc&#x2F;sysconfig&#x2F;iptables</p>
-<h1 id="sample-configuration-for-iptables-service"><a href="#sample-configuration-for-iptables-service" class="headerlink" title="sample configuration for iptables service"></a>sample configuration for iptables service</h1><h1 id="you-can-edit-this-manually-or-use-system-config-firewall"><a href="#you-can-edit-this-manually-or-use-system-config-firewall" class="headerlink" title="you can edit this manually or use system-config-firewall"></a>you can edit this manually or use system-config-firewall</h1><h1 id="please-do-not-ask-us-to-add-additional-ports-x2F-services-to-this-default-configuration"><a href="#please-do-not-ask-us-to-add-additional-ports-x2F-services-to-this-default-configuration" class="headerlink" title="please do not ask us to add additional ports&#x2F;services to this default configuration"></a>please do not ask us to add additional ports&#x2F;services to this default configuration</h1><p>*filter<br>:INPUT ACCEPT [0:0]<br>:FORWARD ACCEPT [0:0]<br>:OUTPUT ACCEPT [0:0]<br>-A INPUT -m state –state RELATED,ESTABLISHED -j ACCEPT<br>-A INPUT -p icmp -j ACCEPT<br>-A INPUT -i lo -j ACCEPT<br>-A INPUT -p tcp -m state –state NEW -m tcp –dport 22 -j ACCEPT<br>-A INPUT -j REJECT –reject-with icmp-host-prohibited<br>-A FORWARD -j REJECT –reject-with icmp-host-prohibited<br>COMMIT<br>重启iptables，并添加到开机自启项中，查看iptables状态</p>
-<p>[root@centos7 ~]# systemctl restart iptables.service<br>[root@centos7 ~]# systemctl enable iptables.service<br>Created symlink from &#x2F;etc&#x2F;systemd&#x2F;system&#x2F;basic.target.wants&#x2F;iptables.service to &#x2F;usr&#x2F;lib&#x2F;systemd&#x2F;system&#x2F;iptables.service.<br>[root@centos7 ~]# service iptables status<br>Redirecting to &#x2F;bin&#x2F;systemctl status iptables.service<br>● iptables.service - IPv4 firewall with iptables<br>   Loaded: loaded (&#x2F;usr&#x2F;lib&#x2F;systemd&#x2F;system&#x2F;iptables.service; enabled; vendor preset: disabled)<br>   Active: active (exited) since Mon 2018-05-21 18:09:28 CST; 18s ago<br> Main PID: 1195 (code&#x3D;exited, status&#x3D;0&#x2F;SUCCESS)</p>
-<p>May 21 18:09:27 centos7 systemd[1]: Starting IPv4 firewall with iptables…<br>May 21 18:09:28 centos7 iptables.init[1195]: iptables: Applying firewall rules: [  OK  ]<br>May 21 18:09:28 centos7 systemd[1]: Started IPv4 firewall with iptables.<br>3.7 配置国内yum源和epel源</p>
-<p>3.7.1 配置yum源</p>
-<p>1）新建文件夹，保存系统中原来的repo文件</p>
-<p>[root@centos7 ~]# cd &#x2F;etc&#x2F;yum.repos.d&#x2F;<br>[root@centos7 yum.repos.d]# mkdir repo_bak<br>[root@centos7 yum.repos.d]# mv *.repo repo_bak&#x2F;<br>2）下载阿里云和网易对应系统的repo文件</p>
-<p>[root@centos7 yum.repos.d]# wget <a href="http://mirrors.aliyun.com/repo/Centos-7.repo">http://mirrors.aliyun.com/repo/Centos-7.repo</a><br>[root@centos7 yum.repos.d]# wget <a href="http://mirrors.163.com/.help/CentOS7-Base-163.repo">http://mirrors.163.com/.help/CentOS7-Base-163.repo</a><br>[root@centos7 yum.repos.d]# ll<br>total 8<br>-rw-r–r– 1 root root 1572 Dec  1  2016 CentOS7-Base-163.repo<br>-rw-r–r– 1 root root 2573 Nov 21  2014 Centos-7.repo<br>drwxr-xr-x 2 root root  187 May 21 18:25 repo_bak<br>3）清楚系统yum缓存，并生成新的yum缓存</p>
-<p>[root@centos7 yum.repos.d]# yum clean all<br>Loaded plugins: fastestmirror<br>Repository base is listed more than once in the configuration<br>Repository updates is listed more than once in the configuration<br>Repository extras is listed more than once in the configuration<br>Repository centosplus is listed more than once in the configuration<br>Cleaning repos: base extras updates<br>Cleaning up everything<br>Maybe you want: rm -rf &#x2F;var&#x2F;cache&#x2F;yum, to also free up space taken by orphaned data from disabled or removed repos<br>Cleaning up list of fastest mirrors</p>
-<p>[root@centos7 yum.repos.d]# yum makecache<br>Loaded plugins: fastestmirror<br>Repository base is listed more than once in the configuration<br>Repository updates is listed more than once in the configuration<br>Repository extras is listed more than once in the configuration<br>Repository centosplus is listed more than once in the configuration<br>Determining fastest mirrors<br>base                                                                                   | 3.6 kB  00:00:00<br>extras                                                                                 | 3.4 kB  00:00:00<br>updates                                                                                | 3.4 kB  00:00:00<br>(1&#x2F;12): base&#x2F;7&#x2F;x86_64&#x2F;group_gz                                                         | 166 kB  00:00:00<br>(2&#x2F;12): base&#x2F;7&#x2F;x86_64&#x2F;primary_db                                                       | 5.9 MB  00:00:01<br>(3&#x2F;12): extras&#x2F;7&#x2F;x86_64&#x2F;prestodelta                                                    |  47 kB  00:00:00<br>(4&#x2F;12): base&#x2F;7&#x2F;x86_64&#x2F;other_db                                                         | 2.5 MB  00:00:00<br>(5&#x2F;12): extras&#x2F;7&#x2F;x86_64&#x2F;primary_db                                                     | 143 kB  00:00:00<br>(6&#x2F;12): extras&#x2F;7&#x2F;x86_64&#x2F;filelists_db                                                   | 517 kB  00:00:00<br>(7&#x2F;12): extras&#x2F;7&#x2F;x86_64&#x2F;other_db                                                       |  91 kB  00:00:00<br>(8&#x2F;12): updates&#x2F;7&#x2F;x86_64&#x2F;prestodelta                                                   | 180 kB  00:00:00<br>(9&#x2F;12): updates&#x2F;7&#x2F;x86_64&#x2F;filelists_db                                                  | 875 kB  00:00:00<br>(10&#x2F;12): updates&#x2F;7&#x2F;x86_64&#x2F;other_db                                                     | 201 kB  00:00:00<br>(11&#x2F;12): updates&#x2F;7&#x2F;x86_64&#x2F;primary_db                                                   | 1.2 MB  00:00:00<br>(12&#x2F;12): base&#x2F;7&#x2F;x86_64&#x2F;filelists_db                                                    | 6.9 MB  00:00:04<br>Metadata Cache Created<br>3.7.2 配置epel源</p>
-<p>1）安装epel-release，安装成功后，会自动生成epel.repo和epel-testing.repo两个文件</p>
-<p>[root@centos7 yum.repos.d]# yum list | grep epel-release<br>Repository base is listed more than once in the configuration<br>Repository updates is listed more than once in the configuration<br>Repository extras is listed more than once in the configuration<br>Repository centosplus is listed more than once in the configuration<br>epel-release.noarch                         7-11                       extras</p>
-<p>[root@centos7 yum.repos.d]# yum install -y epel-release<br>Loaded plugins: fastestmirror<br>Repository base is listed more than once in the configuration<br>Repository updates is listed more than once in the configuration<br>Repository extras is listed more than once in the configuration<br>Repository centosplus is listed more than once in the configuration<br>Loading mirror speeds from cached hostfile<br>Resolving Dependencies<br>–&gt; Running transaction check<br>—&gt; Package epel-release.noarch 0:7-11 will be installed<br>–&gt; Finished Dependency Resolution</p>
-<p>Dependencies Resolved</p>
-<p>&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;<br> Package                       Arch                    Version                  Repository               Size<br>&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;<br>Installing:<br> epel-release                  noarch                  7-11                     extras                   15 k</p>
-<h1 id="Transaction-Summary"><a href="#Transaction-Summary" class="headerlink" title="Transaction Summary"></a>Transaction Summary</h1><p>Install  1 Package</p>
-<p>Total download size: 15 k<br>Installed size: 24 k<br>Downloading packages:<br>epel-release-7-11.noarch.rpm                                                           |  15 kB  00:00:00<br>Running transaction check<br>Running transaction test<br>Transaction test succeeded<br>Running transaction<br>  Installing : epel-release-7-11.noarch                                                                   1&#x2F;1<br>  Verifying  : epel-release-7-11.noarch                                                                   1&#x2F;1</p>
-<p>Installed:<br>  epel-release.noarch 0:7-11</p>
-<p>Complete!</p>
-<p>[root@centos7 yum.repos.d]# ll<br>total 16<br>-rw-r–r– 1 root root 1572 Dec  1  2016 CentOS7-Base-163.repo<br>-rw-r–r– 1 root root 2573 Nov 21  2014 Centos-7.repo<br>-rw-r–r– 1 root root  951 Oct  3  2017 epel.repo<br>-rw-r–r– 1 root root 1050 Oct  3  2017 epel-testing.repo<br>drwxr-xr-x 2 root root  187 May 21 18:25 repo_bak<br>2）下载阿里云开源镜像的epel源文件</p>
-<p>[root@centos7 yum.repos.d]# wget -O &#x2F;etc&#x2F;yum.repos.d&#x2F;epel-7.repo <a href="http://mirrors.aliyun.com/repo/epel-7.repo">http://mirrors.aliyun.com/repo/epel-7.repo</a><br>–2018-05-21 18:35:24–  <a href="http://mirrors.aliyun.com/repo/epel-7.repo">http://mirrors.aliyun.com/repo/epel-7.repo</a><br>Resolving mirrors.aliyun.com (mirrors.aliyun.com)… 1.81.1.230, 1.81.1.223, 1.81.1.224, …<br>Connecting to mirrors.aliyun.com (mirrors.aliyun.com)|1.81.1.230|:80… connected.<br>HTTP request sent, awaiting response… 200 OK<br>Length: 664 [application&#x2F;octet-stream]<br>Saving to: ‘&#x2F;etc&#x2F;yum.repos.d&#x2F;epel-7.repo’</p>
-<p>100%[&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&gt;] 664         –.-K&#x2F;s   in 0s</p>
-<p>2018-05-21 18:35:24 (148 MB&#x2F;s) - ‘&#x2F;etc&#x2F;yum.repos.d&#x2F;epel-7.repo’ saved [664&#x2F;664]</p>
-<p>[root@centos7 yum.repos.d]# ll<br>total 20<br>-rw-r–r– 1 root root 1572 Dec  1  2016 CentOS7-Base-163.repo<br>-rw-r–r– 1 root root 2573 Nov 21  2014 Centos-7.repo<br>-rw-r–r– 1 root root  664 May 11 11:35 epel-7.repo<br>-rw-r–r– 1 root root  951 Oct  3  2017 epel.repo<br>-rw-r–r– 1 root root 1050 Oct  3  2017 epel-testing.repo<br>drwxr-xr-x 2 root root  187 May 21 18:25 repo_bak<br>3）再次清除系统yum缓存，并重新生成yum缓存</p>
-<p>[root@centos7 yum.repos.d]# yum clean all<br>Loaded plugins: fastestmirror<br>Repository base is listed more than once in the configuration<br>Repository updates is listed more than once in the configuration<br>Repository extras is listed more than once in the configuration<br>Repository centosplus is listed more than once in the configuration<br>Repository epel is listed more than once in the configuration<br>Repository epel-debuginfo is listed more than once in the configuration<br>Repository epel-source is listed more than once in the configuration<br>Cleaning repos: base epel extras updates<br>Cleaning up everything<br>Maybe you want: rm -rf &#x2F;var&#x2F;cache&#x2F;yum, to also free up space taken by orphaned data from disabled or removed repos<br>Cleaning up list of fastest mirrors</p>
-<p>[root@centos7 yum.repos.d]# yum makecache<br>Loaded plugins: fastestmirror<br>Repository base is listed more than once in the configuration<br>Repository updates is listed more than once in the configuration<br>Repository extras is listed more than once in the configuration<br>Repository centosplus is listed more than once in the configuration<br>Repository epel is listed more than once in the configuration<br>Repository epel-debuginfo is listed more than once in the configuration<br>Repository epel-source is listed more than once in the configuration<br>Determining fastest mirrors<br>base                                                                                   | 3.6 kB  00:00:00<br>epel                                                                                   | 4.7 kB  00:00:00<br>extras                                                                                 | 3.4 kB  00:00:00<br>updates                                                                                | 3.4 kB  00:00:00<br>(1&#x2F;18): base&#x2F;7&#x2F;x86_64&#x2F;group_gz                                                         | 166 kB  00:00:00<br>(2&#x2F;18): base&#x2F;7&#x2F;x86_64&#x2F;primary_db                                                       | 5.9 MB  00:00:01<br>(3&#x2F;18): base&#x2F;7&#x2F;x86_64&#x2F;other_db                                                         | 2.5 MB  00:00:00<br>(4&#x2F;18): epel&#x2F;x86_64&#x2F;group_gz                                                           |  88 kB  00:00:01<br>(5&#x2F;18): epel&#x2F;x86_64&#x2F;updateinfo                                                         | 923 kB  00:00:00<br>(6&#x2F;18): epel&#x2F;x86_64&#x2F;prestodelta                                                        | 2.8 kB  00:00:00<br>(7&#x2F;18): epel&#x2F;x86_64&#x2F;primary_db                                                         | 6.4 MB  00:00:02<br>(8&#x2F;18): epel&#x2F;x86_64&#x2F;filelists_db                                                       |  10 MB  00:00:03<br>(9&#x2F;18): extras&#x2F;7&#x2F;x86_64&#x2F;filelists_db                                                   | 517 kB  00:00:00<br>(10&#x2F;18): extras&#x2F;7&#x2F;x86_64&#x2F;primary_db                                                    | 143 kB  00:00:00<br>(11&#x2F;18): extras&#x2F;7&#x2F;x86_64&#x2F;other_db                                                      |  91 kB  00:00:00<br>(12&#x2F;18): extras&#x2F;7&#x2F;x86_64&#x2F;prestodelta                                                   |  47 kB  00:00:00<br>(13&#x2F;18): updates&#x2F;7&#x2F;x86_64&#x2F;prestodelta                                                  | 180 kB  00:00:00<br>(14&#x2F;18): updates&#x2F;7&#x2F;x86_64&#x2F;primary_db                                                   | 1.2 MB  00:00:00<br>(15&#x2F;18): updates&#x2F;7&#x2F;x86_64&#x2F;other_db                                                     | 201 kB  00:00:00<br>(16&#x2F;18): epel&#x2F;x86_64&#x2F;other_db                                                          | 3.1 MB  00:00:01<br>(17&#x2F;18): updates&#x2F;7&#x2F;x86_64&#x2F;filelists_db                                                 | 875 kB  00:00:00<br>(18&#x2F;18): base&#x2F;7&#x2F;x86_64&#x2F;filelists_db                                                    | 6.9 MB  00:00:09<br>Metadata Cache Created<br>3.7.3 查看系统可用的yum源和所有的yum源</p>
-<p>[root@centos7 yum.repos.d]# yum repolist enabled<br>Loaded plugins: fastestmirror<br>Repository base is listed more than once in the configuration<br>Repository updates is listed more than once in the configuration<br>Repository extras is listed more than once in the configuration<br>Repository centosplus is listed more than once in the configuration<br>Repository epel is listed more than once in the configuration<br>Repository epel-debuginfo is listed more than once in the configuration<br>Repository epel-source is listed more than once in the configuration<br>Loading mirror speeds from cached hostfile<br>repo id                              repo name                                                          status<br>base&#x2F;7&#x2F;x86_64                        CentOS-7 - Base - 163.com                                           9,911<br>epel&#x2F;x86_64                          Extra Packages for Enterprise Linux 7 - x86_64                     12,542<br>extras&#x2F;7&#x2F;x86_64                      CentOS-7 - Extras - 163.com                                           291<br>updates&#x2F;7&#x2F;x86_64                     CentOS-7 - Updates - 163.com                                          539<br>repolist: 23,283<br>[root@centos7 yum.repos.d]#<br>[root@centos7 yum.repos.d]# yum repolist all<br>Loaded plugins: fastestmirror<br>Repository base is listed more than once in the configuration<br>Repository updates is listed more than once in the configuration<br>Repository extras is listed more than once in the configuration<br>Repository centosplus is listed more than once in the configuration<br>Repository epel is listed more than once in the configuration<br>Repository epel-debuginfo is listed more than once in the configuration<br>Repository epel-source is listed more than once in the configuration<br>Loading mirror speeds from cached hostfile<br>repo id                       repo name                                                        status<br>base&#x2F;7&#x2F;x86_64                 CentOS-7 - Base - 163.com                                        enabled:  9,911<br>centosplus&#x2F;7&#x2F;x86_64           CentOS-7 - Plus - 163.com                                        disabled<br>contrib&#x2F;7&#x2F;x86_64              CentOS-7 - Contrib - mirrors.aliyun.com                          disabled<br>epel&#x2F;x86_64                   Extra Packages for Enterprise Linux 7 - x86_64                   enabled: 12,542<br>epel-debuginfo&#x2F;x86_64         Extra Packages for Enterprise Linux 7 - x86_64 - Debug           disabled<br>epel-source                   Extra Packages for Enterprise Linux 7 - x86_64 - Source          disabled<br>epel-testing&#x2F;x86_64           Extra Packages for Enterprise Linux 7 - Testing - x86_64         disabled<br>epel-testing-debuginfo&#x2F;x86_64 Extra Packages for Enterprise Linux 7 - Testing - x86_64 - Debug disabled<br>epel-testing-source&#x2F;x86_64    Extra Packages for Enterprise Linux 7 - Testing - x86_64 - Sourc disabled<br>extras&#x2F;7&#x2F;x86_64               CentOS-7 - Extras - 163.com                                      enabled:    291<br>updates&#x2F;7&#x2F;x86_64              CentOS-7 - Updates - 163.com                                     enabled:    539<br>repolist: 23,283<br>3.8 修改hostname主机名</p>
-<p>3.8.1 hostnamectl</p>
-<p>[root@localhost ~]# hostnamectl<br>   Static hostname: localhost.localdomain<br>         Icon name: computer-vm<br>           Chassis: vm<br>        Machine ID: 8dbe281bfa3d4b3c9390c26f494db334<br>           Boot ID: b629ca855d3e4406ab886fe709d2f917<br>    Virtualization: vmware<br>  Operating System: CentOS Linux 7 (Core)<br>       CPE OS Name: cpe:&#x2F;o:centos:centos:7<br>            Kernel: Linux 3.10.0-514.el7.x86_64<br>      Architecture: x86-64<br>[root@localhost ~]# hostnamectl set-hostname CentOS<br>[root@localhost ~]# hostnamectl<br>   Static hostname: centos<br>   Pretty hostname: CentOS<br>         Icon name: computer-vm<br>           Chassis: vm<br>        Machine ID: 8dbe281bfa3d4b3c9390c26f494db334<br>           Boot ID: b629ca855d3e4406ab886fe709d2f917<br>    Virtualization: vmware<br>  Operating System: CentOS Linux 7 (Core)<br>       CPE OS Name: cpe:&#x2F;o:centos:centos:7<br>            Kernel: Linux 3.10.0-514.el7.x86_64<br>      Architecture: x86-64<br>[root@localhost ~]# hostname<br>centos<br>3.8.2 修改主机名文件</p>
-<p>[root@localhost ~]# vi &#x2F;etc&#x2F;hostname</p>
-]]></content>
-      <categories>
-        <category>软件</category>
-      </categories>
-      <tags>
-        <tag>linux</tag>
       </tags>
   </entry>
   <entry>
@@ -18919,62 +18978,5 @@ sql.replaceAll(&quot;\\#\\&#123;.+?\\&#125;&quot;,&quot;?&quot;);
       <categories>
         <category>技术</category>
       </categories>
-  </entry>
-  <entry>
-    <title>redis集群搭建</title>
-    <url>/2022/08/14/redis-ji-qun-da-jian/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h4 id="redis安装"><a href="#redis安装" class="headerlink" title="redis安装"></a>redis安装</h4><p><a href="https://rocpenghua.gitee.io/2022/06/09/centos7-an-zhuang-redis6-ji-shao-bing/">centos7安装redis6及哨兵 | 小鹏驿站 (gitee.io)</a></p>
-<h4 id="集群配置文件"><a href="#集群配置文件" class="headerlink" title="集群配置文件"></a>集群配置文件</h4><h5 id="创建配置文件及存放目录"><a href="#创建配置文件及存放目录" class="headerlink" title="创建配置文件及存放目录"></a>创建配置文件及存放目录</h5><pre><code class="prettyprint">cd /usr/local/redis
-mkdir myredis
-cp redis.conf myredis/
-</code></pre>
-<blockquote>
-<p>最好修改成后台启动</p>
-<p>daemonize yes</p>
-</blockquote>
-<h5 id="创建集群节点配置文件-6379-6380-6381-6389-6390-6391"><a href="#创建集群节点配置文件-6379-6380-6381-6389-6390-6391" class="headerlink" title="创建集群节点配置文件(6379,6380,6381,6389,6390,6391)"></a>创建集群节点配置文件(<code>6379,6380,6381,6389,6390,6391</code>)</h5><ul>
-<li><code>redis6379.conf</code></li>
-</ul>
-<pre><code class="prettyprint">include /usr/local/redis/myredis/redis.conf
-pidfile /var/run/redis_6379.pid
-port 6379
-dbfilename dump6379.rdb
-cluster-enabled yes
-cluster-config-file nodes-6379.conf
-cluster-node-timeout 15000
-</code></pre>
-<ul>
-<li>6380,6381,6389,6390,6391(配置同上修改6379为对应数字)</li>
-</ul>
-<h5 id="分别启动各个节点"><a href="#分别启动各个节点" class="headerlink" title="分别启动各个节点"></a>分别启动各个节点</h5><pre><code class="prettyprint">redis-server redis6379.conf
-redis-server redis6380.conf
-redis-server redis6381.conf
-redis-server redis6389.conf
-redis-server redis6390.conf
-redis-server redis6391.conf
-</code></pre>
-<h5 id="合并集群"><a href="#合并集群" class="headerlink" title="合并集群"></a>合并集群</h5><pre><code class="prettyprint"># 进入开始解压安装目录(依赖ruby)
-cd /opt/module/redis-6.2.7/src/
-./redis-cli --cluster create --cluster-replicas 1 192.168.101.146:6379 192.168.101.146:6380 192.168.101.146:6381 192.168.101.146:6389 192.168.101.146:6390 192.168.101.146:6391
-</code></pre>
-<h4 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h4><pre><code class="prettyprint"># 集群方式连接
-redis-cli -c -p 6379
-#查看集群节点信息
-127.0.0.1:6379&gt; cluster nodes 
-ebbb1359010776cb51e2eb6eb67e875abcfd1fec 192.168.101.146:6389@16389 slave 2aec40cbb7d21ee79a54c7b83df872b816633aa2 0 1660356353000 2 connected
-c638adf60dd9ae528ca55e856aa05a6033b0197f 192.168.101.146:6391@16391 slave 664cfc95d9673a069794b0c54d79db8a99a25bbc 0 1660356352000 1 connected
-2eb521f23b5fe37ef81c22a851e140232a3f1e9f 192.168.101.146:6381@16381 master - 0 1660356354675 3 connected 10923-16383
-2aec40cbb7d21ee79a54c7b83df872b816633aa2 192.168.101.146:6380@16380 master - 0 1660356355705 2 connected 5461-10922
-664cfc95d9673a069794b0c54d79db8a99a25bbc 192.168.101.146:6379@16379 myself,master - 0 1660356354000 1 connected 0-5460
-877c1a91ccbe778d7ed70000ba27b81e5aca2940 192.168.101.146:6390@16390 slave 2eb521f23b5fe37ef81c22a851e140232a3f1e9f 0 1660356353652 3 connected
-127.0.0.1:6379&gt; 
-</code></pre>
-]]></content>
-      <categories>
-        <category>软件</category>
-      </categories>
-      <tags>
-        <tag>中间件,redis</tag>
-      </tags>
   </entry>
 </search>

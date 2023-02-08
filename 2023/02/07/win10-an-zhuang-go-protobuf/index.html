@@ -389,7 +389,7 @@
     <span>TOC</span>
   </div>
   <div class="widget-body">
-    <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#protobuf%E9%85%8D%E7%BD%AE"><span class="toc-number">1.</span> <span class="toc-text">protobuf配置</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%89%E8%A3%85go-protocol-buffers%E7%9A%84%E6%8F%92%E4%BB%B6-protoc-gen-go"><span class="toc-number">2.</span> <span class="toc-text">安装go protocol buffers的插件 protoc-gen-go</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%9E%E6%88%98"><span class="toc-number">3.</span> <span class="toc-text">实战</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#goland%E9%85%8D%E7%BD%AE"><span class="toc-number">4.</span> <span class="toc-text">goland配置</span></a></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#protobuf%E9%85%8D%E7%BD%AE"><span class="toc-number">1.</span> <span class="toc-text">protobuf配置</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%89%E8%A3%85go-protocol-buffers%E7%9A%84%E6%8F%92%E4%BB%B6-protoc-gen-go"><span class="toc-number">2.</span> <span class="toc-text">安装go protocol buffers的插件 protoc-gen-go</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%89%E8%A3%85grpc%E6%8F%92%E4%BB%B6"><span class="toc-number">3.</span> <span class="toc-text">安装grpc插件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%9E%E6%88%98"><span class="toc-number">4.</span> <span class="toc-text">实战</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#goland%E9%85%8D%E7%BD%AE"><span class="toc-number">5.</span> <span class="toc-text">goland配置</span></a></li></ol>
   </div>
 </section>
 
@@ -401,7 +401,7 @@
       
       
       <section id="blog-content" class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
-        <h4 id="protobuf配置"><a href="#protobuf配置" class="headerlink" title="protobuf配置"></a>protobuf配置</h4><p>下载地址:<a target="_blank" rel="noopener" href="https://github.com/protocolbuffers/protobuf/releases/tag/v3.19.4">Release Protocol Buffers v3.19.4 · protocolbuffers&#x2F;protobuf · GitHub</a></p>
+        <h4 id="protobuf配置"><a href="#protobuf配置" class="headerlink" title="protobuf配置"></a>protobuf配置</h4><p>下载地址:<code>https://github.com/protocolbuffers/protobuf/releases/tag/v3.19.4</code></p>
 <img src="/2023/02/07/win10-an-zhuang-go-protobuf/image-20230207211741969.png" class="asset-class" title="image-20230207211741969">
 
 <p>解压到指定目录不要做变更</p>
@@ -420,9 +420,16 @@
 <p><code>go env</code>查看</p>
 <p><code>go env -w GOPROXY=https://goproxy.cn,direct</code>设置</p>
 </blockquote>
+<h4 id="安装grpc插件"><a href="#安装grpc插件" class="headerlink" title="安装grpc插件"></a>安装grpc插件</h4><p><code>https://gitcode.net/mirrors/grpc/grpc-go</code></p>
+<p><code>go install google.golang.org/grpc@latest</code></p>
 <h4 id="实战"><a href="#实战" class="headerlink" title="实战"></a>实战</h4><ul>
 <li>创建.proto文件</li>
-<li>生成.go文件<code>protoc --go_out=./ *.proto</code></li>
+<li>生成.go文件命令<code>protoc --go_out=./ *.proto</code></li>
+<li>protobuf-grpc命令<code>protoc --go_out=. --go_opt=paths=source_relative --go-grpc_out=. --go-grpc_opt=paths=source_relative *.proto</code><ul>
+<li><code>--go_out=. --go_opt=paths=source_relative</code>  生成<code>*.go</code>文件,不包含服务</li>
+<li><code>--go-grpc_out=. --go-grpc_opt=paths=source_relative</code> 生成<code>*_grpc.pg.go</code>包含服务</li>
+</ul>
+</li>
 </ul>
 <blockquote>
 <p>执行失败:</p>
@@ -443,6 +450,39 @@
 
 <img src="/2023/02/07/win10-an-zhuang-go-protobuf/image-20230207215337892.png" class="asset-class" title="image-20230207215337892">
 
+<blockquote>
+<p> 缺失包</p>
+<ul>
+<li><p><code>https://gitcode.net/mirrors/golang/protobuf--镜像</code></p>
+</li>
+<li><p><code>[golang/protobuf: Go support for Google&#39;s protocol buffers (github.com)](https://github.com/golang/protobuf)</code></p>
+<ul>
+<li>cannot find package “github.com&#x2F;golang&#x2F;protobuf&#x2F;jsonpb”</li>
+</ul>
+</li>
+<li><p><code>https://gitcode.net/mirrors/golang/net</code>–镜像</p>
+</li>
+<li><p><code>[golang/net: [mirror\] Go supplementary network libraries (github.com)](https://github.com/golang/net)</code></p>
+<ul>
+<li>cannot find package “golang.org&#x2F;x&#x2F;net&#x2F;http2”</li>
+</ul>
+</li>
+<li><p><code>https://gitcode.net/mirrors/googleapis/go-genproto</code>–镜像</p>
+</li>
+<li><p><code>[googleapis/go-genproto: Generated code for Google Cloud client libraries. (github.com)](https://github.com/googleapis/go-genproto)</code></p>
+<ul>
+<li>cannot find package “google.golang.org&#x2F;genproto&#x2F;googleapis&#x2F;rpc&#x2F;status”</li>
+</ul>
+</li>
+<li><p><code>https://gitcode.net/mirrors/golang/text</code></p>
+</li>
+<li><p><code>[golang/text: [mirror\] Go text processing support (github.com)](https://github.com/golang/text)</code></p>
+<ul>
+<li>cannot find package “golang.org&#x2F;x&#x2F;text&#x2F;secure&#x2F;bidirule”</li>
+</ul>
+</li>
+</ul>
+</blockquote>
 
       </section>
 
@@ -469,8 +509,6 @@
           
             <div class="article-nav-item layout-padding">
   <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
-    
-      <div class="card-cover" background-image-lazy data-img="https://api.lixingyong.com/api/images?postid=Infinity&type=url&itype=image"></div>
     
     <div class="card-text">
       

@@ -15085,7 +15085,7 @@ c638adf60dd9ae528ca55e856aa05a6033b0197f 192.168.101.146:6391@16391 slave 664cfc
   <entry>
     <title>win10安装go-protobuf</title>
     <url>/2023/02/07/win10-an-zhuang-go-protobuf/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h4 id="protobuf配置"><a href="#protobuf配置" class="headerlink" title="protobuf配置"></a>protobuf配置</h4><p>下载地址:<a href="https://github.com/protocolbuffers/protobuf/releases/tag/v3.19.4">Release Protocol Buffers v3.19.4 · protocolbuffers&#x2F;protobuf · GitHub</a></p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h4 id="protobuf配置"><a href="#protobuf配置" class="headerlink" title="protobuf配置"></a>protobuf配置</h4><p>下载地址:<code>https://github.com/protocolbuffers/protobuf/releases/tag/v3.19.4</code></p>
 <img src="/2023/02/07/win10-an-zhuang-go-protobuf/image-20230207211741969.png" class="asset-class" title="image-20230207211741969">
 
 <p>解压到指定目录不要做变更</p>
@@ -15104,9 +15104,16 @@ c638adf60dd9ae528ca55e856aa05a6033b0197f 192.168.101.146:6391@16391 slave 664cfc
 <p><code>go env</code>查看</p>
 <p><code>go env -w GOPROXY=https://goproxy.cn,direct</code>设置</p>
 </blockquote>
+<h4 id="安装grpc插件"><a href="#安装grpc插件" class="headerlink" title="安装grpc插件"></a>安装grpc插件</h4><p><code>https://gitcode.net/mirrors/grpc/grpc-go</code></p>
+<p><code>go install google.golang.org/grpc@latest</code></p>
 <h4 id="实战"><a href="#实战" class="headerlink" title="实战"></a>实战</h4><ul>
 <li>创建.proto文件</li>
-<li>生成.go文件<code>protoc --go_out=./ *.proto</code></li>
+<li>生成.go文件命令<code>protoc --go_out=./ *.proto</code></li>
+<li>protobuf-grpc命令<code>protoc --go_out=. --go_opt=paths=source_relative --go-grpc_out=. --go-grpc_opt=paths=source_relative *.proto</code><ul>
+<li><code>--go_out=. --go_opt=paths=source_relative</code>  生成<code>*.go</code>文件,不包含服务</li>
+<li><code>--go-grpc_out=. --go-grpc_opt=paths=source_relative</code> 生成<code>*_grpc.pg.go</code>包含服务</li>
+</ul>
+</li>
 </ul>
 <blockquote>
 <p>执行失败:</p>
@@ -15127,6 +15134,39 @@ c638adf60dd9ae528ca55e856aa05a6033b0197f 192.168.101.146:6391@16391 slave 664cfc
 
 <img src="/2023/02/07/win10-an-zhuang-go-protobuf/image-20230207215337892.png" class="asset-class" title="image-20230207215337892">
 
+<blockquote>
+<p> 缺失包</p>
+<ul>
+<li><p><code>https://gitcode.net/mirrors/golang/protobuf--镜像</code></p>
+</li>
+<li><p><code>[golang/protobuf: Go support for Google&#39;s protocol buffers (github.com)](https://github.com/golang/protobuf)</code></p>
+<ul>
+<li>cannot find package “github.com&#x2F;golang&#x2F;protobuf&#x2F;jsonpb”</li>
+</ul>
+</li>
+<li><p><code>https://gitcode.net/mirrors/golang/net</code>–镜像</p>
+</li>
+<li><p><code>[golang/net: [mirror\] Go supplementary network libraries (github.com)](https://github.com/golang/net)</code></p>
+<ul>
+<li>cannot find package “golang.org&#x2F;x&#x2F;net&#x2F;http2”</li>
+</ul>
+</li>
+<li><p><code>https://gitcode.net/mirrors/googleapis/go-genproto</code>–镜像</p>
+</li>
+<li><p><code>[googleapis/go-genproto: Generated code for Google Cloud client libraries. (github.com)](https://github.com/googleapis/go-genproto)</code></p>
+<ul>
+<li>cannot find package “google.golang.org&#x2F;genproto&#x2F;googleapis&#x2F;rpc&#x2F;status”</li>
+</ul>
+</li>
+<li><p><code>https://gitcode.net/mirrors/golang/text</code></p>
+</li>
+<li><p><code>[golang/text: [mirror\] Go text processing support (github.com)](https://github.com/golang/text)</code></p>
+<ul>
+<li>cannot find package “golang.org&#x2F;x&#x2F;text&#x2F;secure&#x2F;bidirule”</li>
+</ul>
+</li>
+</ul>
+</blockquote>
 ]]></content>
       <categories>
         <category>技术</category>

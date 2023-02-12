@@ -15209,6 +15209,21 @@ service HelloGRPC&#123;
   rpc SayHi(Req) returns (Res);
 &#125;
 </code></pre>
+<h3 id="GRPC-GATEWAY"><a href="#GRPC-GATEWAY" class="headerlink" title="GRPC-GATEWAY"></a>GRPC-GATEWAY</h3><h4 id="安装https-grpc-ecosystem-github-io"><a href="#安装https-grpc-ecosystem-github-io" class="headerlink" title="安装https://grpc-ecosystem.github.io/"></a>安装<code>https://grpc-ecosystem.github.io/</code></h4><pre><code class="prettyprint">go install github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-grpc-gateway@latest
+go install google.golang.org/protobuf/cmd/protoc-gen-go@latest #已装
+go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest #已装
+
+
+</code></pre>
+<h4 id="文件下载"><a href="#文件下载" class="headerlink" title="文件下载"></a>文件下载</h4><blockquote>
+<pre><code class="prettyprint">import google/api/annotations.proto
+</code></pre>
+</blockquote>
+<ul>
+<li>在包目录新建 google&#x2F;api目录.下载这两个文件放入</li>
+</ul>
+<p><code>https://github.com/googleapis/googleapis/blob/master/google/api/http.proto</code></p>
+<p><code>https://github.com/googleapis/googleapis/blob/master/google/api/annotations.proto</code></p>
 ]]></content>
       <categories>
         <category>技术</category>

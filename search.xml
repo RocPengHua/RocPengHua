@@ -1,131 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>加密算法之java实现AES</title>
-    <url>/2022/04/18/jia-mi-suan-fa-zhi-java-shi-xian-aes/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p><code>AESUtil</code>工具类</p>
-<pre><code class="prettyprint">public class AESUtil &#123;
-    //自己定义
-    public static String AES_KEY_VALUE = &quot;&quot;;
-    private static final String KEY_ALGORITHM = &quot;AES&quot;;
-    /**
-     * 默认的加密算法
-     */
-    private static final String DEFAULT_CIPHER_ALGORITHM = &quot;AES/ECB/PKCS5Padding&quot;;
-
-    /**
-     * 随机生成密钥
-     *
-     * @return
-     */
-    public static String getAESRandomKey() &#123;
-        SecureRandom random = new SecureRandom();
-        long randomKey = random.nextLong();
-        return String.valueOf(randomKey);
-    &#125;
-
-    /**
-     * AES 加密操作
-     *
-     * @param content 待加密内容
-     * @param key     加密密钥
-     * @return 返回Base64转码后的加密数据
-     */
-    public static String encrypt(String content, String key)  &#123;
-        try &#123;
-            // 创建密码器
-            Cipher cipher = Cipher.getInstance(DEFAULT_CIPHER_ALGORITHM);
-            byte[] byteContent = content.getBytes(&quot;utf-8&quot;);
-            // 初始化为加密模式的密码器
-            cipher.init(Cipher.ENCRYPT_MODE, getSecretKey(key));
-            // 加密
-            byte[] result = cipher.doFinal(byteContent);
-            //通过Base64转码返回
-            return HexUtil.getHexString(result);
-        &#125; catch (Exception ex) &#123;
-            ex.printStackTrace();
-        &#125;
-
-        return null;
-    &#125;
-
-    /**
-     * AES 解密操作
-     *
-     * @param content
-     * @param key
-     * @return
-     */
-    public static String decrypt(String content, String key) &#123;
-        try &#123;
-            //实例化
-            Cipher cipher = Cipher.getInstance(DEFAULT_CIPHER_ALGORITHM);
-            //使用密钥初始化，设置为解密模式
-            cipher.init(Cipher.DECRYPT_MODE, getSecretKey(key));
-            //执行操作
-            byte[] result = cipher.doFinal(HexUtil.hexStringToBytes(content));
-            return new String(result, &quot;utf-8&quot;);
-        &#125; catch (Exception ex) &#123;
-            ex.printStackTrace();
-        &#125;
-
-        return null;
-    &#125;
-
-    /**
-     * 生成加密秘钥
-     *
-     * @return
-     */
-    private static SecretKeySpec getSecretKey(final String key) &#123;
-        //返回生成指定算法密钥生成器的 KeyGenerator 对象
-        try &#123;
-            KeyGenerator kg = KeyGenerator.getInstance(KEY_ALGORITHM);
-            // 此类提供加密的强随机数生成器 (RNG)，该实现在windows上每次生成的key都相同，但是在部分linux或solaris系统上则不同。
-            // SecureRandom random = new SecureRandom(key.getBytes());
-            // 指定算法名称，不同的系统上生成的key是相同的。
-            SecureRandom random = SecureRandom.getInstance(&quot;SHA1PRNG&quot;);
-            random.setSeed(key.getBytes());
-            //AES 要求密钥长度为 128
-            kg.init(128, random);
-            //生成一个密钥
-            SecretKey secretKey = kg.generateKey();
-            // 转换为AES专用密钥
-            return new SecretKeySpec(secretKey.getEncoded(), KEY_ALGORITHM);
-        &#125; catch (NoSuchAlgorithmException ex) &#123;
-            ex.printStackTrace();
-        &#125;
-        return null;
-    &#125;
-&#125;
-</code></pre>
-<p><code>AESUtilTest</code>测试类</p>
-<pre><code class="prettyprint">@Test
-    public void encodeAndDecode() throws Exception &#123;
-//        String data = &quot;阿斯达斯&quot;;
-        SecureRandom random = new SecureRandom();
-        String data = String.valueOf(random.nextInt(50));
-        data += &quot;123456789789456123&quot;;
-        String secretKey = AESUtil.AES_KEY_VALUE;
-        System.out.println(&quot;传输数据:&quot;+data);
-        //加密
-        String encrypte = AESUtil.encrypt(data, secretKey);
-        System.out.println(&quot;加密后数据:&quot;+encrypte+&quot;，长度：&quot;+encrypte.length());
-        //数据解密
-        String decryptDatas = AESUtil.decrypt(encrypte, secretKey);
-        System.out.println(&quot;解密后数据：&quot;+decryptDatas);
-    &#125;
-</code></pre>
-<p>转载:[Java加密-AES加解密](<a href="https://www.jianshu.com/p/7f17792609cc">Java加密-AES加解密 - 简书 (jianshu.com)</a>)</p>
-]]></content>
-      <categories>
-        <category>算法</category>
-      </categories>
-      <tags>
-        <tag>加密</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>测试图标</title>
     <url>/2022/04/17/ce-shi-tu-biao/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><div>
@@ -817,6 +692,131 @@
       <categories>
         <category>技术</category>
       </categories>
+  </entry>
+  <entry>
+    <title>加密算法之java实现AES</title>
+    <url>/2022/04/18/jia-mi-suan-fa-zhi-java-shi-xian-aes/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p><code>AESUtil</code>工具类</p>
+<pre><code class="prettyprint">public class AESUtil &#123;
+    //自己定义
+    public static String AES_KEY_VALUE = &quot;&quot;;
+    private static final String KEY_ALGORITHM = &quot;AES&quot;;
+    /**
+     * 默认的加密算法
+     */
+    private static final String DEFAULT_CIPHER_ALGORITHM = &quot;AES/ECB/PKCS5Padding&quot;;
+
+    /**
+     * 随机生成密钥
+     *
+     * @return
+     */
+    public static String getAESRandomKey() &#123;
+        SecureRandom random = new SecureRandom();
+        long randomKey = random.nextLong();
+        return String.valueOf(randomKey);
+    &#125;
+
+    /**
+     * AES 加密操作
+     *
+     * @param content 待加密内容
+     * @param key     加密密钥
+     * @return 返回Base64转码后的加密数据
+     */
+    public static String encrypt(String content, String key)  &#123;
+        try &#123;
+            // 创建密码器
+            Cipher cipher = Cipher.getInstance(DEFAULT_CIPHER_ALGORITHM);
+            byte[] byteContent = content.getBytes(&quot;utf-8&quot;);
+            // 初始化为加密模式的密码器
+            cipher.init(Cipher.ENCRYPT_MODE, getSecretKey(key));
+            // 加密
+            byte[] result = cipher.doFinal(byteContent);
+            //通过Base64转码返回
+            return HexUtil.getHexString(result);
+        &#125; catch (Exception ex) &#123;
+            ex.printStackTrace();
+        &#125;
+
+        return null;
+    &#125;
+
+    /**
+     * AES 解密操作
+     *
+     * @param content
+     * @param key
+     * @return
+     */
+    public static String decrypt(String content, String key) &#123;
+        try &#123;
+            //实例化
+            Cipher cipher = Cipher.getInstance(DEFAULT_CIPHER_ALGORITHM);
+            //使用密钥初始化，设置为解密模式
+            cipher.init(Cipher.DECRYPT_MODE, getSecretKey(key));
+            //执行操作
+            byte[] result = cipher.doFinal(HexUtil.hexStringToBytes(content));
+            return new String(result, &quot;utf-8&quot;);
+        &#125; catch (Exception ex) &#123;
+            ex.printStackTrace();
+        &#125;
+
+        return null;
+    &#125;
+
+    /**
+     * 生成加密秘钥
+     *
+     * @return
+     */
+    private static SecretKeySpec getSecretKey(final String key) &#123;
+        //返回生成指定算法密钥生成器的 KeyGenerator 对象
+        try &#123;
+            KeyGenerator kg = KeyGenerator.getInstance(KEY_ALGORITHM);
+            // 此类提供加密的强随机数生成器 (RNG)，该实现在windows上每次生成的key都相同，但是在部分linux或solaris系统上则不同。
+            // SecureRandom random = new SecureRandom(key.getBytes());
+            // 指定算法名称，不同的系统上生成的key是相同的。
+            SecureRandom random = SecureRandom.getInstance(&quot;SHA1PRNG&quot;);
+            random.setSeed(key.getBytes());
+            //AES 要求密钥长度为 128
+            kg.init(128, random);
+            //生成一个密钥
+            SecretKey secretKey = kg.generateKey();
+            // 转换为AES专用密钥
+            return new SecretKeySpec(secretKey.getEncoded(), KEY_ALGORITHM);
+        &#125; catch (NoSuchAlgorithmException ex) &#123;
+            ex.printStackTrace();
+        &#125;
+        return null;
+    &#125;
+&#125;
+</code></pre>
+<p><code>AESUtilTest</code>测试类</p>
+<pre><code class="prettyprint">@Test
+    public void encodeAndDecode() throws Exception &#123;
+//        String data = &quot;阿斯达斯&quot;;
+        SecureRandom random = new SecureRandom();
+        String data = String.valueOf(random.nextInt(50));
+        data += &quot;123456789789456123&quot;;
+        String secretKey = AESUtil.AES_KEY_VALUE;
+        System.out.println(&quot;传输数据:&quot;+data);
+        //加密
+        String encrypte = AESUtil.encrypt(data, secretKey);
+        System.out.println(&quot;加密后数据:&quot;+encrypte+&quot;，长度：&quot;+encrypte.length());
+        //数据解密
+        String decryptDatas = AESUtil.decrypt(encrypte, secretKey);
+        System.out.println(&quot;解密后数据：&quot;+decryptDatas);
+    &#125;
+</code></pre>
+<p>转载:[Java加密-AES加解密](<a href="https://www.jianshu.com/p/7f17792609cc">Java加密-AES加解密 - 简书 (jianshu.com)</a>)</p>
+]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>加密</tag>
+      </tags>
   </entry>
   <entry>
     <title>加密算法之java实现DES</title>
@@ -2325,6 +2325,36 @@ select utl_raw.cast_to_varchar2(utl_encode.base64_decode(utl_raw.cast_to_raw(UTL
       </categories>
   </entry>
   <entry>
+    <title>记录执行时间工具类</title>
+    <url>/2022/04/19/ji-lu-zhi-xing-shi-jian-gong-ju-lei/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><pre><code class="prettyprint">public class TimeTool &#123;
+    private static final SimpleDateFormat sdf = new SimpleDateFormat(&quot;HH:mm:ss:SSS&quot;);
+    public interface Task&#123;
+        void execute() throws Exception;
+    &#125;
+    public static void check(String title,Task task) throws Exception &#123;
+        if(task == null)&#123;
+            return;
+        &#125;
+        title = (title == null) ? &quot;&quot;:(&quot;【&quot;+title+&quot;】&quot;);
+        System.out.println(title);
+        System.out.println(&quot;开始：&quot; + sdf.format(new Date()));
+        long begin = System.currentTimeMillis();
+        task.execute();
+        long end = System.currentTimeMillis();
+        System.out.println(&quot;结束：&quot;+sdf.format(new Date()));
+        long delta = (end - begin);
+        System.out.println(&quot;耗时-----&quot;+delta+&quot;----毫秒&quot;);
+        System.out.println(&quot;-----------------------&quot;);
+    &#125;
+&#125;
+</code></pre>
+]]></content>
+      <categories>
+        <category>工具</category>
+      </categories>
+  </entry>
+  <entry>
     <title>oracle函数实现des算法</title>
     <url>/2022/04/19/oracle-han-shu-shi-xian-des-suan-fa/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>oracle函数实现des算法（CBC模式:hex&#x2F;base64）</p>
@@ -2458,36 +2488,6 @@ end decrypt_des;
       </tags>
   </entry>
   <entry>
-    <title>记录执行时间工具类</title>
-    <url>/2022/04/19/ji-lu-zhi-xing-shi-jian-gong-ju-lei/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><pre><code class="prettyprint">public class TimeTool &#123;
-    private static final SimpleDateFormat sdf = new SimpleDateFormat(&quot;HH:mm:ss:SSS&quot;);
-    public interface Task&#123;
-        void execute() throws Exception;
-    &#125;
-    public static void check(String title,Task task) throws Exception &#123;
-        if(task == null)&#123;
-            return;
-        &#125;
-        title = (title == null) ? &quot;&quot;:(&quot;【&quot;+title+&quot;】&quot;);
-        System.out.println(title);
-        System.out.println(&quot;开始：&quot; + sdf.format(new Date()));
-        long begin = System.currentTimeMillis();
-        task.execute();
-        long end = System.currentTimeMillis();
-        System.out.println(&quot;结束：&quot;+sdf.format(new Date()));
-        long delta = (end - begin);
-        System.out.println(&quot;耗时-----&quot;+delta+&quot;----毫秒&quot;);
-        System.out.println(&quot;-----------------------&quot;);
-    &#125;
-&#125;
-</code></pre>
-]]></content>
-      <categories>
-        <category>工具</category>
-      </categories>
-  </entry>
-  <entry>
     <title>jmeter启动报错</title>
     <url>/2022/04/21/jmeter-qi-dong-bao-cuo/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>jmeter-5.4启动时报错 could not create JAVA … </p>
@@ -2497,6 +2497,75 @@ end decrypt_des;
       <categories>
         <category>问题</category>
       </categories>
+  </entry>
+  <entry>
+    <title>中文锚点跳转问题修复</title>
+    <url>/2022/04/24/zhong-wen-mao-dian-tiao-zhuan-wen-ti-xiu-fu/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><ul>
+<li>在content.ejs下增加脚本，将h标签的id调用<code>encodeURIComponent</code>使得和toc生成的锚点对应</li>
+</ul>
+<pre><code class="prettyprint">&lt;script&gt;
+    //解决中文转义无法跳转锚点问题
+    var blog = document.querySelector(&quot;#blog-content&quot;);
+    var content = blog.innerHTML;
+    var regExp2 = /&lt;h([1-6]) id=\&quot;(\S*?)\&quot;&gt;/g;
+    var	data = content.replace(regExp2, function(word,i)&#123;
+        var ws = word.split(&quot;\&quot;&quot;);
+            return ws[0]+&quot;\&quot;&quot;+encodeURIComponent(ws[1])+&quot;\&quot;&quot;+ws[2];
+        &#125;,&quot;g&quot;);
+    blog.innerHTML = data;
+&lt;/script&gt;
+</code></pre>
+<p>hexo无法在powershell使用</p>
+<pre><code class="prettyprint">Set-ExecutionPolicy -ExecutionPolicy UNRESTRICTED
+</code></pre>
+<h3 id="这是标题一"><a href="#这是标题一" class="headerlink" title="这是标题一"></a>这是标题一</h3><img src="/2022/04/24/zhong-wen-mao-dian-tiao-zhuan-wen-ti-xiu-fu/image-20220528141523254.png" class="asset-class" title="image-20220528141523254">
+
+<center class="half">
+    <img src="/2022/04/24/zhong-wen-mao-dian-tiao-zhuan-wen-ti-xiu-fu/image-20220528141523254.png" class="asset-class" width="300" height="200" title="image-20220528141523254.png">
+    <img src="/2022/04/24/zhong-wen-mao-dian-tiao-zhuan-wen-ti-xiu-fu/image-20220528141523254.png" class="asset-class" width="300" height="200" title="image-20220528141523254.png">
+</center>
+
+<h4 id="这是标题一一"><a href="#这是标题一一" class="headerlink" title="这是标题一一"></a>这是标题一一</h4><pre><code># msi文件权限不够
+# 以管理员命令启动cmd
+# 进入msi所在目录
+# 执行脚本   msiexec /package xxxx.msi
+#
+#
+#
+#
+</code></pre>
+<h3 id="这是标题二"><a href="#这是标题二" class="headerlink" title="这是标题二"></a>这是标题二</h3><h4 id="这是标题二二"><a href="#这是标题二二" class="headerlink" title="这是标题二二"></a>这是标题二二</h4><pre><code>#
+#
+#
+#
+#
+#
+#
+</code></pre>
+<h3 id="这是标题三"><a href="#这是标题三" class="headerlink" title="这是标题三"></a>这是标题三</h3><h4 id="这是标题三三"><a href="#这是标题三三" class="headerlink" title="这是标题三三"></a>这是标题三三</h4><pre><code>#
+#
+#
+#
+#
+#
+#
+</code></pre>
+<h3 id="这是标题四"><a href="#这是标题四" class="headerlink" title="这是标题四"></a>这是标题四</h3><h4 id="这是标题四四"><a href="#这是标题四四" class="headerlink" title="这是标题四四"></a>这是标题四四</h4><pre><code>#
+#
+#
+#
+#
+#
+#
+</code></pre>
+]]></content>
+      <categories>
+        <category>问题</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+      </tags>
   </entry>
   <entry>
     <title>centos7手动安装rocketmq</title>
@@ -2640,75 +2709,6 @@ tail -500f /opt/module/rabbitmq/logs/rocketmqlogs/broker.log
       <tags>
         <tag>中间件</tag>
         <tag>rocketmq</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>中文锚点跳转问题修复</title>
-    <url>/2022/04/24/zhong-wen-mao-dian-tiao-zhuan-wen-ti-xiu-fu/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><ul>
-<li>在content.ejs下增加脚本，将h标签的id调用<code>encodeURIComponent</code>使得和toc生成的锚点对应</li>
-</ul>
-<pre><code class="prettyprint">&lt;script&gt;
-    //解决中文转义无法跳转锚点问题
-    var blog = document.querySelector(&quot;#blog-content&quot;);
-    var content = blog.innerHTML;
-    var regExp2 = /&lt;h([1-6]) id=\&quot;(\S*?)\&quot;&gt;/g;
-    var	data = content.replace(regExp2, function(word,i)&#123;
-        var ws = word.split(&quot;\&quot;&quot;);
-            return ws[0]+&quot;\&quot;&quot;+encodeURIComponent(ws[1])+&quot;\&quot;&quot;+ws[2];
-        &#125;,&quot;g&quot;);
-    blog.innerHTML = data;
-&lt;/script&gt;
-</code></pre>
-<p>hexo无法在powershell使用</p>
-<pre><code class="prettyprint">Set-ExecutionPolicy -ExecutionPolicy UNRESTRICTED
-</code></pre>
-<h3 id="这是标题一"><a href="#这是标题一" class="headerlink" title="这是标题一"></a>这是标题一</h3><img src="/2022/04/24/zhong-wen-mao-dian-tiao-zhuan-wen-ti-xiu-fu/image-20220528141523254.png" class="asset-class" title="image-20220528141523254">
-
-<center class="half">
-    <img src="/2022/04/24/zhong-wen-mao-dian-tiao-zhuan-wen-ti-xiu-fu/image-20220528141523254.png" class="asset-class" width="300" height="200" title="image-20220528141523254.png">
-    <img src="/2022/04/24/zhong-wen-mao-dian-tiao-zhuan-wen-ti-xiu-fu/image-20220528141523254.png" class="asset-class" width="300" height="200" title="image-20220528141523254.png">
-</center>
-
-<h4 id="这是标题一一"><a href="#这是标题一一" class="headerlink" title="这是标题一一"></a>这是标题一一</h4><pre><code># msi文件权限不够
-# 以管理员命令启动cmd
-# 进入msi所在目录
-# 执行脚本   msiexec /package xxxx.msi
-#
-#
-#
-#
-</code></pre>
-<h3 id="这是标题二"><a href="#这是标题二" class="headerlink" title="这是标题二"></a>这是标题二</h3><h4 id="这是标题二二"><a href="#这是标题二二" class="headerlink" title="这是标题二二"></a>这是标题二二</h4><pre><code>#
-#
-#
-#
-#
-#
-#
-</code></pre>
-<h3 id="这是标题三"><a href="#这是标题三" class="headerlink" title="这是标题三"></a>这是标题三</h3><h4 id="这是标题三三"><a href="#这是标题三三" class="headerlink" title="这是标题三三"></a>这是标题三三</h4><pre><code>#
-#
-#
-#
-#
-#
-#
-</code></pre>
-<h3 id="这是标题四"><a href="#这是标题四" class="headerlink" title="这是标题四"></a>这是标题四</h3><h4 id="这是标题四四"><a href="#这是标题四四" class="headerlink" title="这是标题四四"></a>这是标题四四</h4><pre><code>#
-#
-#
-#
-#
-#
-#
-</code></pre>
-]]></content>
-      <categories>
-        <category>问题</category>
-      </categories>
-      <tags>
-        <tag>hexo</tag>
       </tags>
   </entry>
   <entry>
@@ -4479,174 +4479,6 @@ rabbitmqctl start_app
       </tags>
   </entry>
   <entry>
-    <title>rabbitmq交换机direct</title>
-    <url>/2022/05/02/rabbitmq-jiao-huan-ji-direct/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h4 id="直接模式"><a href="#直接模式" class="headerlink" title="直接模式"></a>直接模式</h4><ul>
-<li>同一个交换机根据绑定的路由键消费信息</li>
-</ul>
-<h4 id="创建信道"><a href="#创建信道" class="headerlink" title="创建信道"></a>创建信道</h4><pre><code class="prettyprint">package com.rocpenghua.rabbitmq.utils;
-
-import com.rabbitmq.client.Channel;
-import com.rabbitmq.client.Connection;
-import com.rabbitmq.client.ConnectionFactory;
-import com.rocpenghua.rabbitmq.config.JmsConfig;
-
-import java.io.IOException;
-import java.util.concurrent.TimeoutException;
-
-/**
- * Describe:
- *
- * @author RocPengHua
- * @date 2022/4/29.
- */
-public class RabbitmqUtils &#123;
-    public static Channel getChannel() throws IOException, TimeoutException &#123;
-        ConnectionFactory factory = new ConnectionFactory();
-        factory.setHost(JmsConfig.HOST);
-        factory.setUsername(JmsConfig.USERNAME);
-        factory.setPassword(JmsConfig.PASSWORD);
-        //创建链接
-        Connection connection = factory.newConnection();
-        //获取信道
-        Channel channel = connection.createChannel();
-        return channel;
-    &#125;
-&#125;
-</code></pre>
-<h4 id="生产者"><a href="#生产者" class="headerlink" title="生产者"></a>生产者</h4><pre><code class="prettyprint">package com.rocpenghua.rabbitmq.six;
-
-import com.rabbitmq.client.Channel;
-import com.rocpenghua.rabbitmq.utils.RabbitmqUtils;
-
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
-import java.util.concurrent.TimeoutException;
-
-/**
- * Describe:
- *
- * @author RocPengHua
- * @date 2022/5/1.
- */
-public class DirectLog &#123;
-    private static final String EXCHANGE_NAME = &quot;direct_log&quot;;
-
-    public static void main(String[] args) throws IOException, TimeoutException &#123;
-        Channel channel = RabbitmqUtils.getChannel();
-
-        Map&lt;String,String&gt; map = new HashMap&lt;&gt;();
-        map.put(&quot;info&quot;,&quot;这是个info消息&quot;);
-        map.put(&quot;warning&quot;,&quot;这是个warning消息&quot;);
-        map.put(&quot;error&quot;,&quot;这是个error消息&quot;);
-        for(Map.Entry&lt;String, String&gt; entry:map.entrySet())&#123;
-            channel.basicPublish(EXCHANGE_NAME, entry.getKey(), null, entry.getValue().getBytes(StandardCharsets.UTF_8));
-            System.out.println(&quot;生产者发出消息：&quot; + entry.getValue());
-        &#125;
-
-
-    &#125;
-&#125;
-</code></pre>
-<h4 id="消费者1"><a href="#消费者1" class="headerlink" title="消费者1"></a>消费者1</h4><pre><code class="prettyprint">package com.rocpenghua.rabbitmq.six;
-
-import com.rabbitmq.client.CancelCallback;
-import com.rabbitmq.client.Channel;
-import com.rabbitmq.client.DeliverCallback;
-import com.rocpenghua.rabbitmq.utils.RabbitmqUtils;
-
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.util.concurrent.TimeoutException;
-
-/**
- * Describe:
- *
- * @author RocPengHua
- * @date 2022/5/1.
- */
-public class ReceiveLogsDirect01 &#123;
-    private static final String EXCHANGE_NAME = &quot;direct_log&quot;;
-    private static final String EXCHANGE_TYPE = &quot;direct&quot;;
-
-    public static void main(String[] args) throws IOException, TimeoutException &#123;
-        Channel channel = RabbitmqUtils.getChannel();
-        //声明一个交换机
-        channel.exchangeDeclare(EXCHANGE_NAME, EXCHANGE_TYPE);
-        //声明一个队列
-        String queueName = &quot;console&quot;;
-        channel.queueDeclare(queueName,false,false,false,null);
-        /*
-         * 绑定交换机和队列
-         */
-        channel.queueBind(queueName, EXCHANGE_NAME, &quot;info&quot;);
-        channel.queueBind(queueName, EXCHANGE_NAME, &quot;warning&quot;);
-        System.out.println(&quot;等待接收消息，把接收到的消息打印在屏幕上。。。。。。&quot;);
-        //接受消息
-        DeliverCallback deliverCallback = (consumerTag, message) -&gt; &#123;
-            System.out.println(&quot;ReceiveLogsDirect01 控制台打印接收到的消息：&quot; + new String(message.getBody(), StandardCharsets.UTF_8));
-        &#125;;
-        //消费者取消消息的回调
-        CancelCallback cancelCallback = consumerTag -&gt; &#123;&#125;;
-        channel.basicConsume(queueName, true, deliverCallback, cancelCallback);
-    &#125;
-&#125;
-</code></pre>
-<h4 id="消费者2"><a href="#消费者2" class="headerlink" title="消费者2"></a>消费者2</h4><pre><code class="prettyprint">package com.rocpenghua.rabbitmq.six;
-
-import com.rabbitmq.client.CancelCallback;
-import com.rabbitmq.client.Channel;
-import com.rabbitmq.client.DeliverCallback;
-import com.rocpenghua.rabbitmq.utils.RabbitmqUtils;
-
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.util.concurrent.TimeoutException;
-
-/**
- * Describe:
- *
- * @author RocPengHua
- * @date 2022/5/1.
- */
-public class ReceiveLogsDirect02 &#123;
-    private static final String EXCHANGE_NAME = &quot;direct_log&quot;;
-    private static final String EXCHANGE_TYPE = &quot;direct&quot;;
-
-    public static void main(String[] args) throws IOException, TimeoutException &#123;
-        Channel channel = RabbitmqUtils.getChannel();
-        //声明一个交换机
-        channel.exchangeDeclare(EXCHANGE_NAME, EXCHANGE_TYPE);
-        //声明一个队列
-        String queueName = &quot;disk&quot;;
-        channel.queueDeclare(queueName,false,false,false,null);
-        /*
-         * 绑定交换机和队列
-         */
-        channel.queueBind(queueName, EXCHANGE_NAME, &quot;error&quot;);
-        System.out.println(&quot;等待接收消息，把接收到的消息打印在屏幕上。。。。。。&quot;);
-        //接受消息
-        DeliverCallback deliverCallback = (consumerTag, message) -&gt; &#123;
-            System.out.println(&quot;ReceiveLogsDirect02 控制台打印接收到的消息：&quot; + new String(message.getBody(), StandardCharsets.UTF_8));
-        &#125;;
-        //消费者取消消息的回调
-        CancelCallback cancelCallback = consumerTag -&gt; &#123;&#125;;
-        channel.basicConsume(queueName, true, deliverCallback, cancelCallback);
-    &#125;
-&#125;
-</code></pre>
-]]></content>
-      <categories>
-        <category>中间件</category>
-      </categories>
-      <tags>
-        <tag>rabbitmq</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>rabbitmq交换机fanout</title>
     <url>/2022/05/02/rabbitmq-jiao-huan-ji-fanout/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h4 id="发布订阅模式"><a href="#发布订阅模式" class="headerlink" title="发布订阅模式"></a>发布订阅模式</h4><ul>
@@ -5434,6 +5266,174 @@ public class RabbitmqUtils &#123;
 
     long end = System.currentTimeMillis();
     System.out.println(&quot;发布&quot; + MESSAGE_COUNT + &quot;个异步发布确认消息，耗时&quot; + (end - start) + &quot;ms&quot;);
+&#125;
+</code></pre>
+]]></content>
+      <categories>
+        <category>中间件</category>
+      </categories>
+      <tags>
+        <tag>rabbitmq</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>rabbitmq交换机direct</title>
+    <url>/2022/05/02/rabbitmq-jiao-huan-ji-direct/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h4 id="直接模式"><a href="#直接模式" class="headerlink" title="直接模式"></a>直接模式</h4><ul>
+<li>同一个交换机根据绑定的路由键消费信息</li>
+</ul>
+<h4 id="创建信道"><a href="#创建信道" class="headerlink" title="创建信道"></a>创建信道</h4><pre><code class="prettyprint">package com.rocpenghua.rabbitmq.utils;
+
+import com.rabbitmq.client.Channel;
+import com.rabbitmq.client.Connection;
+import com.rabbitmq.client.ConnectionFactory;
+import com.rocpenghua.rabbitmq.config.JmsConfig;
+
+import java.io.IOException;
+import java.util.concurrent.TimeoutException;
+
+/**
+ * Describe:
+ *
+ * @author RocPengHua
+ * @date 2022/4/29.
+ */
+public class RabbitmqUtils &#123;
+    public static Channel getChannel() throws IOException, TimeoutException &#123;
+        ConnectionFactory factory = new ConnectionFactory();
+        factory.setHost(JmsConfig.HOST);
+        factory.setUsername(JmsConfig.USERNAME);
+        factory.setPassword(JmsConfig.PASSWORD);
+        //创建链接
+        Connection connection = factory.newConnection();
+        //获取信道
+        Channel channel = connection.createChannel();
+        return channel;
+    &#125;
+&#125;
+</code></pre>
+<h4 id="生产者"><a href="#生产者" class="headerlink" title="生产者"></a>生产者</h4><pre><code class="prettyprint">package com.rocpenghua.rabbitmq.six;
+
+import com.rabbitmq.client.Channel;
+import com.rocpenghua.rabbitmq.utils.RabbitmqUtils;
+
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
+import java.util.concurrent.TimeoutException;
+
+/**
+ * Describe:
+ *
+ * @author RocPengHua
+ * @date 2022/5/1.
+ */
+public class DirectLog &#123;
+    private static final String EXCHANGE_NAME = &quot;direct_log&quot;;
+
+    public static void main(String[] args) throws IOException, TimeoutException &#123;
+        Channel channel = RabbitmqUtils.getChannel();
+
+        Map&lt;String,String&gt; map = new HashMap&lt;&gt;();
+        map.put(&quot;info&quot;,&quot;这是个info消息&quot;);
+        map.put(&quot;warning&quot;,&quot;这是个warning消息&quot;);
+        map.put(&quot;error&quot;,&quot;这是个error消息&quot;);
+        for(Map.Entry&lt;String, String&gt; entry:map.entrySet())&#123;
+            channel.basicPublish(EXCHANGE_NAME, entry.getKey(), null, entry.getValue().getBytes(StandardCharsets.UTF_8));
+            System.out.println(&quot;生产者发出消息：&quot; + entry.getValue());
+        &#125;
+
+
+    &#125;
+&#125;
+</code></pre>
+<h4 id="消费者1"><a href="#消费者1" class="headerlink" title="消费者1"></a>消费者1</h4><pre><code class="prettyprint">package com.rocpenghua.rabbitmq.six;
+
+import com.rabbitmq.client.CancelCallback;
+import com.rabbitmq.client.Channel;
+import com.rabbitmq.client.DeliverCallback;
+import com.rocpenghua.rabbitmq.utils.RabbitmqUtils;
+
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.concurrent.TimeoutException;
+
+/**
+ * Describe:
+ *
+ * @author RocPengHua
+ * @date 2022/5/1.
+ */
+public class ReceiveLogsDirect01 &#123;
+    private static final String EXCHANGE_NAME = &quot;direct_log&quot;;
+    private static final String EXCHANGE_TYPE = &quot;direct&quot;;
+
+    public static void main(String[] args) throws IOException, TimeoutException &#123;
+        Channel channel = RabbitmqUtils.getChannel();
+        //声明一个交换机
+        channel.exchangeDeclare(EXCHANGE_NAME, EXCHANGE_TYPE);
+        //声明一个队列
+        String queueName = &quot;console&quot;;
+        channel.queueDeclare(queueName,false,false,false,null);
+        /*
+         * 绑定交换机和队列
+         */
+        channel.queueBind(queueName, EXCHANGE_NAME, &quot;info&quot;);
+        channel.queueBind(queueName, EXCHANGE_NAME, &quot;warning&quot;);
+        System.out.println(&quot;等待接收消息，把接收到的消息打印在屏幕上。。。。。。&quot;);
+        //接受消息
+        DeliverCallback deliverCallback = (consumerTag, message) -&gt; &#123;
+            System.out.println(&quot;ReceiveLogsDirect01 控制台打印接收到的消息：&quot; + new String(message.getBody(), StandardCharsets.UTF_8));
+        &#125;;
+        //消费者取消消息的回调
+        CancelCallback cancelCallback = consumerTag -&gt; &#123;&#125;;
+        channel.basicConsume(queueName, true, deliverCallback, cancelCallback);
+    &#125;
+&#125;
+</code></pre>
+<h4 id="消费者2"><a href="#消费者2" class="headerlink" title="消费者2"></a>消费者2</h4><pre><code class="prettyprint">package com.rocpenghua.rabbitmq.six;
+
+import com.rabbitmq.client.CancelCallback;
+import com.rabbitmq.client.Channel;
+import com.rabbitmq.client.DeliverCallback;
+import com.rocpenghua.rabbitmq.utils.RabbitmqUtils;
+
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.concurrent.TimeoutException;
+
+/**
+ * Describe:
+ *
+ * @author RocPengHua
+ * @date 2022/5/1.
+ */
+public class ReceiveLogsDirect02 &#123;
+    private static final String EXCHANGE_NAME = &quot;direct_log&quot;;
+    private static final String EXCHANGE_TYPE = &quot;direct&quot;;
+
+    public static void main(String[] args) throws IOException, TimeoutException &#123;
+        Channel channel = RabbitmqUtils.getChannel();
+        //声明一个交换机
+        channel.exchangeDeclare(EXCHANGE_NAME, EXCHANGE_TYPE);
+        //声明一个队列
+        String queueName = &quot;disk&quot;;
+        channel.queueDeclare(queueName,false,false,false,null);
+        /*
+         * 绑定交换机和队列
+         */
+        channel.queueBind(queueName, EXCHANGE_NAME, &quot;error&quot;);
+        System.out.println(&quot;等待接收消息，把接收到的消息打印在屏幕上。。。。。。&quot;);
+        //接受消息
+        DeliverCallback deliverCallback = (consumerTag, message) -&gt; &#123;
+            System.out.println(&quot;ReceiveLogsDirect02 控制台打印接收到的消息：&quot; + new String(message.getBody(), StandardCharsets.UTF_8));
+        &#125;;
+        //消费者取消消息的回调
+        CancelCallback cancelCallback = consumerTag -&gt; &#123;&#125;;
+        channel.basicConsume(queueName, true, deliverCallback, cancelCallback);
+    &#125;
 &#125;
 </code></pre>
 ]]></content>
@@ -7094,80 +7094,6 @@ sb -u &#39;http://localhost:8080/api/hello&#39; -c 20 -N 60
       </tags>
   </entry>
   <entry>
-    <title>prettyprint</title>
-    <url>/2022/05/28/prettyprint/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><pre><code class="prettyprint">public class PrettyPrint &#123;
-    public static void main(String[] args) &#123;
-        System.out.println(&quot;Hello World！&quot;)
-    &#125;
-&#125;
-</code></pre>
-]]></content>
-      <categories>
-        <category>技术</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>mysql主从配置</title>
-    <url>/2022/06/03/mysql-zhu-cong-pei-zhi/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h3 id="主节点配置"><a href="#主节点配置" class="headerlink" title="主节点配置"></a>主节点配置</h3><pre><code class="prettyprint">#登录主节点
-E:\tools\database\mysql-8.0.11-winx64-1\bin&gt;mysql -uroot
-Welcome to the MySQL monitor.  Commands end with ; or \g.
-Your MySQL connection id is 12
-Server version: 8.0.11 MySQL Community Server - GPL
-
-Copyright (c) 2000, 2018, Oracle and/or its affiliates. All rights reserved.
-
-Oracle is a registered trademark of Oracle Corporation and/or its
-affiliates. Other names may be trademarks of their respective
-owners.
-
-Type &#39;help;&#39; or &#39;\h&#39; for help. Type &#39;\c&#39; to clear the current input statement.
-
-mysql&gt; show databases;
-+--------------------+
-| Database           |
-+--------------------+
-| information_schema |
-| mysql              |
-| performance_schema |
-| sys                |
-+--------------------+
-4 rows in set (0.00 sec)
-
-mysql&gt; CREATE USER &#39;rep1&#39;@&#39;%&#39; IDENTIFIED BY &#39;123456&#39;;
-Query OK, 0 rows affected (0.11 sec)
-mysql&gt; GRANT REPLICATION SLAVE ON *.* TO &#39;rep1&#39;@&#39;%&#39;;
-Query OK, 0 rows affected (0.06 sec)
-
-mysql&gt; flush privileges;
-Query OK, 0 rows affected (0.00 sec)
-
-mysql&gt; show master status;
-+---------------+----------+--------------+------------------+-------------------+
-| File          | Position | Binlog_Do_DB | Binlog_Ignore_DB | Executed_Gtid_Set |
-+---------------+----------+--------------+------------------+-------------------+
-| binlog.000001 |     2283 |              |                  |                   |
-+---------------+----------+--------------+------------------+-------------------+
-1 row in set (0.00 sec)
-</code></pre>
-<h3 id="配置从节点"><a href="#配置从节点" class="headerlink" title="配置从节点"></a>配置从节点</h3><pre><code class="prettyprint">mysql&gt; CHANGE MASTER TO
-         MASTER_HOST=&#39;localhost&#39;,
-         MASTER_PORT=3306,
-         MASTER_USER=&#39;rep1&#39;,
-         MASTER_PASSWORD=&#39;123456&#39;,
-         MASTER_LOG_FILE=&#39;binlog.000001&#39;,
-         MASTER_LOG_POS=2283;
-Query OK, 0 rows affected, 1 warning (0.28 sec)
-mysql&gt; start slave;
-mysql&gt; show slave status\G;
-</code></pre>
-]]></content>
-      <categories>
-        <category>技术</category>
-      </categories>
-  </entry>
-  <entry>
     <title>java并发</title>
     <url>/2022/05/28/java-bing-fa/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h2 id="synchronized"><a href="#synchronized" class="headerlink" title="synchronized"></a>synchronized</h2><h3 id="synchronized特性"><a href="#synchronized特性" class="headerlink" title="synchronized特性"></a>synchronized特性</h3><ul>
@@ -8327,6 +8253,80 @@ public ListIterator&lt;E&gt; listIterator() &#123;
       <tags>
         <tag>并发</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>prettyprint</title>
+    <url>/2022/05/28/prettyprint/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><pre><code class="prettyprint">public class PrettyPrint &#123;
+    public static void main(String[] args) &#123;
+        System.out.println(&quot;Hello World！&quot;)
+    &#125;
+&#125;
+</code></pre>
+]]></content>
+      <categories>
+        <category>技术</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>mysql主从配置</title>
+    <url>/2022/06/03/mysql-zhu-cong-pei-zhi/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h3 id="主节点配置"><a href="#主节点配置" class="headerlink" title="主节点配置"></a>主节点配置</h3><pre><code class="prettyprint">#登录主节点
+E:\tools\database\mysql-8.0.11-winx64-1\bin&gt;mysql -uroot
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 12
+Server version: 8.0.11 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2018, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type &#39;help;&#39; or &#39;\h&#39; for help. Type &#39;\c&#39; to clear the current input statement.
+
+mysql&gt; show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+4 rows in set (0.00 sec)
+
+mysql&gt; CREATE USER &#39;rep1&#39;@&#39;%&#39; IDENTIFIED BY &#39;123456&#39;;
+Query OK, 0 rows affected (0.11 sec)
+mysql&gt; GRANT REPLICATION SLAVE ON *.* TO &#39;rep1&#39;@&#39;%&#39;;
+Query OK, 0 rows affected (0.06 sec)
+
+mysql&gt; flush privileges;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql&gt; show master status;
++---------------+----------+--------------+------------------+-------------------+
+| File          | Position | Binlog_Do_DB | Binlog_Ignore_DB | Executed_Gtid_Set |
++---------------+----------+--------------+------------------+-------------------+
+| binlog.000001 |     2283 |              |                  |                   |
++---------------+----------+--------------+------------------+-------------------+
+1 row in set (0.00 sec)
+</code></pre>
+<h3 id="配置从节点"><a href="#配置从节点" class="headerlink" title="配置从节点"></a>配置从节点</h3><pre><code class="prettyprint">mysql&gt; CHANGE MASTER TO
+         MASTER_HOST=&#39;localhost&#39;,
+         MASTER_PORT=3306,
+         MASTER_USER=&#39;rep1&#39;,
+         MASTER_PASSWORD=&#39;123456&#39;,
+         MASTER_LOG_FILE=&#39;binlog.000001&#39;,
+         MASTER_LOG_POS=2283;
+Query OK, 0 rows affected, 1 warning (0.28 sec)
+mysql&gt; start slave;
+mysql&gt; show slave status\G;
+</code></pre>
+]]></content>
+      <categories>
+        <category>技术</category>
+      </categories>
   </entry>
   <entry>
     <title>mysql事务</title>
@@ -10364,6 +10364,187 @@ gzip_http_version 1.1;
       </tags>
   </entry>
   <entry>
+    <title>redis淘汰算法及策略</title>
+    <url>/2022/06/07/redis-tao-tai-suan-fa-ji-ce-lue/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h3 id="过期策略"><a href="#过期策略" class="headerlink" title="过期策略"></a>过期策略</h3><h4 id="定时删除"><a href="#定时删除" class="headerlink" title="定时删除"></a>定时删除</h4><blockquote>
+<p>创建一个定时器，当key设置有过期时间且过期时间到达时，由定时器任务立即执行对键的删除操作</p>
+<p>优点：节省内存，快速释放</p>
+<p>缺点：cpu压力大，删除操作会影响redis响应时间和吞吐量</p>
+</blockquote>
+<h4 id="定期删除"><a href="#定期删除" class="headerlink" title="定期删除"></a>定期删除</h4><blockquote>
+<p>redis 会将每个设置了过期时间的 key 放入到一个独立的字典中，以后会定期遍历这个字典来删除到期的 key</p>
+<p>默认每100ms扫描一次，但是不会遍历所有的key，使用贪心策略</p>
+</blockquote>
+<ul>
+<li>从过期字典中随机20gekey</li>
+<li>删除者20个key中已经过期了的key</li>
+<li>如果过期比例超过1&#x2F;4，重复步骤1</li>
+</ul>
+<h4 id="惰性删除"><a href="#惰性删除" class="headerlink" title="惰性删除"></a>惰性删除</h4><blockquote>
+<p>客户端访问这个key的时候，redis对key的过期时间进行检查，如果过期了就立即删除，不会给你返回任何东西</p>
+<p>定期删除可能会导致很多过期key到了时间并没有被删除掉。所以就有了惰性删除</p>
+</blockquote>
+<p><strong>定期删除是集中处理，惰性删除是零散处理</strong></p>
+<h3 id="内存淘汰策略"><a href="#内存淘汰策略" class="headerlink" title="内存淘汰策略"></a>内存淘汰策略</h3><ul>
+<li><p><code>noeviction</code>：当内存使用超过配置的时候会返回错误，不会驱逐任何键</p>
+</li>
+<li><p><code>allkeys-lru</code>：加入键的时候，如果过限，首先通过LRU算法驱逐最久没有使用的键</p>
+</li>
+<li><p><code>volatile-lru</code>：加入键的时候如果过限，首先从设置了过期时间的键集合中驱逐最久没有使用的键</p>
+</li>
+<li><p><code>allkeys-random</code>：加入键的时候如果过限，从所有key随机删除</p>
+</li>
+<li><p><code>volatile-random</code>：加入键的时候如果过限，从过期键的集合中随机驱逐</p>
+</li>
+<li><p><code>volatile-ttl</code>：从配置了过期时间的键中驱逐马上就要过期的键</p>
+</li>
+<li><p><code>volatile-lfu</code>：从所有配置了过期时间的键中驱逐使用频率最少的键</p>
+</li>
+<li><p><code>allkeys-lfu</code>：从所有键中驱逐使用频率最少的键</p>
+</li>
+</ul>
+<h3 id="LRU"><a href="#LRU" class="headerlink" title="LRU"></a>LRU</h3><img src="/2022/06/07/redis-tao-tai-suan-fa-ji-ce-lue/v2-9374e1c1ef6c7c8d14491b4092d79f80_720w.jpg" class="asset-class" title="img">
+
+<ul>
+<li>新增key value的时候首先在链表结尾添加Node节点，如果超过LRU设置的阈值就淘汰队头的节点并删除掉HashMap中对应的节点。</li>
+<li>修改key对应的值的时候先修改对应的Node中的值，然后把Node节点移动队尾。</li>
+<li>访问key对应的值的时候把访问的Node节点移动到队尾即可。</li>
+</ul>
+<pre><code class="prettyprint">package LRU;
+
+import java.util.HashMap;
+
+/**
+ * @author RocPengHua
+ * @program CLRS
+ * @description LRU(最近最少使用)缓存机制
+ * @date 2022年06月07日 21:03
+ */
+public class LRUCache &#123;
+    private HashMap&lt;Integer,LinkedNode&gt; cache = new HashMap&lt;&gt;();
+    int size;
+    int capacity;
+    private LinkedNode head,tail;
+    class LinkedNode &#123;
+        int key;
+        int value;
+        LinkedNode pre;
+        LinkedNode next;
+    &#125;
+
+    public LRUCache(int capacity) &#123;
+        this.size = 0;
+        this.capacity = capacity;
+        head = new LinkedNode();
+        tail = new LinkedNode();
+        head.next = tail;
+        tail.pre = head;
+    &#125;
+
+    /**
+     * 写入数据
+     * @param key
+     * @param value
+     */
+    public void put(int key, int value)&#123;
+        LinkedNode node = cache.get(key);
+
+        /**
+         * 存在
+         */
+        if(node != null)&#123;
+            //更新数据
+            node.value = value;
+            moveToHead(node);
+        &#125;else&#123;
+            LinkedNode newNode = new LinkedNode();
+            newNode.key = key;
+            newNode.value = value;
+            //更新map
+            cache.put(key,newNode);
+            //添加节点到头部
+            addNode(newNode);
+            //更新节点数
+            size++;
+            //如果节点数目大于容量，删除最后一个节点
+            if(size &gt; capacity) &#123;
+                //获取最后一个节点
+                LinkedNode tailPre = tail.pre;
+                //从map中删除
+                cache.remove(tailPre.key);
+                //删除节点
+                removeNode(tailPre);
+                size--;
+            &#125;
+        &#125;
+    &#125;
+
+    public int get(int key)&#123;
+        LinkedNode node = cache.get(key);
+        if(node != null)&#123;
+            moveToHead(node);
+        &#125;else&#123;
+            return -1;
+        &#125;
+        return node.value;
+    &#125;
+    /**
+     * 将节点移到头部
+     * @param node
+     */
+    private void moveToHead(LinkedNode node) &#123;
+        removeNode(node);
+        addNode(node);
+    &#125;
+
+    /**
+     * 添加到头部
+     * @param node
+     */
+    private void addNode(LinkedNode node) &#123;
+        node.pre = head;
+        node.next = head.next;
+        head.next.pre = node;
+        head.next = node;
+    &#125;
+
+    /**
+     * 删除节点
+     * @param node
+     */
+    private void removeNode(LinkedNode node) &#123;
+        LinkedNode preNode = node.pre;
+        LinkedNode nextNode = node.next;
+        preNode.next = nextNode;
+        nextNode.pre = preNode;
+
+    &#125;
+
+    public static void main(String[] args) &#123;
+        LRUCache cache = new LRUCache(2);
+        cache.put(1,1);
+        cache.put(2,2);
+        System.out.println(cache.get(1));
+        cache.put(3,3);
+        System.out.println(cache.get(2));
+        cache.put(4,4);
+        cache.put(5,5);
+        cache.put(6,6);
+        System.out.println(cache.get(4));
+        System.out.println(cache.get(5));
+        System.out.println(cache.get(6));
+    &#125;
+&#125;
+</code></pre>
+]]></content>
+      <categories>
+        <category>中间件</category>
+      </categories>
+      <tags>
+        <tag>redis</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>redis配置详解</title>
     <url>/2022/06/08/redis-pei-zhi-xiang-jie/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h4 id="redis-conf"><a href="#redis-conf" class="headerlink" title="redis.conf"></a>redis.conf</h4><pre><code class="prettyprint"># 注意单位: 当需要配置内存大小时, 可能需要指定像1k,5GB,4M等常见格式
@@ -10943,187 +11124,6 @@ aof-rewrite-incremental-fsync yes
       </tags>
   </entry>
   <entry>
-    <title>redis淘汰算法及策略</title>
-    <url>/2022/06/07/redis-tao-tai-suan-fa-ji-ce-lue/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h3 id="过期策略"><a href="#过期策略" class="headerlink" title="过期策略"></a>过期策略</h3><h4 id="定时删除"><a href="#定时删除" class="headerlink" title="定时删除"></a>定时删除</h4><blockquote>
-<p>创建一个定时器，当key设置有过期时间且过期时间到达时，由定时器任务立即执行对键的删除操作</p>
-<p>优点：节省内存，快速释放</p>
-<p>缺点：cpu压力大，删除操作会影响redis响应时间和吞吐量</p>
-</blockquote>
-<h4 id="定期删除"><a href="#定期删除" class="headerlink" title="定期删除"></a>定期删除</h4><blockquote>
-<p>redis 会将每个设置了过期时间的 key 放入到一个独立的字典中，以后会定期遍历这个字典来删除到期的 key</p>
-<p>默认每100ms扫描一次，但是不会遍历所有的key，使用贪心策略</p>
-</blockquote>
-<ul>
-<li>从过期字典中随机20gekey</li>
-<li>删除者20个key中已经过期了的key</li>
-<li>如果过期比例超过1&#x2F;4，重复步骤1</li>
-</ul>
-<h4 id="惰性删除"><a href="#惰性删除" class="headerlink" title="惰性删除"></a>惰性删除</h4><blockquote>
-<p>客户端访问这个key的时候，redis对key的过期时间进行检查，如果过期了就立即删除，不会给你返回任何东西</p>
-<p>定期删除可能会导致很多过期key到了时间并没有被删除掉。所以就有了惰性删除</p>
-</blockquote>
-<p><strong>定期删除是集中处理，惰性删除是零散处理</strong></p>
-<h3 id="内存淘汰策略"><a href="#内存淘汰策略" class="headerlink" title="内存淘汰策略"></a>内存淘汰策略</h3><ul>
-<li><p><code>noeviction</code>：当内存使用超过配置的时候会返回错误，不会驱逐任何键</p>
-</li>
-<li><p><code>allkeys-lru</code>：加入键的时候，如果过限，首先通过LRU算法驱逐最久没有使用的键</p>
-</li>
-<li><p><code>volatile-lru</code>：加入键的时候如果过限，首先从设置了过期时间的键集合中驱逐最久没有使用的键</p>
-</li>
-<li><p><code>allkeys-random</code>：加入键的时候如果过限，从所有key随机删除</p>
-</li>
-<li><p><code>volatile-random</code>：加入键的时候如果过限，从过期键的集合中随机驱逐</p>
-</li>
-<li><p><code>volatile-ttl</code>：从配置了过期时间的键中驱逐马上就要过期的键</p>
-</li>
-<li><p><code>volatile-lfu</code>：从所有配置了过期时间的键中驱逐使用频率最少的键</p>
-</li>
-<li><p><code>allkeys-lfu</code>：从所有键中驱逐使用频率最少的键</p>
-</li>
-</ul>
-<h3 id="LRU"><a href="#LRU" class="headerlink" title="LRU"></a>LRU</h3><img src="/2022/06/07/redis-tao-tai-suan-fa-ji-ce-lue/v2-9374e1c1ef6c7c8d14491b4092d79f80_720w.jpg" class="asset-class" title="img">
-
-<ul>
-<li>新增key value的时候首先在链表结尾添加Node节点，如果超过LRU设置的阈值就淘汰队头的节点并删除掉HashMap中对应的节点。</li>
-<li>修改key对应的值的时候先修改对应的Node中的值，然后把Node节点移动队尾。</li>
-<li>访问key对应的值的时候把访问的Node节点移动到队尾即可。</li>
-</ul>
-<pre><code class="prettyprint">package LRU;
-
-import java.util.HashMap;
-
-/**
- * @author RocPengHua
- * @program CLRS
- * @description LRU(最近最少使用)缓存机制
- * @date 2022年06月07日 21:03
- */
-public class LRUCache &#123;
-    private HashMap&lt;Integer,LinkedNode&gt; cache = new HashMap&lt;&gt;();
-    int size;
-    int capacity;
-    private LinkedNode head,tail;
-    class LinkedNode &#123;
-        int key;
-        int value;
-        LinkedNode pre;
-        LinkedNode next;
-    &#125;
-
-    public LRUCache(int capacity) &#123;
-        this.size = 0;
-        this.capacity = capacity;
-        head = new LinkedNode();
-        tail = new LinkedNode();
-        head.next = tail;
-        tail.pre = head;
-    &#125;
-
-    /**
-     * 写入数据
-     * @param key
-     * @param value
-     */
-    public void put(int key, int value)&#123;
-        LinkedNode node = cache.get(key);
-
-        /**
-         * 存在
-         */
-        if(node != null)&#123;
-            //更新数据
-            node.value = value;
-            moveToHead(node);
-        &#125;else&#123;
-            LinkedNode newNode = new LinkedNode();
-            newNode.key = key;
-            newNode.value = value;
-            //更新map
-            cache.put(key,newNode);
-            //添加节点到头部
-            addNode(newNode);
-            //更新节点数
-            size++;
-            //如果节点数目大于容量，删除最后一个节点
-            if(size &gt; capacity) &#123;
-                //获取最后一个节点
-                LinkedNode tailPre = tail.pre;
-                //从map中删除
-                cache.remove(tailPre.key);
-                //删除节点
-                removeNode(tailPre);
-                size--;
-            &#125;
-        &#125;
-    &#125;
-
-    public int get(int key)&#123;
-        LinkedNode node = cache.get(key);
-        if(node != null)&#123;
-            moveToHead(node);
-        &#125;else&#123;
-            return -1;
-        &#125;
-        return node.value;
-    &#125;
-    /**
-     * 将节点移到头部
-     * @param node
-     */
-    private void moveToHead(LinkedNode node) &#123;
-        removeNode(node);
-        addNode(node);
-    &#125;
-
-    /**
-     * 添加到头部
-     * @param node
-     */
-    private void addNode(LinkedNode node) &#123;
-        node.pre = head;
-        node.next = head.next;
-        head.next.pre = node;
-        head.next = node;
-    &#125;
-
-    /**
-     * 删除节点
-     * @param node
-     */
-    private void removeNode(LinkedNode node) &#123;
-        LinkedNode preNode = node.pre;
-        LinkedNode nextNode = node.next;
-        preNode.next = nextNode;
-        nextNode.pre = preNode;
-
-    &#125;
-
-    public static void main(String[] args) &#123;
-        LRUCache cache = new LRUCache(2);
-        cache.put(1,1);
-        cache.put(2,2);
-        System.out.println(cache.get(1));
-        cache.put(3,3);
-        System.out.println(cache.get(2));
-        cache.put(4,4);
-        cache.put(5,5);
-        cache.put(6,6);
-        System.out.println(cache.get(4));
-        System.out.println(cache.get(5));
-        System.out.println(cache.get(6));
-    &#125;
-&#125;
-</code></pre>
-]]></content>
-      <categories>
-        <category>中间件</category>
-      </categories>
-      <tags>
-        <tag>redis</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>缓存穿透、击穿、雪崩</title>
     <url>/2022/06/08/huan-cun-chuan-tou-ji-chuan-xue-beng/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h4 id="缓存穿透"><a href="#缓存穿透" class="headerlink" title="缓存穿透"></a>缓存穿透</h4><blockquote>
@@ -11480,34 +11480,6 @@ errMsg = new String(errMsg.getBytes(StandardCharsets.ISO_8859_1),StandardCharset
       </categories>
       <tags>
         <tag>tomcat</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>centos7安装pulsar</title>
-    <url>/2022/06/12/centos7-an-zhuang-pulsar/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h3 id="download"><a href="#download" class="headerlink" title="download"></a>download</h3><p><a href="https://pulsar.apache.org/zh-CN/download/">Apache Pulsar</a></p>
-<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><ul>
-<li>直接解压</li>
-</ul>
-<pre><code class="prettyprint">tar -zxvf apache-pulsar-2.3.0-bin.tar.gz
-</code></pre>
-<ul>
-<li>启动验证</li>
-</ul>
-<pre><code class="prettyprint">#启动
-./pulsar standalone
-#消费者监听
-./pulsar-client consume topic1 -s &quot;first-subscription&quot;
-#发送
-./pulsar-client produce topic1 --messages &quot;hello-pulsa
-</code></pre>
-]]></content>
-      <categories>
-        <category>软件</category>
-      </categories>
-      <tags>
-        <tag>中间件</tag>
-        <tag>pulsar</tag>
       </tags>
   </entry>
   <entry>
@@ -12297,6 +12269,34 @@ Clearing topic-level throttles on topic first
       </tags>
   </entry>
   <entry>
+    <title>centos7安装pulsar</title>
+    <url>/2022/06/12/centos7-an-zhuang-pulsar/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h3 id="download"><a href="#download" class="headerlink" title="download"></a>download</h3><p><a href="https://pulsar.apache.org/zh-CN/download/">Apache Pulsar</a></p>
+<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><ul>
+<li>直接解压</li>
+</ul>
+<pre><code class="prettyprint">tar -zxvf apache-pulsar-2.3.0-bin.tar.gz
+</code></pre>
+<ul>
+<li>启动验证</li>
+</ul>
+<pre><code class="prettyprint">#启动
+./pulsar standalone
+#消费者监听
+./pulsar-client consume topic1 -s &quot;first-subscription&quot;
+#发送
+./pulsar-client produce topic1 --messages &quot;hello-pulsa
+</code></pre>
+]]></content>
+      <categories>
+        <category>软件</category>
+      </categories>
+      <tags>
+        <tag>中间件</tag>
+        <tag>pulsar</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>序列化缓存定制</title>
     <url>/2022/06/15/xu-lie-hua-huan-cun-ding-zhi/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><pre><code class="prettyprint">@Configuration
@@ -12437,6 +12437,178 @@ genericJackson2JsonRedisSerializer序列化需要的时间:22
       </categories>
       <tags>
         <tag>redis</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>KMP-字符串匹配</title>
+    <url>/2022/06/16/kmp-zi-fu-chuan-pi-pei/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h4 id="暴力匹配"><a href="#暴力匹配" class="headerlink" title="暴力匹配"></a>暴力匹配</h4><ul>
+<li>如果当前字符匹配成功（即 str1[i] &#x3D;&#x3D; str2[j]），则 i++，j++，继续匹配下一个字符</li>
+<li>如果失配（即 str1[i]! &#x3D; str2[j]），令 i &#x3D; i - (j - 1)，j &#x3D; 0。相当于每次匹配失败时，i 回溯，j 被置为 0。</li>
+<li>用暴力方法解决的话就会有大量的回溯，每次只移动一位，若是不匹配，移动到下一位接着判断，浪费了大量的时间。(不可行!)</li>
+</ul>
+<pre><code class="prettyprint">public class ViolenceMatch &#123;
+    public static void main(String[] args) &#123;
+        //测试暴力匹配算法
+        String str1 = &quot;哇哈哈哈娃娃 哇哈哇哈 哈哇哈哈哈哈&quot;;
+        String str2 = &quot;哈哇哈哈哈&quot;;
+        int index = violenceMatch(str1, str2);
+        System.out.println(&quot;index=&quot; + index);
+    &#125;
+    // 暴力匹配算法实现
+    public static int violenceMatch(String str1, String str2) &#123;
+        char[] s1 = str1.toCharArray();
+        char[] s2 = str2.toCharArray();
+        int s1Len = s1.length;
+        int s2Len = s2.length;
+        int i = 0; // i索引指向s1
+        int j = 0; // j索引指向s2
+        while (i &lt; s1Len &amp;&amp; j &lt; s2Len) &#123;// 保证匹配时，不越界
+            if(s1[i] == s2[j]) &#123;//匹配ok
+                i++;
+                j++;
+            &#125; else &#123; //没有匹配成功
+                //如果失配（即str1[i]! = str2[j]），令i = i - (j - 1)，j = 0。
+                i = i - (j - 1);
+                j = 0;
+            &#125;
+        &#125;
+        //判断是否匹配成功
+        if(j == s2Len) &#123;
+            return i - j;
+        &#125; else &#123;
+            return -1;
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+<h4 id="KMP"><a href="#KMP" class="headerlink" title="KMP"></a>KMP</h4><p><a href="https://blog.csdn.net/weixin_52622200/article/details/110563434">什么是KMP算法（详解)</a></p>
+<pre><code class="prettyprint">public class KMPAlgorithm &#123;
+
+    public static void main(String[] args) &#123;
+        // TODO Auto-generated method stub
+        String str1 = &quot;BBC ABCDAB ABCDABCDABDE&quot;;
+        String str2 = &quot;ABCDABD&quot;;
+        //String str2 = &quot;BBC&quot;;
+        
+        int[] next = kmpNext(str2); //[0, 1, 2, 0]
+        System.out.println(&quot;next=&quot; + Arrays.toString(next));
+        
+        int index = kmpSearch(str1, str2, next);
+        System.out.println(&quot;index=&quot; + index); // 15了
+        
+        
+    &#125;
+    
+    //写出我们的kmp搜索算法
+    /**
+     * 
+     * @param str1 源字符串
+     * @param str2 子串
+     * @param next 部分匹配表, 是子串对应的部分匹配表
+     * @return 如果是-1就是没有匹配到，否则返回第一个匹配的位置
+     */
+    public static int kmpSearch(String str1, String str2, int[] next) &#123;
+        
+        //遍历  j标识头部用于对对比下标 i标识字符串遍历下标
+        for(int i = 0, j = 0; i &lt; str1.length(); i++) &#123;
+            
+            //需要处理 str1.charAt(i) ！= str2.charAt(j), 去调整j的大小
+            //KMP算法核心点, 可以验证...
+            while( j &gt; 0 &amp;&amp; str1.charAt(i) != str2.charAt(j)) &#123;
+                //next[j-1] 表示前面有n个数匹配了和开头匹配了，直接从下标n开始
+                j = next[j-1]; 
+            &#125;
+            
+            if(str1.charAt(i) == str2.charAt(j)) &#123;
+                j++;
+            &#125;			
+            if(j == str2.length()) &#123;//找到了 // j = 3 i 
+                return i - j + 1;
+            &#125;
+        &#125;
+        return  -1;
+    &#125;
+
+    //获取到一个字符串(子串) 的部分匹配值表
+    public static  int[] kmpNext(String dest) &#123;
+        //创建一个next 数组保存部分匹配值
+        int[] next = new int[dest.length()];
+        next[0] = 0; //如果字符串是长度为1 部分匹配值就是0
+        for(int i = 1, j = 0; i &lt; dest.length(); i++) &#123;
+            //当dest.charAt(i) != dest.charAt(j) ，我们需要从next[j-1]获取新的j
+            //直到我们发现 有  dest.charAt(i) == dest.charAt(j)成立才退出
+            //这时kmp算法的核心点
+            while(j &gt; 0 &amp;&amp; dest.charAt(i) != dest.charAt(j)) &#123;
+                j = next[j-1];
+            &#125;
+            
+            //当dest.charAt(i) == dest.charAt(j) 满足时，部分匹配值就是+1
+            if(dest.charAt(i) == dest.charAt(j)) &#123;
+                j++;
+            &#125;
+            next[i] = j;
+        &#125;
+        return next;
+    &#125;
+&#125;
+</code></pre>
+]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>常用算法</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>分治算法-汉诺塔</title>
+    <url>/2022/06/16/fen-zhi-suan-fa-han-nuo-ta/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h4 id="分治算法"><a href="#分治算法" class="headerlink" title="分治算法"></a>分治算法</h4><blockquote>
+<p>分解：将原问题分解为若干个规模较小，相互独立，与原问题形式相同的子问题</p>
+<p>解决：若子问题规模较小而容易被解决则直接解，否则递归地解各个子问题</p>
+<p>合并：将各个子问题的解合并为原问题的解。</p>
+</blockquote>
+<h4 id="汉诺塔"><a href="#汉诺塔" class="headerlink" title="汉诺塔"></a>汉诺塔</h4><ul>
+<li>如果是有一个盘， A-&gt;C，如果我们有 n &gt;&#x3D; 2 情况，我们总是可以看做是两个盘 <ul>
+<li>最下边的盘 </li>
+<li>上面的盘</li>
+</ul>
+</li>
+<li>先把 最上面的盘 A-&gt;B</li>
+<li>把最下边的盘 A-&gt;C</li>
+<li>把 B 塔的所有盘 从 B-&gt;C</li>
+</ul>
+<pre><code class="prettyprint">public class Hanoitower &#123;
+    private static Integer times = 0;
+    public static void main(String[] args) &#123;
+        hanoiTower(5, &#39;A&#39;, &#39;B&#39;, &#39;C&#39;);
+    &#125;
+    //汉诺塔的移动的方法
+    //使用分治算法
+    public static void hanoiTower(int num, char a, char b, char c) &#123;
+        //如果只有一个盘
+        if(num == 1) &#123;
+            System.out.println(++times +&quot;----第1个盘从 &quot; + a + &quot;-&gt;&quot; + c);
+        &#125; else &#123;
+            //如果我们有 n &gt;= 2 情况，我们总是可以看做是两个盘 1.最下边的一个盘 2. 上面的所有盘
+            //1. 先把 最上面的所有盘 A-&gt;B， 移动过程会使用到 c
+            hanoiTower(num - 1, a, c, b);
+            //2. 把最下边的盘 A-&gt;C
+            System.out.println(++times + &quot;---第&quot; + num + &quot;个盘从 &quot; + a + &quot;-&gt;&quot; + c);
+            //3. 把B塔的所有盘 从 B-&gt;C , 移动过程使用到 a塔  
+            hanoiTower(num - 1, b, a, c);
+            
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>常用算法</tag>
       </tags>
   </entry>
   <entry>
@@ -12984,128 +13156,6 @@ http &#123;
       </tags>
   </entry>
   <entry>
-    <title>KMP-字符串匹配</title>
-    <url>/2022/06/16/kmp-zi-fu-chuan-pi-pei/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h4 id="暴力匹配"><a href="#暴力匹配" class="headerlink" title="暴力匹配"></a>暴力匹配</h4><ul>
-<li>如果当前字符匹配成功（即 str1[i] &#x3D;&#x3D; str2[j]），则 i++，j++，继续匹配下一个字符</li>
-<li>如果失配（即 str1[i]! &#x3D; str2[j]），令 i &#x3D; i - (j - 1)，j &#x3D; 0。相当于每次匹配失败时，i 回溯，j 被置为 0。</li>
-<li>用暴力方法解决的话就会有大量的回溯，每次只移动一位，若是不匹配，移动到下一位接着判断，浪费了大量的时间。(不可行!)</li>
-</ul>
-<pre><code class="prettyprint">public class ViolenceMatch &#123;
-    public static void main(String[] args) &#123;
-        //测试暴力匹配算法
-        String str1 = &quot;哇哈哈哈娃娃 哇哈哇哈 哈哇哈哈哈哈&quot;;
-        String str2 = &quot;哈哇哈哈哈&quot;;
-        int index = violenceMatch(str1, str2);
-        System.out.println(&quot;index=&quot; + index);
-    &#125;
-    // 暴力匹配算法实现
-    public static int violenceMatch(String str1, String str2) &#123;
-        char[] s1 = str1.toCharArray();
-        char[] s2 = str2.toCharArray();
-        int s1Len = s1.length;
-        int s2Len = s2.length;
-        int i = 0; // i索引指向s1
-        int j = 0; // j索引指向s2
-        while (i &lt; s1Len &amp;&amp; j &lt; s2Len) &#123;// 保证匹配时，不越界
-            if(s1[i] == s2[j]) &#123;//匹配ok
-                i++;
-                j++;
-            &#125; else &#123; //没有匹配成功
-                //如果失配（即str1[i]! = str2[j]），令i = i - (j - 1)，j = 0。
-                i = i - (j - 1);
-                j = 0;
-            &#125;
-        &#125;
-        //判断是否匹配成功
-        if(j == s2Len) &#123;
-            return i - j;
-        &#125; else &#123;
-            return -1;
-        &#125;
-    &#125;
-&#125;
-</code></pre>
-<h4 id="KMP"><a href="#KMP" class="headerlink" title="KMP"></a>KMP</h4><p><a href="https://blog.csdn.net/weixin_52622200/article/details/110563434">什么是KMP算法（详解)</a></p>
-<pre><code class="prettyprint">public class KMPAlgorithm &#123;
-
-    public static void main(String[] args) &#123;
-        // TODO Auto-generated method stub
-        String str1 = &quot;BBC ABCDAB ABCDABCDABDE&quot;;
-        String str2 = &quot;ABCDABD&quot;;
-        //String str2 = &quot;BBC&quot;;
-        
-        int[] next = kmpNext(str2); //[0, 1, 2, 0]
-        System.out.println(&quot;next=&quot; + Arrays.toString(next));
-        
-        int index = kmpSearch(str1, str2, next);
-        System.out.println(&quot;index=&quot; + index); // 15了
-        
-        
-    &#125;
-    
-    //写出我们的kmp搜索算法
-    /**
-     * 
-     * @param str1 源字符串
-     * @param str2 子串
-     * @param next 部分匹配表, 是子串对应的部分匹配表
-     * @return 如果是-1就是没有匹配到，否则返回第一个匹配的位置
-     */
-    public static int kmpSearch(String str1, String str2, int[] next) &#123;
-        
-        //遍历  j标识头部用于对对比下标 i标识字符串遍历下标
-        for(int i = 0, j = 0; i &lt; str1.length(); i++) &#123;
-            
-            //需要处理 str1.charAt(i) ！= str2.charAt(j), 去调整j的大小
-            //KMP算法核心点, 可以验证...
-            while( j &gt; 0 &amp;&amp; str1.charAt(i) != str2.charAt(j)) &#123;
-                //next[j-1] 表示前面有n个数匹配了和开头匹配了，直接从下标n开始
-                j = next[j-1]; 
-            &#125;
-            
-            if(str1.charAt(i) == str2.charAt(j)) &#123;
-                j++;
-            &#125;			
-            if(j == str2.length()) &#123;//找到了 // j = 3 i 
-                return i - j + 1;
-            &#125;
-        &#125;
-        return  -1;
-    &#125;
-
-    //获取到一个字符串(子串) 的部分匹配值表
-    public static  int[] kmpNext(String dest) &#123;
-        //创建一个next 数组保存部分匹配值
-        int[] next = new int[dest.length()];
-        next[0] = 0; //如果字符串是长度为1 部分匹配值就是0
-        for(int i = 1, j = 0; i &lt; dest.length(); i++) &#123;
-            //当dest.charAt(i) != dest.charAt(j) ，我们需要从next[j-1]获取新的j
-            //直到我们发现 有  dest.charAt(i) == dest.charAt(j)成立才退出
-            //这时kmp算法的核心点
-            while(j &gt; 0 &amp;&amp; dest.charAt(i) != dest.charAt(j)) &#123;
-                j = next[j-1];
-            &#125;
-            
-            //当dest.charAt(i) == dest.charAt(j) 满足时，部分匹配值就是+1
-            if(dest.charAt(i) == dest.charAt(j)) &#123;
-                j++;
-            &#125;
-            next[i] = j;
-        &#125;
-        return next;
-    &#125;
-&#125;
-</code></pre>
-]]></content>
-      <categories>
-        <category>算法</category>
-      </categories>
-      <tags>
-        <tag>常用算法</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>minio8.3.3启动报错</title>
     <url>/2022/06/18/minio8-3-3-qi-dong-bao-cuo/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h4 id="报错日志"><a href="#报错日志" class="headerlink" title="报错日志"></a>报错日志</h4><pre><code class="prettyprint">Error starting ApplicationContext. To display the conditions report re-run your application with &#39;debug&#39; enabled.
@@ -13256,56 +13306,6 @@ systemctl disable minio.service   #停止开机自启动
       <tags>
         <tag>文件存储</tag>
         <tag>minio</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>分治算法-汉诺塔</title>
-    <url>/2022/06/16/fen-zhi-suan-fa-han-nuo-ta/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h4 id="分治算法"><a href="#分治算法" class="headerlink" title="分治算法"></a>分治算法</h4><blockquote>
-<p>分解：将原问题分解为若干个规模较小，相互独立，与原问题形式相同的子问题</p>
-<p>解决：若子问题规模较小而容易被解决则直接解，否则递归地解各个子问题</p>
-<p>合并：将各个子问题的解合并为原问题的解。</p>
-</blockquote>
-<h4 id="汉诺塔"><a href="#汉诺塔" class="headerlink" title="汉诺塔"></a>汉诺塔</h4><ul>
-<li>如果是有一个盘， A-&gt;C，如果我们有 n &gt;&#x3D; 2 情况，我们总是可以看做是两个盘 <ul>
-<li>最下边的盘 </li>
-<li>上面的盘</li>
-</ul>
-</li>
-<li>先把 最上面的盘 A-&gt;B</li>
-<li>把最下边的盘 A-&gt;C</li>
-<li>把 B 塔的所有盘 从 B-&gt;C</li>
-</ul>
-<pre><code class="prettyprint">public class Hanoitower &#123;
-    private static Integer times = 0;
-    public static void main(String[] args) &#123;
-        hanoiTower(5, &#39;A&#39;, &#39;B&#39;, &#39;C&#39;);
-    &#125;
-    //汉诺塔的移动的方法
-    //使用分治算法
-    public static void hanoiTower(int num, char a, char b, char c) &#123;
-        //如果只有一个盘
-        if(num == 1) &#123;
-            System.out.println(++times +&quot;----第1个盘从 &quot; + a + &quot;-&gt;&quot; + c);
-        &#125; else &#123;
-            //如果我们有 n &gt;= 2 情况，我们总是可以看做是两个盘 1.最下边的一个盘 2. 上面的所有盘
-            //1. 先把 最上面的所有盘 A-&gt;B， 移动过程会使用到 c
-            hanoiTower(num - 1, a, c, b);
-            //2. 把最下边的盘 A-&gt;C
-            System.out.println(++times + &quot;---第&quot; + num + &quot;个盘从 &quot; + a + &quot;-&gt;&quot; + c);
-            //3. 把B塔的所有盘 从 B-&gt;C , 移动过程使用到 a塔  
-            hanoiTower(num - 1, b, a, c);
-            
-        &#125;
-    &#125;
-&#125;
-</code></pre>
-]]></content>
-      <categories>
-        <category>算法</category>
-      </categories>
-      <tags>
-        <tag>常用算法</tag>
       </tags>
   </entry>
   <entry>
@@ -15228,6 +15228,9 @@ go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest #已装
       <categories>
         <category>技术</category>
       </categories>
+      <tags>
+        <tag>go</tag>
+      </tags>
   </entry>
   <entry>
     <title>CRON表达式例子</title>
@@ -15324,6 +15327,22 @@ systemctl mask firewalld.service;
       </tags>
   </entry>
   <entry>
+    <title>Docker 安装部署RabbitMQ</title>
+    <url>/2021/10/16/docker-an-zhuang-bu-shu-rabbitmq/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p><code>这里注意获取镜像的时候要获取management版本的，不要获取last版本的，management版本的才带有管理界面。</code></p>
+<h3 id="1、查询镜像"><a href="#1、查询镜像" class="headerlink" title="1、查询镜像"></a>1、查询镜像</h3><p><code>docker search rabbitmq:management</code></p>
+<h3 id="2、获取镜像"><a href="#2、获取镜像" class="headerlink" title="2、获取镜像"></a>2、获取镜像</h3><p><code>docker pull rabbitmq:management</code></p>
+<h3 id="3、运行镜像"><a href="#3、运行镜像" class="headerlink" title="3、运行镜像"></a>3、运行镜像</h3><p><code>docker run -d -p 5672:5672 -p 15672:15672 --name rabbitmq rabbitmq:management</code></p>
+<p>访问管理界面的地址就是 http:&#x2F;&#x2F;[宿主机IP]:15672，可以使用默认的账户登录，用户名和密码都guest</p>
+]]></content>
+      <categories>
+        <category>软件</category>
+      </categories>
+      <tags>
+        <tag>docker</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Controller注入Service出现空指针情况</title>
     <url>/2022/04/15/controller-zhu-ru-service-chu-xian-kong-zhi-zhen-qing-kuang/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h4 id="第一种情况（注入没有使用注解-Autowired-Resource）"><a href="#第一种情况（注入没有使用注解-Autowired-Resource）" class="headerlink" title="第一种情况（注入没有使用注解@Autowired,@Resource）"></a>第一种情况（注入没有使用注解<code>@Autowired</code>,<code>@Resource</code>）</h4><pre><code class="prettyprint">public class TestController &#123;
@@ -15372,13 +15391,42 @@ systemctl mask firewalld.service;
       </tags>
   </entry>
   <entry>
-    <title>Docker 安装部署RabbitMQ</title>
-    <url>/2021/10/16/docker-an-zhuang-bu-shu-rabbitmq/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p><code>这里注意获取镜像的时候要获取management版本的，不要获取last版本的，management版本的才带有管理界面。</code></p>
-<h3 id="1、查询镜像"><a href="#1、查询镜像" class="headerlink" title="1、查询镜像"></a>1、查询镜像</h3><p><code>docker search rabbitmq:management</code></p>
-<h3 id="2、获取镜像"><a href="#2、获取镜像" class="headerlink" title="2、获取镜像"></a>2、获取镜像</h3><p><code>docker pull rabbitmq:management</code></p>
-<h3 id="3、运行镜像"><a href="#3、运行镜像" class="headerlink" title="3、运行镜像"></a>3、运行镜像</h3><p><code>docker run -d -p 5672:5672 -p 15672:15672 --name rabbitmq rabbitmq:management</code></p>
-<p>访问管理界面的地址就是 http:&#x2F;&#x2F;[宿主机IP]:15672，可以使用默认的账户登录，用户名和密码都guest</p>
+    <title>Docker中安装并配置redis</title>
+    <url>/2021/10/16/docker-zhong-an-zhuang-bing-pei-zhi-redis/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h3 id="一、找到一个合适的docker的redis的版本"><a href="#一、找到一个合适的docker的redis的版本" class="headerlink" title="一、找到一个合适的docker的redis的版本"></a>一、找到一个合适的docker的redis的版本</h3><p>可以去docker hub中去找一下</p>
+<p><a href="https://hub.docker.com/_/redis?tab=tags">https://hub.docker.com/_/redis?tab=tags</a></p>
+<h3 id="二、使用docker安装redis"><a href="#二、使用docker安装redis" class="headerlink" title="二、使用docker安装redis"></a>二、使用docker安装redis</h3><p>docker pull redis</p>
+<p>安装好之后使用docker images即可查看</p>
+<p>docker images</p>
+<h3 id="三、准备redis的配置文件"><a href="#三、准备redis的配置文件" class="headerlink" title="三、准备redis的配置文件"></a>三、准备redis的配置文件</h3><p>因为需要redis的配置文件，这里最好还是去redis的官方去下载一个redis使用里面的配置文件即可</p>
+<p>redis中文官方网站：<a href="http://www.redis.cn/download.html">http://www.redis.cn/download.html</a></p>
+<p>下载后解压出来：</p>
+<p>这个redis.conf文件就是咱们需要的，为了保险，还是拷贝一下，做个备份。</p>
+<h3 id="四、配置redis-conf配置文件"><a href="#四、配置redis-conf配置文件" class="headerlink" title="四、配置redis.conf配置文件"></a>四、配置redis.conf配置文件</h3><p>修改redis.conf配置文件：<br>主要配置的如下：</p>
+<pre><code>bind 127.0.0.1 #注释掉这部分，使redis可以外部访问
+daemonize no#用守护线程的方式启动
+requirepass 你的密码#给redis设置密码
+appendonly yes#redis持久化　　默认是no
+tcp-keepalive 300 #防止出现远程主机强迫关闭了一个现有的连接的错误 默认是300
+</code></pre>
+<h3 id="五、创建本地与docker映射的目录，即本地存放的位置"><a href="#五、创建本地与docker映射的目录，即本地存放的位置" class="headerlink" title="五、创建本地与docker映射的目录，即本地存放的位置"></a>五、创建本地与docker映射的目录，即本地存放的位置</h3><p>创建本地存放redis的位置;</p>
+<p>可以自定义，因为我的docker的一些配置文件都是存放在&#x2F;data目录下面的，所以我依然在&#x2F;data目录下创建一个redis目录，这样是为了方便后期管理</p>
+<p>mkdir &#x2F;data&#x2F;redis<br>mkdir &#x2F;data&#x2F;redis&#x2F;data</p>
+<p>把配置文件拷贝到刚才创建好的文件里</p>
+<p>因为我本身就是Linux操作系统，所以我可以直接拷贝过去，如果你是windows的话，可能需要使用ftp拷贝过去，或者直接复制内容，然后粘贴过去。</p>
+<p>cp -p redis.conf &#x2F;data&#x2F;redis&#x2F;</p>
+<h3 id="六、启动docker-redis"><a href="#六、启动docker-redis" class="headerlink" title="六、启动docker redis"></a>六、启动docker redis</h3><p>启动：</p>
+<pre><code>docker run -p 6379:6379 --name redis -v /data/redis/redis.conf:/etc/redis/redis.conf  -v /data/redis/data:/data -d redis redis-server /etc/redis/redis.conf --appendonly yes
+</code></pre>
+<p>参数解释：</p>
+<pre><code>-p 6379:6379:把容器内的6379端口映射到宿主机6379端口
+-v /data/redis/redis.conf:/etc/redis/redis.conf：把宿主机配置好的redis.conf放到容器内的这个位置中
+-v /data/redis/data:/data：把redis持久化的数据在宿主机内显示，做数据备份
+redis-server /etc/redis/redis.conf：这个是关键配置，让redis不是无配置启动，而是按照这个redis.conf的配置启动
+–appendonly yes：redis启动后数据持久化
+</code></pre>
+<h3 id="七、查看是否启动成功"><a href="#七、查看是否启动成功" class="headerlink" title="七、查看是否启动成功"></a>七、查看是否启动成功</h3><p>查看是否成功启动：sudo docker ps</p>
+<p>可以查看一下日志：sudo docker logs redis</p>
 ]]></content>
       <categories>
         <category>软件</category>
@@ -15419,51 +15467,6 @@ server &#123;
 &#125;
 </code></pre>
 <p>以上配置都可以在 <a href="https://github.com/halo-dev/halo-common">https://github.com/halo-dev/halo-common</a> 找到。</p>
-]]></content>
-      <categories>
-        <category>软件</category>
-      </categories>
-      <tags>
-        <tag>docker</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Docker中安装并配置redis</title>
-    <url>/2021/10/16/docker-zhong-an-zhuang-bing-pei-zhi-redis/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h3 id="一、找到一个合适的docker的redis的版本"><a href="#一、找到一个合适的docker的redis的版本" class="headerlink" title="一、找到一个合适的docker的redis的版本"></a>一、找到一个合适的docker的redis的版本</h3><p>可以去docker hub中去找一下</p>
-<p><a href="https://hub.docker.com/_/redis?tab=tags">https://hub.docker.com/_/redis?tab=tags</a></p>
-<h3 id="二、使用docker安装redis"><a href="#二、使用docker安装redis" class="headerlink" title="二、使用docker安装redis"></a>二、使用docker安装redis</h3><p>docker pull redis</p>
-<p>安装好之后使用docker images即可查看</p>
-<p>docker images</p>
-<h3 id="三、准备redis的配置文件"><a href="#三、准备redis的配置文件" class="headerlink" title="三、准备redis的配置文件"></a>三、准备redis的配置文件</h3><p>因为需要redis的配置文件，这里最好还是去redis的官方去下载一个redis使用里面的配置文件即可</p>
-<p>redis中文官方网站：<a href="http://www.redis.cn/download.html">http://www.redis.cn/download.html</a></p>
-<p>下载后解压出来：</p>
-<p>这个redis.conf文件就是咱们需要的，为了保险，还是拷贝一下，做个备份。</p>
-<h3 id="四、配置redis-conf配置文件"><a href="#四、配置redis-conf配置文件" class="headerlink" title="四、配置redis.conf配置文件"></a>四、配置redis.conf配置文件</h3><p>修改redis.conf配置文件：<br>主要配置的如下：</p>
-<pre><code>bind 127.0.0.1 #注释掉这部分，使redis可以外部访问
-daemonize no#用守护线程的方式启动
-requirepass 你的密码#给redis设置密码
-appendonly yes#redis持久化　　默认是no
-tcp-keepalive 300 #防止出现远程主机强迫关闭了一个现有的连接的错误 默认是300
-</code></pre>
-<h3 id="五、创建本地与docker映射的目录，即本地存放的位置"><a href="#五、创建本地与docker映射的目录，即本地存放的位置" class="headerlink" title="五、创建本地与docker映射的目录，即本地存放的位置"></a>五、创建本地与docker映射的目录，即本地存放的位置</h3><p>创建本地存放redis的位置;</p>
-<p>可以自定义，因为我的docker的一些配置文件都是存放在&#x2F;data目录下面的，所以我依然在&#x2F;data目录下创建一个redis目录，这样是为了方便后期管理</p>
-<p>mkdir &#x2F;data&#x2F;redis<br>mkdir &#x2F;data&#x2F;redis&#x2F;data</p>
-<p>把配置文件拷贝到刚才创建好的文件里</p>
-<p>因为我本身就是Linux操作系统，所以我可以直接拷贝过去，如果你是windows的话，可能需要使用ftp拷贝过去，或者直接复制内容，然后粘贴过去。</p>
-<p>cp -p redis.conf &#x2F;data&#x2F;redis&#x2F;</p>
-<h3 id="六、启动docker-redis"><a href="#六、启动docker-redis" class="headerlink" title="六、启动docker redis"></a>六、启动docker redis</h3><p>启动：</p>
-<pre><code>docker run -p 6379:6379 --name redis -v /data/redis/redis.conf:/etc/redis/redis.conf  -v /data/redis/data:/data -d redis redis-server /etc/redis/redis.conf --appendonly yes
-</code></pre>
-<p>参数解释：</p>
-<pre><code>-p 6379:6379:把容器内的6379端口映射到宿主机6379端口
--v /data/redis/redis.conf:/etc/redis/redis.conf：把宿主机配置好的redis.conf放到容器内的这个位置中
--v /data/redis/data:/data：把redis持久化的数据在宿主机内显示，做数据备份
-redis-server /etc/redis/redis.conf：这个是关键配置，让redis不是无配置启动，而是按照这个redis.conf的配置启动
-–appendonly yes：redis启动后数据持久化
-</code></pre>
-<h3 id="七、查看是否启动成功"><a href="#七、查看是否启动成功" class="headerlink" title="七、查看是否启动成功"></a>七、查看是否启动成功</h3><p>查看是否成功启动：sudo docker ps</p>
-<p>可以查看一下日志：sudo docker logs redis</p>
 ]]></content>
       <categories>
         <category>软件</category>
@@ -15553,6 +15556,20 @@ mysql&gt; ALTER USER &#39;root&#39;@&#39;%&#39; IDENTIFIED WITH mysql_native_pas
       </tags>
   </entry>
   <entry>
+    <title>Docker安装nacos</title>
+    <url>/2021/10/16/docker-an-zhuang-nacos/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h4 id="1-拉取镜像"><a href="#1-拉取镜像" class="headerlink" title="1. 拉取镜像"></a>1. 拉取镜像</h4><p><code>docker pull nacos/nacos-server</code></p>
+<h4 id="2-启动"><a href="#2-启动" class="headerlink" title="2. 启动"></a>2. 启动</h4><p><code>docker run -d -p 8848:8848 \ --name nacos \ --env MODE=standalone \ --env SPRING_DATASOURCE_PLATFORM=mysql \ --env MYSQL_SERVICE_HOST=127.0.0.1 \ --env MYSQL_SERVICE_PORT=3306 \ --env MYSQL_SERVICE_DB_NAME=nacos_config \ --env MYSQL_SERVICE_USER=root \ --env MYSQL_SERVICE_PASSWORD=root \ nacos/nacos-server</code></p>
+<h4 id="3-查看"><a href="#3-查看" class="headerlink" title="3. 查看"></a>3. 查看</h4><p><code>docker ps -a</code></p>
+]]></content>
+      <categories>
+        <category>软件</category>
+      </categories>
+      <tags>
+        <tag>docker</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Docker安装rocketmq</title>
     <url>/2021/10/19/docker-an-zhuang-rocketmq/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h4 id="拉取镜像"><a href="#拉取镜像" class="headerlink" title="拉取镜像"></a>拉取镜像</h4><pre><code class="prettyprint"># 查询镜像
@@ -15611,20 +15628,6 @@ docker run -d --name rmqconsole -p 8180:8080 --link rmqserver:namesrv\
  -t styletang/rocketmq-console-ng:1.0.0
 </code></pre>
 <h4 id="访问前端UI"><a href="#访问前端UI" class="headerlink" title="访问前端UI"></a>访问前端UI</h4><p><a href="http://ip:8180/">http://ip:8180</a></p>
-]]></content>
-      <categories>
-        <category>软件</category>
-      </categories>
-      <tags>
-        <tag>docker</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Docker安装nacos</title>
-    <url>/2021/10/16/docker-an-zhuang-nacos/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h4 id="1-拉取镜像"><a href="#1-拉取镜像" class="headerlink" title="1. 拉取镜像"></a>1. 拉取镜像</h4><p><code>docker pull nacos/nacos-server</code></p>
-<h4 id="2-启动"><a href="#2-启动" class="headerlink" title="2. 启动"></a>2. 启动</h4><p><code>docker run -d -p 8848:8848 \ --name nacos \ --env MODE=standalone \ --env SPRING_DATASOURCE_PLATFORM=mysql \ --env MYSQL_SERVICE_HOST=127.0.0.1 \ --env MYSQL_SERVICE_PORT=3306 \ --env MYSQL_SERVICE_DB_NAME=nacos_config \ --env MYSQL_SERVICE_USER=root \ --env MYSQL_SERVICE_PASSWORD=root \ nacos/nacos-server</code></p>
-<h4 id="3-查看"><a href="#3-查看" class="headerlink" title="3. 查看"></a>3. 查看</h4><p><code>docker ps -a</code></p>
 ]]></content>
       <categories>
         <category>软件</category>
@@ -17087,35 +17090,6 @@ public class JSONUtils &#123;
       </categories>
   </entry>
   <entry>
-    <title>浅谈领域驱动和MVC模式在应用开发上的区别</title>
-    <url>/2021/10/09/qian-tan-ling-yu-qu-dong-he-mvc-mo-shi-zai-ying-yong-kai-fa-shang-de-qu-bie/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><ul>
-<li>概述<br>MVC：在传统B&#x2F;S开发模式下几乎都是使用MVC架构模式，MVC把javaweb开发分为三个模块，模型（Model）、视图（View）和控制器（Controller）<br>DDD(领域驱动)：在分布式微服务项目开发中，软件应用开发发不可能是一步到位，在业务开发之前需要大量的知识梳理，然后进行设计，其后才是开发。然而在收集材料，知识整理过程中，肯定会形成摸个领域知识，而后根据领域知识驱动软件设计，这就是DDD（Domain-Driven Design 领域驱动设计）的基本概念</li>
-<li>开发</li>
-</ul>
-<p>MVC:</p>
-<ol>
-<li><p>模型<code>Model</code>：<br>Model制定业务逻辑，处理需求核心功能并且反馈处理后数据结果。<br>Model层返回的数据根据需求的不同有不同的可能，这样一个Model能为多个View提供数据。由于应用于Model的代码只需写一次就可以被多个视图重用，所以减少了代码的重复性。 </p>
-</li>
-<li><p>视图<code>View</code>：<br>View是用户看到并与之交互的界面，负责处理界面的变化。<br>MVC一个大的好处是它能为你的应用程序处理很多不同的视图。在View中其实没有真正的处理发生业务，作为视图来讲，它只是作为一种输出数据并允许用户操纵的方式。 </p>
-</li>
-<li><p>控制器<code>Controller</code>：<br>Controller接受用户的输入并调用Model和View去完成用户的需求。<br>Controller本身不输出任何东西和做任何处理。它只是接收请求并决定调用哪个Model构件去处理请求，然后用确定用哪个View来显示Model处理返回的数据。</p>
-</li>
-</ol>
-<p>DDD：</p>
-<ol>
-<li><p>应用层<code>application</code><br> 应用服务位于应用层。用来表述应用和用户行为，负责服务的组合、编排和转发，负责处理业务用例的执行顺序以及结果的拼装。<br>应用层的服务包括应用服务和领域事件相关服务。<br>应用服务可对微服务内的领域服务以及微服务外的应用服务进行组合和编排，或者对基础层如文件、缓存等数据直接操作形成应用服务，对外提供粗粒度的服务。<br>领域事件服务包括两类：领域事件的发布和订阅。通过事件总线和消息队列实现异步数据传输，实现微服务之间的解耦。</p>
-</li>
-<li><p>领域层<code>domain</code><br> 领域服务位于领域层，为完成领域中跨实体或值对象的操作转换而封装的服务，领域服务以与实体和值对象相同的方式参与实施过程。<br>领域服务对同一个实体的一个或多个方法进行组合和封装，或对多个不同实体的操作进行组合或编排，对外暴露成领域服务。领域服务封装了核心的业务逻辑。实体自身的行为在实体类内部实现，向上封装成领域服务暴露。<br>为隐藏领域层的业务逻辑实现，所有领域方法和服务等均须通过领域服务对外暴露。<br>为实现微服务内聚合之间的解耦，原则上禁止跨聚合的领域服务调用和跨聚合的数据相互关联。</p>
-</li>
-<li><p>基础层<code>infrastructrue</code><br> 基础服务位于基础层。为各层提供资源服务（如数据库、缓存等），实现各层的解耦，降低外部资源变化对业务逻辑的影响。<br>基础服务主要为仓储服务，通过依赖反转的方式为各层提供基础资源服务，领域服务和应用服务调用仓储服务接口，利用仓储实现持久化数据对象或直接访问基础资源。</p>
-</li>
-<li><p>接口层<code>interfaces</code><br> 接口服务位于用户接口层，用于处理用户发送的Restful请求和解析用户输入的配置文件等，并将信息传递给应用层。<br><img src="/upload/2021/10/QQ%E5%9B%BE%E7%89%8720211011143247-f34e856e0c2b458fad315349343cb5d9.png" alt="QQ图片20211011143247.png"></p>
-</li>
-</ol>
-]]></content>
-  </entry>
-  <entry>
     <title>杂乱无章.md</title>
     <url>/2021/08/31/za-luan-wu-zhang/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h2 id="一、在js里面引入js或css"><a href="#一、在js里面引入js或css" class="headerlink" title="一、在js里面引入js或css"></a>一、在js里面引入js或css</h2><pre><code class="javascript">//论坛首页 各模块铁贴数
@@ -18305,6 +18279,35 @@ sql.replaceAll(&quot;\\#\\&#123;.+?\\&#125;&quot;,&quot;?&quot;);
       </categories>
   </entry>
   <entry>
+    <title>浅谈领域驱动和MVC模式在应用开发上的区别</title>
+    <url>/2021/10/09/qian-tan-ling-yu-qu-dong-he-mvc-mo-shi-zai-ying-yong-kai-fa-shang-de-qu-bie/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><ul>
+<li>概述<br>MVC：在传统B&#x2F;S开发模式下几乎都是使用MVC架构模式，MVC把javaweb开发分为三个模块，模型（Model）、视图（View）和控制器（Controller）<br>DDD(领域驱动)：在分布式微服务项目开发中，软件应用开发发不可能是一步到位，在业务开发之前需要大量的知识梳理，然后进行设计，其后才是开发。然而在收集材料，知识整理过程中，肯定会形成摸个领域知识，而后根据领域知识驱动软件设计，这就是DDD（Domain-Driven Design 领域驱动设计）的基本概念</li>
+<li>开发</li>
+</ul>
+<p>MVC:</p>
+<ol>
+<li><p>模型<code>Model</code>：<br>Model制定业务逻辑，处理需求核心功能并且反馈处理后数据结果。<br>Model层返回的数据根据需求的不同有不同的可能，这样一个Model能为多个View提供数据。由于应用于Model的代码只需写一次就可以被多个视图重用，所以减少了代码的重复性。 </p>
+</li>
+<li><p>视图<code>View</code>：<br>View是用户看到并与之交互的界面，负责处理界面的变化。<br>MVC一个大的好处是它能为你的应用程序处理很多不同的视图。在View中其实没有真正的处理发生业务，作为视图来讲，它只是作为一种输出数据并允许用户操纵的方式。 </p>
+</li>
+<li><p>控制器<code>Controller</code>：<br>Controller接受用户的输入并调用Model和View去完成用户的需求。<br>Controller本身不输出任何东西和做任何处理。它只是接收请求并决定调用哪个Model构件去处理请求，然后用确定用哪个View来显示Model处理返回的数据。</p>
+</li>
+</ol>
+<p>DDD：</p>
+<ol>
+<li><p>应用层<code>application</code><br> 应用服务位于应用层。用来表述应用和用户行为，负责服务的组合、编排和转发，负责处理业务用例的执行顺序以及结果的拼装。<br>应用层的服务包括应用服务和领域事件相关服务。<br>应用服务可对微服务内的领域服务以及微服务外的应用服务进行组合和编排，或者对基础层如文件、缓存等数据直接操作形成应用服务，对外提供粗粒度的服务。<br>领域事件服务包括两类：领域事件的发布和订阅。通过事件总线和消息队列实现异步数据传输，实现微服务之间的解耦。</p>
+</li>
+<li><p>领域层<code>domain</code><br> 领域服务位于领域层，为完成领域中跨实体或值对象的操作转换而封装的服务，领域服务以与实体和值对象相同的方式参与实施过程。<br>领域服务对同一个实体的一个或多个方法进行组合和封装，或对多个不同实体的操作进行组合或编排，对外暴露成领域服务。领域服务封装了核心的业务逻辑。实体自身的行为在实体类内部实现，向上封装成领域服务暴露。<br>为隐藏领域层的业务逻辑实现，所有领域方法和服务等均须通过领域服务对外暴露。<br>为实现微服务内聚合之间的解耦，原则上禁止跨聚合的领域服务调用和跨聚合的数据相互关联。</p>
+</li>
+<li><p>基础层<code>infrastructrue</code><br> 基础服务位于基础层。为各层提供资源服务（如数据库、缓存等），实现各层的解耦，降低外部资源变化对业务逻辑的影响。<br>基础服务主要为仓储服务，通过依赖反转的方式为各层提供基础资源服务，领域服务和应用服务调用仓储服务接口，利用仓储实现持久化数据对象或直接访问基础资源。</p>
+</li>
+<li><p>接口层<code>interfaces</code><br> 接口服务位于用户接口层，用于处理用户发送的Restful请求和解析用户输入的配置文件等，并将信息传递给应用层。<br><img src="/upload/2021/10/QQ%E5%9B%BE%E7%89%8720211011143247-f34e856e0c2b458fad315349343cb5d9.png" alt="QQ图片20211011143247.png"></p>
+</li>
+</ol>
+]]></content>
+  </entry>
+  <entry>
     <title>算法可视化地址</title>
     <url>/2021/10/11/suan-fa-ke-shi-hua-di-zhi/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p><a href="https://www.cs.usfca.edu/~galles/visualization/Algorithms.html">https://www.cs.usfca.edu/~galles/visualization/Algorithms.html</a><br><a href="https://algorithm-visualizer.org/">https://algorithm-visualizer.org/</a></p>
@@ -19141,6 +19144,89 @@ installonly_limit=5
       </categories>
       <tags>
         <tag>docker</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>gin-swagger测试例子</title>
+    <url>/2023/02/13/gin-swagger-ce-shi-li-zi/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h3 id="安装配置地址查找"><a href="#安装配置地址查找" class="headerlink" title="安装配置地址查找"></a>安装配置地址查找</h3><p><a href="https://pkg.go.dev/">Go Packages</a></p>
+<img src="/2023/02/13/gin-swagger-ce-shi-li-zi/image-20230213224739572.png" class="asset-class" title="image-20230213224739572">
+
+<h3 id="配置安装"><a href="#配置安装" class="headerlink" title="配置安装"></a>配置安装</h3><pre><code class="prettyprint">#swag 命令安装
+go install github.com/swaggo/swag/cmd/swag
+#生成docs文件夹
+swag init  
+# 安装依赖包
+go get -u github.com/swaggo/gin-swagger
+go get -u github.com/swaggo/files
+</code></pre>
+<img src="/2023/02/13/gin-swagger-ce-shi-li-zi/image-20230213224812529.png" class="asset-class" title="image-20230213224812529">
+
+<h4 id="代码示例"><a href="#代码示例" class="headerlink" title="代码示例"></a>代码示例</h4><h5 id="路由引入"><a href="#路由引入" class="headerlink" title="路由引入"></a>路由引入</h5><pre><code class="prettyprint">package router
+
+import (
+    &quot;ginchat/docs&quot; //自己生成的docs
+    &quot;ginchat/service&quot;
+    &quot;github.com/gin-gonic/gin&quot;
+    swaggerfiles &quot;github.com/swaggo/files&quot;
+    ginSwagger &quot;github.com/swaggo/gin-swagger&quot;
+)
+
+func Router() *gin.Engine &#123;
+    r := gin.Default()
+    //swagger配置
+    docs.SwaggerInfo.BasePath = &quot;&quot;
+    r.GET(&quot;/swagger/*any&quot;, ginSwagger.WrapHandler(swaggerfiles.Handler))
+
+    r.GET(&quot;/index&quot;, service.GetIndex)
+    r.GET(&quot;/user/getUserList&quot;, service.GetUserList)
+    r.GET(&quot;/user/createUser&quot;, service.CreateUser)
+    r.GET(&quot;/user/deleteUser&quot;, service.DeleteUser)
+    r.POST(&quot;/user/updateUser&quot;, service.UpdateUser)
+    return r
+&#125;
+</code></pre>
+<h5 id="接口注解"><a href="#接口注解" class="headerlink" title="接口注解"></a>接口注解</h5><pre><code class="prettyprint">// CreateUser
+// @Summary 新增用户
+// @Tags 用户模块
+// @param name query string false &quot;用户名&quot;
+// @param password query string false &quot;密码&quot;
+// @param rePassword query string false &quot;确认密码&quot;
+// @Success 200 &#123;string&#125; json&#123;&quot;code&quot;,&quot;message&quot;&#125;
+// @Router /user/createUser [get]
+func CreateUser(c *gin.Context) &#123;
+    user := models.UserBasic&#123;&#125;
+    user.Name = c.Query(&quot;name&quot;)
+    password := c.Query(&quot;password&quot;)
+    rePassword := c.Query(&quot;rePassword&quot;)
+    if password != rePassword &#123;
+        c.JSON(-1, gin.H&#123;
+            &quot;message&quot;: &quot;两次密码不一致!&quot;,
+        &#125;)
+        return
+    &#125;
+    user.PassWord = password
+    models.CreateUser(user)
+    c.JSON(200, gin.H&#123;
+        &quot;message&quot;: &quot;新增用户成功!&quot;,
+    &#125;)
+&#125;
+</code></pre>
+<h5 id="注解说明"><a href="#注解说明" class="headerlink" title="注解说明"></a>注解说明</h5><img src="/2023/02/13/gin-swagger-ce-shi-li-zi/image-20230213225229134.png" class="asset-class" title="image-20230213225229134">
+
+<img src="/2023/02/13/gin-swagger-ce-shi-li-zi/image-20230213225248347.png" class="asset-class" title="image-20230213225248347">
+
+<h3 id="测试访问"><a href="#测试访问" class="headerlink" title="测试访问"></a>测试访问</h3><p><code>http://localhost:8081/swagger/index.html</code></p>
+<blockquote>
+<p>写完配置注解需要执行<code>swag init</code>命令</p>
+</blockquote>
+<img src="/2023/02/13/gin-swagger-ce-shi-li-zi/image-20230213225419276.png" class="asset-class" title="image-20230213225419276">
+]]></content>
+      <categories>
+        <category>技术</category>
+      </categories>
+      <tags>
+        <tag>go</tag>
       </tags>
   </entry>
 </search>

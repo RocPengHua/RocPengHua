@@ -16285,6 +16285,7 @@ instance=memory();//3:设置instance指向刚分配的内存地址
 <p> <strong>定义：</strong>有时又叫作部分-整体模式，它是一种将对象组合成树状的层次结构的模式，用来表示“部分-整体”的关系，使用户对单个对象和组合对象具有一致的访问性。 </p>
 <p> <strong>意图：</strong>将对象组合成树形结构以表示”部分-整体”的层次结构。组合模式使得用户对单个对象和组合对象的使用具有一致性。 </p>
 <p> <strong>主要解决：</strong>它在我们树型结构的问题中，模糊了简单元素和复杂元素的概念，客户程序可以像处理简单元素一样来处理复杂元素，从而使得客户程序与复杂元素的内部结构解耦。 </p>
+<p> <strong>关键代码：</strong>树枝内部组合该接口，并且含有内部属性 List，里面放 Component。</p>
 </blockquote>
 <p><strong>优点：</strong></p>
 <ul>
@@ -16413,6 +16414,7 @@ instance=memory();//3:设置instance指向刚分配的内存地址
 <h3 id="享元模式"><a href="#享元模式" class="headerlink" title="享元模式"></a>享元模式</h3><blockquote>
 <p><strong>定义</strong>：通过共享的方式高效的支持大量细粒度的对象。</p>
 <p><strong>主要解决</strong>：在有大量对象时，有可能会造成内存溢出，我们把其中共同的部分抽象出来，如果有相同的业务请求，直接返回在内存中已有的对象，避免重新创建。</p>
+<p><strong>关键代码</strong>：用 <code>HashMap </code>存储这些对象</p>
 </blockquote>
 <p> <strong>何时使用：</strong> </p>
 <ul>
@@ -16504,6 +16506,7 @@ instance=memory();//3:设置instance指向刚分配的内存地址
 <h2 id="关系模式"><a href="#关系模式" class="headerlink" title="关系模式"></a>关系模式</h2><h3 id="策略模式"><a href="#策略模式" class="headerlink" title="策略模式"></a>策略模式</h3><blockquote>
 <p> <strong>定义：</strong>策略模式定义了一系列算法，并将每个算法封装起来，使他们可以相互替换，且算法的变化不会影响到使用算法的客户。  </p>
 <p> <strong>主要解决：</strong>在有多种算法相似的情况下，使用 if…else 所带来的复杂和难以维护。 </p>
+<p> <strong>关键代码：</strong>实现同一个接口。</p>
 </blockquote>
 <p><strong>优点：</strong> </p>
 <ul>
@@ -16785,6 +16788,7 @@ public class DefaultTemplatePlaceHolderHandler implements TemplatePlaceHolderHan
 <h3 id="观察者模式"><a href="#观察者模式" class="headerlink" title="观察者模式"></a>观察者模式</h3><blockquote>
 <p> <strong>定义：</strong> 定义对象间的一种一对多的依赖关系，当一个对象的状态发生改变时，所有依赖于它的对象都得到通知并被自动更新。 (广播)</p>
 <p> <strong>主要解决：</strong>一个对象状态改变给其他对象通知的问题，而且要考虑到易用和低耦合，保证高度的协作。 </p>
+<p> <strong>关键代码：</strong>在抽象类里有一个 ArrayList 存放观察者们。</p>
 </blockquote>
 <h4 id="模式结构图和代码示例"><a href="#模式结构图和代码示例" class="headerlink" title="模式结构图和代码示例"></a>模式结构图和代码示例</h4><ul>
 <li><strong>抽象被观察者角色：</strong>也就是一个抽象主题，它把所有对观察者对象的引用保存在一个集合中，每个主题都可以有任意数量的观察者。抽象主题提供一个接口，可以增加和删除观察者角色。一般用一个抽象类和接口来实现。</li>
@@ -16924,6 +16928,342 @@ public class DefaultTemplatePlaceHolderHandler implements TemplatePlaceHolderHan
 </li>
 </ul>
 </blockquote>
+<h3 id="迭代器模式"><a href="#迭代器模式" class="headerlink" title="迭代器模式"></a>迭代器模式</h3><blockquote>
+<p><strong>定义：</strong>提供一种方法顺序访问一个聚合对象中各个元素, 而又无须暴露该对象的内部表示。</p>
+<p><strong>优点：</strong> </p>
+<ul>
+<li><p>它支持以不同的方式遍历一个聚合对象。</p>
+</li>
+<li><p>迭代器简化了聚合类。</p>
+</li>
+<li><p>在同一个聚合上可以有多个遍历。</p>
+</li>
+<li><p>在迭代器模式中，增加新的聚合类和迭代器类都很方便，无须修改原有代码。</p>
+</li>
+</ul>
+<p><strong>缺点：</strong>由于迭代器模式将存储数据和遍历数据的职责分离，增加新的聚合类需要对应增加新的迭代器类，类的个数成对增加，这在一定程度上增加了系统的复杂性。</p>
+<p><strong>关键代码：</strong>定义接口：<code>hasNext()</code>, <code>next()</code>。</p>
+</blockquote>
+<h4 id="迭代器模式结构和代码示例"><a href="#迭代器模式结构和代码示例" class="headerlink" title="迭代器模式结构和代码示例"></a>迭代器模式结构和代码示例</h4><ul>
+<li><p>迭代器角色（<code>Iterator</code>）:定义遍历元素所需要的方法，一般来说会有这么三个方法：取得下一个元素的方法<code>next()</code>，判断是否遍历结束的方法<code>hasNext()</code>，移出当前对象的方法<code>remove()</code></p>
+</li>
+<li><p>具体迭代器角色（<code>Concrete Iterator</code>）：实现迭代器接口中定义的方法，完成集合的迭代。</p>
+</li>
+<li><p>容器角色(<code>Aggregate</code>): 一般是一个接口，提供一个<code>iterator()</code>方法，例如java中的<code>Collection</code>接口，<code>List</code>接口，<code>Set</code>接口等</p>
+</li>
+<li><p>具体容器角色（<code>ConcreteAggregate</code>）：就是抽象容器的具体实现类，比如<code>List</code>接口的有序列表实现<code>ArrayList</code>，&#96;&#96;List接口的链表实现<code>LinkList</code>，<code>Set</code>接口的哈希列表的实现<code>HashSet</code>等。</p>
+</li>
+</ul>
+<ol>
+<li><p>迭代器接口</p>
+<pre><code class="prettyprint">public interface Iterator &#123;
+    public boolean hasNext();
+    public Object next();
+&#125;
+</code></pre>
+<pre><code class="prettyprint">@AllArgsConstructor
+@Data
+public class MenuItem &#123;
+    String name;
+    String description;
+    boolean vegetable;
+    float price;
+&#125;
+</code></pre>
+</li>
+<li><p>咖啡店菜单和咖啡店菜单遍历器</p>
+<pre><code class="prettyprint">public class CakeHouseMenu &#123;
+    private ArrayList&lt;MenuItem&gt; menuItems;
+
+    public CakeHouseMenu() &#123;
+        menuItems = new ArrayList&lt;MenuItem&gt;();
+        addItem(&quot;KFC Cake Breakfast&quot;, &quot;boiled eggs&amp;toast&amp;cabbage&quot;, true, 3.99f);
+        addItem(&quot;MDL Cake Breakfast&quot;, &quot;fried eggs&amp;toast&quot;, false, 3.59f);
+        addItem(&quot;Stawberry Cake&quot;, &quot;fresh stawberry&quot;, true, 3.29f);
+        addItem(&quot;Regular Cake Breakfast&quot;, &quot;toast&amp;sausage&quot;, true, 2.59f);
+    &#125;
+
+    private void addItem(String name, String description, boolean vegetable, float price) &#123;
+        MenuItem menuItem = new MenuItem(name, description, vegetable, price);
+        menuItems.add(menuItem);
+    &#125;
+
+    public Iterator getIterator() &#123;
+        return new CakeHouseIterator();
+    &#125;
+
+    class CakeHouseIterator implements Iterator &#123;
+        private int position = 0;
+
+        public CakeHouseIterator() &#123;
+            position = 0;
+        &#125;
+
+        @Override
+        public boolean hasNext() &#123;
+            if (position &lt; menuItems.size()) &#123;
+                return true;
+            &#125;
+
+            return false;
+        &#125;
+
+        @Override
+        public Object next() &#123;
+            MenuItem menuItem = menuItems.get(position);
+            position++;
+            return menuItem;
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+</li>
+<li><p>中餐厅菜单和中餐厅菜单遍历器</p>
+<pre><code class="prettyprint">public class DinerMenu &#123;
+    private final static int Max_Items = 5;
+    private int numberOfItems = 0;
+    private MenuItem[] menuItems;
+
+    public DinerMenu() &#123;
+        menuItems = new MenuItem[Max_Items];
+        addItem(&quot;vegetable Blt&quot;, &quot;bacon&amp;lettuce&amp;tomato&amp;cabbage&quot;, true, 3.58f);
+        addItem(&quot;Blt&quot;, &quot;bacon&amp;lettuce&amp;tomato&quot;, false, 3.00f);
+        addItem(&quot;bean soup&quot;, &quot;bean&amp;potato salad&quot;, true, 3.28f);
+        addItem(&quot;hotdog&quot;, &quot;onions&amp;cheese&amp;bread&quot;, false, 3.05f);
+    &#125;
+
+    private void addItem(String name, String description, boolean vegetable,float price) &#123;
+        MenuItem menuItem = new MenuItem(name, description, vegetable, price);
+        if (numberOfItems &gt;= Max_Items) &#123;
+            System.err.println(&quot;sorry,menu is full!can not add another item&quot;);
+        &#125; else &#123;
+            menuItems[numberOfItems] = menuItem;
+            numberOfItems++;
+        &#125;
+    &#125;
+
+    public Iterator getIterator() &#123;
+        return new DinerIterator();
+    &#125;
+
+    class DinerIterator implements Iterator &#123;
+        private int position;
+
+        public DinerIterator() &#123;
+            position = 0;
+        &#125;
+
+        @Override
+        public boolean hasNext() &#123;
+            if (position &lt; numberOfItems) &#123;
+                return true;
+            &#125;
+            return false;
+        &#125;
+
+        @Override
+        public Object next() &#123;
+            MenuItem menuItem = menuItems[position];
+            position++;
+            return menuItem;
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+</li>
+<li><p>服务员上菜</p>
+<pre><code class="prettyprint">public class Waitress &#123;
+    private ArrayList&lt;Iterator&gt; iterators = new ArrayList&lt;Iterator&gt;();
+
+    public void addIterator(Iterator iterator) &#123;
+        iterators.add(iterator);
+    &#125;
+
+    public void printMenu() &#123;
+        Iterator iterator;
+        MenuItem menuItem;
+        for (int i = 0, len = iterators.size(); i &lt; len; i++) &#123;
+            iterator = iterators.get(i);
+            while (iterator.hasNext()) &#123;
+                menuItem = (MenuItem) iterator.next();
+                System.out.println(menuItem.getName() + &quot;----------&quot; + menuItem.getPrice() + &quot;----------&quot; + menuItem.getDescription());
+            &#125;
+            System.out.println(&quot;------------------------------------------------&quot;);
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+</li>
+<li><p>测试</p>
+<pre><code class="prettyprint">public class MainTest &#123;
+    public static void main(String[] args) &#123;
+        Waitress waitress = new Waitress();
+        waitress.addIterator(new CakeHouseMenu().getIterator());
+        waitress.addIterator(new DinerMenu().getIterator());
+        waitress.printMenu();
+    &#125;
+&#125;
+/**
+ * KFC Cake Breakfast----------3.99----------boiled eggs&amp;toast&amp;cabbage
+ * MDL Cake Breakfast----------3.59----------fried eggs&amp;toast
+ * Stawberry Cake----------3.29----------fresh stawberry
+ * Regular Cake Breakfast----------2.59----------toast&amp;sausage
+ * ------------------------------------------------
+ * vegetable Blt----------3.58----------bacon&amp;lettuce&amp;tomato&amp;cabbage
+ * Blt----------3.0----------bacon&amp;lettuce&amp;tomato
+ * bean soup----------3.28----------bean&amp;potato salad
+ * hotdog----------3.05----------onions&amp;cheese&amp;bread
+ */
+</code></pre>
+</li>
+</ol>
+<h3 id="责任链模式"><a href="#责任链模式" class="headerlink" title="责任链模式"></a>责任链模式</h3><blockquote>
+<p><strong>定义：</strong>如果有多个对象有机会处理请求，责任链可使请求的发送者和接受者解耦，请求沿着责任链传递，直到有一个对象处理了它为止。</p>
+<p><strong>主要解决：</strong>职责链上的处理者负责处理请求，客户只需要将请求发送到职责链上即可，无须关心请求的处理细节和请求的传递，所以职责链将请求的发送者和请求的处理者解耦了。</p>
+<p><strong>关键代码：</strong><code>Handler</code> 里面聚合它自己，在 <code>HandlerRequest </code>里判断是否合适，如果没达到条件则向下传递，向谁传递之前<code>set</code>进去。</p>
+</blockquote>
+<h4 id="责任链模式的结构和代码示例"><a href="#责任链模式的结构和代码示例" class="headerlink" title="责任链模式的结构和代码示例"></a>责任链模式的结构和代码示例</h4><ul>
+<li>抽象处理者<code>Handler</code>角色：定义一个处理请求的接口，包含抽象处理方法和一个<strong>后继连接</strong>。</li>
+<li>具体处理者<code>Concrete Handler</code>角色：实现抽象处理者的处理方法，判断能否处理本次请求，如果可以处理请求则处理，否则将该请求转给它的后继者。</li>
+<li>客户类<code>Client</code>角色：创建处理链，并向链头的具体处理者对象提交请求，它不关心处理细节和请求的传递过程。</li>
+</ul>
+<ol>
+<li><p>决策者抽象类，包含对请求处理的函数，同时还包含指定下一个决策者的函数</p>
+<pre><code class="prettyprint">public abstract class Approver &#123;
+    Approver successor;
+    String Name;
+
+    public Approver(String Name) &#123;
+        this.Name = Name;
+    &#125;
+
+    public abstract void ProcessRequest(PurchaseRequest request);
+
+    public void SetSuccessor(Approver successor) &#123;
+        this.successor = successor;
+    &#125;
+&#125;
+</code></pre>
+</li>
+<li><p>客户端以及请求</p>
+<pre><code class="prettyprint">public class PurchaseRequest &#123;
+    private int Type = 0;
+    private int Number = 0;
+    private float Price = 0;
+    private int ID = 0;
+
+    public PurchaseRequest(int Type, int Number, float Price) &#123;
+        this.Type = Type;
+        this.Number = Number;
+        this.Price = Price;
+    &#125;
+
+    public int GetType() &#123;
+        return Type;
+    &#125;
+
+    public float GetSum() &#123;
+        return Number * Price;
+    &#125;
+
+    public int GetID() &#123;
+        return (int) (Math.random() * 1000);
+    &#125;
+&#125;
+public class Client &#123;
+
+    public PurchaseRequest sendRequest(int Type, int Number, float Price) &#123;
+        return new PurchaseRequest(Type, Number, Price);
+    &#125;
+
+&#125;
+</code></pre>
+</li>
+<li><p>组长、部长。。。继承决策者抽象类</p>
+<pre><code class="prettyprint">public class GroupApprover extends Approver &#123;
+
+    public GroupApprover(String Name) &#123;
+        super(Name + &quot; GroupLeader&quot;);
+    &#125;
+
+    @Override
+    public void ProcessRequest(PurchaseRequest request) &#123;
+        if (request.GetSum() &lt; 5000) &#123;
+            System.out.println(&quot;**This request &quot; + request.GetID() + &quot; will be handled by &quot; + this.Name + &quot; **&quot;);
+        &#125; else &#123;
+            successor.ProcessRequest(request);
+        &#125;
+    &#125;
+
+&#125;
+public class DepartmentApprover extends Approver &#123;
+
+    public DepartmentApprover(String Name) &#123;
+        super(Name + &quot; DepartmentLeader&quot;);
+    &#125;
+
+    @Override
+    public void ProcessRequest(PurchaseRequest request) &#123;
+        if ((5000 &lt;= request.GetSum()) &amp;&amp; (request.GetSum() &lt; 10000)) &#123;
+            System.out.println(&quot;**This request &quot; + request.GetID()
+                    + &quot; will be handled by &quot; + this.Name + &quot; **&quot;);
+        &#125; else &#123;
+            successor.ProcessRequest(request);
+        &#125;
+    &#125;
+&#125;
+public class VicePresidentApprover extends Approver &#123;
+
+    public VicePresidentApprover(String Name) &#123;
+        super(Name + &quot; VicePresidentmentLeader&quot;);
+    &#125;
+
+    @Override
+    public void ProcessRequest(PurchaseRequest request) &#123;
+        if ((10000 &lt;= request.GetSum()) &amp;&amp; (request.GetSum() &lt; 20000)) &#123;
+            System.out.println(&quot;**This request &quot; + request.GetID()
+                    + &quot; will be handled by &quot; + this.Name + &quot; **&quot;);
+        &#125; else &#123;
+            successor.ProcessRequest(request);
+        &#125;
+    &#125;
+&#125;
+public class PresidentApprover extends Approver &#123;
+    public PresidentApprover(String Name) &#123;
+        super(Name + &quot; PresidentLeader&quot;);
+    &#125;
+
+    @Override
+    public void ProcessRequest(PurchaseRequest request) &#123;
+        if ((20000 &lt;= request.GetSum())) &#123;
+            System.out.println(&quot;**This request &quot; + request.GetID()
+                    + &quot; will be handled by &quot; + this.Name + &quot; **&quot;);
+        &#125; else &#123;
+            successor.ProcessRequest(request);
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+</li>
+<li><p>测试</p>
+<pre><code class="prettyprint">public class MainTest &#123;
+    public static void main(String[] args) &#123;
+        Client mClient = new Client();
+        Approver GroupLeader = new GroupApprover(&quot;Tom&quot;);
+        Approver VicePresident = new VicePresidentApprover(&quot;Kate&quot;);
+        Approver DepartmentLeader = new DepartmentApprover(&quot;Jerry&quot;);
+        Approver President = new PresidentApprover(&quot;Bush&quot;);
+        /*组长、副部、部长、总裁*/
+        GroupLeader.SetSuccessor(VicePresident);
+        VicePresident.SetSuccessor(DepartmentLeader);
+        DepartmentLeader.SetSuccessor(President);
+        President.SetSuccessor(GroupLeader);
+        GroupLeader.ProcessRequest(mClient.sendRequest(1, 400, 40));
+    &#125;
+&#125;
+</code></pre>
+</li>
+</ol>
 ]]></content>
       <categories>
         <category>技术</category>

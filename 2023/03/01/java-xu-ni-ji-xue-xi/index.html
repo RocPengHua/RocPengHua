@@ -1,0 +1,1283 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="theme-color" content="#3367D6"/>
+  <link rel="apple-touch-icon" href="/icons-192.png">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="stylesheet" href="/lib/google-code-prettify/themes/tomorrow-night.css">
+  <script type="text/javascript" src="/lib/google-code-prettify/src/prettify.js"></script>
+  
+  <meta name="generator" content="Hexo 5.4.2">
+
+  
+    <meta name="description" content="觉宇宙之无穷，识盈虚之有数">
+  
+
+  
+
+  
+    <meta name="author" content="RocPengHua">
+  
+
+  
+
+  
+
+  <title>java虚拟机学习 | 小鹏驿站</title>
+
+  
+
+  
+    <link rel="shortcut icon" href="/favicon.ico">
+  
+
+  
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+</head>
+<body onload="PR.prettyPrint()">
+  <div class="root-container">
+    
+<!-- header container -->
+<header class="header-container post">
+  
+    <div class="post-image" style="background-image: url(&#39;https://api.lixingyong.com/api/images?postid=abfe342d&amp;type=url&amp;itype=image&#39;)"></div>
+  
+  <!-- navbar -->
+<nav class="navbar">
+  <div class="navbar-content">
+    <!-- logo -->
+    <div class="navbar-logo">
+      <a href="/">
+        
+          小鹏驿站
+        
+      </a>
+    </div>
+    <!-- link -->
+    <div class="navbar-link">
+      <div class="navbar-btn">
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+      <ul class="navbar-list">
+        
+              <li class="navbar-list-item">
+                <a href="/">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-home faa-shake" aria-hidden="true"></i>
+                    首页
+                  </span>
+                </a>
+                
+              </li>
+            
+              <li class="navbar-list-item">
+                <a href="/archives">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-archive faa-shake" aria-hidden="true"></i>
+                    归档
+                  </span>
+                </a>
+                
+              </li>
+            
+              <li class="navbar-list-item">
+                <a href="/categories">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-folder faa-shake" aria-hidden="true"></i>
+                    分类
+                  </span>
+                </a>
+                
+                  <ul class="sub-menu">
+                    
+                      <li>
+                        <a href="/categories/%E5%90%8E%E7%AB%AF/">
+                          <i class="fa fa-etsy" aria-hidden="true"></i>
+                          后端
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/categories/%E5%89%8D%E7%AB%AF/">
+                          <i class="fa fa-grav" aria-hidden="true"></i>
+                          前端
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/categories/%E8%BD%AF%E4%BB%B6/">
+                          <i class="fa fa-key" aria-hidden="true"></i>
+                          软件
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/categories/%E7%AE%97%E6%B3%95/">
+                          <i class="fa fa-glass" aria-hidden="true"></i>
+                          算法
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">
+                          <i class="fa fa-database" aria-hidden="true"></i>
+                          数据库
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/">
+                          <i class="fa fa-arrows-alt" aria-hidden="true"></i>
+                          中间件
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/categories/%E9%97%AE%E9%A2%98/">
+                          <i class="fa fa-telegram" aria-hidden="true"></i>
+                          问题
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/categories/%E9%97%B2%E8%B0%88/">
+                          <i class="fa fa-vcard" aria-hidden="true"></i>
+                          闲谈
+                        </a>
+                      </li>
+                    
+                  </ul>
+                
+              </li>
+            
+              <li class="navbar-list-item">
+                <a href="/tags">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-tags" aria-hidden="true"></i>
+                    标签
+                  </span>
+                </a>
+                
+                  <ul class="sub-menu">
+                    
+                      <li>
+                        <a href="/tags/%E5%8A%A0%E5%AF%86/">
+                          <i class="fa fa-wpexplorer" aria-hidden="true"></i>
+                          加密
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/tags/idea/">
+                          <i class="fa fa-eercast" aria-hidden="true"></i>
+                          idea
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/tags/java/">
+                          <i class="fa fa-coffee" aria-hidden="true"></i>
+                          java
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/tags/mysql/">
+                          <i class="fa fa-database" aria-hidden="true"></i>
+                          mysql
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/tags/oracle/">
+                          <i class="fa fa-database" aria-hidden="true"></i>
+                          oracle
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/tags/spring/">
+                          <i class="fa fa-leaf" aria-hidden="true"></i>
+                          spring
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/tags/redis/">
+                          <i class="fa fa-fire" aria-hidden="true"></i>
+                          redis
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/tags/mongodb/">
+                          <i class="fa fa-database" aria-hidden="true"></i>
+                          mongodb
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/tags/rocketmq/">
+                          <i class="fa fa-random" aria-hidden="true"></i>
+                          rocketmq
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/tags/kafka/">
+                          <i class="fa fa-random" aria-hidden="true"></i>
+                          kafka
+                        </a>
+                      </li>
+                    
+                  </ul>
+                
+              </li>
+            
+              <li class="navbar-list-item">
+                <a href="/music">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-music" aria-hidden="true"></i>
+                    音乐
+                  </span>
+                </a>
+                
+              </li>
+            
+              <li class="navbar-list-item">
+                <a href="/links">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-link" aria-hidden="true"></i>
+                    友链
+                  </span>
+                </a>
+                
+              </li>
+            
+              <li class="navbar-list-item">
+                <a href="/about">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-signing" aria-hidden="true"></i>
+                    关于
+                  </span>
+                </a>
+                
+              </li>
+            
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+  <span class="local-search local-search-google local-search-plugin" style="left: calc(50% - 200px);top: 0px;;position:absolute;z-index:2;">
+      <input type="search" placeholder="小鹏驿站" id="local-search-input" class="local-search-input-cls" style="">
+      <div id="local-search-result" class="local-search-result-cls"></div>
+  </span>
+
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+    <div class="header-content">
+      <div class="post-text layout-block">
+        <div class="layout-margin">
+          <h1 class="title-wrap" title="觉宇宙之无穷，识盈虚之有数">java虚拟机学习</h1>
+          <h2 class="title-sub-wrap">
+            <strong>RocPengHua</strong>
+            <span>发布于</span>
+            <time  class="article-date" datetime="2023-03-01T12:03:51.000Z" itemprop="datePublished">2023-03-01</time>
+          </h2>
+          <ul class="wrap-list dark">
+  
+    <li><a href="/categories/%E6%8A%80%E6%9C%AF/">📒 技术</a></li>
+  
+</ul>
+          <ul class="wrap-list dark">
+  
+    <li><a href="/tags/jvm/">🏷️ jvm</a></li>
+  
+</ul>
+        </div>
+      </div>
+    </div>
+  
+
+  
+  
+  
+</header>
+
+    <!-- 文章 -->
+
+<!-- 文章内容 -->
+<div class="body-container">
+  <article class="content-container layout-block post-container">
+    <div class="widget-info">
+      <section class="widget-author widget-item layout-margin content-padding--primary soft-size--large soft-style--box">
+  <div class="widget-body">
+    
+      <img src="/images/p.jpg" class="soft-size--round soft-style--box" alt="RocPengHua">
+    
+    
+      <h2>RocPengHua</h2>
+    
+    
+      <p>天天向上</p>
+    
+
+    <div class="count-box">
+      <div class="count-box--item">
+        <svg class="icon icon-article" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M240.51564747 647.74217627h196.07203239c16.59071043 0 30.16492806-13.57421762 30.16492805-30.16492806V165.10332731c0-33.18142087-30.16492806-60.32985613-60.32985612-60.32985611H245.04038668C225.43318342 104.7734712 210.35071939 119.85593522 210.35071939 139.46313845V617.57724821c0 16.59071043 13.57421762 30.16492806 30.16492808 30.16492806z m663.62841731-452.47392089v482.63884894c0 33.18142087-27.14843525 60.32985613-60.32985612 60.32985613H180.18579134c-33.18142087 0-60.32985613-27.14843525-60.32985612-60.32985613V195.26825538c-49.77213131 0-90.49478418 40.72265287-90.49478417 90.49478417v452.4739209c0 49.77213131 40.72265287 90.49478418 90.49478417 90.49478417h286.56681657c16.59071043 0 30.16492806 13.57421762 30.16492807 30.16492807s13.57421762 30.16492806 30.16492805 30.16492806h90.49478418c16.59071043 0 30.16492806-13.57421762 30.16492805-30.16492806s13.57421762-30.16492806 30.16492807-30.16492807h286.56681657c49.77213131 0 90.49478418-40.72265287 90.49478417-90.49478417V285.76303955c0-49.77213131-40.72265287-90.49478418-90.49478417-90.49478417zM587.41232014 647.74217627h191.54729318c19.60720323 0 34.68966726-15.08246403 34.68966729-34.68966727V134.93839925c0-16.59071043-13.57421762-30.16492806-30.16492808-30.16492805H617.57724821c-30.16492806 0-60.32985613 27.14843525-60.32985612 60.32985611v452.4739209c0 16.59071043 13.57421762 30.16492806 30.16492805 30.16492806z" fill="currentColor"></path>
+</svg>
+        <span>116</span>
+      </div>
+      <div class="count-box--item">
+        <svg class="icon icon-categories" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M900.3614811 257.09082106h-339.81629553l-67.96326003-101.9448889c-19.41807444-29.12711113-48.54518557-43.69066667-82.52681443-43.69066667H123.6385189c-53.39970333 0-97.09036999 43.69066667-97.09037113 97.09036999v582.54222222c0 53.39970333 43.69066667 97.09036999 97.09037113 97.09037002h776.7229622c53.39970333 0 97.09036999-43.69066667 97.09037113-97.09037002V354.18119104c0-53.39970333-43.69066667-97.09036999-97.09037113-97.09036998z m-97.09036999 242.72592554H220.72888889c-24.27259221 0-48.54518557-24.27259221-48.54518556-48.54518556s24.27259221-48.54518557 48.54518556-48.54518444h582.54222222c24.27259221 0 48.54518557 24.27259221 48.54518556 48.54518444s-24.27259221 48.54518557-48.54518556 48.54518556z" fill="currentColor"></path>
+</svg>
+        15
+      </div>
+      <div class="count-box--item">
+        <svg class="icon icon-tags" viewBox="0 0 1098 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M283.42180005 272q0-28.38857157-20.09142843-48.48000001t-48.47999998-20.09142842-48.48000002 20.09142842-20.09142846 48.48000001 20.09142846 48.48 48.48000002 20.09142843 48.47999998-20.09142843 20.09142843-48.48zM855.0332285 580.57142843q0 28.38857157-19.81714313 48.2057147l-263.03999997 263.58857157q-20.9142853 19.81714313-48.75428534 19.81714312-28.38857157 0-48.20571468-19.81714312l-383.04-383.58857157q-20.36571468-19.81714313-34.55999999-54.10285688t-14.19428534-62.6742853l0-222.85714313q0-27.84000002 20.36571469-48.20571469t48.2057147-20.36571466l222.85714313 0q28.38857157 0 62.6742853 14.19428529t54.65142842 34.55999999l383.04000001 382.49142843q19.81714313 20.9142853 19.81714314 48.75428532zM1060.74751475 580.57142843q0 28.38857157-19.81714313 48.2057147l-263.04 263.58857157q-20.9142853 19.81714313-48.75428531 19.81714312-19.26857155 0-31.61142843-7.47428531t-28.38857159-24.13714314l251.79428534-251.7942853q19.81714313-19.81714313 19.81714308-48.20571469 0-27.84000002-19.81714308-48.75428531l-383.04000001-382.49142845q-20.36571468-20.36571468-54.65142842-34.55999999t-62.67428532-14.19428534l120 0q28.38857157 0 62.67428532 14.19428534t54.65142842 34.55999999l383.03999998 382.49142845q19.81714313 20.9142853 19.81714314 48.75428531z" fill="currentColor"></path>
+</svg>
+        39
+      </div>
+    </div>
+  </div>
+</section>
+      
+      
+      
+      
+<section class="widget-toc widget-item layout-margin content-padding--primary soft-size--large soft-style--box">
+  <div class="widget-title">
+    <svg class="icon icon-toc" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M134.50666666 767.46666668H460.8c27.73333333 0 50.24000001 22.50666668 50.24000001 50.23999999v50.13333333c0 27.73333333-22.50666668 50.24000001-50.24000001 50.24000001H134.50666666c-27.73333333 0-50.24000001-22.50666668-50.23999999-50.24000001v-50.13333333c0.10666668-27.73333333 22.50666668-50.24000001 50.24000001-50.24000001zM84.37333332 541.65333333h326.18666669c27.73333333 0 50.24000001 22.39999999 50.23999999 50.13333334v50.24000001c0 27.73333333-22.50666668 50.24000001-50.24000002 50.23999999H84.37333332c-27.73333333 0-50.24000001-22.50666668-50.23999999-50.23999999v-50.24000001c0-27.73333333 22.50666668-50.13333334 50.24000001-50.13333334zM134.50666666 315.83999999H460.8c27.73333333 0 50.24000001 22.50666668 50.24000001 50.24000001v50.24000001c0 27.73333333-22.50666668 50.13333334-50.24000001 50.13333333H134.50666666c-27.73333333 0-50.24000001-22.39999999-50.23999999-50.13333333v-50.24000001c0.10666668-27.84000001 22.50666668-50.24000001 50.24000001-50.23999999zM209.81333332 89.91999999h326.18666671c27.73333333 0 50.24000001 22.39999999 50.23999997 50.13333335v50.23999999c0 27.73333333-22.50666668 50.24000001-50.24000001 50.24000001H209.81333332c-27.73333333 0-50.24000001-22.50666668-50.23999999-50.24000001v-50.24000001c0-27.73333333 22.50666668-50.13333334 50.24000001-50.13333333zM692.05333333 623.36l274.66666669 176.00000002c23.36000001 14.93333333 30.08 45.97333334 15.14666666 69.33333332L954.77333334 910.93333333c-14.93333333 23.25333334-45.97333334 30.08-69.33333335 15.14666667l-274.66666666-176c-23.36000001-14.93333333-30.08-45.97333334-15.14666667-69.33333333l27.09333334-42.24000001c14.93333333-23.36000001 46.08000001-30.08 69.33333333-15.14666666z" fill="currentColor"></path>
+</svg>
+    <span>TOC</span>
+  </div>
+  <div class="widget-body">
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#JVM%E4%B8%8EJava%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84"><span class="toc-number">1.</span> <span class="toc-text">JVM与Java体系结构</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Java%E5%8F%91%E5%B1%95%E7%9A%84%E9%87%8D%E5%A4%A7%E4%BA%8B%E4%BB%B6"><span class="toc-number">1.2.</span> <span class="toc-text">Java发展的重大事件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8EJava%E8%99%9A%E6%8B%9F%E6%9C%BA"><span class="toc-number">1.3.</span> <span class="toc-text">虚拟机与Java虚拟机</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%99%9A%E6%8B%9F%E6%9C%BA"><span class="toc-number">1.3.1.</span> <span class="toc-text">虚拟机</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Java%E8%99%9A%E6%8B%9F%E6%9C%BA"><span class="toc-number">1.3.2.</span> <span class="toc-text">Java虚拟机</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#JVM%E7%9A%84%E4%BD%8D%E7%BD%AE"><span class="toc-number">1.4.</span> <span class="toc-text">JVM的位置</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#JVM%E7%9A%84%E6%95%B4%E4%BD%93%E7%BB%93%E6%9E%84"><span class="toc-number">1.5.</span> <span class="toc-text">JVM的整体结构</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Java%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%B5%81%E7%A8%8B"><span class="toc-number">1.6.</span> <span class="toc-text">Java代码执行流程</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#JVM%E7%9A%84%E6%9E%B6%E6%9E%84%E6%A8%A1%E5%9E%8B"><span class="toc-number">1.7.</span> <span class="toc-text">JVM的架构模型</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#JVM%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F"><span class="toc-number">1.8.</span> <span class="toc-text">JVM的生命周期</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%9A%84%E5%90%AF%E5%8A%A8"><span class="toc-number">1.8.1.</span> <span class="toc-text">虚拟机的启动</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%9A%84%E6%89%A7%E8%A1%8C"><span class="toc-number">1.8.2.</span> <span class="toc-text">虚拟机的执行</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%9A%84%E9%80%80%E5%87%BA"><span class="toc-number">1.8.3.</span> <span class="toc-text">虚拟机的退出</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#JVM%E7%9A%84%E5%8F%91%E5%B1%95%E5%8E%86%E7%A8%8B"><span class="toc-number">1.9.</span> <span class="toc-text">JVM的发展历程</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Sun-Classic-VM"><span class="toc-number">1.9.1.</span> <span class="toc-text">Sun Classic VM</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Exact-VM"><span class="toc-number">1.9.2.</span> <span class="toc-text">Exact VM</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#HotSpot-VM"><span class="toc-number">1.9.3.</span> <span class="toc-text">HotSpot VM</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#JRockit"><span class="toc-number">1.9.4.</span> <span class="toc-text">JRockit</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#IBM%E7%9A%84J9"><span class="toc-number">1.9.5.</span> <span class="toc-text">IBM的J9</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#KVM%E5%92%8CCDC-x2F-CLDC-Hotspot"><span class="toc-number">1.9.6.</span> <span class="toc-text">KVM和CDC &#x2F; CLDC Hotspot</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Azul-VM"><span class="toc-number">1.9.7.</span> <span class="toc-text">Azul VM</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Liquid-VM"><span class="toc-number">1.9.8.</span> <span class="toc-text">Liquid VM</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Apache-Harmony"><span class="toc-number">1.9.9.</span> <span class="toc-text">Apache Harmony</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Micorsoft-JVM"><span class="toc-number">1.9.10.</span> <span class="toc-text">Micorsoft JVM</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Taobao-JVM"><span class="toc-number">1.9.11.</span> <span class="toc-text">Taobao JVM</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Dalvik-VM"><span class="toc-number">1.9.12.</span> <span class="toc-text">Dalvik VM</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Graal-VM"><span class="toc-number">1.9.13.</span> <span class="toc-text">Graal VM</span></a></li></ol></li></ol></li></ol>
+  </div>
+</section>
+
+    </div>
+  
+    <div class="article-info">
+      
+      
+      
+      
+      <section id="blog-content" class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
+        <blockquote>
+<p>笔记来源：<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1PJ411n7xZ">尚硅谷JVM全套教程，百万播放，全网巅峰（宋红康详解java虚拟机）</a></p>
+</blockquote>
+<h3 id="JVM与Java体系结构"><a href="#JVM与Java体系结构" class="headerlink" title="JVM与Java体系结构"></a>JVM与Java体系结构</h3><h4 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h4><p>作为Java工程师的你曾被伤害过吗？你是否也遇到过这些问题？</p>
+<ul>
+<li><p>运行着的线上系统突然卡死，系统无法访问，甚至直接OOM</p>
+</li>
+<li><p>想解决线上JVM GC问题，但却无从下手</p>
+</li>
+<li><p>新项目上线，对各种JVM参数设置一脸茫然，直接默认吧然后就gg了</p>
+</li>
+<li><p>每次面试之前都要重新背一遍JVM的一些原理概念性的东西，然而面试官却经常问你在实际项目中如何调优VM参数，如何解决GC、OOM等问题，一脸懵逼</p>
+</li>
+</ul>
+<img src="/2023/03/01/java-xu-ni-ji-xue-xi/image-20230301200831315.png" class="asset-class" title="image-20230301200831315">
+
+<p>大部分Java开发人员，除会在项目中使用到与Java平台相关的各种高精尖技术，对于Java技术的核心Java虚拟机了解甚少。</p>
+<h4 id="Java发展的重大事件"><a href="#Java发展的重大事件" class="headerlink" title="Java发展的重大事件"></a><strong>Java发展的重大事件</strong></h4><ul>
+<li><p>1990年，在Sun计算机公司中，由Patrick Naughton、MikeSheridan及James Gosling领导的小组Green Team，开发出的新的程序语言，命名为oak，后期命名为Java</p>
+</li>
+<li><p>1995年，Sun正式发布Java和HotJava产品，Java首次公开亮相。</p>
+</li>
+<li><p>1996年1月23日，Sun Microsystems发布了JDK 1.0。</p>
+</li>
+<li><p>1998年，JDK1.2版本发布。同时，sun发布了JSP&#x2F;Servlet、EJB规范，以及将Java分成了J2EE、J2SE和J2ME。这表明了Java开始向企业、桌面应用和移动设备应用3大领域挺进。</p>
+</li>
+<li><p>2000年，JDK1.3发布，Java HotSpot Virtual Machine正式发布，成为Java的默认虚拟机。</p>
+</li>
+<li><p>2002年，JDK1.4发布，古老的Classic虚拟机退出历史舞台。</p>
+</li>
+<li><p>2003年年底，Java平台的Scala正式发布，同年Groovy也加入了Java阵营。</p>
+</li>
+<li><p>2004年，JDK1.5发布。同时JDK1.5改名为JavaSE5.0。</p>
+</li>
+<li><p>2006年，JDK6发布。同年，Java开源并建立了OpenJDK。顺理成章，Hotspot虚拟机也成为了openJDK中的默认虚拟机。</p>
+</li>
+<li><p>2007年，Java平台迎来了新伙伴Clojure。</p>
+</li>
+<li><p>2008年，Oracle收购了BEA，得到了JRockit虚拟机。</p>
+</li>
+<li><p>2009年，Twitter宣布把后台大部分程序从Ruby迁移到Scala，这是Java平台的又一次大规模应用。</p>
+</li>
+<li><p>2010年，Oracle收购了Sun，获得Java商标和最真价值的HotSpot虚拟机。此时，Oracle拥有市场占用率最高的两款虚拟机HotSpot和JRockit，并计划在未来对它们进行整合：HotRockit</p>
+</li>
+<li><p>2011年，JDK7发布。在JDK1.7u4中，正式启用了新的垃圾回收器G1。</p>
+</li>
+<li><p>2017年，JDK9发布。将G1设置为默认Gc，替代CMS</p>
+</li>
+<li><p>同年，IBM的J9开源，形成了现在的Open J9社区</p>
+</li>
+<li><p>2018年，Android的Java侵权案判决，Google赔偿Oracle计88亿美元</p>
+</li>
+<li><p>同年，Oracle宣告JavaEE成为历史名词JDBC、JMS、Servlet赠予Eclipse基金会</p>
+</li>
+<li><p>同年，JDK11发布，LTS版本的JDK，发布革命性的ZGC，调整JDK授权许可</p>
+</li>
+<li><p>2019年，JDK12发布，加入RedHat领导开发的shenandoah GC</p>
+</li>
+</ul>
+<img src="/2023/03/01/java-xu-ni-ji-xue-xi/image-20230301201223035.png" class="asset-class" title="image-20230301201223035">
+
+<p>在JDK11之前，OracleJDK中还会存在一些OpenJDK中没有的、闭源的功能。但在JDK11中，我们可以认为OpenJDK和OracleJDK代码实质上已经完全一致的程度。</p>
+<p>不过，主流的 JDK 8 在2019年01月之后就被宣布停止更新了。另外， JDK 11 及以后的版本也不再提供免费的长期支持（LTS），而且 JDK 15 和 JDK 16 也不是一个长期支持的版本，最新的 JDK 15 只支持 6 个月时间，到 2021 年 3 月，所以千万不要把 JDK 15 等非长期支持版本用在生产。</p>
+<img src="/2023/03/01/java-xu-ni-ji-xue-xi/image-20230301201317271.png" class="asset-class" title="image-20230301201317271">
+
+<h4 id="虚拟机与Java虚拟机"><a href="#虚拟机与Java虚拟机" class="headerlink" title="虚拟机与Java虚拟机"></a>虚拟机与Java虚拟机</h4><h5 id="虚拟机"><a href="#虚拟机" class="headerlink" title="虚拟机"></a>虚拟机</h5><p>所谓虚拟机（Virtual Machine），就是一台虚拟的计算机。它是一款软件，用来执行一系列虚拟计算机指令。大体上，虚拟机可以分为<em>系统虚拟机</em>和<em>程序虚拟机</em>。</p>
+<ul>
+<li><p>大名鼎鼎的Visual Box，VMware就属于系统虚拟机，<em>它们完全是对物理计算机的仿真</em>，提供了一个可运行完整操作系统的软件平台。</p>
+</li>
+<li><p>程序虚拟机的典型代表就是Java虚拟机，它<em>专门为执行单个计算机程序而设计</em>，在Java虚拟机中执行的指令我们称为Java字节码指令。</p>
+</li>
+</ul>
+<p>无论是系统虚拟机还是程序虚拟机，在上面运行的软件都被限制于虚拟机提供的资源中。</p>
+<h5 id="Java虚拟机"><a href="#Java虚拟机" class="headerlink" title="Java虚拟机"></a>Java虚拟机</h5><ul>
+<li><p>Java虚拟机是一台执行Java字节码的虚拟计算机，它拥有独立的运行机制，其运行的Java字节码也未必由Java语言编译而成。</p>
+</li>
+<li><p>JVM平台的各种语言可以共享Java虚拟机带来的跨平台性、优秀的垃圾回器，以及可靠的即时编译器。</p>
+</li>
+<li><p>Java技术的核心就是Java虚拟机（JVM，Java Virtual Machine），因为所有的Java程序都运行在Java虚拟机内部。</p>
+</li>
+</ul>
+<blockquote>
+<p> 作用</p>
+<ul>
+<li>Java虚拟机就是二进制字节码的运行环境，负责装载字节码到其内部，解释&#x2F;编译为对应平台上的机器指令执行。每一条Java指令，Java虚拟机规范中都有详细定义，如怎么取操作数，怎么处理操作数，处理结果放在哪里。</li>
+</ul>
+<p>特点</p>
+<ul>
+<li><p>一次编译，到处运行</p>
+</li>
+<li><p>自动内存管理</p>
+</li>
+<li><p>自动垃圾回收功能</p>
+</li>
+</ul>
+</blockquote>
+<h4 id="JVM的位置"><a href="#JVM的位置" class="headerlink" title="JVM的位置"></a>JVM的位置</h4><img src="/2023/03/01/java-xu-ni-ji-xue-xi/image-20230301201607575.png" class="asset-class" title="image-20230301201607575">
+
+<p>JVM是运行在操作系统之上的，它与硬件没有直接的交互</p>
+<img src="/2023/03/01/java-xu-ni-ji-xue-xi/image-20230301201630695.png" class="asset-class" title="image-20230301201630695">
+
+<h4 id="JVM的整体结构"><a href="#JVM的整体结构" class="headerlink" title="JVM的整体结构"></a>JVM的整体结构</h4><img src="/2023/03/01/java-xu-ni-ji-xue-xi/image-20230301201722582.png" class="asset-class" title="image-20230301201722582">
+
+<ul>
+<li><p>HotSpot VM是目前市面上高性能虚拟机的代表作之一。</p>
+</li>
+<li><p>它采用解释器与即时编译器并存的架构。</p>
+</li>
+<li><p>在今天，Java程序的运行性能早已脱胎换骨，已经达到了可以和C&#x2F;C++程序一较高下的地步。</p>
+</li>
+</ul>
+<h4 id="Java代码执行流程"><a href="#Java代码执行流程" class="headerlink" title="Java代码执行流程"></a>Java代码执行流程</h4><img src="/2023/03/01/java-xu-ni-ji-xue-xi/image-20230301201857182.png" class="asset-class" title="image-20230301201857182">
+
+<h4 id="JVM的架构模型"><a href="#JVM的架构模型" class="headerlink" title="JVM的架构模型"></a>JVM的架构模型</h4><p>Java编译器输入的指令流基本上是一种基于<em>栈的指令集架构</em>，另外一种指令集架构则是基于<em>寄存器的指令集架构</em></p>
+<p><strong>基于栈式架构的特点</strong></p>
+<ul>
+<li><p>设计和实现更简单，适用于资源受限的系统</p>
+</li>
+<li><p>避开了寄存器的分配难题：使用零地址指令方式分配</p>
+</li>
+<li><p>指令流中的指令大部分是零地址指令，其执行过程依赖于操作栈。指令集更小，编译器容易实现</p>
+</li>
+<li><p>不需要硬件支持，可移植性更好，更好实现跨平台</p>
+</li>
+</ul>
+<p><strong>基于寄存器架构的特点</strong></p>
+<ul>
+<li><p>典型的应用是x86的二进制指令集：比如传统的PC以及Android的Davlik虚拟机</p>
+</li>
+<li><p>指令集架构则完全依赖硬件，可移植性差</p>
+</li>
+<li><p>性能优秀和执行更高效</p>
+</li>
+<li><p>花费更少的指令去完成一项操作</p>
+</li>
+<li><p>在大部分情况下，基于寄存器架构的指令集往往都以一地址指令、二地址指令和三地址指令为主，而基于栈式架构的指令集却是以零地址指令为主</p>
+</li>
+</ul>
+<p><strong>举例1</strong></p>
+<p>同样执行2+3这种逻辑操作，其指令分别如下：</p>
+<p>基于栈的计算流程（以Java虚拟机为例）:<code>反编译javap -v StackStruTest.class</code></p>
+<pre><code class="prettyprint">public static void main(String[] args) &#123;
+    int i = 2;
+    int j = 3;
+    int k = i + j;
+&#125;
+</code></pre>
+<pre><code class="prettyprint">stack=2, locals=4, args_size=1
+    0: iconst_2 //常量2入栈
+    1: istore_1
+    2: iconst_3 // 常量3入栈
+    3: istore_2
+    4: iload_1
+    5: iload_2
+    6: iadd //常量2/3出栈，执行相加
+    7: istore_3 // 结果5入栈
+    8: return
+</code></pre>
+<p>而基于寄存器的计算流程</p>
+<pre><code class="prettyprint">mov eax,2 //将eax寄存器的值设为1
+add eax,3 //使eax寄存器的值加3
+</code></pre>
+<p><strong>举例2</strong></p>
+<pre><code class="prettyprint">public int calc()&#123;
+    int a=100;
+    int b=200;
+    int c=300;
+    return (a + b) * c;
+&#125;
+</code></pre>
+<pre><code class="prettyprint"> Code:
+      stack=2, locals=4, args_size=1
+         0: bipush        100
+         2: istore_1
+         3: sipush        200
+         6: istore_2
+         7: sipush        300
+        10: istore_3
+        11: iload_1
+        12: iload_2
+        13: iadd
+        14: iload_3
+        15: imul
+        16: ireturn
+</code></pre>
+<p><strong>总结</strong></p>
+<p><em>由于跨平台性的设计，Java的指令都是根据栈来设计的。</em>不同平台CPU架构不同，所以不能设计为基于寄存器的。优点是跨平台，指令集小，编译器容易实现，缺点是性能下降，实现同样的功能需要更多的指令。</p>
+<h4 id="JVM的生命周期"><a href="#JVM的生命周期" class="headerlink" title="JVM的生命周期"></a>JVM的生命周期</h4><h5 id="虚拟机的启动"><a href="#虚拟机的启动" class="headerlink" title="虚拟机的启动"></a>虚拟机的启动</h5><p>Java虚拟机的启动是通过引导类加载器（<code>bootstrap class loader</code>）创建一个初始类（<code>initial class</code>）来完成的，这个类是由虚拟机的具体实现指定的。</p>
+<h5 id="虚拟机的执行"><a href="#虚拟机的执行" class="headerlink" title="虚拟机的执行"></a>虚拟机的执行</h5><ul>
+<li><p>一个运行中的Java虚拟机有着一个清晰的任务：执行Java程序。</p>
+</li>
+<li><p>程序开始执行时他才运行，程序结束时他就停止。</p>
+</li>
+<li><p>执行一个所谓的Java程序的时候，真真正正在执行的是一个叫做Java虚拟机的进程。</p>
+</li>
+</ul>
+<h5 id="虚拟机的退出"><a href="#虚拟机的退出" class="headerlink" title="虚拟机的退出"></a>虚拟机的退出</h5><ul>
+<li><p>程序正常执行结束</p>
+</li>
+<li><p>程序在执行过程中遇到了异常或错误而异常终止</p>
+</li>
+<li><p>由于操作系统用现错误而导致Java虚拟机进程终止</p>
+</li>
+<li><p>某线程调用Runtime类或system类的exit方法，或Runtime类的halt方法，并且Java安全管理器也允许这次exit或halt操作。</p>
+</li>
+<li><p>除此之外，JNI（Java Native Interface）规范描述了用JNI Invocation API来加载或卸载 Java虚拟机时，Java虚拟机的退出情况。</p>
+</li>
+</ul>
+<h4 id="JVM的发展历程"><a href="#JVM的发展历程" class="headerlink" title="JVM的发展历程"></a>JVM的发展历程</h4><h5 id="Sun-Classic-VM"><a href="#Sun-Classic-VM" class="headerlink" title="Sun Classic VM"></a>Sun Classic VM</h5><ul>
+<li><p>早在1996年Java1.0版本的时候，Sun公司发布了一款名为sun classic VM的Java虚拟机，它同时也是世界上第一款商用Java虚拟机，JDK1.4时完全被淘汰。</p>
+</li>
+<li><p>这款虚拟机内部只提供解释器。现在还有及时编译器，因此效率比较低，而及时编译器会把热点代码缓存起来，那么以后使用热点代码的时候，效率就比较高。</p>
+</li>
+<li><p>如果使用JIT编译器，就需要进行外挂。但是一旦使用了JIT编译器，JIT就会接管虚拟机的执行系统。解释器就不再工作。解释器和编译器不能配合工作。</p>
+</li>
+<li><p>现在hotspot内置了此虚拟机。</p>
+</li>
+</ul>
+<h5 id="Exact-VM"><a href="#Exact-VM" class="headerlink" title="Exact VM"></a>Exact VM</h5><ul>
+<li><p>为了解决上一个虚拟机问题，jdk1.2时，Sun提供了此虚拟机。</p>
+</li>
+<li><p>Exact Memory Management：准确式内存管理</p>
+</li>
+<li><ul>
+<li>也可以叫Non-Conservative&#x2F;Accurate Memory Management</li>
+</ul>
+</li>
+<li><ul>
+<li>虚拟机可以知道内存中某个位置的数据具体是什么类型。</li>
+</ul>
+</li>
+<li><p>具备现代高性能虚拟机的维形</p>
+</li>
+<li><ul>
+<li>热点探测</li>
+</ul>
+</li>
+<li><ul>
+<li>编译器与解释器混合工作模式</li>
+</ul>
+</li>
+<li><p>只在solaris平台短暂使用，其他平台上还是classic vm</p>
+</li>
+<li><ul>
+<li>英雄气短，终被Hotspot虚拟机替换</li>
+</ul>
+</li>
+</ul>
+<h5 id="HotSpot-VM"><a href="#HotSpot-VM" class="headerlink" title="HotSpot VM"></a>HotSpot VM</h5><ul>
+<li><p>HotSpot历史</p>
+</li>
+<li><ul>
+<li>最初由一家名为“Longview Technologies”的小公司设计</li>
+</ul>
+</li>
+<li><ul>
+<li>1997年，此公司被sun收购；2009年，Sun公司被甲骨文收购。</li>
+</ul>
+</li>
+<li><ul>
+<li>JDK1.3时，HotSpot VM成为默认虚拟机</li>
+</ul>
+</li>
+<li><p>目前Hotspot占有绝对的市场地位，称霸武林。</p>
+</li>
+<li><ul>
+<li>不管是现在仍在广泛使用的JDK6，还是使用比例较多的JDK8中，默认的虚拟机都是HotSpot</li>
+</ul>
+</li>
+<li><ul>
+<li>Sun &#x2F; Oracle JDK 和 OpenJDK 的默认虚拟机</li>
+</ul>
+</li>
+<li><ul>
+<li>因此本课程中默认介绍的虚拟机都是HotSpot，相关机制也主要是指HotSpot的Gc机制。（比如其他两个商用虚机都没有方法区的概念）</li>
+</ul>
+</li>
+<li><p>从服务器、桌面到移动端、嵌入式都有应用。</p>
+</li>
+<li><p>名称中的HotSpot指的就是它的热点代码探测技术。</p>
+</li>
+<li><ul>
+<li>通过计数器找到最具编译价值代码，触发即时编译或栈上替换</li>
+</ul>
+</li>
+<li><ul>
+<li>通过编译器与解释器协同工作，在最优化的程序响应时间与最佳执行性能中取得平衡</li>
+</ul>
+</li>
+</ul>
+<h5 id="JRockit"><a href="#JRockit" class="headerlink" title="JRockit"></a>JRockit</h5><ul>
+<li><p>专注于服务器端应用</p>
+</li>
+<li><ul>
+<li>它可以不太关注程序启动速度，因此JRockit内部不包含解析器实现，全部代码都靠即时编译器编译后执行。</li>
+</ul>
+</li>
+<li><p>大量的行业基准测试显示，JRockit JVM是世界上最快的JVM。</p>
+</li>
+<li><ul>
+<li>使用JRockit产品，客户已经体验到了显著的性能提高（一些超过了70%）和硬件成本的减少（达50%）。</li>
+</ul>
+</li>
+<li><p>优势：全面的Java运行时解决方案组合</p>
+</li>
+<li><ul>
+<li>JRockit面向延迟敏感型应用的解决方案JRockit Real Time提供以毫秒或微秒级的JVM响应时间，适合财务、军事指挥、电信网络的需要</li>
+</ul>
+</li>
+<li><ul>
+<li>MissionControl服务套件，它是一组以极低的开销来监控、管理和分析生产环境中的应用程序的工具。</li>
+</ul>
+</li>
+<li><p>2008年，JRockit被oracle收购。</p>
+</li>
+<li><p>Oracle表达了整合两大优秀虚拟机的工作，大致在JDK8中完成。整合的方式是在HotSpot的基础上，移植JRockit的优秀特性。</p>
+</li>
+<li><p>高斯林：目前就职于谷歌，研究人工智能和水下机器人</p>
+</li>
+</ul>
+<h5 id="IBM的J9"><a href="#IBM的J9" class="headerlink" title="IBM的J9"></a>IBM的J9</h5><ul>
+<li><p>全称：IBM Technology for Java Virtual Machine，简称IT4J，内部代号：J9</p>
+</li>
+<li><p>市场定位与HotSpot接近，服务器端、桌面应用、嵌入式等多用途VM</p>
+</li>
+<li><p>广泛用于IBM的各种Java产品。</p>
+</li>
+<li><p>目前，有影响力的三大商用虚拟机之一，也号称是世界上最快的Java虚拟机。</p>
+</li>
+<li><p>2017年左右，IBM发布了开源J9VM，命名为openJ9，交给EClipse基金会管理，也称为Eclipse OpenJ9</p>
+</li>
+</ul>
+<h5 id="KVM和CDC-x2F-CLDC-Hotspot"><a href="#KVM和CDC-x2F-CLDC-Hotspot" class="headerlink" title="KVM和CDC &#x2F; CLDC Hotspot"></a>KVM和CDC &#x2F; CLDC Hotspot</h5><ul>
+<li><p>Oracle在Java ME产品线上的两款虚拟机为：CDC&#x2F;CLDC HotSpot Implementation VM</p>
+</li>
+<li><p>KVM（Kilobyte）是CLDC-HI早期产品</p>
+</li>
+<li><p>目前移动领域地位尴尬，智能机被Android和iOS二分天下。</p>
+</li>
+<li><p>KVM简单、轻量、高度可移植，面向更低端的设备上还维持自己的一片市场</p>
+</li>
+<li><ul>
+<li>智能控制器、传感器</li>
+</ul>
+</li>
+<li><ul>
+<li>老人手机、经济欠发达地区的功能手机</li>
+</ul>
+</li>
+<li><p>所有的虚拟机的原则：一次编译，到处运行。</p>
+</li>
+</ul>
+<h5 id="Azul-VM"><a href="#Azul-VM" class="headerlink" title="Azul VM"></a>Azul VM</h5><ul>
+<li><p>前面三大“高性能Java虚拟机”使用在通用硬件平台上这里Azul VW和BEA Liquid VM是与特定硬件平台绑定、软硬件配合的专有虚拟机</p>
+</li>
+<li><ul>
+<li>高性能Java虚拟机中的战斗机。</li>
+</ul>
+</li>
+<li><p>Azul VM是Azul Systems公司在HotSpot基础上进行大量改进，运行于Azul Systems公司的专有硬件Vega系统上的Java虚拟机。</p>
+</li>
+<li><p>每个Azul VM实例都可以管理至少数十个CPU和数百GB内存的硬件资源，并提供在巨大内存范围内实现可控的GC时间的垃圾收集器、专有硬件优化的线程调度等优秀特性。</p>
+</li>
+<li><p>2010年，AzulSystems公司开始从硬件转向软件，发布了自己的Zing JVM，可以在通用x86平台上提供接近于Vega系统的特性。</p>
+</li>
+</ul>
+<h5 id="Liquid-VM"><a href="#Liquid-VM" class="headerlink" title="Liquid VM"></a>Liquid VM</h5><ul>
+<li><p>高性能Java虚拟机中的战斗机。</p>
+</li>
+<li><p>BEA公司开发的，直接运行在自家Hypervisor系统上</p>
+</li>
+<li><p>Liquid VM即是现在的JRockit VE（Virtual Edition），Liquid VM不需要操作系统的支持，或者说它自己本身实现了一个专用操作系统的必要功能，如线程调度、文件系统、网络支持等。</p>
+</li>
+<li><p>随着JRockit虚拟机终止开发，Liquid vM项目也停止了。</p>
+</li>
+</ul>
+<h5 id="Apache-Harmony"><a href="#Apache-Harmony" class="headerlink" title="Apache Harmony"></a>Apache Harmony</h5><ul>
+<li><p>Apache也曾经推出过与JDK1.5和JDK1.6兼容的Java运行平台Apache Harmony。</p>
+</li>
+<li><p>它是IBM和Intel联合开发的开源JVM，受到同样开源的OpenJDK的压制，Sun坚决不让Harmony获得JCP认证，最终于2011年退役，IBM转而参与OpenJDK</p>
+</li>
+<li><p>虽然目前并没有Apache Harmony被大规模商用的案例，但是它的Java类库代码吸纳进了Android SDK。</p>
+</li>
+</ul>
+<h5 id="Micorsoft-JVM"><a href="#Micorsoft-JVM" class="headerlink" title="Micorsoft JVM"></a>Micorsoft JVM</h5><ul>
+<li><p>微软为了在IE3浏览器中支持Java Applets，开发了Microsoft JVM。</p>
+</li>
+<li><p>只能在Windows平台下运行。但确是当时Windows下性能最好的Java VM。</p>
+</li>
+<li><p>1997年，Sun以侵犯商标、不正当竞争罪名指控微软成功，赔了Sun很多钱。微软WindowsXP SP3中抹掉了其VM。现在Windows上安装的jdk都是HotSpot。</p>
+</li>
+</ul>
+<h5 id="Taobao-JVM"><a href="#Taobao-JVM" class="headerlink" title="Taobao JVM"></a>Taobao JVM</h5><ul>
+<li><p>由AliJVM团队发布。阿里，国内使用Java最强大的公司，覆盖云计算、金融、物流、电商等众多领域，需要解决高并发、高可用、分布式的复合问题。有大量的开源产品。</p>
+</li>
+<li><p>基于OpenJDK 开发了自己的定制版本AlibabaJDK，简称AJDK。是整个阿里Java体系的基石。</p>
+</li>
+<li><p>基于OpenJDK Hotspot VM发布的国内第一个优化、深度定制且开源的高性能服务器版Java虚拟机。</p>
+</li>
+<li><ul>
+<li>创新的GCIH（GC invisible heap）技术实现了off-heap，即将生命周期较长的Java对象从heap中移到heap之外，并且GC不能管理GCIH内部的Java对象，以此达到降低GC的回收频率和提升GC的回收效率的目的。</li>
+</ul>
+</li>
+<li><ul>
+<li>GCIH中的对象还能够在多个Java虚拟机进程中实现共享</li>
+</ul>
+</li>
+<li><ul>
+<li>使用crc32指令实现JVM intrinsic 降低JNI 的调用开销</li>
+</ul>
+</li>
+<li><ul>
+<li>PMU hardware 的Java profiling tool 和诊断协助功能</li>
+</ul>
+</li>
+<li><ul>
+<li>针对大数据场景的ZenGc</li>
+</ul>
+</li>
+<li><p>taobao vm应用在阿里产品上性能高，硬件严重依赖intel的cpu，损失了兼容性，但提高了性能</p>
+</li>
+<li><ul>
+<li>目前已经在淘宝、天猫上线，把oracle官方JvM版本全部替换了。</li>
+</ul>
+</li>
+</ul>
+<h5 id="Dalvik-VM"><a href="#Dalvik-VM" class="headerlink" title="Dalvik VM"></a>Dalvik VM</h5><ul>
+<li><p>谷歌开发的，应用于Android系统，并在Android2.2中提供了JIT，发展迅猛。</p>
+</li>
+<li><p>Dalvik VM只能称作虚拟机，而不能称作“Java虚拟机”，它没有遵循 Java虚拟机规范，不能直接执行Java的Class文件</p>
+</li>
+<li><p>基于寄存器架构，不是jvm的栈架构。</p>
+</li>
+<li><p>执行的是编译以后的dex（Dalvik Executable）文件。执行效率比较高。</p>
+</li>
+<li><ul>
+<li>它执行的dex（Dalvik Executable）文件可以通过class文件转化而来，使用Java语法编写应用程序，可以直接使用大部分的Java API等。</li>
+</ul>
+</li>
+<li><p>Android 5.0使用支持提前编译（Ahead of Time Compilation，AoT）的ART VM替换Dalvik VM。</p>
+</li>
+</ul>
+<h5 id="Graal-VM"><a href="#Graal-VM" class="headerlink" title="Graal VM"></a>Graal VM</h5><ul>
+<li><p>2018年4月，oracle Labs公开了Graal VM，号称 “Run Programs Faster Anywhere”，野心勃勃。与1995年java的”write once，run anywhere”遥相呼应。</p>
+</li>
+<li><p>Graal VM在HotSpot VM基础上增强而成的跨语言全栈虚拟机，可以作为“任何语言” 的运行平台使用。语言包括：Java、Scala、Groovy、Kotlin；C、C++、Javascript、Ruby、Python、R等</p>
+</li>
+<li><p>支持不同语言中混用对方的接口和对象，支持这些语言使用已经编写好的本地库文件</p>
+</li>
+<li><p>工作原理是将这些语言的源代码或源代码编译后的中间格式，通过解释器转换为能被Graal VM接受的中间表示。Graal VM提供Truffle工具集快速构建面向一种新语言的解释器。在运行时还能进行即时编译优化，获得比原生编译器更优秀的执行效率。</p>
+</li>
+<li><p>如果说HotSpot有一天真的被取代，Graal VM希望最大。但是Java的软件生态没有丝毫变化。</p>
+</li>
+</ul>
+<blockquote>
+<p>具体JVM的内存结构，其实取决于其实现，不同厂商的JVM，或者同一厂商发布的不同版本，都有可能存在一定差异。主要以Oracle HotSpot VM为默认虚拟机。</p>
+</blockquote>
+
+      </section>
+
+      
+      
+        <nav class="article-nav">
+          
+          
+            <div class="article-nav-item layout-padding">
+  <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
+    
+      <div class="card-cover" background-image-lazy data-img="https://api.lixingyong.com/api/images?postid=93f6fc65&type=url&itype=image"></div>
+    
+    <div class="card-text">
+      
+        <a href="/2023/02/25/yml-wen-jian-yu-fa-shuo-ming/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">yml文件语法说明</h2>
+        </a>
+      
+      <div class="card-text--row">Older</div>
+    </div>
+  </article>
+</div>
+          
+        </nav>
+      
+
+      <section class="page-message-container layout-padding">
+        
+
+
+  
+  
+    <div class="valine-container comments-container content-padding--primary soft-size--large soft-style--box">
+      <div id="valine_thread" class="valine-thread"></div>
+    </div>
+    <script type="text/javascript" src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script type="text/javascript" src='//unpkg.com/valine/dist/Valine.min.js'></script>
+    <script type="text/javascript">
+      new Valine({
+        el: "#valine_thread",
+        appId: "yEts8yIOQopn7imcDAmwhlNi-gzGzoHsz",
+        appKey: "nyOyHJdsDGQh3UI0TdNdLLnN",
+        avatar: "mm",
+        placeholder: "随便说点什么叭～",
+        notify: true,
+        visitor: true,
+        pageSize: 10,
+      });
+    </script>
+  
+
+  
+  
+
+
+      </section>
+    </div>
+    <div class="widget-info">
+      <section class="widget-calendar widget-item layout-margin content-padding--primary soft-size--large soft-style--box">
+  <div class="widget-body">
+	<div id="calendar"></div>
+  </div>
+</section>
+
+      <section class="widget-categorys widget-item layout-margin content-padding--primary soft-size--large soft-style--box">
+  <div class="widget-title">
+    <svg class="icon icon-categories" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M900.3614811 257.09082106h-339.81629553l-67.96326003-101.9448889c-19.41807444-29.12711113-48.54518557-43.69066667-82.52681443-43.69066667H123.6385189c-53.39970333 0-97.09036999 43.69066667-97.09037113 97.09036999v582.54222222c0 53.39970333 43.69066667 97.09036999 97.09037113 97.09037002h776.7229622c53.39970333 0 97.09036999-43.69066667 97.09037113-97.09037002V354.18119104c0-53.39970333-43.69066667-97.09036999-97.09037113-97.09036998z m-97.09036999 242.72592554H220.72888889c-24.27259221 0-48.54518557-24.27259221-48.54518556-48.54518556s24.27259221-48.54518557 48.54518556-48.54518444h582.54222222c24.27259221 0 48.54518557 24.27259221 48.54518556 48.54518444s-24.27259221 48.54518557-48.54518556 48.54518556z" fill="currentColor"></path>
+</svg>
+    <span>CATEGORYS</span>
+  </div>
+  <div class="widget-body">
+    <ul class="categorys-list">
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E7%AE%97%E6%B3%95/">
+            算法 (15)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E6%8A%80%E6%9C%AF/">
+            技术 (10)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E5%B7%A5%E5%85%B7/">
+            工具 (3)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E9%97%AE%E9%A2%98/">
+            问题 (8)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E8%BD%AF%E4%BB%B6/">
+            软件 (31)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/">
+            中间件 (26)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E5%90%8E%E7%AB%AF/">
+            后端 (1)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/java/">
+            java (4)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E6%95%B0%E6%8D%AE/">
+            数据 (5)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/linux/">
+            linux (3)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/web/">
+            web (1)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E9%97%B2%E8%B0%88/">
+            闲谈 (5)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E5%89%8D%E7%AB%AF/">
+            前端 (1)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E5%BE%AE%E4%BF%A1/">
+            微信 (1)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E8%8B%A5%E4%BE%9D/">
+            若依 (1)
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+</section>
+
+      <section class="widget-tags widget-item  layout-margin content-padding--primary soft-size--large soft-style--box">
+  <div class="widget-title">
+    <svg class="icon icon-tags" viewBox="0 0 1098 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M283.42180005 272q0-28.38857157-20.09142843-48.48000001t-48.47999998-20.09142842-48.48000002 20.09142842-20.09142846 48.48000001 20.09142846 48.48 48.48000002 20.09142843 48.47999998-20.09142843 20.09142843-48.48zM855.0332285 580.57142843q0 28.38857157-19.81714313 48.2057147l-263.03999997 263.58857157q-20.9142853 19.81714313-48.75428534 19.81714312-28.38857157 0-48.20571468-19.81714312l-383.04-383.58857157q-20.36571468-19.81714313-34.55999999-54.10285688t-14.19428534-62.6742853l0-222.85714313q0-27.84000002 20.36571469-48.20571469t48.2057147-20.36571466l222.85714313 0q28.38857157 0 62.6742853 14.19428529t54.65142842 34.55999999l383.04000001 382.49142843q19.81714313 20.9142853 19.81714314 48.75428532zM1060.74751475 580.57142843q0 28.38857157-19.81714313 48.2057147l-263.04 263.58857157q-20.9142853 19.81714313-48.75428531 19.81714312-19.26857155 0-31.61142843-7.47428531t-28.38857159-24.13714314l251.79428534-251.7942853q19.81714313-19.81714313 19.81714308-48.20571469 0-27.84000002-19.81714308-48.75428531l-383.04000001-382.49142845q-20.36571468-20.36571468-54.65142842-34.55999999t-62.67428532-14.19428534l120 0q28.38857157 0 62.67428532 14.19428534t54.65142842 34.55999999l383.03999998 382.49142845q19.81714313 20.9142853 19.81714314 48.75428531z" fill="currentColor"></path>
+</svg>
+    <span>TAGS</span>
+  </div>
+  <div class="widget-body">
+    <div class="tags-cloud">
+      <a href="/tags/crontab/" style="font-size: 10px;" class="tags-cloud-0">crontab</a> <a href="/tags/docker/" style="font-size: 20px;" class="tags-cloud-10">docker</a> <a href="/tags/elasticsearch/" style="font-size: 10px;" class="tags-cloud-0">elasticsearch</a> <a href="/tags/fastdfs/" style="font-size: 10px;" class="tags-cloud-0">fastdfs</a> <a href="/tags/git/" style="font-size: 10px;" class="tags-cloud-0">git</a> <a href="/tags/go/" style="font-size: 12.5px;" class="tags-cloud-3">go</a> <a href="/tags/hexo/" style="font-size: 10px;" class="tags-cloud-0">hexo</a> <a href="/tags/idea/" style="font-size: 10px;" class="tags-cloud-0">idea</a> <a href="/tags/jvm/" style="font-size: 11.25px;" class="tags-cloud-1">jvm</a> <a href="/tags/kafka/" style="font-size: 11.25px;" class="tags-cloud-1">kafka</a> <a href="/tags/linux/" style="font-size: 15px;" class="tags-cloud-5">linux</a> <a href="/tags/maven/" style="font-size: 10px;" class="tags-cloud-0">maven</a> <a href="/tags/minio/" style="font-size: 11.25px;" class="tags-cloud-1">minio</a> <a href="/tags/mysql/" style="font-size: 13.75px;" class="tags-cloud-4">mysql</a> <a href="/tags/nginx/" style="font-size: 12.5px;" class="tags-cloud-3">nginx</a> <a href="/tags/node/" style="font-size: 10px;" class="tags-cloud-0">node</a> <a href="/tags/oracle/" style="font-size: 10px;" class="tags-cloud-0">oracle</a> <a href="/tags/pulsar/" style="font-size: 10px;" class="tags-cloud-0">pulsar</a> <a href="/tags/rabbitmq/" style="font-size: 17.5px;" class="tags-cloud-8">rabbitmq</a> <a href="/tags/redis/" style="font-size: 16.25px;" class="tags-cloud-6">redis</a> <a href="/tags/redis-%E4%BA%8B%E5%8A%A1/" style="font-size: 10px;" class="tags-cloud-0">redis,事务</a> <a href="/tags/rocketmq/" style="font-size: 17.5px;" class="tags-cloud-8">rocketmq</a> <a href="/tags/shell/" style="font-size: 10px;" class="tags-cloud-0">shell</a> <a href="/tags/spring/" style="font-size: 10px;" class="tags-cloud-0">spring</a> <a href="/tags/tomcat/" style="font-size: 10px;" class="tags-cloud-0">tomcat</a> <a href="/tags/vim/" style="font-size: 10px;" class="tags-cloud-0">vim</a> <a href="/tags/yml/" style="font-size: 10px;" class="tags-cloud-0">yml</a> <a href="/tags/zookeeper/" style="font-size: 10px;" class="tags-cloud-0">zookeeper</a> <a href="/tags/%E4%B8%AD%E9%97%B4%E4%BB%B6/" style="font-size: 18.75px;" class="tags-cloud-9">中间件</a> <a href="/tags/%E4%BA%8B%E5%8A%A1/" style="font-size: 10px;" class="tags-cloud-0">事务</a> <a href="/tags/%E5%8A%A0%E5%AF%86/" style="font-size: 13.75px;" class="tags-cloud-4">加密</a> <a href="/tags/%E5%93%A8%E5%85%B5/" style="font-size: 10px;" class="tags-cloud-0">哨兵</a> <a href="/tags/%E5%B7%A5%E5%85%B7/" style="font-size: 10px;" class="tags-cloud-0">工具</a> <a href="/tags/%E5%B8%B8%E7%94%A8%E7%AE%97%E6%B3%95/" style="font-size: 16.25px;" class="tags-cloud-6">常用算法</a> <a href="/tags/%E5%B9%B6%E5%8F%91/" style="font-size: 10px;" class="tags-cloud-0">并发</a> <a href="/tags/%E6%96%87%E4%BB%B6%E5%AD%98%E5%82%A8/" style="font-size: 11.25px;" class="tags-cloud-1">文件存储</a> <a href="/tags/%E7%B4%A2%E5%BC%95/" style="font-size: 10px;" class="tags-cloud-0">索引</a> <a href="/tags/%E9%94%81%E6%9C%BA%E5%88%B6/" style="font-size: 10px;" class="tags-cloud-0">锁机制</a> <a href="/tags/%E9%97%AE%E9%A2%98/" style="font-size: 10px;" class="tags-cloud-0">问题</a>
+    </div>
+  </div>
+</section>
+    </div>
+  </article>
+</div>
+<script>
+	//解决中文转义无法跳转锚点问题
+	var blog = document.querySelector("#blog-content");
+	var content = blog.innerHTML;
+	var regExp2 = /<h([1-6]) id=\"(\S*?)\">/g;
+	var	data = content.replace(regExp2, function(word,i){
+		var ws = word.split("\"");
+			return ws[0]+"\""+encodeURIComponent(ws[1])+"\""+ws[2];
+		},"g");
+	blog.innerHTML = data;
+</script>
+
+    <!-- footer container -->
+<footer id="footer" class="footer">
+  <div class="footer-container">
+    
+    <div class="social-icons">
+      
+        
+          <a href="https://music.163.com/#/user/home?id=444731906" class="soft-size--primary soft-style--box" target="_blank" rel="noopener noreferrer">
+            <svg class="icon icon-<%= icon %>" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+    <path d="M952.17867 503.263237a341.054956 341.054956 0 0 0-56.853199-113.706399 408.604266 408.604266 0 0 0-109.723463-98.352823 304.662484 304.662484 0 0 0-143.257215-42.077792L621.305897 170.238394a40.343287 40.343287 0 0 1 10.792472-36.392472 56.88532 56.88532 0 0 1 36.392472-18.758344 102.785445 102.785445 0 0 1 56.853199 18.758344c6.263488 3.404768 10.792472 9.090088 17.05596 13.073024a57.335006 57.335006 0 0 0 82.999247-70.632873 66.521455 66.521455 0 0 0-22.74128-27.848432 237.691343 237.691343 0 0 0-89.262735-43.202007A170.559598 170.559598 0 0 0 625.288833 6.42409a167.026349 167.026349 0 0 0-60.836135 37.516688 164.328231 164.328231 0 0 0-40.921456 51.713927 156.908407 156.908407 0 0 0-8.54404 113.706399l13.651192 52.870264a284.298118 284.298118 0 0 0-158.064743 109.209535 256.963614 256.963614 0 0 0-43.202007 156.908407 248.419573 248.419573 0 0 0 13.651192 74.487327 205.281807 205.281807 0 0 0 80.718695 104.616312 185.945295 185.945295 0 0 0 136.447679 25.696361 193.879046 193.879046 0 0 0 156.330238-196.705646L708.802008 503.263237c-11.948808-46.060728-24.443664-91.543287-35.814304-137.025847a182.283563 182.283563 0 0 1 47.763112 18.180176 316.611292 316.611292 0 0 1 47.763111 34.690088A239.907654 239.907654 0 0 1 840.752823 529.987453a284.169636 284.169636 0 0 1 0 158.064743 252.241907 252.241907 0 0 1-21.584943 51.167879 308.741782 308.741782 0 0 1-168.279047 144.542033 387.918695 387.918695 0 0 1-130.184191 23.319448 332.607277 332.607277 0 0 1-155.206022-37.516688A367.233124 367.233124 0 0 1 194.87478 672.666499a373.014806 373.014806 0 0 1-20.460727-180.806022A366.173149 366.173149 0 0 1 406.869762 198.536512a57.399247 57.399247 0 0 0 13.073023-100.055207 76.189711 76.189711 0 0 0-63.662735-3.404768A479.815307 479.815307 0 0 0 68.705646 436.163614a488.905395 488.905395 0 0 0 129.027855 450.84266 454.857716 454.857716 0 0 0 248.997741 131.886574 470.885822 470.885822 0 0 0 138.117942 0A454.889837 454.889837 0 0 0 773.042911 952.949561a427.523212 427.523212 0 0 0 170.559598-209.232622 417.276788 417.276788 0 0 0 22.74128-109.209536 378.089837 378.089837 0 0 0-14.165119-131.244166z m-412.747804 118.845671a72.174655 72.174655 0 0 1-56.8532-10.792471 98.352823 98.352823 0 0 1-37.516687-61.382184 170.68808 170.68808 0 0 1 0-65.943287 133.042911 133.042911 0 0 1 33.533751-63.662735 181.35207 181.35207 0 0 1 80.718695-46.606776l39.219072 148.364367a204.189711 204.189711 0 0 1 5.107152 26.146048 79.594479 79.594479 0 0 1-64.208783 73.844918z"></path>
+  </svg>
+          </a>
+        
+      
+        
+          <a href="https://www.zhihu.com" class="soft-size--primary soft-style--box" target="_blank" rel="noopener noreferrer">
+            <svg t="1587373160860" class="icon icon-zhihu" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M544.949 561.422s0-71.387-34.779-75.050c-34.779-3.663-142.775 0-142.775 0v-219.654h161.078s-1.83-73.219-32.949-73.219h-261.755l43.93-117.148s-65.897 3.663-89.692 45.761-98.844 252.604-98.844 252.604 25.627 10.983 67.726-20.134c42.101-31.116 56.743-86.033 56.743-86.033l76.879-3.663 1.83 223.316s-133.621-1.83-161.078 0c-27.457 1.83-42.101 75.050-42.101 75.050h203.182s-18.307 124.47-69.557 214.164c-53.085 89.692-151.929 161.078-151.929 161.078s71.387 29.287 140.947-10.983c69.557-42.101 120.811-223.316 120.811-223.316l162.912 203.182s14.643-97.013-1.83-124.47c-18.307-27.457-113.49-137.283-113.49-137.283l-42.101 36.607 29.287-120.811h177.552zM587.050 188.010l-1.83 660.793h65.897l23.795 82.37 115.321-82.37h162.912v-660.793h-366.091zM879.92 775.584h-76.879l-97.013 75.050-21.965-75.050h-20.134v-512.527h215.991v512.527z"></path>
+</svg>
+          </a>
+        
+      
+        
+          <a href="https://gitee.com/RocPengHua" class="soft-size--primary soft-style--box" target="_blank" rel="noopener noreferrer">
+            <svg class="icon icon-<%= icon %>" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+    <path d="M512 1024C229.248 1024 0 794.752 0 512S229.248 0 512 0s512 229.248 512 512-229.248 512-512 512z m259.168-568.896h-290.752a25.28 25.28 0 0 0-25.28 25.28l-0.032 63.232c0 13.952 11.296 25.28 25.28 25.28h177.024a25.28 25.28 0 0 1 25.28 25.28v12.64a75.84 75.84 0 0 1-75.84 75.84h-240.224a25.28 25.28 0 0 1-25.28-25.28v-240.192a75.84 75.84 0 0 1 75.84-75.84h353.92a25.28 25.28 0 0 0 25.28-25.28l0.064-63.2a25.312 25.312 0 0 0-25.28-25.312H417.184a189.632 189.632 0 0 0-189.632 189.6v353.952c0 13.952 11.328 25.28 25.28 25.28h372.928a170.656 170.656 0 0 0 170.656-170.656v-145.376a25.28 25.28 0 0 0-25.28-25.28z" p-id="1954"></path>
+  </svg>
+          </a>
+        
+      
+        
+          <a href="https://github.com/RocPengHua" class="soft-size--primary soft-style--box" target="_blank" rel="noopener noreferrer">
+            <svg class="icon icon-github" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M64.6 512c0 195.6 125.4 361.9 300.1 422.9 23.5 5.9 19.9-10.8 19.9-22.2v-77.6c-135.8 15.9-141.3-74-150.5-89-18.5-31.5-61.9-39.5-49-54.5 31-15.9 62.5 4 98.9 58 26.4 39.1 77.9 32.5 104.1 26 5.7-23.5 17.9-44.5 34.7-60.9-140.7-25.2-199.4-111.1-199.4-213.3 0-49.5 16.4-95.1 48.4-131.8-20.4-60.6 1.9-112.4 4.9-120.1 58.2-5.2 118.5 41.6 123.3 45.3 33.1-8.9 70.8-13.7 112.9-13.7 42.4 0 80.3 4.9 113.5 13.9 11.3-8.6 67.3-48.8 121.4-43.9 2.9 7.7 24.7 58.3 5.5 118.1 32.5 36.8 49 82.8 49 132.4 0 102.3-59 188.3-200.2 213.2 23.5 23.3 38.1 55.5 38.1 91.1v112.7c0.8 9 0 17.9 15.1 17.9C832.7 877 960.4 709.4 960.4 512.1c0-247.5-200.6-447.9-447.9-447.9C265 64.1 64.6 264.5 64.6 512z"></path>
+</svg>
+          </a>
+        
+      
+        
+          <a href="https://twitter.com/guanquanhong" class="soft-size--primary soft-style--box" target="_blank" rel="noopener noreferrer">
+            <svg class="icon icon-twitter" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M962.285714 233.142857q-38.285714 56-92.571429 95.428571 0.571429 8 0.571429 24 0 74.285714-21.714286 148.285714t-66 142-105.428571 120.285714-147.428571 83.428571-184.571429 31.142857q-154.857143 0-283.428571-82.857143 20 2.285714 44.571429 2.285714 128.571429 0 229.142857-78.857143-60-1.142857-107.428571-36.857143t-65.142857-91.142857q18.857143 2.857143 34.857143 2.857143 24.571429 0 48.571429-6.285714-64-13.142857-106-63.714286t-42-117.428571l0-2.285714q38.857143 21.714286 83.428571 23.428571-37.714286-25.142857-60-65.714286t-22.285714-88q0-50.285714 25.142857-93.142857 69.142857 85.142857 168.285714 136.285714t212.285714 56.857143q-4.571429-21.714286-4.571429-42.285714 0-76.571429 54-130.571429t130.571429-54q80 0 134.857143 58.285714 62.285714-12 117.142857-44.571429-21.142857 65.714286-81.142857 101.714286 53.142857-5.714286 106.285714-28.571429z"></path>
+</svg>
+          </a>
+        
+      
+    </div>
+     
+    <p>&copy; 2023 <a href="/" target="_blank">RocPengHua</a></p>
+
+    
+
+    <p>Powered by <a href="https://hexo.io" target="_blank" rel="noopener noreferrer">Hexo</a> Theme - <a href="https://github.com/miiiku/flex-block" target="_blank" rel="noopener noreferrer author">flex-block</a></p>
+
+    <p>
+      <a href="javascript:;" id="theme-light">🌞 浅色</a>
+      <a href="javascript:;" id="theme-dark">🌛 深色</a>
+      <a href="javascript:;" id="theme-auto">🤖️ 自动</a>
+    </p>
+  </div>
+</footer>
+  </div>
+
+  <div class="back-to-top-fixed soft-size--round soft-style--box">
+    <svg class="icon icon-back-to-top" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+      <path d="M725.333333 426.666667c-12.8 0-21.333333-4.266667-29.866667-12.8l-213.333333-213.333333c-17.066667-17.066667-17.066667-42.666667 0-59.733333s42.666667-17.066667 59.733333 0l213.333333 213.333333c17.066667 17.066667 17.066667 42.666667 0 59.733333C746.666667 422.4 738.133333 426.666667 725.333333 426.666667z"></path>
+      <path d="M298.666667 426.666667c-12.8 0-21.333333-4.266667-29.866667-12.8-17.066667-17.066667-17.066667-42.666667 0-59.733333l213.333333-213.333333c17.066667-17.066667 42.666667-17.066667 59.733333 0s17.066667 42.666667 0 59.733333l-213.333333 213.333333C320 422.4 311.466667 426.666667 298.666667 426.666667z"></path>
+      <path d="M512 896c-25.6 0-42.666667-17.066667-42.666667-42.666667L469.333333 170.666667c0-25.6 17.066667-42.666667 42.666667-42.666667s42.666667 17.066667 42.666667 42.666667l0 682.666667C554.666667 878.933333 537.6 896 512 896z"></path>
+    </svg>
+  </div>
+
+  
+  <!-- aplayer -->
+
+
+<!-- dplayer -->
+
+
+
+
+  
+
+
+  
+
+
+  <!-- Baidu Analytics START -->
+  <script>
+    var _hmt = _hmt || [];
+    (function () {
+      if (window.location.hostname === "localhost" || window.location.hostname.startsWith("192.168")) {
+        return console.log("本地调试");
+      }
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?true";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+  <!-- Baidu Analytics End -->
+
+  
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+  
+  <link rel="stylesheet" href="/lib/aplayer/APlayer.min.css">
+<script type="text/javascript" src="/lib/aplayer/APlayer.min.js"></script>
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="/js/search.js"></script>
+
+<!-- Calendar -->
+
+    <script src="/js/calendar.js"></script>
+    <script src="/js/languages.js"></script>
+    <script type="text/javascript">
+        $(function() {
+            $('#calendar').aCalendar(
+                'zh-CN',
+                {single:false, root:'calendar/'}
+            );
+        });
+    </script>
+
+<!-- 尾部用户自定义相关内容 -->
+<div id="aplayer"></div>
+<script type="text/javascript">
+
+	/*获取音乐*/
+	$.get("https://api.i-meto.com/meting/api?server=netease&type=playlist&id=3778678&r=0.37201068616290645", function(result){
+		if(result && result.code  == 50000){
+			console.log(result.msg);
+			return;
+		}
+	    const ap = new APlayer({
+	    container: document.getElementById('aplayer'),
+	    global:true,
+	    id:'3778678',
+	    server: 'netease',
+	    type: 'paylist',
+	    fixed: true,
+	    preload: 'none',
+	    theme: '#ffa500',
+	    autoplay: false,
+	    audio: result
+	  });
+	});
+
+
+
+
+
+
+
+
+
+
+	/*图片放大js*/
+	function createImgEventFullScreen() {
+        var imgs = $(".post-container").find("img");
+        for (var i = 0; i < imgs.length; i++) {
+            // $(imgs[i]).click(createCover(imgs[i]));
+            imgs[i].onclick = function (e) {
+                var src = e.srcElement.currentSrc;
+                var _this = $(this);
+                console.log(_this);
+                createCover(src,_this);
+            }
+        }
+        function createCover(src,_this) {
+            console.log(_this);
+            console.log(src);
+            var cover = $("<div id='outerDiv'  style='position:fixed;top:0;left:0;background:rgba(0,0,0,0.7);z-index:5;width:100%;height:100%;display:none;'><div id='innerDiv' style='position:absolute;'><img  id='bigImg' style='border:5px solid #fff;' src=''/></div></div>");
+            $("#outerDiv").remove();
+            $("body").append(cover);
+            imgShow("#outerDiv", "#innerDiv", "#bigImg", _this,src);
+
+        }
+    }
+    function imgShow(outerDiv, innerDiv, bigImg, _this,src) {
+        //var src = _this.attr("src"); //获取当前点击的common-img元素中的src属性
+        $(bigImg).attr("src", src); //设置#bigImg元素的src属性
+
+        /*获取当前点击图片的真实大小，并显示弹出层及大图*/
+        $("<img/>").attr("src", src).on('load',function () {
+            var windowW = $(window).width(); //获取当前窗口宽度
+            var windowH = $(window).height(); //获取当前窗口高度
+            var realWidth = this.width; //获取图片真实宽度
+            var realHeight = this.height; //获取图片真实高度
+            var imgWidth, imgHeight;
+            var scale = 0.8; //缩放尺寸，当图片真实宽度和高度大于窗口宽度和高度时进行缩放
+
+            if (realHeight > windowH * scale) { //判断图片高度
+                imgHeight = windowH * scale; //如大于窗口高度，图片高度进行缩放
+                imgWidth = imgHeight / realHeight * realWidth; //等比例缩放宽度
+                if (imgWidth > windowW * scale) { //如宽度仍大于窗口宽度
+                    imgWidth = windowW * scale; //再对宽度进行缩放
+                }
+            } else if (realWidth > windowW * scale) { //如图片高度合适，判断图片宽度
+                imgWidth = windowW * scale; //如大于窗口宽度，图片宽度进行缩放
+                imgHeight = imgWidth / realWidth * realHeight; //等比例缩放高度
+            } else { //如果图片真实高度和宽度都符合要求，高宽不变
+                imgWidth = realWidth;
+                imgHeight = realHeight;
+            }
+            $(bigImg).css("width", imgWidth); //以最终的宽度对图片缩放
+
+            var w = (windowW - imgWidth) / 2; //计算图片与窗口左边距
+            var h = (windowH - imgHeight) / 2; //计算图片与窗口上边距
+            $(innerDiv).css({ "top": h, "left": w }); //设置#innerDiv的top和left属性
+            //console.log('****')
+            $(outerDiv).fadeIn("fast"); //淡入显示#outerDiv
+        });
+
+        $(outerDiv).click(function () { //再次点击淡出消失弹出层
+            $(this).fadeOut("fast");
+        });
+    }
+    setTimeout(function () {
+        createImgEventFullScreen();
+    }, 1000)
+</script>
+<style>
+.aplayer.aplayer-fixed.aplayer-narrow .aplayer-body{
+	width: 0px!important
+}
+.aplayer.aplayer-narrow .aplayer-body, .aplayer.aplayer-narrow .aplayer-pic {
+	width: 0px!important
+}
+</style>
+</body>
+</html>

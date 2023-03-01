@@ -26,7 +26,7 @@
 
   
 
-  <title>统一异常处理 | 小鹏驿站</title>
+  <title>yml文件语法说明 | 小鹏驿站</title>
 
   
 
@@ -46,7 +46,7 @@
 <!-- header container -->
 <header class="header-container post">
   
-    <div class="post-image" style="background-image: url(&#39;https://api.lixingyong.com/api/images?postid=895fda41&amp;type=url&amp;itype=image&#39;)"></div>
+    <div class="post-image" style="background-image: url(&#39;https://api.lixingyong.com/api/images?postid=93f6fc65&amp;type=url&amp;itype=image&#39;)"></div>
   
   <!-- navbar -->
 <nav class="navbar">
@@ -301,20 +301,20 @@
     <div class="header-content">
       <div class="post-text layout-block">
         <div class="layout-margin">
-          <h1 class="title-wrap" title="觉宇宙之无穷，识盈虚之有数">统一异常处理</h1>
+          <h1 class="title-wrap" title="觉宇宙之无穷，识盈虚之有数">yml文件语法说明</h1>
           <h2 class="title-sub-wrap">
             <strong>RocPengHua</strong>
             <span>发布于</span>
-            <time  class="article-date" datetime="2022-07-07T12:26:46.000Z" itemprop="datePublished">2022-07-07</time>
+            <time  class="article-date" datetime="2023-02-25T02:43:40.000Z" itemprop="datePublished">2023-02-25</time>
           </h2>
           <ul class="wrap-list dark">
   
-    <li><a href="/categories/java/">📒 java</a></li>
+    <li><a href="/categories/%E6%8A%80%E6%9C%AF/">📒 技术</a></li>
   
 </ul>
           <ul class="wrap-list dark">
   
-    <li><a href="/tags/%E5%B7%A5%E5%85%B7/">🏷️ 工具</a></li>
+    <li><a href="/tags/yml/">🏷️ yml</a></li>
   
 </ul>
         </div>
@@ -379,7 +379,7 @@
     <span>TOC</span>
   </div>
   <div class="widget-body">
-    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%9F%E4%B8%80%E8%BF%94%E5%9B%9E%E5%B0%81%E8%A3%85"><span class="toc-number">1.</span> <span class="toc-text">统一返回封装</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E8%BF%94%E5%9B%9E%E7%BB%93%E6%9E%9C%E7%B1%BB"><span class="toc-number">1.1.</span> <span class="toc-text">自定义返回结果类</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E7%8A%B6%E6%80%81%E7%A0%81"><span class="toc-number">1.2.</span> <span class="toc-text">自定义状态码</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%9F%E4%B8%80%E5%BC%82%E5%B8%B8%E8%BF%94%E5%9B%9E"><span class="toc-number">2.</span> <span class="toc-text">统一异常返回</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ResponseBody%E7%BB%9F%E4%B8%80%E8%BF%94%E5%9B%9E"><span class="toc-number">3.</span> <span class="toc-text">ResponseBody统一返回</span></a></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#yaml"><span class="toc-number">1.</span> <span class="toc-text">yaml</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95"><span class="toc-number">1.1.</span> <span class="toc-text">基本语法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="toc-number">1.2.</span> <span class="toc-text">数据类型</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B"><span class="toc-number">1.3.</span> <span class="toc-text">示例</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%A2%9E%E5%8A%A0%E9%85%8D%E7%BD%AE%E6%8F%90%E7%A4%BA%E5%8A%9F%E8%83%BD"><span class="toc-number">1.4.</span> <span class="toc-text">增加配置提示功能</span></a></li></ol></li></ol>
   </div>
 </section>
 
@@ -391,188 +391,117 @@
       
       
       <section id="blog-content" class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
-        <h3 id="统一返回封装"><a href="#统一返回封装" class="headerlink" title="统一返回封装"></a>统一返回封装</h3><h4 id="自定义返回结果类"><a href="#自定义返回结果类" class="headerlink" title="自定义返回结果类"></a>自定义返回结果类</h4><pre><code class="prettyprint">@Data
-public class R &#123;
-    private Boolean success;
-
-    private Integer code;
-
-    private String message;
-
-    private Object data;
-
-    // 构造器私有
-    private R()&#123;&#125;
-
-    // 通用返回成功
-    public static R ok() &#123;
-        R r = new R();
-        r.setSuccess(ResultCodeEnum.SUCCESS.getSuccess());
-        r.setCode(ResultCodeEnum.SUCCESS.getCode());
-        r.setMessage(ResultCodeEnum.SUCCESS.getMessage());
-        return r;
-    &#125;
-
-    // 通用返回失败，未知错误
-    public static R error() &#123;
-        R r = new R();
-        r.setSuccess(ResultCodeEnum.UNKNOWN_ERROR.getSuccess());
-        r.setCode(ResultCodeEnum.UNKNOWN_ERROR.getCode());
-        r.setMessage(ResultCodeEnum.UNKNOWN_ERROR.getMessage());
-        return r;
-    &#125;
-
-    // 设置结果，形参为结果枚举
-    public static R setResult(ResultCodeEnum result) &#123;
-        R r = new R();
-        r.setSuccess(result.getSuccess());
-        r.setCode(result.getCode());
-        r.setMessage(result.getMessage());
-        return r;
-    &#125;
-
-    /**------------使用链式编程，返回类本身-----------**/
-
-    // 自定义返回数据
-    public R data(Object o) &#123;
-        this.setData(o);
-        return this;
-    &#125;
-
-    // 自定义状态信息
-    public R message(String message) &#123;
-        this.setMessage(message);
-        return this;
-    &#125;
-
-    // 自定义状态码
-    public R code(Integer code) &#123;
-        this.setCode(code);
-        return this;
-    &#125;
-
-    // 自定义返回结果
-    public R success(Boolean success) &#123;
-        this.setSuccess(success);
-        return this;
-    &#125;
-&#125;
-</code></pre>
-<h4 id="自定义状态码"><a href="#自定义状态码" class="headerlink" title="自定义状态码"></a>自定义状态码</h4><pre><code class="prettyprint">@Getter
-public enum ResultCodeEnum &#123;
-    SUCCESS(true,20000,&quot;成功&quot;),
-    UNKNOWN_ERROR(false,20001,&quot;未知错误&quot;),
-    PARAM_ERROR(false,20002,&quot;参数错误&quot;),
-    NULL_POINT(false,20003,&quot;空指针异常&quot;),
-    HTTP_CLIENT_ERROR(false,20004,&quot;客户端错误&quot;),
-    NOT_FOUNT(false,20005,&quot;找不到路径&quot;),
-    ;
-
-    // 响应是否成功
-    private Boolean success;
-    // 响应状态码
-    private Integer code;
-    // 响应信息
-    private String message;
-
-    ResultCodeEnum(boolean success, Integer code, String message) &#123;
-        this.success = success;
-        this.code = code;
-        this.message = message;
-    &#125;
-&#125;
-</code></pre>
-<h3 id="统一异常返回"><a href="#统一异常返回" class="headerlink" title="统一异常返回"></a>统一异常返回</h3><ul>
-<li><code>@RestControllerAdvice</code></li>
-<li><code>@ExceptionHandler</code></li>
+        <h3 id="yaml"><a href="#yaml" class="headerlink" title="yaml"></a>yaml</h3><h4 id="基本语法"><a href="#基本语法" class="headerlink" title="基本语法"></a>基本语法</h4><ul>
+<li>key: value；kv之间有空格</li>
+<li>大小写敏感</li>
+<li>使用缩进表示层级关系</li>
+<li>缩进不允许使用tab，只允许空格</li>
+<li>缩进的空格数不重要，只要相同层级的元素左对齐即可</li>
+<li>‘#’表示注释</li>
+<li>字符串无需加引号，如果要加，’’与””表示字符串内容 会被 转义&#x2F;不转义</li>
 </ul>
-<pre><code class="prettyprint">@Slf4j
-@RestControllerAdvice
-public class GlobalExceptionHandler &#123;
-
-    /**-------- 通用异常处理方法 --------**/
-    @ExceptionHandler(Exception.class)
-    public R error(Exception e) &#123;
-        log.error(ExceptionUtil.getMessage(e));
-        return R.error().message(e.getMessage()).code(-1);
-    &#125;
-
-    /**-------- 指定异常处理方法 --------**/
-    @ExceptionHandler(NullPointerException.class)
-    public R error(NullPointerException e) &#123;
-        log.error(ExceptionUtil.getMessage(e));
-        return R.setResult(ResultCodeEnum.NULL_POINT);
-    &#125;
-
-    @ExceptionHandler(HttpClientErrorException.class)
-    public R error(IndexOutOfBoundsException e) &#123;
-        log.error(ExceptionUtil.getMessage(e));
-        return R.setResult(ResultCodeEnum.HTTP_CLIENT_ERROR);
-    &#125;
-    /**-------- 自定义定异常处理方法 --------**/
-    @ExceptionHandler(CustomException.class)
-    public R error(CustomException e) &#123;
-        log.error(ExceptionUtil.getMessage(e));
-        return R.error().message(e.getMessage()).code(e.getCode());
-    &#125;
-&#125;
+<h4 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h4><ul>
+<li>字面量：单个的、不可再分的。date、boolean、string、number、null</li>
+</ul>
+<pre><code class="prettyprint">k: v
 </code></pre>
 <ul>
-<li>自定义异常类</li>
+<li>对象：键值对的集合。map、hash、set、object</li>
 </ul>
-<pre><code class="prettyprint">@Data
-public class CustomException extends RuntimeException &#123;
-    private Integer code;
+<pre><code class="prettyprint"># 行内写法：  k: &#123;k1:v1,k2:v2,k3:v3&#125;
+k: 
+  k1: v1
+  k2: v2
+  k3: v3
+</code></pre>
+<ul>
+<li>数组：一组按次序排列的值。array、list、queue</li>
+</ul>
+<pre><code class="prettyprint"># 行内写法：  k: [v1,v2,v3]
+# 或者
+k:
+  - v1
+  - v2
+  - v3
+</code></pre>
+<h4 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h4><pre><code class="prettyprint">@Data
+public class Person &#123;
+    
+    private String userName;
+    private Boolean boss;
+    private Date birth;
+    private Integer age;
+    private Pet pet;
+    private String[] interests;
+    private List&lt;String&gt; animal;
+    private Map&lt;String, Object&gt; score;
+    private Set&lt;Double&gt; salarys;
+    private Map&lt;String, List&lt;Pet&gt;&gt; allPets;
+&#125;
 
-    public CustomException(Integer code, String message) &#123;
-        super(message);
-        this.code = code;
-    &#125;
-
-    public CustomException(ResultCodeEnum resultCodeEnum) &#123;
-        super(resultCodeEnum.getMessage());
-        this.code = resultCodeEnum.getCode();
-    &#125;
-
-    @Override
-    public String toString() &#123;
-        return &quot;CustomException&#123;&quot; + &quot;code=&quot; + code + &quot;, message=&quot; + this.getMessage() + &#39;&#125;&#39;;
-    &#125;
+@Data
+public class Pet &#123;
+    private String name;
+    private Double weight;
 &#125;
 </code></pre>
-<h3 id="ResponseBody统一返回"><a href="#ResponseBody统一返回" class="headerlink" title="ResponseBody统一返回"></a><code>ResponseBody</code>统一返回</h3><ul>
-<li>@RestControllerAdvice</li>
-<li><code>ResponseBodyAdvice</code></li>
-</ul>
-<pre><code class="prettyprint">@RestControllerAdvice
-public class HandleResponseAdvice implements ResponseBodyAdvice&lt;Object&gt; &#123;
-    @Autowired
-    private ObjectMapper objectMapper;
-    @Override
-    public boolean supports(MethodParameter returnType, Class&lt;? extends HttpMessageConverter&lt;?&gt;&gt; converterType) &#123;
-        //过滤swagger
-        String className = returnType.getDeclaringClass().getName();
-        String swaggerName = ApiResourceController.class.getName();
-        String swaggerName2 = OpenApiControllerWebMvc.class.getName();
-        return !swaggerName.equals(className)&amp;&amp; !swaggerName2.equals(className);
-    &#125;
+<pre><code class="prettyprint">person:
+  userName: zhangsan
+  boss: false
+  birth: 2019/12/12 20:12:33
+  age: 18
+  pet:
+    name: tomcat
+    weight: 23.4
+  interests: [篮球,游泳]
+  animal:
+    - jerry
+    - mario
+  score:
+    english:
+      first: 30
+      second: 40
+      third: 50
+    math: [131,140,148]
+    chinese: &#123;first: 128,second: 136&#125;
+  salarys: [3999,4999.98,5999.99]
+  allPets:
+    sick:
+      - &#123;name: tom&#125;
+      - &#123;name: jerry,weight: 47&#125;
+    health: [&#123;name: mario,weight: 47&#125;]
+</code></pre>
+<h4 id="增加配置提示功能"><a href="#增加配置提示功能" class="headerlink" title="增加配置提示功能"></a>增加配置提示功能</h4><p>在pom文件添加依赖</p>
+<pre><code class="prettyprint">&lt;!-- 生成json文件可以提示yaml --&gt;
+&lt;dependency&gt;
+     &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+     &lt;artifactId&gt;spring-boot-configuration-processor&lt;/artifactId&gt;
+     &lt;optional&gt;true&lt;/optional&gt;
+&lt;/dependency&gt;
+&lt;!-- 提升效率 --&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-boot-autoconfigure-processor&lt;/artifactId&gt;
+    &lt;optional&gt;true&lt;/optional&gt;
+&lt;/dependency&gt;
 
-    @SneakyThrows
-    @Override
-    public Object beforeBodyWrite(Object body, MethodParameter returnType, MediaType selectedContentType, Class&lt;? extends HttpMessageConverter&lt;?&gt;&gt; selectedConverterType, ServerHttpRequest request, ServerHttpResponse response) &#123;
-        if (body == null) &#123;
-            return R.error();
-        &#125;
-        //String类型需要特殊处理 手动转为json字符串
-        if (body instanceof String) &#123;
-            return objectMapper.writeValueAsString(R.ok().data(body));
-        &#125;
-        if (body instanceof R) &#123;
-            return body;
-        &#125;
-        return R.ok().data(body);
-    &#125;
-&#125;
+&lt;!-------------------------------打包排除依赖---------------------------------&gt;
+&lt;build&gt;
+        &lt;plugins&gt;
+            &lt;plugin&gt;
+                &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+                &lt;artifactId&gt;spring-boot-maven-plugin&lt;/artifactId&gt;
+                &lt;configuration&gt;
+                    &lt;excludes&gt;
+                        &lt;exclude&gt;
+                            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+                            &lt;artifactId&gt;spring-boot-configuration-processor&lt;/artifactId&gt;
+                        &lt;/exclude&gt;
+                    &lt;/excludes&gt;
+                &lt;/configuration&gt;
+            &lt;/plugin&gt;
+        &lt;/plugins&gt;
+    &lt;/build&gt;
 </code></pre>
 
       </section>
@@ -581,32 +510,16 @@ public class HandleResponseAdvice implements ResponseBodyAdvice&lt;Object&gt; &#
       
         <nav class="article-nav">
           
-            <div class="article-nav-item layout-padding">
-  <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
-    
-      <div class="card-cover" background-image-lazy data-img="https://api.lixingyong.com/api/images?postid=bdcc5ce1&type=url&itype=image"></div>
-    
-    <div class="card-text">
-      
-        <a href="/2022/07/11/centos7-da-jian-zookeeper-ji-qun/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">centos7搭建zookeeper集群</h2>
-        </a>
-      
-      <div class="card-text--row">Newer</div>
-    </div>
-  </article>
-</div>
-          
           
             <div class="article-nav-item layout-padding">
   <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
     
-      <div class="card-cover" background-image-lazy data-img="https://api.lixingyong.com/api/images?postid=da56363d&type=url&itype=image"></div>
+      <div class="card-cover" background-image-lazy data-img="https://api.lixingyong.com/api/images?postid=f121b1&type=url&itype=image"></div>
     
     <div class="card-text">
       
-        <a href="/2022/06/28/window-cha-sha-jin-cheng-ming-ling/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">window查杀进程命令</h2>
+        <a href="/2023/02/20/23-zhong-she-ji-mo-shi-xue-xi/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">23中设计模式学习</h2>
         </a>
       
       <div class="card-text--row">Older</div>

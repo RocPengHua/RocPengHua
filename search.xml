@@ -21390,4 +21390,127 @@ installonly_limit=5
         <tag>docker</tag>
       </tags>
   </entry>
+  <entry>
+    <title>yml文件语法说明</title>
+    <url>/2023/02/25/yml-wen-jian-yu-fa-shuo-ming/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h3 id="yaml"><a href="#yaml" class="headerlink" title="yaml"></a>yaml</h3><h4 id="基本语法"><a href="#基本语法" class="headerlink" title="基本语法"></a>基本语法</h4><ul>
+<li>key: value；kv之间有空格</li>
+<li>大小写敏感</li>
+<li>使用缩进表示层级关系</li>
+<li>缩进不允许使用tab，只允许空格</li>
+<li>缩进的空格数不重要，只要相同层级的元素左对齐即可</li>
+<li>‘#’表示注释</li>
+<li>字符串无需加引号，如果要加，’’与””表示字符串内容 会被 转义&#x2F;不转义</li>
+</ul>
+<h4 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h4><ul>
+<li>字面量：单个的、不可再分的。date、boolean、string、number、null</li>
+</ul>
+<pre><code class="prettyprint">k: v
+</code></pre>
+<ul>
+<li>对象：键值对的集合。map、hash、set、object</li>
+</ul>
+<pre><code class="prettyprint"># 行内写法：  k: &#123;k1:v1,k2:v2,k3:v3&#125;
+k: 
+  k1: v1
+  k2: v2
+  k3: v3
+</code></pre>
+<ul>
+<li>数组：一组按次序排列的值。array、list、queue</li>
+</ul>
+<pre><code class="prettyprint"># 行内写法：  k: [v1,v2,v3]
+# 或者
+k:
+  - v1
+  - v2
+  - v3
+</code></pre>
+<h4 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h4><pre><code class="prettyprint">@Data
+public class Person &#123;
+    
+    private String userName;
+    private Boolean boss;
+    private Date birth;
+    private Integer age;
+    private Pet pet;
+    private String[] interests;
+    private List&lt;String&gt; animal;
+    private Map&lt;String, Object&gt; score;
+    private Set&lt;Double&gt; salarys;
+    private Map&lt;String, List&lt;Pet&gt;&gt; allPets;
+&#125;
+
+@Data
+public class Pet &#123;
+    private String name;
+    private Double weight;
+&#125;
+</code></pre>
+<pre><code class="prettyprint">person:
+  userName: zhangsan
+  boss: false
+  birth: 2019/12/12 20:12:33
+  age: 18
+  pet:
+    name: tomcat
+    weight: 23.4
+  interests: [篮球,游泳]
+  animal:
+    - jerry
+    - mario
+  score:
+    english:
+      first: 30
+      second: 40
+      third: 50
+    math: [131,140,148]
+    chinese: &#123;first: 128,second: 136&#125;
+  salarys: [3999,4999.98,5999.99]
+  allPets:
+    sick:
+      - &#123;name: tom&#125;
+      - &#123;name: jerry,weight: 47&#125;
+    health: [&#123;name: mario,weight: 47&#125;]
+</code></pre>
+<h4 id="增加配置提示功能"><a href="#增加配置提示功能" class="headerlink" title="增加配置提示功能"></a>增加配置提示功能</h4><p>在pom文件添加依赖</p>
+<pre><code class="prettyprint">&lt;!-- 生成json文件可以提示yaml --&gt;
+&lt;dependency&gt;
+     &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+     &lt;artifactId&gt;spring-boot-configuration-processor&lt;/artifactId&gt;
+     &lt;optional&gt;true&lt;/optional&gt;
+&lt;/dependency&gt;
+&lt;!-- 提升效率 --&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-boot-autoconfigure-processor&lt;/artifactId&gt;
+    &lt;optional&gt;true&lt;/optional&gt;
+&lt;/dependency&gt;
+
+&lt;!-------------------------------打包排除依赖---------------------------------&gt;
+&lt;build&gt;
+        &lt;plugins&gt;
+            &lt;plugin&gt;
+                &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+                &lt;artifactId&gt;spring-boot-maven-plugin&lt;/artifactId&gt;
+                &lt;configuration&gt;
+                    &lt;excludes&gt;
+                        &lt;exclude&gt;
+                            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+                            &lt;artifactId&gt;spring-boot-configuration-processor&lt;/artifactId&gt;
+                        &lt;/exclude&gt;
+                    &lt;/excludes&gt;
+                &lt;/configuration&gt;
+            &lt;/plugin&gt;
+        &lt;/plugins&gt;
+    &lt;/build&gt;
+</code></pre>
+]]></content>
+      <categories>
+        <category>技术</category>
+      </categories>
+      <tags>
+        <tag>yml</tag>
+      </tags>
+  </entry>
 </search>

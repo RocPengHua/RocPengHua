@@ -16457,13 +16457,22 @@ public static void test() &#123;
     9: istore_3
     10: return
 </code></pre>
-<img src="/2023/03/01/jvm-cong-ru-men-dao-jing-tong/image-20230307221031312.png" class="asset-class" title="image-20230307221031312"><img src="/2023/03/01/jvm-cong-ru-men-dao-jing-tong/image-20230307221112127.png" class="asset-class" title="image-20230307221112127">
-
-<img src="/2023/03/01/jvm-cong-ru-men-dao-jing-tong/image-20230307221130019.png" class="asset-class" title="image-20230307221130019"><img src="/2023/03/01/jvm-cong-ru-men-dao-jing-tong/image-20230307221304696.png" class="asset-class" title="image-20230307221304696">
-
-<img src="/2023/03/01/jvm-cong-ru-men-dao-jing-tong/image-20230307221325692.png" class="asset-class" title="image-20230307221325692"><img src="/2023/03/01/jvm-cong-ru-men-dao-jing-tong/image-20230307221338832.png" class="asset-class" title="image-20230307221338832">
-
-<img src="/2023/03/01/jvm-cong-ru-men-dao-jing-tong/image-20230307221345546.png" class="asset-class" title="image-20230307221345546"><img src="/2023/03/01/jvm-cong-ru-men-dao-jing-tong/image-20230307221412377.png" class="asset-class" title="image-20230307221412377">
+<center class="half">
+    <img src="/2023/03/01/jvm-cong-ru-men-dao-jing-tong/image-20230307221031312.png" class="asset-class" width="500" height="300" title="image-20230307221031312.png">
+    <img src="/2023/03/01/jvm-cong-ru-men-dao-jing-tong/image-20230307221112127.png" class="asset-class" width="500" height="300" title="image-20230307221112127.png">
+</center>
+<center class="half">
+    <img src="/2023/03/01/jvm-cong-ru-men-dao-jing-tong/image-20230307221130019.png" class="asset-class" width="500" height="300" title="image-20230307221130019.png">
+    <img src="/2023/03/01/jvm-cong-ru-men-dao-jing-tong/image-20230307221304696.png" class="asset-class" width="500" height="300" title="image-20230307221304696.png">
+</center>
+<center class="half">
+    <img src="/2023/03/01/jvm-cong-ru-men-dao-jing-tong/image-20230307221325692.png" class="asset-class" width="500" height="300" title="image-20230307221325692.png">
+    <img src="/2023/03/01/jvm-cong-ru-men-dao-jing-tong/image-20230307221338832.png" class="asset-class" width="500" height="300" title="image-20230307221338832.png">
+</center>
+<center class="half">
+    <img src="/2023/03/01/jvm-cong-ru-men-dao-jing-tong/image-20230307221345546.png" class="asset-class" width="500" height="300" title="image-20230307221345546.png">
+    <img src="/2023/03/01/jvm-cong-ru-men-dao-jing-tong/image-20230307221412377.png" class="asset-class" width="500" height="300" title="image-20230307221412377.png">
+</center>
 
 <h3 id="栈顶缓存技术（Top-Of-Stack-Caching）"><a href="#栈顶缓存技术（Top-Of-Stack-Caching）" class="headerlink" title="栈顶缓存技术（Top Of Stack Caching）"></a>栈顶缓存技术（Top Of Stack Caching）</h3><p>基于栈式架构的虚拟机所使用的令地址指令更加紧凑，但完成一项操作的时候必然需要使用更多的入栈和出栈指令，这同时也就意味着讲将需要更多的指令分派（instruction dispatch）次数和内存读&#x2F;写次数</p>
 <p>由于操作数时存储在内存中的，因此频繁地执行内存读&#x2F;写操作必然会影响执行速度，为了解决这个问题，HotSport JVM的设计者们提出了栈顶缓存技术，<strong>将栈顶元素全部换存在物理CPU的寄存器中，以此降低对内存的读&#x2F;写次数，提升执行引擎的执行效率</strong></p>

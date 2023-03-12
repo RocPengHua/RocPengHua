@@ -16398,6 +16398,121 @@ public static void test() &#123;
 </code></pre>
 <h4 id="补充说明"><a href="#补充说明" class="headerlink" title="补充说明"></a>补充说明</h4><p>在栈帧中，与性能调优关系最为密切的部分就是前面提到的局部变量表。在方法执行时，虚拟机使用局部变量表完成方法的传递</p>
 <p><strong>局部变量表中的变量也是重要的垃圾回收根节点，只要被局部变量表中直接或间接引用的对象都不会被回收</strong></p>
+<h4 id="字节码指令解析"><a href="#字节码指令解析" class="headerlink" title="字节码指令解析"></a>字节码指令解析</h4><pre><code class="prettyprint">public class LocalVariablesTest &#123;
+    private int count = 0;
+
+    public static void main(String[] args) &#123;
+        LocalVariablesTest test = new LocalVariablesTest();
+        int num = 10;
+        test.test1();
+    &#125;
+    public static void testStatic()&#123;
+        LocalVariablesTest test = new LocalVariablesTest();
+        Date date = new Date();
+        int count = 10;
+        System.out.println(count);
+    &#125;
+    public void test1() &#123;
+        Date date = new Date();
+        String name1 = &quot;rocpenghua&quot;;
+        String info = test2(date, name1);
+        System.out.println(date + name1);
+    &#125;
+
+    public String test2(Date datep, String name2) &#123;
+        datep = null;
+        name2 = &quot;rocpenghua.com&quot;;
+        double weight = 130.3;
+        char gender = &#39;男&#39;;
+        return datep + name2;
+    &#125;
+    public void test3() &#123;
+        count++;
+    &#125;
+    public void test4() &#123;
+        int a = 0;
+        &#123;
+            int b = 0;
+            b = a + 1;
+        &#125;
+        int c = a + 1;
+    &#125;
+&#125;
+</code></pre>
+<p>这里分析main方法：(安装idea插件<code>jclasslib</code>)</p>
+<pre><code class="prettyprint"> public static void main(String[] args) &#123;
+     LocalVariablesTest test = new LocalVariablesTest();
+     int num = 10;
+     test.test1();
+ &#125;
+// javap -v LocalVariablesTest
+public static void main(java.lang.String[]);	// 方法名main 
+    descriptor: ([Ljava/lang/String;)V		 	// 参数String数组，返回值void
+    flags: ACC_PUBLIC, ACC_STATIC				// 访问标志：public static
+    Code:
+      stack=2, locals=3, args_size=1			// 栈的最大深度2，局部变量最大槽数3，参数个数1
+         0: new           #3                  // class com/rocpenghua/java1/LocalVariablesTest
+         3: dup
+         4: invokespecial #4                  // Method &quot;&lt;init&gt;&quot;:()V
+         7: astore_1
+         8: bipush        10
+        10: istore_2
+        11: aload_1
+        12: invokevirtual #5                  // Method test1:()V
+        15: return								// 字节码长度16（0-15）
+      LineNumberTable:							// 行号表：java代码行号对应字节码指令的位置
+        line 14: 0								// 14: LocalVariablesTest test = new LocalVariablesTest(); -&gt; 0: new
+        line 15: 8								// 15: int num = 10; -&gt; 8: bipush 10
+        line 16: 11								// 16: test.test1(); -&gt; 11: aload_1
+        line 17: 15
+      LocalVariableTable:						// 局部变量表
+        Start  Length  Slot  Name   Signature	// 起始PC(变量声明下一个位置，开始作用的位置)，变量使用长度，槽位，变量名，变量描述符
+            0      16     0  args   [Ljava/lang/String; //变量开始作用位置 0: new  使用长度 16
+            8       8     1  test   Lcom/rocpenghua/java1/LocalVariablesTest; //变量开始作用位置 8: new  使用长度 8
+           11       5     2   num   I			//变量开始作用位置 11: new  使用长度 5
+</code></pre>
+<p>这里分析test4方法有代码块功能</p>
+<pre><code class="prettyprint">public void test4() &#123;
+    int a = 0;
+    &#123;
+        int b = 0;
+        b = a + 1;
+    &#125;
+    // 变量c使用之前已经销毁的变量b的槽位
+    int c = a + 1;
+&#125; 
+/************************************************************************/
+public void test4();					// 方法名
+    descriptor: ()V						// 参数空 返回值void
+    flags: ACC_PUBLIC					//方法修饰符 public
+    Code:
+      stack=2, locals=3, args_size=1	//栈深度2，本地变量槽3
+         0: iconst_0
+         1: istore_1
+         2: iconst_0
+         3: istore_2
+         4: iload_1
+         5: iconst_1
+         6: iadd
+         7: istore_2
+         8: iload_1
+         9: iconst_1
+        10: iadd
+        11: istore_2
+        12: return
+      LineNumberTable:
+        line 44: 0
+        line 46: 2
+        line 47: 4
+        line 49: 8
+        line 50: 12
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            4       4     2     b   I			//变量b在代码块声明没有被继续使用，卡槽占用销毁
+            0      13     0  this   Lcom/rocpenghua/java1/LocalVariablesTest;
+            2      11     1     a   I
+           12       1     2     c   I
+</code></pre>
 <h3 id="操作数栈"><a href="#操作数栈" class="headerlink" title="操作数栈"></a>操作数栈</h3><p>每个独立的栈帧除了包含局部变量表以外，还包含一个后进先出（<code>Lost-In-First-Out</code>）的操作数栈，也可以称之为 <strong>表达式栈（<code>Expression Stack</code>）</strong></p>
 <p>操作数栈，在方法执行过程中，根据字节码指令往栈中写入数据或提取数据，即入栈和出栈</p>
 <ul>
@@ -16458,22 +16573,83 @@ public static void test() &#123;
     10: return
 </code></pre>
 <center class="half">
-    <img src="/2023/03/01/jvm-cong-ru-men-dao-jing-tong/image-20230307221031312.png" class="asset-class" width="500" height="300" title="image-20230307221031312.png">
-    <img src="/2023/03/01/jvm-cong-ru-men-dao-jing-tong/image-20230307221112127.png" class="asset-class" width="500" height="300" title="image-20230307221112127.png">
+    <img src="2023-03-01-JVM从入门到精通/image-20230307221031312.png" width="49%" height="250px" />
+    <img src="2023-03-01-JVM从入门到精通/image-20230307221112127.png" width="49%" height="250px" />
 </center>
 <center class="half">
-    <img src="/2023/03/01/jvm-cong-ru-men-dao-jing-tong/image-20230307221130019.png" class="asset-class" width="500" height="300" title="image-20230307221130019.png">
-    <img src="/2023/03/01/jvm-cong-ru-men-dao-jing-tong/image-20230307221304696.png" class="asset-class" width="500" height="300" title="image-20230307221304696.png">
+    <img src="2023-03-01-JVM从入门到精通/image-20230307221130019.png" width="49%" height="250px" />
+    <img src="2023-03-01-JVM从入门到精通/image-20230307221304696.png" width="49%" height="250px" />
 </center>
 <center class="half">
-    <img src="/2023/03/01/jvm-cong-ru-men-dao-jing-tong/image-20230307221325692.png" class="asset-class" width="500" height="300" title="image-20230307221325692.png">
-    <img src="/2023/03/01/jvm-cong-ru-men-dao-jing-tong/image-20230307221338832.png" class="asset-class" width="500" height="300" title="image-20230307221338832.png">
+    <img src="2023-03-01-JVM从入门到精通/image-20230307221325692.png" width="49%" height="250px" />
+    <img src="2023-03-01-JVM从入门到精通/image-20230307221338832.png" width="49%" height="250px" />
 </center>
 <center class="half">
-    <img src="/2023/03/01/jvm-cong-ru-men-dao-jing-tong/image-20230307221345546.png" class="asset-class" width="500" height="300" title="image-20230307221345546.png">
-    <img src="/2023/03/01/jvm-cong-ru-men-dao-jing-tong/image-20230307221412377.png" class="asset-class" width="500" height="300" title="image-20230307221412377.png">
+    <img src="2023-03-01-JVM从入门到精通/image-20230307221345546.png" width="49%" height="250px" />
+    <img src="2023-03-01-JVM从入门到精通/image-20230307221412377.png" width="49%" height="250px" />
 </center>
 
+<pre><code class="prettyprint">// i++和++i的区别
+
+public void add()&#123;
+    int i1 = 10; 	// bipush 10 / istore_1
+    i1++;		 	// iinc 1,1 单独++没有区别
+    int i2 = 10; 	// bipush 10 / istore_2
+    ++i2;		 	// iinc 2,1 单独++没有区别
+
+    int i3 = 10; 	// bipush 10 / istore_3
+    int i4 = i3++; 	//iload_3 / iinc 3,1 / istore 4 先加载数据再+1 10
+
+    int i5 = 10;	// bipush 10 / istore 5
+    int i6 = ++i4; 	// iinc  4, 1 /  iload 4 / istore 6 先+1再加载数据 11
+
+    int i7 = 10;	// bipush 10 /istore 7
+    i7 = i7++;		// iload 7 / iinc 7, 1 / istore 7 先加载数据再+1再保存在同一个局部变量表位置 10
+
+    int i8 = 10;	// bipush 10 / istore 8
+    i8 = ++i8;		// iinc 8, 1 /iload 8 /istore 8 先+1再加载数据再保存在同一个局部变量表位置 11
+
+    int i9 = 10;	// bipush 10 / istore 9
+    int i10 = i9++ + ++i9;	// iload 9 / iinc 9, 1 / iinc 9, 1 / iload 9 / iadd / istore 10 先   +1，+1再加载数据，在执行add然后保存局部变量表 10 + 12 = 22
+&#125;
+Code:
+      stack=2, locals=11, args_size=1
+         0: bipush        10
+         2: istore_1
+         3: iinc          1, 1
+         6: bipush        10
+         8: istore_2
+         9: iinc          2, 1
+        12: bipush        10
+        14: istore_3
+        15: iload_3
+        16: iinc          3, 1
+        19: istore        4
+        21: bipush        10
+        23: istore        5
+        25: iinc          4, 1
+        28: iload         4
+        30: istore        6
+        32: bipush        10
+        34: istore        7
+        36: iload         7
+        38: iinc          7, 1
+        41: istore        7
+        43: bipush        10
+        45: istore        8
+        47: iinc          8, 1
+        50: iload         8
+        52: istore        8
+        54: bipush        10
+        56: istore        9
+        58: iload         9
+        60: iinc          9, 1
+        63: iinc          9, 1
+        66: iload         9
+        68: iadd
+        69: istore        10
+        71: return
+</code></pre>
 <h3 id="栈顶缓存技术（Top-Of-Stack-Caching）"><a href="#栈顶缓存技术（Top-Of-Stack-Caching）" class="headerlink" title="栈顶缓存技术（Top Of Stack Caching）"></a>栈顶缓存技术（Top Of Stack Caching）</h3><p>基于栈式架构的虚拟机所使用的令地址指令更加紧凑，但完成一项操作的时候必然需要使用更多的入栈和出栈指令，这同时也就意味着讲将需要更多的指令分派（instruction dispatch）次数和内存读&#x2F;写次数</p>
 <p>由于操作数时存储在内存中的，因此频繁地执行内存读&#x2F;写操作必然会影响执行速度，为了解决这个问题，HotSport JVM的设计者们提出了栈顶缓存技术，<strong>将栈顶元素全部换存在物理CPU的寄存器中，以此降低对内存的读&#x2F;写次数，提升执行引擎的执行效率</strong></p>
 <h3 id="动态链接（Dynamic-Linking）"><a href="#动态链接（Dynamic-Linking）" class="headerlink" title="动态链接（Dynamic Linking）"></a>动态链接（Dynamic Linking）</h3><p>动态链接、方法返回地址、附加信息：有些地方被称为帧数据区</p>
@@ -16696,7 +16872,207 @@ class CockerSpaniel extends Dog implements Friendly&#123;
 </ul>
 <p>并不是所有的JVM都支持本地方法，因为Java虚拟机规范并没有明确要求本地方法栈的使用语言、具体实现方式、数据结构等。如果JVM产品不打算支持native方法，也可以无需实现本地方法栈</p>
 <p>在HotSpot JVM中，直接将本地方法栈和虚拟机栈合二为一</p>
-]]></content>
+<h2 id="堆"><a href="#堆" class="headerlink" title="堆"></a>堆</h2><h3 id="堆（heap）的核心概述"><a href="#堆（heap）的核心概述" class="headerlink" title="堆（heap）的核心概述"></a>堆（heap）的核心概述</h3><p>对针对一个JVM进程来说时唯一的，也就是一个进程只有一个JVM，但是进程包含多个线程，他们时共享同一堆空间。</p>
+<p>一个JVM实例只存在一个堆内存，对也是Java内存管理的核心区域</p>
+<p>Java堆区在JVM启动的时候即被创建，其空间大小也就确定了，时JVM管理的最大一块内存空间</p>
+<ul>
+<li>堆内存的大小是可以调节的</li>
+</ul>
+<p>《Java虚拟机规范》规定，堆可以处于物理上不连续的内存空间中，但在逻辑上它应该被视为连续的。</p>
+<p>所有的线程共享Java堆，在这里还可以划分线程私有的缓冲区（Thread Local Allocation Buffer,TLAB）</p>
+<p>《Java虚拟机规范》中对Java堆的描述是：所有的对象实例以及数组都应当在运行时分配在堆上。（<code>The heap is the run-time data area from which memory for all class instances and arrays is allocated</code>）</p>
+<p>数组和对象可能永远不会存储在栈上，因为栈帧中保存引用，这个引用指向对象数组在堆中的位置。</p>
+<p>在方法结束后，堆中的对象不会马上被移除，仅仅在垃圾回收的时候才会被移除</p>
+<p>堆时GC(Garbage Collection,垃圾收集器)执行垃圾回收的重点区域</p>
+<img src="/2023/03/01/jvm-cong-ru-men-dao-jing-tong/image-20230311180924718.png" class="asset-class" title="image-20230311180924718">
+
+<h4 id="堆内存细分"><a href="#堆内存细分" class="headerlink" title="堆内存细分"></a>堆内存细分</h4><p>Java7及之前堆内存逻辑上分为三部分：新生代+老年代+<strong>永久代</strong></p>
+<ul>
+<li><code>Young Generation Space</code> 新生区 <code>Young/New</code> 又被划分为<code>Eden</code>区和<code>Survivor</code>区</li>
+<li><code>Tenure generation space</code> 老年代<code>Old/Tenure</code></li>
+<li><code>Permanent Space</code> 永久代 <code>Perm</code></li>
+</ul>
+<p>Java8及之后对逻辑上分为三部分：新生代+老年代+<strong>元空间</strong></p>
+<ul>
+<li><code>Young Generation Space</code> 新生区 <code>Young/New</code> 又被划分为<code>Eden</code>区和<code>Survivor</code>区</li>
+<li><code>Tenure generation space</code> 老年代<code>Old/Tenure</code></li>
+<li><code>Meta Space</code> 元空间 <code>Meta</code></li>
+</ul>
+<h4 id="堆空间的内部结构（JDK7）"><a href="#堆空间的内部结构（JDK7）" class="headerlink" title="堆空间的内部结构（JDK7）"></a>堆空间的内部结构（JDK7）</h4><img src="/2023/03/01/jvm-cong-ru-men-dao-jing-tong/image-20230311182146416.png" class="asset-class" title="image-20230311182146416">
+
+<h4 id="堆空间和内部结构（JDK8）"><a href="#堆空间和内部结构（JDK8）" class="headerlink" title="堆空间和内部结构（JDK8）"></a>堆空间和内部结构（JDK8）</h4><img src="/2023/03/01/jvm-cong-ru-men-dao-jing-tong/image-20230311182227026.png" class="asset-class" title="image-20230311182227026">
+
+<h3 id="设置堆内存大小与OOM"><a href="#设置堆内存大小与OOM" class="headerlink" title="设置堆内存大小与OOM"></a>设置堆内存大小与OOM</h3><h4 id="堆空间大小的设置"><a href="#堆空间大小的设置" class="headerlink" title="堆空间大小的设置"></a>堆空间大小的设置</h4><p>Java堆区用于存储Java对象实例，那么堆的大小在JVM启动时就已经设定好了，可以通过 <code>-Xmx</code>和 <code>-Xms</code>来设置</p>
+<ul>
+<li><code>-Xmx</code>：用于表示堆区的最大内存，等价于 <code>-XX:MaxHeapSize</code></li>
+<li><code>-Xms</code>：用于表示堆的起始内存，等价于 <code>-XX:InitialHeapSize</code></li>
+</ul>
+<p>一旦堆区中的内存大小超过 <code>-Xmx</code>所指定的最大内存时，将会跑出OutOfMemoryError异常</p>
+<p>通常会将<code>-Xms</code>和<code>-Xmx</code>两个参数配置相同的值，其目的是<strong>为了能够在java垃圾回收机制清理完堆区后不需要重新分割计算堆区的大小，从而提高性能</strong></p>
+<blockquote>
+<p>默认情况</p>
+<ul>
+<li>初始内存大小：物理电脑内存大小的1&#x2F; 64</li>
+<li>最大内存大小：物理电脑内存大小的1&#x2F;4</li>
+</ul>
+</blockquote>
+<h4 id="OutOfMemory举例"><a href="#OutOfMemory举例" class="headerlink" title="OutOfMemory举例"></a>OutOfMemory举例</h4><pre><code class="prettyprint">public class OOMTest &#123;
+    public static void main(String[]args)&#123;
+        ArrayList&lt;Picture&gt; list = new ArrayList&lt;&gt;();
+        while(true)&#123;
+            try &#123;
+                Thread.sleep(20);
+            &#125; catch (InterruptedException e)&#123;
+                e.printStackTrace();
+            &#125;
+            list.add(new Picture(new Random().nextInt(1024*1024)));
+        &#125;
+    &#125;
+&#125;
+public class Picture &#123;
+    private byte[] size;
+    public Picture(int nextInt) &#123;
+        this.size = new byte[nextInt];
+    &#125;
+&#125;
+/**/
+Exception in thread &quot;main&quot; java.lang.OutOfMemoryError: Java heap space
+    at com.rocpenghua.java.Picture.&lt;init&gt;(Picture.java:11)
+    at com.rocpenghua.java.OOMTest.main(OOMTest.java:15)
+</code></pre>
+<h3 id="年轻代老年代"><a href="#年轻代老年代" class="headerlink" title="年轻代老年代"></a>年轻代老年代</h3><p>存储在JVM对象可以被划分为两类</p>
+<ul>
+<li>一类是生命周期较短的瞬时对象，这类对象的创建和消亡都非常迅速</li>
+<li>另一类对象的生命周期却非常长，在某些极端的情况下还能够与JVM的生命周期保持一致</li>
+</ul>
+<p>Java堆区进一步细分可以划分为年轻代我（YoungGen）和老年代（OldGen）</p>
+<p>其中年轻代又可以划分为Eden区、Survivor0(s0)和Survivor1(s1)（有时也叫做from区和to区）</p>
+<img src="/2023/03/01/jvm-cong-ru-men-dao-jing-tong/image-20230311223139143.png" class="asset-class" title="image-20230311223139143">
+
+<p>下面者参数开发中一般不会调整：</p>
+<img src="/2023/03/01/jvm-cong-ru-men-dao-jing-tong/image-20230311223223234.png" class="asset-class" title="image-20230311223223234">
+
+<p>配置新生代与老年代在对结构的占比</p>
+<ul>
+<li>默认 <code>-XX:NewRatio=2</code>,表示新生代占1，老年代占2，新生代占整个堆的1&#x2F;3</li>
+<li>可以修改 <code>-XX:NewRatio=4</code>,表示新生代占1，老年代占4，新生代占整个堆的1&#x2F;5</li>
+</ul>
+<p>在HotSpot中Eden区和另外两个Survivor区默认占比时8:1:1</p>
+<p>当然开发人员可以通过配置调整 <code>-XX:SurvivorRatio</code> 调整这个空间的比例：</p>
+<p>​	<code>-XX:SurvivorRatio=8 </code>：8:1:1</p>
+<p>​    <code>-XX:SurvivorRatio=4</code>：4:1:1</p>
+<p>几乎所有的Java对象都是在Eden区被new出来的，绝大部分的Java对象的销毁都在新生代进行</p>
+<p>可以使用选项 <code>-Xmn</code>设置新生代最大内存大小，这个参数一般使用默认值就可以</p>
+<img src="/2023/03/01/jvm-cong-ru-men-dao-jing-tong/image-20230311223853295.png" class="asset-class" title="image-20230311223853295">
+
+<h3 id="图解对象分配过程"><a href="#图解对象分配过程" class="headerlink" title="图解对象分配过程"></a>图解对象分配过程</h3><p>微信对象分配内存是一件非常严谨和复杂的任务，JVM的设计者们不仅需要考虑内存如何分配、在哪里分配等问题，并且由于内存分配算法与内存回收算法密切相关，所以还需要考虑GC执行完内存回收是否会在内存空间中产生内存碎片</p>
+<ol>
+<li>new的对象先放Eden区，此区有大小限制</li>
+<li>当Eden区的空间填满时，程序有需要创建对象，JVM的垃圾回收器将对Eden区进行垃圾回收（Minor GC）,将Eden区中的不再被其他对象所引用的对象进行销毁，再加载新的对象放到Eden区</li>
+<li>然后将Eden区中的剩余对象移动到Survivor0区</li>
+<li>如果再次触发垃圾回收，此时幸存下来的放到Survivor0区，如果没有回收，就会放到Survivor1区</li>
+<li>如果再次经历垃圾回收，此时会重新放回Survivor0区，接着再去Survivor1区</li>
+<li>什么时候可以区老年代？（可以设置次数，默认15次）<ul>
+<li><strong>可以设置参数：<code>-XX:MaxTenuringThreshold=N</code></strong></li>
+</ul>
+</li>
+<li>在老年代相对悠闲，当老年代内存不足时，再次触发GC（Major GC），进行老年代的内存清理</li>
+<li>若老年代进行Major GC之后，发现依然无法进行对象的保存，就会产生OOM异常</li>
+</ol>
+<img src="/2023/03/01/jvm-cong-ru-men-dao-jing-tong/image-20230312110307352.png" class="asset-class" title="image-20230312110307352">
+
+<p><strong>流程图</strong></p>
+<img src="/2023/03/01/jvm-cong-ru-men-dao-jing-tong/image-20230312110334456.png" class="asset-class" title="image-20230312110334456">
+
+<blockquote>
+<p><strong>总结</strong></p>
+<ul>
+<li>针对s0,s1区的总结：复制之后由交换，谁空谁是to区</li>
+<li>关于垃圾回收：频繁在新生代收集，很少在老年代收集，几乎不再永久代或元空间进行收集</li>
+</ul>
+</blockquote>
+<p><strong>常用调优工具</strong></p>
+<ul>
+<li><p>JDK命令行</p>
+</li>
+<li><p>Eclipse:Memory Analyzer Tool</p>
+</li>
+<li><p>Jconsole</p>
+</li>
+<li><p>VisualVM</p>
+</li>
+<li><p>Jprofiler</p>
+</li>
+<li><p>Java Flight Recorder</p>
+</li>
+<li><p>GCViewer</p>
+</li>
+<li><p>GC Easy</p>
+</li>
+</ul>
+<h3 id="Minor-GC-Major-GC-Full-GC"><a href="#Minor-GC-Major-GC-Full-GC" class="headerlink" title="Minor GC,Major GC,Full GC"></a>Minor GC,Major GC,Full GC</h3><p>JVM在进行GC时，并非每次都对上面三个内存区域一起回收的，大部分时候回收的都是指新生代</p>
+<p>针对HotSpot JVM的实现，它里面的GC按照回收区域分为两大种类型：一种是部分收集（Partial GC）,一种时整堆收集（Full GC）</p>
+<ul>
+<li>部分收集：不是完整收集整个Java堆的垃圾收集。其中又分为：<ul>
+<li>新生代收集（Minor GC &#x2F; Young GC）:只是新生代的垃圾收集</li>
+<li>老年代收集（Major GC &#x2F; Old GC）：只是老年代的垃圾收集<ul>
+<li>目前只有CMS GC会有单独收集老年代的行为</li>
+<li>很多时候Major GC会和 Full GC 混淆使用，需要具体分辨是老年代回收还是整堆回收</li>
+</ul>
+</li>
+<li>混合收集（Mixed GC）：收集整个新生代以及部分老年代的垃圾收集<ul>
+<li>目前只有G1 GC会有这种行为</li>
+</ul>
+</li>
+<li>整堆收集（Full GC）：收集整个Java堆和方法区的垃圾收集</li>
+</ul>
+</li>
+</ul>
+<h4 id="最简单的分代式GC策略的触发条件"><a href="#最简单的分代式GC策略的触发条件" class="headerlink" title="最简单的分代式GC策略的触发条件"></a>最简单的分代式GC策略的触发条件</h4><h5 id="年轻代GC（Minor-GC）触发机制"><a href="#年轻代GC（Minor-GC）触发机制" class="headerlink" title="年轻代GC（Minor GC）触发机制"></a>年轻代GC（Minor GC）触发机制</h5><ul>
+<li>当年轻代空间不足时，就会触发Minor GC，这里的年轻代满指的时Eden区满，Survivor满不会引发GC（每次Minor GC会清理年轻代的内存）</li>
+<li>因为Java对象大多都具备朝生夕灭的特性，所以Minor GC非常频繁，用户线程才恢复运行</li>
+</ul>
+<img src="/2023/03/01/jvm-cong-ru-men-dao-jing-tong/image-20230312111608133.png" class="asset-class" title="image-20230312111608133">
+
+<h5 id="老年代GC（Major-GC-x2F-Full-GC）触发机制"><a href="#老年代GC（Major-GC-x2F-Full-GC）触发机制" class="headerlink" title="老年代GC（Major  GC &#x2F; Full GC）触发机制"></a>老年代GC（Major  GC &#x2F; Full GC）触发机制</h5><ul>
+<li>指发生在老年代的GC，对象从老年代消失时，我们说 <code>Major GC</code> 或 <code>Full GC</code>发生了</li>
+<li>出现了Major GC，经常会伴随至少一次的Minor GC（但非绝对的，Paralle 1 Scavenge 收集器的收集策略里就有直接进行Major GC的策略选择过程）<ul>
+<li>也就是在老年代空间不足时，会先尝试触发Minor GC，如果之后空间还不足，则触发Major GC</li>
+</ul>
+</li>
+<li>Major GC的速度一般比Minor GC慢10倍以上，STW的时间更长</li>
+<li>如果Major GC后内存还不足，就报OOM异常</li>
+</ul>
+<h5 id="Full-GC触发机制："><a href="#Full-GC触发机制：" class="headerlink" title="Full GC触发机制："></a>Full GC触发机制：</h5><ul>
+<li>调用System.gc()时，系统建议执行Full GC，但是不是必然执行</li>
+<li>老年代空间不足时</li>
+<li>方法区空间不足时</li>
+<li>通过Minor GC后进入老年代的平均大小大于老年代的可用内存</li>
+<li>由Eden区、s0(From)区向s1(To)区复制时，对象大小大于 To Space可用内存，则把该对象转存到老年代，切老年代的可用内存小鱼该对象大小</li>
+</ul>
+<p><strong>ps：Full GC是开发或调优中尽量要避免的，这样暂停时间会短一些</strong></p>
+<h3 id="堆空间分代思想"><a href="#堆空间分代思想" class="headerlink" title="堆空间分代思想"></a>堆空间分代思想</h3><p>为什么要把Java堆分代？不分代就不能正常工作了吗？</p>
+<p>进研究，不同对象的生命周期不同。70%-99%的对象时临时对象</p>
+<ul>
+<li>新生代：有Eden、两块大小相同的Survivor（又称from&#x2F;to，s0&#x2F;s1）构成，to总为空</li>
+<li>老年代：存放新生代中经历多次GC仍然存活的对象</li>
+</ul>
+<img src="/2023/03/01/jvm-cong-ru-men-dao-jing-tong/image-20230312112948375.png" class="asset-class" title="image-20230312112948375">
+
+<p>其实不分代完全可以，分代的唯一理由就是优化GC性能。如果没有分代，那所有的对象都在一块，就如同把一个学校的人都放在一个教师。GC的时候找到哪些对象没用，这样就会对堆的所有区域进行扫描，而很多对象都是朝生夕死的，如果分代的话，把新创建的对象放到某个地方，当GC的时候先把这块存储朝生夕死对象的区域进行回收，这样就会腾出很大的空间出来</p>
+<img src="/2023/03/01/jvm-cong-ru-men-dao-jing-tong/image-20230312113252543.png" class="asset-class" title="image-20230312113252543">
+
+<h3 id="内存分配策略"><a href="#内存分配策略" class="headerlink" title="内存分配策略"></a>内存分配策略</h3><p>如果对象在Eden出生并经过第一次Minor GC后仍然存活，并且能被Survivor容纳的话，将被移动到Survivor空间中，并将对象的年龄设为1，对象在Survivor区中每熬过一次Minor GC，年龄就增加1岁，当它的年龄增加到一定程度（默认15岁，每个JVM每个GC都有所不同）时，就会被晋升到老年代</p>
+<p>对象晋升老年代和年龄阀值，可以通过选项 <code>-XX:MaxTenuringThreshold</code> 来设置</p>
+<p>针对不同年龄段的对象分配原则如下所示：</p>
+<ul>
+<li>优先分配到Eden</li>
+<li>大对象直接分配到老年代（尽量避免程序汇总出现过多的多对象）</li>
+<li>长期存活的对象分配到老年代</li>
+<li>动态对象的年龄判断：如果Survivor区中相同年龄的所有对象大小的总和大于Survivor空间的一般，年龄大于或等于该年龄的对象可以直接进入老年代，无需等到<code>MaxTenuringShreold</code> 中要求的年龄</li>
+<li>空间分配担保： <code>-XX:HandlePromotionFailure</code></li>
+</ul>
+<h3 id="为对象分配内存：TLAB"><a href="#为对象分配内存：TLAB" class="headerlink" title="为对象分配内存：TLAB"></a>为对象分配内存：TLAB</h3>]]></content>
       <categories>
         <category>技术</category>
       </categories>

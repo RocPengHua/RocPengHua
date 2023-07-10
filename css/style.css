@@ -54,7 +54,7 @@
   --theme-text-active: #f857a6;
   --theme-text-light: #fff;
   --theme-text-primary: #3e3e5f;
-  --theme-text-low: #aeacb1;
+  --theme-text-low: #939097;
   --theme-text-stress: #14281d;
   --theme-border-primary: #e1e4e8;
   --theme-border-secondary: #ebedef;
@@ -83,7 +83,7 @@
     --theme-text-active: #f857a6;
     --theme-text-light: #fff;
     --theme-text-primary: #3e3e5f;
-    --theme-text-low: #aeacb1;
+    --theme-text-low: #939097;
     --theme-text-stress: #14281d;
     --theme-border-primary: #e1e4e8;
     --theme-border-secondary: #ebedef;
@@ -4759,6 +4759,9 @@ html.show-mobile-nav .navbar-list {
   border-radius: var(--soft-small-radius);
   background-color: var(--theme-bg-primary);
   box-shadow: var(--soft-shadow) var(--soft-shadow) calc(var(--soft-shadow) * 2) var(--theme-bg-shadow), calc(-1 * var(--soft-shadow)) calc(-1 * var(--soft-shadow)) calc(var(--soft-shadow) * 2) var(--theme-bg-high);
+}
+.markdown-body center {
+  display: flex;
 }
 .markdown-body center img {
   display: inline-block;
